@@ -43,14 +43,27 @@
         android:textStyle="bold"
         />
     <Button
-        style="@style/Widget.Material3.Button.ElevatedButton"
+        android:id="@+id/filledButton"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
+        android:textSize="40dp"
         android:layout_marginStart="20dp"
         android:layout_marginTop="620dp"
-        android:text="@string/login"
-        android:textSize="33dp"
+        android:text="Login"
         />
+    <Button
+        android:id="@+id/loginButton"
+        style="@style/Widget.Material3.Button.ElevatedButton"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:textSize="40dp"
+        android:text="Registrati"
+        android:layout_marginStart="150dp"
+        android:layout_marginTop="620dp"
+        android:layout_gravity="center"
+        />
+
+
 
 </RelativeLayout>
 
