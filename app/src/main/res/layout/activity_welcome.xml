@@ -7,21 +7,20 @@
     android:layout_height="match_parent"
     android:background="@color/md_theme_onPrimary"
     android:orientation="vertical"
-    tools:context=".WelcomeActivity">
+    tools:context=".WelcomeActivity"
+    tools:ignore="ExtraText">
 
     <ImageView
         android:id="@+id/LogoWemeet"
         android:layout_width="wrap_content"
         android:layout_height="425dp"
-        app:imageTint="@null"
-        app:srcCompat="@drawable/logowemeet" />
+        app:srcCompat="@drawable/logowemeet"/>
 
     <View
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:background="@drawable/border"
+        android:layout_width="match_parent"
+        android:layout_height="420dp"
         android:layout_below="@id/LogoWemeet"
-        />
+        android:background="@drawable/border" />
     <TextView
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
@@ -32,37 +31,64 @@
         android:textColor="@color/md_theme_onPrimary"
         android:textStyle="bold"
         />
+
     <TextView
-        android:layout_width="300dp"
+        android:id="@+id/FraseBenvenuto"
+        android:layout_width="350dp"
         android:layout_height="wrap_content"
         android:layout_marginStart="20dp"
-        android:layout_marginTop="525dp"
-        android:textSize="15dp"
+        android:layout_marginTop="560dp"
         android:text="@string/frase_benvenuto"
+        android:textColor="@color/md_theme_onPrimary"
+        android:textSize="20sp"
+        android:textStyle="bold" />
+
+    <TextView
+        android:id="@+id/FraseBenvenuto2"
+        android:layout_below="@id/FraseBenvenuto"
+        android:layout_width="320dp"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="20dp"
+        android:textSize="20sp"
+        android:text="@string/frase_benvenuto2"
         android:textColor="@color/md_theme_onPrimary"
         android:textStyle="bold"
         />
-    <Button
-        android:id="@+id/filledButton"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:textSize="40dp"
-        android:layout_marginStart="20dp"
-        android:layout_marginTop="620dp"
-        android:text="Login"
-        />
-    <Button
-        android:id="@+id/loginButton"
-        style="@style/Widget.Material3.Button.ElevatedButton"
+
+
+    <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:textSize="40dp"
-        android:text="Registrati"
-        android:layout_marginStart="150dp"
-        android:layout_marginTop="620dp"
-        android:layout_gravity="center"
-        />
+        android:layout_marginStart="@dimen/margin_default"
+        android:layout_marginEnd="@dimen/margin_default"
+        android:orientation="horizontal">
 
+
+        <Button
+            style="@style/Widget.Material3.Button.ElevatedButton"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_below="@id/FraseBenvenuto2"
+            android:layout_marginTop="720dp"
+            android:layout_weight="1"
+            android:fontFamily="sans-serif-medium"
+            android:text="@string/accedi"
+            android:textSize="30sp" />
+
+        <View
+            android:layout_width="@dimen/margin_default"
+            android:layout_height="0dp" />
+
+        <Button
+            style="@style/Widget.Material3.Button.ElevatedButton"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="720dp"
+            android:layout_weight="1"
+            android:fontFamily="sans-serif-medium"
+            android:text="@string/register"
+            android:textSize="30sp" />
+    </LinearLayout>
 
 
 </RelativeLayout>

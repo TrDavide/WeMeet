@@ -2,6 +2,8 @@
     <string name="app_name">WeMeet</string>
     <string name="button1">Bottone di prova</string>
     <string name="benvenuto">Benvenuto</string>
-    <string name="frase_benvenuto">Scopri gli eventi intorno a te e vivi nuove esperienze: arte, musica, sport e molto altro. Ti aspettiamo!</string>
-    <string name="login">Login</string>
+    <string name="frase_benvenuto">Scopri gli eventi intorno a te e vivi nuove esperienze: arte, musica, sport e molto altro.</string>
+    <string name="frase_benvenuto2">Ti aspettiamo!</string>
+    <string name="accedi">Accedi</string>
+    <string name="register">Registrati</string>
 </resources>
