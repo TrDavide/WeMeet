@@ -7,8 +7,10 @@
     <string name="accedi">Accedi</string>
     <string name="register">Registrati</string>
     <string name="nome">Nome</string>
-    <string name="cognome">cognome</string>
+    <string name="cognome">Cognome</string>
     <string name="email">E-mail</string>
     <string name="password">Password</string>
     <string name="confermapassword">Conferma password</string>
+    <string name="crea_account">Crea account</string>
+    <string name="arrowleft">arrow_left</string>
 </resources>

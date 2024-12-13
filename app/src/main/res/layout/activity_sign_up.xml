@@ -7,23 +7,60 @@
     android:orientation="vertical"
     tools:context=".SignUpActivity"
     android:background="@color/red_primary2">
+
+
+    <ImageView
+        android:layout_width="35dp"
+        android:layout_height="35dp"
+        android:contentDescription="@string/arrowleft"
+        android:tint="@color/white"
+        tools:ignore="UseAppTint"
+        app:srcCompat="@drawable/baseline_arrow_back_24"
+        android:layout_marginTop="30dp"
+        android:layout_marginStart="@dimen/margin_default"
+        />
+
+    <TextView
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="30dp"
+        android:layout_marginTop="10dp"
+        android:fontFamily="sans-serif-medium"
+        android:text="@string/crea_account"
+        android:textColor="@color/white"
+        android:textSize="35sp"
+        android:textStyle="bold"/>
+
     <FrameLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content">
+
+
         <View
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:background="@drawable/border2"
-            android:layout_marginTop="200dp"/>
+            android:layout_marginTop="20dp"
+            android:background="@drawable/border2" />
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="@dimen/margin_default2"
+            android:layout_marginTop="55dp"
+            android:fontFamily="sans-serif-medium"
+            android:text="@string/nome"
+            android:textStyle="bold" />
 
         <com.google.android.material.textfield.TextInputLayout
-            style="?attr/textInputFilledStyle"
+            style="?attr/textInputOutlinedStyle"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:hint="Nome"
-            android:layout_marginTop="260dp"
-            android:layout_marginStart="@dimen/margin_default"
-            android:layout_marginEnd="@dimen/margin_default">
+            android:layout_marginTop="80dp"
+            android:layout_marginStart="@dimen/margin_default2"
+            android:layout_marginEnd="@dimen/margin_default2"
+            android:hint="@string/nome"
+            tools:ignore="MissingContentDescription"
+            >
 
             <com.google.android.material.textfield.TextInputEditText
                 android:layout_width="match_parent"
@@ -31,14 +68,23 @@
 
         </com.google.android.material.textfield.TextInputLayout>
 
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="@dimen/margin_default2"
+            android:layout_marginTop="155dp"
+            android:text="@string/cognome"
+            android:textStyle="bold"
+            android:fontFamily="sans-serif-medium"/>
+
         <com.google.android.material.textfield.TextInputLayout
-            style="?attr/textInputFilledStyle"
+            style="?attr/textInputOutlinedStyle"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:hint="Cognome"
-            android:layout_marginTop="340dp"
-            android:layout_marginStart="@dimen/margin_default"
-            android:layout_marginEnd="@dimen/margin_default">
+            android:layout_marginStart="@dimen/margin_default2"
+            android:layout_marginTop="180dp"
+            android:layout_marginEnd="@dimen/margin_default2"
+            android:hint="@string/cognome">
 
             <com.google.android.material.textfield.TextInputEditText
                 android:layout_width="match_parent"
@@ -46,14 +92,23 @@
 
         </com.google.android.material.textfield.TextInputLayout>
 
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="@dimen/margin_default2"
+            android:layout_marginTop="255dp"
+            android:text="@string/email"
+            android:textStyle="bold"
+            android:fontFamily="sans-serif-medium"/>
+
         <com.google.android.material.textfield.TextInputLayout
-            style="?attr/textInputFilledStyle"
+            style="?attr/textInputOutlinedStyle"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:hint="E-mail"
-            android:layout_marginTop="420dp"
-            android:layout_marginStart="@dimen/margin_default"
-            android:layout_marginEnd="@dimen/margin_default">
+            android:layout_marginTop="280dp"
+            android:layout_marginStart="@dimen/margin_default2"
+            android:layout_marginEnd="@dimen/margin_default2"
+            android:hint="@string/email">
 
             <com.google.android.material.textfield.TextInputEditText
                 android:layout_width="match_parent"
@@ -61,54 +116,73 @@
 
         </com.google.android.material.textfield.TextInputLayout>
 
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="@dimen/margin_default2"
+            android:layout_marginTop="355dp"
+            android:text="@string/password"
+            android:textStyle="bold"
+            android:fontFamily="sans-serif-medium"/>
+
         <com.google.android.material.textfield.TextInputLayout
-            style="?attr/textInputFilledStyle"
+            style="?attr/textInputOutlinedStyle"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:hint="Password"
-            android:layout_marginTop="500dp"
-            android:layout_marginStart="@dimen/margin_default"
-            android:layout_marginEnd="@dimen/margin_default">
+            app:endIconMode="password_toggle"
+            android:layout_marginTop="380dp"
+            android:layout_marginStart="@dimen/margin_default2"
+            android:layout_marginEnd="@dimen/margin_default2"
+            android:hint="@string/password">
 
             <com.google.android.material.textfield.TextInputEditText
                 android:layout_width="match_parent"
-                android:layout_height="wrap_content" />
+                android:layout_height="wrap_content"
+                android:inputType="textPassword"/>
 
         </com.google.android.material.textfield.TextInputLayout>
 
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="@dimen/margin_default2"
+            android:layout_marginTop="455dp"
+            android:text="@string/confermapassword"
+            android:textStyle="bold"
+            android:fontFamily="sans-serif-medium"/>
+
         <com.google.android.material.textfield.TextInputLayout
-            style="?attr/textInputFilledStyle"
-            android:id="@+id/conferma_password"
+            style="?attr/textInputOutlinedStyle"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:hint="Conferma Password"
-            android:layout_marginTop="580dp"
-            android:layout_marginStart="@dimen/margin_default"
-            android:layout_marginEnd="@dimen/margin_default">
+            app:endIconMode="password_toggle"
+            android:layout_marginTop="480dp"
+            android:layout_marginStart="@dimen/margin_default2"
+            android:layout_marginEnd="@dimen/margin_default2"
+            android:hint="@string/confermapassword">
 
             <com.google.android.material.textfield.TextInputEditText
                 android:layout_width="match_parent"
-                android:layout_height="wrap_content" />
+                android:layout_height="wrap_content"
+                android:inputType="textPassword"/>
 
         </com.google.android.material.textfield.TextInputLayout>
 
         <Button
             style="@style/Widget.Material3.Button.ElevatedButton"
-            android:layout_width="wrap_content"
+            android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_below="@id/conferma_password"
-            android:text="Registrati pirla!"
+            android:text="@string/register"
             android:layout_gravity="center"
-            android:layout_marginTop="300dp"
+            android:layout_marginTop="270dp"
+            android:fontFamily="sans-serif-medium"
+            app:backgroundTint="@color/md_theme_scrim"
+            android:textColor="@color/white"
+            android:padding="15dp"
+            android:layout_marginStart="40dp"
+            android:layout_marginEnd="40dp"
+            android:textSize="20sp"
             />
-
-
     </FrameLayout>
-
-
-
-
-
-
 </LinearLayout>
 
