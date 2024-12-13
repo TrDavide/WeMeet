@@ -6,4 +6,9 @@
     <string name="frase_benvenuto2">Ti aspettiamo!</string>
     <string name="accedi">Accedi</string>
     <string name="register">Registrati</string>
+    <string name="nome">Nome</string>
+    <string name="cognome">cognome</string>
+    <string name="email">E-mail</string>
+    <string name="password">Password</string>
+    <string name="confermapassword">Conferma password</string>
 </resources>
