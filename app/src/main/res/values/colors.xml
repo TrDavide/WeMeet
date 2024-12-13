@@ -1,4 +1,5 @@
 <resources>
+    <color name="red_primary">#B3261E</color>
     <color name="md_theme_primary">#8F4C38</color>
     <color name="md_theme_onPrimary">#FFFFFF</color>
     <color name="md_theme_primaryContainer">#FFDBD1</color>
