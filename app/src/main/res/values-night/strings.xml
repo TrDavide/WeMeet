@@ -1,0 +1,5 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="Login" />
+    <string name="frase_login">+@string/Accedi e non perdere gli eventi più emozionanti vicino a te!</string>
+</resources>

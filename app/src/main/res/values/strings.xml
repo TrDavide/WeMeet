@@ -6,4 +6,8 @@
     <string name="frase_benvenuto2">Ti aspettiamo!</string>
     <string name="accedi">Accedi</string>
     <string name="register">Registrati</string>
+    <string name="login">Login</string>
+    <string name="frase_login">Accedi e non perdere gli eventi più emozionanti vicino a te!</string>
+    <string name="email">E-mail</string>
+    <string name="password">password</string>
 </resources>
