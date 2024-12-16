@@ -3,4 +3,6 @@
     <string name="or_withGoogle">or_withGoogle</string>
     <string name="login">login</string>
     <string name="frase_login">frase_login</string>
+    <string name="Invia">Invia</string>
+    <string name="SendCodeAgain">Invia di nuovo</string>
 </resources>

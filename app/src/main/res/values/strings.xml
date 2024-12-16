@@ -18,4 +18,12 @@
     <string name="or_withGoogle">Login with Google</string>
     <string name="login">Login</string>
     <string name="accedi">Accedi</string>
+    <string name="verification">Per favore, verifica che sei tu!</string>
+    <string name="verificaEmail">verificaEmail</string>
+    <string name="codeSended">Codice di verifica inviato</string>
+    <string name="codeSendedIntoYourEmail">"Abbiamo mandato il codice di verifica a "</string>
+    <string name="emailSelected">example@gmail.com</string>
+    <string name="Invia">Invia</string>
+    <string name="NotReceivedCode">Non hai ricevuto il codice?</string>
+    <string name="SendCodeAgain">Invia di nuovo</string>
 </resources>
