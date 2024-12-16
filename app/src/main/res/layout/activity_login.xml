@@ -1,10 +1,175 @@
 <?xml version="1.0" encoding="utf-8"?>
-<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:id="@+id/main"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context=".LoginActivity">
+    android:background="#E45440"
+    android:orientation="vertical"
+    tools:context=".LoginActivity"
+    tools:ignore="ExtraText">
 
-</androidx.constraintlayout.widget.ConstraintLayout>
+    <ImageView
+        android:layout_width="35dp"
+        android:layout_height="35dp"
+        android:contentDescription="@string/arrowleft"
+        android:tint="@color/white"
+        tools:ignore="UseAppTint"
+        app:srcCompat="@drawable/baseline_arrow_back_24"
+        android:layout_marginTop="30dp"
+        android:layout_marginStart="@dimen/margin_default"
+        />
+    
+    <TextView
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="32dp"
+        android:layout_marginTop="100dp"
+        android:fontFamily="sans-serif-medium"
+        android:text="@string/login"
+        android:textColor="@color/md_theme_onSecondary"
+        android:textSize="50dp"
+        android:textStyle="bold"
+        />
+
+    <TextView
+        android:layout_marginTop="170dp"
+        android:id="@+id/FraseSottoLogin"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="32dp"
+        android:layout_marginEnd="20dp"
+        android:textSize="25sp"
+        android:text="@string/frase_login"
+        android:fontFamily="sans-serif-medium"
+        android:textColor="@color/md_theme_onSecondary"/>
+
+    <View
+        android:layout_marginTop="30dp"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_below="@id/FraseSottoLogin"
+        android:background="@drawable/border2"/>
+
+    <TextView
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="32dp"
+        android:layout_marginTop="320dp"
+        android:fontFamily="sans-serif-medium"
+        android:text="@string/email"
+        android:textColor="@color/md_theme_scrim"
+        android:textStyle="bold"
+        />
+    <TextView
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="32dp"
+        android:layout_marginTop="420dp"
+        android:fontFamily="sans-serif-medium"
+        android:text="@string/password"
+        android:textColor="@color/md_theme_scrim"
+        android:textStyle="bold"
+        />
+
+    <com.google.android.material.textfield.TextInputLayout
+        android:id="@+id/outlinedTextField"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="340dp"
+        android:layout_marginStart="32dp"
+        android:layout_marginEnd="20dp">
+
+        <com.google.android.material.textfield.TextInputEditText
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            />
+
+    </com.google.android.material.textfield.TextInputLayout>
+
+    <com.google.android.material.textfield.TextInputLayout
+        android:id="@+id/OutlinedTextField"
+        style="?attr/textInputOutlinedStyle"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="440dp"
+        android:layout_marginStart="32dp"
+        android:layout_marginEnd="20dp"
+        app:endIconMode="password_toggle">
+
+        <com.google.android.material.textfield.TextInputEditText
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:inputType="textPassword"
+            />
+
+    </com.google.android.material.textfield.TextInputLayout>
+
+    <Button
+        style="@style/Widget.Material3.Button.TextButton"
+        android:id="@+id/textButton"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="500dp"
+        android:layout_marginStart="230dp"
+        android:text="@string/forgot_password"
+        />
+    <Button
+        style="@style/Widget.Material3.Button.ElevatedButton"
+        android:backgroundTint="@color/md_theme_scrim"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="560dp"
+        android:fontFamily="sans-serif-medium"
+        android:text="@string/accedi"
+        android:padding="15dp"
+        android:textColor="@color/md_theme_onSecondaryFixed_mediumContrast"
+        android:layout_marginStart="32dp"
+        android:layout_marginEnd="20dp"
+        android:textSize="20sp" />
+
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="100dp"
+        android:layout_marginEnd="100dp"
+        android:layout_marginTop="650dp">
+
+        <View
+            android:layout_width="100dp"
+            android:layout_height="1dp"
+            android:layout_marginEnd="1dp"
+            android:layout_toStartOf="@+id/text_or"
+            android:layout_centerInParent="true"
+            android:background="#555"/>
+
+        <TextView
+            android:id="@+id/text_or"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="@string/or"
+            android:layout_centerInParent="true"/>
+
+        <View
+            android:layout_width="100dp"
+            android:layout_height="1dp"
+            android:layout_toEndOf="@+id/text_or"
+            android:layout_centerInParent="true"
+            android:background="#555"/>
+    </RelativeLayout>
+
+    <Button
+        android:layout_width="364dp"
+        android:layout_height="63dp"
+        android:layout_marginStart="32dp"
+        android:layout_marginTop="700dp"
+        android:layout_marginEnd="20dp"
+        android:backgroundTint="@color/white2"
+        android:padding="15dp"
+        android:text="@string/or_withGoogle"
+        android:textColor="@color/md_theme_scrim"
+        app:icon="@drawable/googleicon"
+        app:iconGravity="textStart"
+        app:iconTint="@null" />
+</RelativeLayout>
