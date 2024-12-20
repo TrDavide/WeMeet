@@ -13,7 +13,7 @@
     <FrameLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_weight="0.5">
+        android:layout_weight="1">
 
         <ImageView
             android:id="@+id/LogoWemeet"
@@ -26,7 +26,7 @@
     <FrameLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_weight="0.5"
+        android:layout_weight="1"
         android:background="@drawable/border">
 
 
@@ -76,12 +76,14 @@
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
                         android:layout_weight="1"
+                        android:backgroundTint="@color/red_primary"
                         android:fontFamily="sans-serif-medium"
-                        android:textColor="@color/cardview_shadow_start_color"
+                        android:textColor="@color/white"
                         android:text="@string/accedi"
                         android:padding="15dp"
+                        android:layout_marginTop="40dp"
                         android:layout_marginStart="@dimen/margin_default"
-                        android:textSize="30sp" />
+                        android:textSize="20sp" />
 
                     <View
                         android:layout_width="@dimen/margin_default"
@@ -96,17 +98,15 @@
                         android:fontFamily="sans-serif-medium"
                         android:text="@string/register"
                         android:textColor="@color/md_theme_scrim"
+                        android:layout_marginTop="40dp"
                         android:layout_marginEnd="@dimen/margin_default"
-                        android:textSize="30sp" />
+                        android:textSize="20sp" />
 
                 </LinearLayout>
 
         </LinearLayout>
 
-
-
     </FrameLayout>
-
 
 </LinearLayout>
 
