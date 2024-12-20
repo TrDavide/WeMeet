@@ -5,4 +5,8 @@
     <string name="frase_login">frase_login</string>
     <string name="Invia">Invia</string>
     <string name="SendCodeAgain">Invia di nuovo</string>
+    <string name="example_email_com">example@email.com</string>
+    <string name="mario_1234">Mario!1234</string>
+    <string name="rossi">Rossi</string>
+    <string name="mario">Mario</string>
 </resources>

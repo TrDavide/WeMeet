@@ -13,6 +13,7 @@
     <string name="crea_account">Crea account</string>
     <string name="arrowleft">arrow_left</string>
     <string name="frase_login">Accedi e non perdere gli eventi più emozionanti vicino a te!</string>
+    <string name="frase_signup">Registrati e non perdere gli eventi più emozionanti vicino a te!</string>
     <string name="forgot_password">Password dimenticata?</string>
     <string name="or">OR</string>
     <string name="or_withGoogle">Login with Google</string>
@@ -26,4 +27,8 @@
     <string name="Invia">Invia</string>
     <string name="NotReceivedCode">Non hai ricevuto il codice?</string>
     <string name="SendCodeAgain">Invia di nuovo</string>
+    <string name="example_email_com">example@email.com</string>
+    <string name="mario_1234">Mario!1234</string>
+    <string name="rossi">Rossi</string>
+    <string name="mario">Mario</string>
 </resources>

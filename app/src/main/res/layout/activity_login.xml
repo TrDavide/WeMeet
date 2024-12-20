@@ -49,9 +49,6 @@
         </LinearLayout>
     </FrameLayout>
 
-
-
-
     <FrameLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent"
@@ -76,14 +73,13 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_marginStart="25dp"
-                android:layout_marginEnd="25dp"
-                >
+                android:layout_marginEnd="25dp">
 
                 <com.google.android.material.textfield.TextInputEditText
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:hint="example@email.com"
-                    />
+                    android:hint="@string/example_email_com"
+                    android:inputType="textEmailAddress" />
 
             </com.google.android.material.textfield.TextInputLayout>
 
@@ -108,7 +104,7 @@
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:inputType="textPassword"
-                    android:hint="Mario!1234"
+                    android:hint="@string/mario_1234"
                     />
 
             </com.google.android.material.textfield.TextInputLayout>
