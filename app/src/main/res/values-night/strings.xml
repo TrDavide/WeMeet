@@ -1,9 +1,31 @@
-<?xml version="1.0" encoding="utf-8"?>
 <resources>
-    <string name="or_withGoogle">or_withGoogle</string>
-    <string name="login">login</string>
-    <string name="frase_login">frase_login</string>
+    <string name="app_name">WeMeet</string>
+    <string name="button1">Bottone di prova</string>
+    <string name="benvenuto">Benvenuto</string>
+    <string name="frase_benvenuto">Scopri gli eventi intorno a te e vivi nuove esperienze: svago, musica, sport e molto altro.</string>
+    <string name="frase_benvenuto2">Ti aspettiamo!</string>
+    <string name="register">Registrati</string>
+    <string name="nome">Nome</string>
+    <string name="cognome">Cognome</string>
+    <string name="email">E-mail</string>
+    <string name="password">Password</string>
+    <string name="confermapassword">Conferma password</string>
+    <string name="crea_account">Crea account</string>
+    <string name="arrowleft">arrow_left</string>
+    <string name="frase_login">Accedi e non perdere gli eventi più emozionanti vicino a te!</string>
+    <string name="frase_signup">Registrati e non perdere gli eventi più emozionanti vicino a te!</string>
+    <string name="forgot_password">Password dimenticata?</string>
+    <string name="or">OR</string>
+    <string name="or_withGoogle">Login with Google</string>
+    <string name="login">Login</string>
+    <string name="accedi">Accedi</string>
+    <string name="verification">Per favore, verifica che sei tu!</string>
+    <string name="verificaEmail">verificaEmail</string>
+    <string name="codeSended">Codice di verifica inviato</string>
+    <string name="codeSendedIntoYourEmail">"Abbiamo mandato il codice di verifica a "</string>
+    <string name="emailSelected">example@gmail.com</string>
     <string name="Invia">Invia</string>
+    <string name="NotReceivedCode">Non hai ricevuto il codice?</string>
     <string name="SendCodeAgain">Invia di nuovo</string>
     <string name="example_email_com">example@email.com</string>
     <string name="mario_1234">Mario!1234</string>
