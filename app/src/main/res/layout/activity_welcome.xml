@@ -1,113 +1,20 @@
 <?xml version="1.0" encoding="utf-8"?>
-<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:id="@+id/main"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:background="@color/md_theme_onPrimary"
-    android:orientation="vertical"
-    tools:context=".WelcomeActivity"
-    tools:ignore="ExtraText">
+    tools:context=".ui.welcome.WelcomeActivity">
 
-    <FrameLayout
+    <androidx.fragment.app.FragmentContainerView
+        android:name="androidx.navigation.fragment.NavHostFragment"
+        app:navGraph="@navigation/nav_graph"
+        app:defaultNavHost="true"
+        android:id="@+id/main_content"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_weight="1">
+        android:layout_height="match_parent" />
 
-        <ImageView
-            android:id="@+id/LogoWemeet"
-            android:layout_width="wrap_content"
-            android:layout_height="match_parent"
-            android:layout_gravity="center"
-            app:srcCompat="@drawable/logowemeet" />
-        </FrameLayout>
-
-    <FrameLayout
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_weight="1"
-        android:background="@drawable/border"
-        android:backgroundTint="@color/red_primary2">
-
-
-            <LinearLayout
-                android:layout_width="match_parent"
-                android:layout_height="match_parent"
-                android:orientation="vertical">
-
-                    <TextView
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:text="@string/benvenuto"
-                        android:layout_marginTop="30dp"
-                        android:layout_marginStart="20dp"
-
-                        android:textSize="40sp"
-                        android:textColor="@color/md_theme_onPrimary"
-                        android:textStyle="bold"
-                        />
-
-                    <TextView
-                        android:id="@+id/FraseBenvenuto"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:layout_marginStart="20dp"
-                        android:text="@string/frase_benvenuto"
-                        android:textColor="@color/md_theme_onPrimary"
-                        android:textSize="20sp"/>
-
-                    <TextView
-                        android:id="@+id/FraseBenvenuto2"
-                        android:layout_below="@id/FraseBenvenuto"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:layout_marginStart="20dp"
-                        android:textSize="20sp"
-                        android:text="@string/frase_benvenuto2"
-                        android:textColor="@color/md_theme_onPrimary" />
-
-                <LinearLayout
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:orientation="horizontal">
-
-                    <Button
-                        style="@style/Widget.Material3.Button.ElevatedButton"
-                        android:layout_width="match_parent"
-                        android:layout_height="wrap_content"
-                        android:layout_weight="1"
-                        android:backgroundTint="@color/red_primary"
-                        android:fontFamily="sans-serif-medium"
-                        android:textColor="@color/white"
-                        android:text="@string/accedi"
-                        android:padding="15dp"
-                        android:layout_marginTop="40dp"
-                        android:layout_marginStart="@dimen/margin_default"
-                        android:textSize="20sp" />
-
-                    <View
-                        android:layout_width="@dimen/margin_default"
-                        android:layout_height="0dp" />
-
-                    <Button
-                        style="@style/Widget.Material3.Button.ElevatedButton"
-                        android:layout_width="match_parent"
-                        android:layout_height="wrap_content"
-                        android:padding="15dp"
-                        android:layout_weight="1"
-                        android:fontFamily="sans-serif-medium"
-                        android:text="@string/register"
-                        android:textColor="@color/md_theme_scrim"
-                        android:layout_marginTop="40dp"
-                        android:layout_marginEnd="@dimen/margin_default"
-                        android:textSize="20sp" />
-
-                </LinearLayout>
-
-        </LinearLayout>
-
-    </FrameLayout>
-
-</LinearLayout>
+</FrameLayout>
 
