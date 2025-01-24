@@ -16,14 +16,14 @@
             android:name=".HomePageActivity"
             android:exported="false" />
         <activity
-            android:name=".SignUpActivity"
+            android:name=".ui.welcome.SignUpActivity"
             android:exported="true"/>
 
-        <activity android:name=".WelcomeActivity"
+        <activity android:name=".ui.welcome.WelcomeActivity"
             android:exported="true"/>
 
         <activity
-            android:name=".LoginActivity"
+            android:name=".ui.welcome.LoginActivity"
             android:exported="true" >
         <intent-filter>
             <action android:name="android.intent.action.MAIN" />
@@ -31,9 +31,6 @@
         </intent-filter>
         </activity>
 
-        <activity
-            android:name=".LoginActivity"
-            android:exported="true" />
         <activity
             android:name=".MainActivity"
             android:exported="true"/>

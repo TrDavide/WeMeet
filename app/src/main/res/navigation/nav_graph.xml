@@ -13,10 +13,18 @@
         <action
             android:id="@+id/action_welcomeFragment_to_loginFragment"
             app:destination="@id/loginFragment" />
+        <action
+            android:id="@+id/action_welcomeFragment_to_signUpFragment"
+            app:destination="@id/signUpFragment" />
     </fragment>
     <fragment
         android:id="@+id/loginFragment"
         android:name="com.temptationjavaisland.wemeet.ui.welcome.fragments.LoginFragment"
         tools:layout="@layout/fragment_login"
         android:label="LoginFragment" />
+    <fragment
+        android:id="@+id/signUpFragment"
+        android:name="com.temptationjavaisland.wemeet.ui.welcome.fragments.SignUpFragment"
+        tools:layout="@layout/fragment_sign_up"
+        android:label="SignUpFragment" />
 </navigation>
