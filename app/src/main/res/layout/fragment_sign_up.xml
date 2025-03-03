@@ -7,7 +7,7 @@
     android:layout_height="match_parent"
     android:orientation="vertical"
     tools:context=".ui.welcome.SignUpActivity"
-    android:background="@color/red_primary2">
+    android:background="@color/main_red">
 
 
     <FrameLayout
