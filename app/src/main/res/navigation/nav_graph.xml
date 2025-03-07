@@ -21,10 +21,23 @@
         android:id="@+id/loginFragment"
         android:name="com.temptationjavaisland.wemeet.ui.welcome.fragments.LoginFragment"
         tools:layout="@layout/fragment_login"
-        android:label="LoginFragment" />
+        android:label="LoginFragment" >
+        <action
+            android:id="@+id/action_loginFragment_to_homePageActivity"
+            app:destination="@id/homePageActivity" />
+    </fragment>
     <fragment
         android:id="@+id/signUpFragment"
         android:name="com.temptationjavaisland.wemeet.ui.welcome.fragments.SignUpFragment"
         tools:layout="@layout/fragment_sign_up"
-        android:label="SignUpFragment" />
+        android:label="SignUpFragment" >
+        <action
+            android:id="@+id/action_signUpFragment_to_homePageActivity"
+            app:destination="@id/homePageActivity" />
+    </fragment>
+    <activity
+        android:id="@+id/homePageActivity"
+        android:name="com.temptationjavaisland.wemeet.HomePageActivity"
+        android:label="activity_home_page"
+        tools:layout="@layout/activity_home_page" />
 </navigation>

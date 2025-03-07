@@ -8,18 +8,15 @@ import androidx.core.graphics.Insets;
 import androidx.core.view.ViewCompat;
 import androidx.core.view.WindowInsetsCompat;
 import androidx.fragment.app.Fragment;
+import androidx.navigation.Navigation;
 
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.Button;
 
 import com.temptationjavaisland.wemeet.R;
 
-/**
- * A simple {@link Fragment} subclass.
- * Use the {@link WelcomeFragment#newInstance} factory method to
- * create an instance of this fragment.
- */
 public class WelcomeFragment extends Fragment {
 
     public WelcomeFragment() {
@@ -47,12 +44,17 @@ public class WelcomeFragment extends Fragment {
     @Override
     public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
-        ViewCompat.setOnApplyWindowInsetsListener(view.findViewById(R.id.main), (v, insets) -> {
-            Insets systemBars = insets.getInsets(WindowInsetsCompat.Type.systemBars());
-            v.setPadding(systemBars.left, systemBars.top, systemBars.right, systemBars.bottom);
 
-            return insets;
+        Button loginButton = view.findViewById(R.id.accediButton);
+        Button signUpButton = view.findViewById(R.id.RegistratiButton);
 
+        loginButton.setOnClickListener(v -> {
+            Navigation.findNavController(v).navigate(R.id.action_welcomeFragment_to_loginFragment);
         });
+        signUpButton.setOnClickListener(v -> {
+            Navigation.findNavController(v).navigate(R.id.action_welcomeFragment_to_signUpFragment);
+        });
+
+
     }
 }
