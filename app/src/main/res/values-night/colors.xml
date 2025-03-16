@@ -4,7 +4,7 @@
     <color name="blue">#0000FF</color>
     <color name="normal_red">#FF0000</color>
     <color name="red_primary">#B3261E</color>
-    <color name="red_primary2">#E45440</color>
+    <color name="main_red">#E45440</color>
     <color name="md_theme_primary">#FFB5A0</color>
     <color name="md_theme_onPrimary">#561F0F</color>
     <color name="md_theme_primaryContainer">#723523</color>
