@@ -15,7 +15,6 @@
     <string name="or_withGoogle">Login with Google</string>
     <!-- TODO: Remove or change this placeholder text -->
     <string name="hello_blank_fragment">Hello blank fragment</string>
-
     <string name="nome">Nome</string>
     <string name="cognome">Cognome</string>
     <string name="confermapassword">Conferma password</string>
@@ -38,4 +37,10 @@
     <string name="frase_bio">Questa è la mia bio.....</string>
     <string name="EventiCuiPartecipo">Eventi a cui partecipo</string>
     <string name="modificaImmagineProfilo">Modifica immagine del profilo</string>
+    <string name="settings">Impostazioni</string>
+    <string name="profile">Profilo</string>
+    <string name="modifica_profilo">Modifica Profilo</string>
+    <string name="logout">Logout</string>
+    <string name="elimina_preferiti">Elimina Preferiti</string>
+    <string name="modifica_nome">Modifica Nome</string>
 </resources>

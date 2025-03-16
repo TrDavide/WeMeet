@@ -47,34 +47,49 @@
         android:textColor="@android:color/holo_blue_light"
         android:clickable="true"
         android:textSize="20sp"
+        android:textStyle="bold"
         android:layout_below="@id/profileImageView"
         android:layout_centerHorizontal="true"
+        android:minHeight="48dp"
         android:focusable="true"/>
     <View
         android:id="@+id/spazio"
         android:layout_width="wrap_content"
         android:layout_height="30sp"
         android:layout_below="@id/clickableText"/>
-    <Button
-        android:id="@+id/filledButton"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:text="Nome"
-        android:layout_marginStart="32sp"
-        android:layout_marginEnd="32sp"
-        android:backgroundTint="@color/main_red"
+    <TextView
+        android:id="@+id/inputName"
         android:layout_below="@id/spazio"
-        />
-    <Button
-        android:id="@+id/biobutton"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:text="Bio"
-        android:layout_marginStart="32sp"
-        android:layout_marginEnd="32sp"
-        android:backgroundTint="@color/main_red"
-        android:layout_below="@id/filledButton"
+        android:layout_marginStart="32dp"
+        android:fontFamily="sans-serif-medium"
+        android:textSize="15sp"
+        android:text="@string/modifica_nome"
+        android:textColor="@color/md_theme_scrim"
         />
+
+    <View
+        android:id="@+id/spazio2"
+        android:layout_width="wrap_content"
+        android:layout_height="15sp"
+        android:layout_below="@id/inputName"/>
+
+    <com.google.android.material.textfield.TextInputLayout
+        android:layout_below="@id/spazio2"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="32dp"
+        android:layout_marginEnd="20dp">
+
+        <com.google.android.material.textfield.TextInputEditText
+            android:id="@+id/textInputEmail"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:minHeight="48dp"
+            />
+    </com.google.android.material.textfield.TextInputLayout>
+
 
 
 </RelativeLayout>

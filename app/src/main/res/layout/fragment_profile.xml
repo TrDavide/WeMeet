@@ -4,31 +4,28 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    android:background="@color/main_red"
     tools:context=".ProfileFragment">
 
-    <Button
-        style="?attr/materialIconButtonStyle"
-        android:id="@+id/arrowBackWelcome"
+    <TextView
+        android:id="@+id/profile"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        app:icon="@drawable/baseline_arrow_back_24"
+        android:text="@string/profile"
+        android:textSize="35sp"
+        android:textColor="@color/md_theme_bianchino"
+        android:textStyle="bold"
         android:layout_marginTop="@dimen/margin_default"
-        app:iconTint="@color/md_theme_scrim"
-        app:iconSize="35dp"
-        android:contentDescription="@string/login"
-        />
-
-    <Button
-        android:id="@+id/buttonSettings"
-        style="?attr/materialIconButtonStyle"
-        android:layout_width="wrap_content"
-        android:layout_alignParentRight="true"
-        android:layout_height="wrap_content"
-        android:contentDescription="@string/login"
-        android:layout_marginTop="@dimen/margin_default"
-        app:icon="@drawable/baseline_grid_goldenratio_24"
-        app:iconSize="35dp"
-        app:iconTint="@color/md_theme_scrim" />
+        android:layout_marginStart="@dimen/margin_default"
+        android:layout_alignParentTop="true"
+        android:layout_below="@id/profileImageView"/>
+    <View
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:background="@drawable/border2"
+        android:layout_marginTop="50sp"
+        android:layout_below="@id/profile"
+        android:backgroundTint="@color/white"/>
 
     <ImageView
         android:id="@+id/profileImageView"
@@ -40,6 +37,7 @@
         android:layout_marginTop="55dp"
         android:layout_centerHorizontal="true"
         android:layout_alignParentTop="true"
+        android:tint="@color/main_red"
         android:src="@drawable/baseline_account_circle_24"/>
 
     <TextView
@@ -47,7 +45,7 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:text="@string/username"
-        android:textSize="35sp"
+        android:textSize="30sp"
         android:textStyle="bold"
         android:layout_below="@id/profileImageView"
         android:layout_centerHorizontal="true"/>
@@ -57,7 +55,7 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:text="@string/username"
-        android:textSize="25sp"
+        android:textSize="20sp"
         android:textColor="#A0A0A0"
         android:layout_below="@id/textprofile"
         android:layout_centerHorizontal="true"/>
@@ -78,21 +76,54 @@
     <View
         android:id="@+id/spazio2"
         android:layout_width="wrap_content"
-        android:layout_height="30sp"
+        android:layout_height="35sp"
         android:layout_below="@id/bio"/>
-    <TextView
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:textSize="30sp"
-        android:layout_below="@+id/spazio2"
-        android:fontFamily="sans-serif"
-        android:textStyle="bold"
-        android:layout_marginStart="@dimen/margin_default"
-        android:text="@string/EventiCuiPartecipo" />
+    <Button
+        android:id="@+id/modifica_profilo"
+        android:layout_width="364dp"
+        android:layout_height="63dp"
+        android:layout_marginStart="32dp"
+        android:layout_marginEnd="20dp"
+        android:backgroundTint="#F4E1C6"
+        android:padding="15dp"
+        android:text="@string/modifica_profilo"
+        android:textColor="@color/md_theme_scrim"
+        app:icon="@drawable/icons8_registration_24"
+        app:iconGravity="textEnd"
+        android:layout_below="@id/spazio2"
+        app:iconTint="@null" />
 
+    <Button
+        android:id="@+id/bottone_logout"
+        android:layout_width="364dp"
+        android:layout_height="63dp"
+        android:layout_marginStart="32dp"
+        android:layout_marginEnd="20dp"
+        android:backgroundTint="#C2B280"
+        android:textSize="20sp"
+        android:padding="15dp"
+        android:text="@string/logout"
+        android:textColor="@color/md_theme_scrim"
+        app:icon="@drawable/icons8_uscita_24"
+        app:iconGravity="textEnd"
+        android:layout_centerHorizontal="true"
+        android:layout_alignParentBottom="true"
+        android:layout_marginBottom="20dp"
+        app:iconTint="@null" />
 
-
-
+    <Button
+        android:layout_width="364dp"
+        android:layout_height="63dp"
+        android:layout_marginStart="32dp"
+        android:layout_marginEnd="20dp"
+        android:backgroundTint="#F4E1C6"
+        android:padding="15dp"
+        android:text="@string/elimina_preferiti"
+        android:textColor="@color/md_theme_scrim"
+        app:icon="@drawable/icons8_rimuovi_24"
+        app:iconGravity="textEnd"
+        android:layout_below="@id/modifica_profilo"
+        app:iconTint="@null" />
 
 
 
