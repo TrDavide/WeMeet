@@ -131,6 +131,6 @@
         android:layout_marginBottom="30dp"
         app:icon="@drawable/icons8_salva_50"
         app:iconSize="50dp"
-        app:Tint="@color/md_theme_bianchino" />
+        app:iconTint="@color/main_red" />
 
 </RelativeLayout>
