@@ -66,7 +66,6 @@
         android:text="@string/modifica_nome"
         android:textColor="@color/md_theme_scrim"
         />
-
     <View
         android:id="@+id/spazio2"
         android:layout_width="wrap_content"
@@ -130,12 +129,9 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         app:icon="@drawable/icons8_salva_50"
-        app:iconTint="@color/md_theme_scrim"
-        android:layout_marginEnd="20sp"
-        android:layout_marginBottom="40sp"
+        app:iconTint="@color/md_theme_bianchino"
+        android:layout_marginEnd="15sp"
+        android:layout_marginBottom="30sp"
         app:iconSize="50dp"/>
-
-
-
 
 </RelativeLayout>
