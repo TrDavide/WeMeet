@@ -4,8 +4,7 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="@color/main_red"
-    tools:context=".settings">
+    android:background="@color/main_red">
 
     <Button
         style="?attr/materialIconButtonStyle"
@@ -121,17 +120,17 @@
     </com.google.android.material.textfield.TextInputLayout>
 
     <Button
-        style="?attr/materialIconButtonStyle"
-        android:layout_alignParentBottom="true"
-        android:layout_alignParentEnd="true"
         android:id="@+id/save_button"
-        android:layout_centerVertical="true"
+        style="?attr/materialIconButtonStyle"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
+        android:layout_alignParentEnd="true"
+        android:layout_alignParentBottom="true"
+        android:layout_centerVertical="true"
+        android:layout_marginEnd="17dp"
+        android:layout_marginBottom="30dp"
         app:icon="@drawable/icons8_salva_50"
-        app:iconTint="@color/md_theme_bianchino"
-        android:layout_marginEnd="15sp"
-        android:layout_marginBottom="30sp"
-        app:iconSize="50dp"/>
+        app:iconSize="50dp"
+        app:Tint="@color/md_theme_bianchino" />
 
 </RelativeLayout>
