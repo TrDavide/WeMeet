@@ -1,7 +1,6 @@
 package com.temptationjavaisland.wemeet.ui.welcome.fragments;
 
 import android.os.Bundle;
-
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.core.graphics.Insets;
@@ -16,6 +15,7 @@ import android.view.ViewGroup;
 import android.widget.Button;
 
 import com.temptationjavaisland.wemeet.R;
+
 
 public class WelcomeFragment extends Fragment {
 

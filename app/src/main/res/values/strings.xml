@@ -34,6 +34,17 @@
     <string name="mario_1234">Mario!1234</string>
     <string name="rossi">Rossi</string>
     <string name="mario">Mario</string>
+    <string name="username">Erminio Ottone</string>
+    <string name="frase_bio">Questa è la mia bio.....</string>
+    <string name="EventiCuiPartecipo">Eventi a cui partecipo</string>
+    <string name="modificaImmagineProfilo">Modifica immagine del profilo</string>
+    <string name="settings">Impostazioni</string>
+    <string name="profile">Profilo</string>
+    <string name="modifica_profilo">Modifica Profilo</string>
+    <string name="logout">Logout</string>
+    <string name="elimina_preferiti">Elimina Preferiti</string>
+    <string name="modifica_nome">Cambio Nome</string>
+    <string name="modifica_bio">Cambia Bio</string>
     <string name="posizione">Luogo</string>
 
 </resources>
