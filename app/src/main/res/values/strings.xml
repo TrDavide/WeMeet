@@ -42,5 +42,6 @@
     <string name="modifica_profilo">Modifica Profilo</string>
     <string name="logout">Logout</string>
     <string name="elimina_preferiti">Elimina Preferiti</string>
-    <string name="modifica_nome">Modifica Nome</string>
+    <string name="modifica_nome">Cambio Nome</string>
+    <string name="modifica_bio">Cambia Bio</string>
 </resources>

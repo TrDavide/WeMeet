@@ -15,9 +15,7 @@
         app:icon="@drawable/baseline_arrow_back_24"
         android:layout_marginTop="@dimen/margin_default"
         app:iconTint="@color/md_theme_scrim"
-        app:iconSize="35dp"
-        android:contentDescription="@string/login"
-        />
+        app:iconSize="35dp"/>
 
     <View
         android:layout_width="match_parent"
@@ -72,7 +70,7 @@
     <View
         android:id="@+id/spazio2"
         android:layout_width="wrap_content"
-        android:layout_height="15sp"
+        android:layout_height="10sp"
         android:layout_below="@id/inputName"/>
 
     <com.google.android.material.textfield.TextInputLayout
@@ -80,15 +78,63 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_marginStart="32dp"
+        android:id="@+id/textInputEmail2"
         android:layout_marginEnd="20dp">
 
         <com.google.android.material.textfield.TextInputEditText
-            android:id="@+id/textInputEmail"
+            android:id="@+id/textInputEmail3"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:minHeight="48dp"
             />
     </com.google.android.material.textfield.TextInputLayout>
+
+    <TextView
+        android:id="@+id/inputBio"
+        android:layout_below="@id/textInputEmail2"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="32dp"
+        android:fontFamily="sans-serif-medium"
+        android:textSize="15sp"
+        android:text="@string/modifica_bio"
+        android:textColor="@color/md_theme_scrim"/>
+    <View
+        android:id="@+id/spazio3"
+        android:layout_width="wrap_content"
+        android:layout_height="10sp"
+        android:layout_below="@id/inputBio"/>
+
+    <com.google.android.material.textfield.TextInputLayout
+        android:layout_below="@id/spazio3"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="32dp"
+        android:id="@+id/textInputEmail4"
+        android:layout_marginEnd="20dp">
+
+        <com.google.android.material.textfield.TextInputEditText
+            android:id="@+id/textInputEmail5"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:minHeight="48dp"
+            />
+    </com.google.android.material.textfield.TextInputLayout>
+
+    <Button
+        style="?attr/materialIconButtonStyle"
+        android:layout_alignParentBottom="true"
+        android:layout_alignParentEnd="true"
+        android:id="@+id/save_button"
+        android:layout_centerVertical="true"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        app:icon="@drawable/icons8_salva_50"
+        app:iconTint="@color/md_theme_scrim"
+        android:layout_marginEnd="20sp"
+        android:layout_marginBottom="40sp"
+        app:iconSize="50dp"/>
+
 
 
 
