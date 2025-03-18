@@ -25,6 +25,24 @@ public class HomePageActivity extends AppCompatActivity {
     BottomNavigationView bottomNavigationView;
 
     @Override
+    public boolean onCreateOptionsMenu(Menu menu) {
+        getMenuInflater().inflate(R.menu.menu_search, menu); // carica il menu
+        return true;
+    }
+
+    @Override
+    public boolean onOptionsItemSelected(MenuItem item) {
+
+        if(item.getItemId() == R.id.filter_icon){
+
+            return true;
+        }else{
+            return super.onOptionsItemSelected(item);
+        }
+
+    }
+
+    @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_home_page);
@@ -43,8 +61,6 @@ public class HomePageActivity extends AppCompatActivity {
 
             @Override
         public boolean onNavigationItemSelected(@NonNull MenuItem item) {
-
-
                 resetIcons(); // Reimposta le icone allo stato normale
             if(item.getItemId() == R.id.nav_home){
                 item.setIcon(R.drawable.home_active); // Cambia icona

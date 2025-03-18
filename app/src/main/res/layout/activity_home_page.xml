@@ -12,40 +12,89 @@
         android:background="@drawable/border3"
         android:backgroundTint="@color/main_red" />
 
-    <ImageView
+    <LinearLayout
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginEnd="27dp"
-        android:layout_toStartOf="@+id/textView"
-        android:backgroundTint="@color/white"
-        android:src="@drawable/place"/> <!-- Sostituisci con la tua icona -->
+        android:orientation="horizontal"
+        android:gravity="center_vertical"
+        android:layout_marginStart="@dimen/margin_default"
+        android:layout_marginTop="30dp">
 
-    <TextView
-        android:id="@+id/textView"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_alignBottom="@+id/view"
-        android:layout_alignParentStart="true"
-        android:layout_alignParentEnd="true"
-        android:layout_marginStart="27dp"
-        android:layout_marginEnd="226dp"
-        android:layout_marginBottom="115dp"
-        android:text="@string/posizione"
-        android:textColor="@color/white"
-        android:textSize="20sp" />
+        <ImageView
+            android:layout_width="24dp"
+            android:layout_height="24dp"
+            android:src="@drawable/place_active"
+            android:contentDescription="Icona Profilo"
+            app:tint="@color/white"/>
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Milano,MI"
+            android:textSize="24sp"
+            android:paddingStart="8dp"
+            android:textColor="@color/white"
+            />
+    </LinearLayout>
+
+
+    <androidx.coordinatorlayout.widget.CoordinatorLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent">
+
+        <androidx.core.widget.NestedScrollView
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            app:layout_behavior="@string/searchbar_scrolling_view_behavior">
+            <!-- Content goes here -->
+        </androidx.core.widget.NestedScrollView>
+
+        <com.google.android.material.appbar.AppBarLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="60dp">
+
+            <!-- LinearLayout per la SearchBar e l'icona -->
+            <LinearLayout
+                android:orientation="horizontal"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:paddingEnd="16dp"
+                android:paddingStart="16dp">
+
+                <!-- SearchBar -->
+                <com.google.android.material.search.SearchBar
+                    android:id="@+id/search_bar"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="1"
+                    android:hint="Scopri cose da fare a" />
+
+                <!-- Icona filtro a destra -->
+                <ImageView
+                    android:id="@+id/filter_icon"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:src="@drawable/filter" /> <!-- Assicurati che l'icona sia nella cartella drawable -->
+            </LinearLayout>
+        </com.google.android.material.appbar.AppBarLayout>
+    </androidx.coordinatorlayout.widget.CoordinatorLayout>
+
+
+
 
     <com.google.android.material.bottomnavigation.BottomNavigationView
-        android:id="@+id/bottom_navigation"
-        android:layout_width="match_parent"
-        android:layout_height="60dp"
-        android:layout_alignParentBottom="true"
-        android:background="@drawable/bottom_nav_bg"
-        app:menu="@menu/bottom_nav_menu"
-        app:itemIconTint="@color/white"
+android:id="@+id/bottom_navigation"
+android:layout_width="match_parent"
+android:layout_height="60dp"
+android:layout_alignParentBottom="true"
+android:background="@drawable/bottom_nav_bg"
+app:menu="@menu/bottom_nav_menu"
+app:itemIconTint="@color/white"
 
-        />
+/>
 
-    <!-- Floating Action Button BOTTONE ADD-->
+<!-- Floating Action Button BOTTONE ADD-->
     <com.google.android.material.floatingactionbutton.FloatingActionButton
         android:id="@+id/add_button"
         android:layout_width="65dp"
