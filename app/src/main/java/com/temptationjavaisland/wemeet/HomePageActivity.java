@@ -56,7 +56,6 @@ public class HomePageActivity extends AppCompatActivity {
         EdgeToEdge.enable(this);
         setContentView(R.layout.activity_home_page);
 
-
         bottomNavigationView = findViewById(R.id.bottom_navigation);
 
         Menu menu = bottomNavigationView.getMenu();
@@ -96,4 +95,5 @@ public class HomePageActivity extends AppCompatActivity {
         bottomNavigationView.getMenu().findItem(R.id.nav_save).setIcon(R.drawable.save);
         bottomNavigationView.getMenu().findItem(R.id.nav_profile).setIcon(R.drawable.profile);
     }
+
 }

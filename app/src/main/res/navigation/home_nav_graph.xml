@@ -31,12 +31,12 @@
         android:label="fragment_profile"
         tools:layout="@layout/fragment_profile" >
         <action
-            android:id="@+id/action_profileFragment_to_settings"
-            app:destination="@id/settings" />
+            android:id="@+id/action_profileFragment_to_change_profile"
+            app:destination="@id/change_profile" />
     </fragment>
     <fragment
-        android:id="@+id/settings"
-        android:name="com.temptationjavaisland.wemeet.settings"
+        android:id="@+id/change_profile"
+        android:name="com.temptationjavaisland.wemeet.change_profile"
         android:label="fragment_change_profile"
         tools:layout="@layout/fragment_change_profile" />
 </navigation>
