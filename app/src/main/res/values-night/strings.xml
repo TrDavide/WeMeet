@@ -34,4 +34,8 @@
     <string name="mario">Mario</string>
     <string name="posizione">Luogo</string>
     <string name="username">Erminio Ottone</string>
+    <string name="esciAccount">Esci</string>
+    <string name="account">Account</string>
+    <string name="laTuaPoszione">La tua posizione</string>
+    <string name="milano">Milano, MI</string>
 </resources>

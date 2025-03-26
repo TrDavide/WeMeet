@@ -40,7 +40,7 @@
     </fragment>
     <activity
         android:id="@+id/homePageActivity"
-        android:name="com.temptationjavaisland.wemeet.HomePageActivity"
+        android:name="com.temptationjavaisland.wemeet.ui.welcome.HomePageActivity"
         android:label="activity_home_page"
         tools:layout="@layout/activity_home_page" />
 </navigation>

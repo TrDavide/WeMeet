@@ -3,40 +3,47 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:id="@+id/home_nav_graph"
-    app:startDestination="@id/homepageFragment2">
+    app:startDestination="@id/homePageFragment">
 
     <fragment
-        android:id="@+id/homepageFragment2"
-        android:name="com.temptationjavaisland.wemeet.homepageFragment2"
-        android:label="fragment_homepage2"
-        tools:layout="@layout/fragment_homepage2" />
+        android:id="@+id/homePageFragment"
+        android:name="com.temptationjavaisland.wemeet.ui.welcome.fragments.HomePageFragment"
+        android:label="fragment_homepage"
+        tools:layout="@layout/fragment_homepage" >
+        <action
+            android:id="@+id/action_homePageFragment_to_locationFragment"
+            app:destination="@id/locationFragment" />
+        <action
+            android:id="@+id/action_homePageFragment_to_plusFragment"
+            app:destination="@id/plusFragment" />
+        <action
+            android:id="@+id/action_homePageFragment_to_preferedFragment"
+            app:destination="@id/preferedFragment" />
+        <action
+            android:id="@+id/action_homePageFragment_to_profileFragment"
+            app:destination="@id/profileFragment" />
+    </fragment>
+
+
     <fragment
         android:id="@+id/locationFragment"
         android:name="com.temptationjavaisland.wemeet.LocationFragment"
         android:label="fragment_location"
-        tools:layout="@layout/fragment_location" />
+        tools:layout="@layout/fragment_location"/>
     <fragment
         android:id="@+id/plusFragment"
         android:name="com.temptationjavaisland.wemeet.PlusFragment"
         android:label="fragment_plus"
-        tools:layout="@layout/fragment_plus" />
+        tools:layout="@layout/fragment_plus"/>
     <fragment
         android:id="@+id/preferedFragment"
         android:name="com.temptationjavaisland.wemeet.PreferedFragment"
         android:label="fragment_prefered"
-        tools:layout="@layout/fragment_prefered" />
+        tools:layout="@layout/fragment_prefered"/>
     <fragment
         android:id="@+id/profileFragment"
         android:name="com.temptationjavaisland.wemeet.ProfileFragment"
         android:label="fragment_profile"
-        tools:layout="@layout/fragment_profile" >
-        <action
-            android:id="@+id/action_profileFragment_to_settings"
-            app:destination="@id/settings" />
-    </fragment>
-    <fragment
-        android:id="@+id/settings"
-        android:name="com.temptationjavaisland.wemeet.settings"
-        android:label="fragment_change_profile"
-        tools:layout="@layout/fragment_change_profile" />
+        tools:layout="@layout/fragment_profile"/>
+
 </navigation>

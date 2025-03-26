@@ -1,14 +1,9 @@
 package com.temptationjavaisland.wemeet.ui.welcome.fragments;
 
-import android.content.ActivityNotFoundException;
-import android.content.Intent;
 import android.os.Bundle;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
-import androidx.core.graphics.Insets;
-import androidx.core.view.ViewCompat;
-import androidx.core.view.WindowInsetsCompat;
 import androidx.fragment.app.Fragment;
 import androidx.navigation.Navigation;
 
@@ -19,7 +14,6 @@ import android.widget.Button;
 
 import com.google.android.material.snackbar.Snackbar;
 import com.google.android.material.textfield.TextInputEditText;
-import com.temptationjavaisland.wemeet.HomePageActivity;
 import com.temptationjavaisland.wemeet.R;
 
 import org.apache.commons.validator.routines.EmailValidator;
