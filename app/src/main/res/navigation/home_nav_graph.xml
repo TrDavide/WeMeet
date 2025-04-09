@@ -2,28 +2,29 @@
 <navigation xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
-    android:id="@+id/home_nav_graph">
+    android:id="@+id/home_nav_graph"
+    app:startDestination="@id/homeFragment">
 
 
     <fragment
         android:id="@+id/locationFragment"
-        android:name="com.temptationjavaisland.wemeet.LocationFragment"
+        android:name="com.temptationjavaisland.wemeet.ui.welcome.fragments.LocationFragment"
         android:label="fragment_location"
         tools:layout="@layout/fragment_location"/>
     <fragment
-        android:id="@+id/plusFragment"
-        android:name="com.temptationjavaisland.wemeet.PlusFragment"
-        android:label="fragment_plus"
-        tools:layout="@layout/fragment_plus"/>
-    <fragment
         android:id="@+id/preferedFragment"
-        android:name="com.temptationjavaisland.wemeet.PreferedFragment"
+        android:name="com.temptationjavaisland.wemeet.ui.welcome.fragments.PreferedFragment"
         android:label="fragment_prefered"
         tools:layout="@layout/fragment_prefered"/>
     <fragment
         android:id="@+id/profileFragment"
-        android:name="com.temptationjavaisland.wemeet.ProfileFragment"
+        android:name="com.temptationjavaisland.wemeet.ui.welcome.fragments.ProfileFragment"
         android:label="fragment_profile"
         tools:layout="@layout/fragment_profile"/>
+    <fragment
+        android:id="@+id/homeFragment"
+        android:name="com.temptationjavaisland.wemeet.ui.welcome.fragments.HomeFragment"
+        android:label="fragment_home"
+        tools:layout="@layout/fragment_home" />
 
 </navigation>

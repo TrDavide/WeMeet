@@ -1,33 +1,26 @@
-package com.temptationjavaisland.wemeet;
+package com.temptationjavaisland.wemeet.ui.welcome.fragments;
 
-import android.content.res.ColorStateList;
-import android.graphics.Color;
 import android.os.Bundle;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
-import androidx.navigation.Navigation;
 
 import android.view.LayoutInflater;
-import android.view.Menu;
-import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
 
 import com.google.android.material.bottomnavigation.BottomNavigationView;
-import com.google.android.material.navigation.NavigationBarView;
+import com.temptationjavaisland.wemeet.R;
 
-public class PlusFragment extends Fragment {
+public class PreferedFragment extends Fragment {
 
     BottomNavigationView bottomNavigationView;
 
-    public PlusFragment() {}
+    public PreferedFragment() {}
 
-    public static PlusFragment newInstance(String param1, String param2) {
-        PlusFragment fragment = new PlusFragment();
-        Bundle args = new Bundle();
-        fragment.setArguments(args);
+    public static PreferedFragment newInstance(String param1, String param2) {
+        PreferedFragment fragment = new PreferedFragment();
         return fragment;
     }
 
@@ -39,14 +32,15 @@ public class PlusFragment extends Fragment {
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
-        return inflater.inflate(R.layout.fragment_plus, container, false);
+        // Inflate the layout for this fragment
+        return inflater.inflate(R.layout.fragment_prefered, container, false);
     }
 
     @Override
     public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
-    }
 
+    }
 
 
 }

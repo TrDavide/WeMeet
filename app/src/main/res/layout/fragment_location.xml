@@ -4,38 +4,14 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context=".LocationFragment"
-    android:id="@+id/placeFragment">
-
-    <com.google.android.material.bottomnavigation.BottomNavigationView
-        android:id="@+id/bottom_navigation"
-        android:layout_width="match_parent"
-        android:layout_height="75dp"
-        android:layout_alignParentBottom="true"
-        android:background="@drawable/bottom_nav_bg"
-        app:menu="@menu/bottom_nav_menu"
-        app:itemIconTint="@color/white"/>
-
-    <!-- Floating Action Button BOTTONE ADD-->
-    <com.google.android.material.floatingactionbutton.FloatingActionButton
-        android:id="@+id/add_button"
-        android:layout_width="65dp"
-        android:layout_height="65dp"
-        android:layout_gravity="bottom|center"
-        android:src="@drawable/add"
-        app:backgroundTint="@color/white"
-        app:elevation="10dp"
-        android:layout_centerHorizontal="true"
-        android:layout_marginBottom="45dp"
-        android:layout_above="@id/bottom_navigation"
-        android:layout_alignParentBottom="true"
-        app:maxImageSize="32dp"/>
+    tools:context=".ui.welcome.fragments.LocationFragment"
+    android:id="@+id/placeFragment"
+    >
 
     <TextView
         android:id="@+id/textView"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_above="@+id/bottom_navigation"
         android:layout_alignParentEnd="true"
         android:layout_marginEnd="147dp"
         android:layout_marginBottom="384dp"

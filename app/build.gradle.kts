@@ -39,6 +39,7 @@ dependencies {
     implementation(libs.constraintlayout)
     implementation(libs.navigation.fragment)
     implementation(libs.navigation.ui)
+    implementation (libs.material.v1110)
     implementation (libs.commons.validator)
     implementation (libs.cardview)
     testImplementation(libs.junit)

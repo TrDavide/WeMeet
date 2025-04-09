@@ -8,6 +8,8 @@
     android:background="#E45440"
     tools:context=".ui.welcome.LoginActivity">
 
+
+
     <androidx.fragment.app.FragmentContainerView
         android:name="androidx.navigation.fragment.NavHostFragment"
         app:navGraph="@navigation/nav_graph"
