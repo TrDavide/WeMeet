@@ -2,27 +2,7 @@
 <navigation xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
-    android:id="@+id/home_nav_graph"
-    app:startDestination="@id/homePageFragment">
-
-    <fragment
-        android:id="@+id/homePageFragment"
-        android:name="com.temptationjavaisland.wemeet.ui.welcome.fragments.HomePageFragment"
-        android:label="fragment_homepage"
-        tools:layout="@layout/fragment_homepage" >
-        <action
-            android:id="@+id/action_homePageFragment_to_locationFragment"
-            app:destination="@id/locationFragment" />
-        <action
-            android:id="@+id/action_homePageFragment_to_plusFragment"
-            app:destination="@id/plusFragment" />
-        <action
-            android:id="@+id/action_homePageFragment_to_preferedFragment"
-            app:destination="@id/preferedFragment" />
-        <action
-            android:id="@+id/action_homePageFragment_to_profileFragment"
-            app:destination="@id/profileFragment" />
-    </fragment>
+    android:id="@+id/home_nav_graph">
 
 
     <fragment
