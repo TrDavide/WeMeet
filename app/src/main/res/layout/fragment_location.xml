@@ -5,16 +5,19 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     tools:context=".ui.welcome.fragments.LocationFragment"
-    android:id="@+id/placeFragment"
-    >
+    android:id="@+id/placeFragment">
 
-    <TextView
-        android:id="@+id/textView"
-        android:layout_width="wrap_content"
+    <com.google.android.material.search.SearchBar
+        android:id="@+id/search_bar"
+        android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_alignParentEnd="true"
-        android:layout_marginEnd="147dp"
-        android:layout_marginBottom="384dp"
-        android:text="LocationPage" />
+        app:backgroundTint="@color/white"
+        android:layout_marginTop="30dp"
+        android:hint="@string/cercahint"
+        app:menu="@menu/search_bar_menu"
+        app:navigationIcon="@drawable/search"
+        app:strokeColor="?attr/colorOnSurfaceVariant"
+        app:strokeWidth="1dp" />
+
 
 </RelativeLayout>

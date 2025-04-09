@@ -38,4 +38,6 @@
     <string name="account">Account</string>
     <string name="laTuaPoszione">La tua posizione</string>
     <string name="milano">Milano, MI</string>
+    <string name="filtri">Filtri</string>
+    <string name="cercahint">Cerca...</string>
 </resources>

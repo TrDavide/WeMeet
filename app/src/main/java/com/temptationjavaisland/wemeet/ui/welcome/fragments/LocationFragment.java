@@ -12,6 +12,10 @@ import android.view.ViewGroup;
 
 import com.google.android.material.bottomnavigation.BottomNavigationView;
 import com.temptationjavaisland.wemeet.R;
+import android.view.MenuItem;
+import android.widget.Toast;
+import androidx.appcompat.app.AppCompatActivity;
+import com.google.android.material.search.SearchBar;
 
 public class LocationFragment extends Fragment {
 
@@ -38,7 +42,21 @@ public class LocationFragment extends Fragment {
     @Override
     public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
+        SearchBar searchBar = view.findViewById(R.id.search_bar);
+
+        // Gestione click sul menu (tre puntini)
+        searchBar.setOnMenuItemClickListener(new SearchBar.OnMenuItemClickListener() {
+            @Override
+            public boolean onMenuItemClick(@NonNull MenuItem item) {
+                if (item.getItemId() == R.id.action_filter) {
+                    Toast.makeText(getContext(), "Apertura filtri...", Toast.LENGTH_SHORT).show();
+                    return true;
+                }
+                return false;
+            }
+        });
 
     }
+
 
 }
