@@ -24,9 +24,6 @@ public class HomePageActivity extends AppCompatActivity {
         EdgeToEdge.enable(this);
         setContentView(R.layout.activity_home_page);
 
-        Toolbar toolbar = findViewById(R.id.toolbar);
-        setSupportActionBar(toolbar);
-
         NavHostFragment navHostFragment = (NavHostFragment) getSupportFragmentManager().
                 findFragmentById(R.id.fragmentContainerView);
 
@@ -40,17 +37,9 @@ public class HomePageActivity extends AppCompatActivity {
 
 
         NavigationUI.setupWithNavController(bottomNav, navController);
-        NavigationUI.setupActionBarWithNavController(this, navController, appBarConfiguration);
-
+       // NavigationUI.setupActionBarWithNavController(this, navController, appBarConfiguration);
 
 
     }
-
-
-
-    @Override
-        public boolean onSupportNavigateUp() {
-            return navController.navigateUp();
-        }
 
 }
