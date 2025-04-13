@@ -7,12 +7,13 @@ public class Event {
 
     private String id;
     private String name;
-    private String description;
+    private String date;
+    private String partecipant;
     private String url;
     private String startTime;
     private String endTime;
     private String imageUrl;
-    private String venue;
+    private String location;
     private Long startTimeMillis;
     private boolean liked;
 
@@ -28,9 +29,13 @@ public class Event {
 
     public void setName(String name) { this.name = name; }
 
-    public String getDescription() { return description; }
+    public String getDate() { return date; }
 
-    public void setDescription(String description) { this.description = description; }
+    public void setDate(String date) { this.date = date; }
+
+    public String getPartecipant() { return partecipant; }
+
+    public void setPartecipant(String partecipant) { this.partecipant = partecipant; }
 
     public String getUrl() { return url; }
 
@@ -51,9 +56,9 @@ public class Event {
 
     public void setImageUrl(String imageUrl) { this.imageUrl = imageUrl; }
 
-    public String getVenue() { return venue; }
+    public String getLocation() { return location; }
 
-    public void setVenue(String venue) { this.venue = venue; }
+    public void setLocation(String venue) { this.location = location; }
 
     public Long getStartTimeMillis() { return startTimeMillis; }
 
@@ -70,16 +75,17 @@ public class Event {
         Event event = (Event) o;
         return Objects.equals(id, event.id) &&
                 Objects.equals(name, event.name) &&
-                Objects.equals(description, event.description) &&
+                Objects.equals(date, event.date) &&
+                Objects.equals(partecipant, event.partecipant) &&
                 Objects.equals(url, event.url) &&
                 Objects.equals(startTime, event.startTime) &&
                 Objects.equals(endTime, event.endTime) &&
                 Objects.equals(imageUrl, event.imageUrl) &&
-                Objects.equals(venue, event.venue);
+                Objects.equals(location, event.location);
     }
 
     @Override
     public int hashCode() {
-        return Objects.hash(id, name, description, url, startTime, endTime, imageUrl, venue);
+        return Objects.hash(id, name, partecipant, url, startTime, endTime, imageUrl, location);
     }
 }

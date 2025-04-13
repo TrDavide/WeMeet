@@ -25,26 +25,31 @@ public class EventRecyclerAdapter extends RecyclerView.Adapter<EventRecyclerAdap
          */
         public static class ViewHolder extends RecyclerView.ViewHolder {
             private final TextView textViewTitle;
-            private final TextView textViewOrganizator;
-            private final TextView textViewDescription;
+            private final TextView textViewDate;
+            private final TextView textViewLocation;
+            private final TextView textViewPartecipant;
 
             public ViewHolder(View view) {
                 super(view);
                 // Define click listener for the ViewHolder's View
 
-                textViewTitle = view.findViewById(R.id.textViewTitle);
-                textViewOrganizator =  view.findViewById(R.id.textViewOrganizator);
-                textViewDescription = view.findViewById(R.id.textViewDescription);
+                textViewTitle = view.findViewById(R.id.event_title);
+                textViewDate = view.findViewById(R.id.event_date_time);
+                textViewLocation =  view.findViewById(R.id.event_location);
+                textViewPartecipant = view.findViewById(R.id.partecipant_count);
             }
 
             public TextView getTextViewTitle() {
                 return textViewTitle;
             }
-            public TextView getTextViewOrganizator(){
-                return textViewOrganizator;
+            public TextView getTextViewDate() {
+                return textViewDate;
             }
-            public TextView getTextViewDescription() {
-                return textViewDescription;
+            public TextView getTextViewLocation(){
+                return textViewLocation;
+            }
+            public TextView getTextViewPartecipant() {
+                return textViewPartecipant;
             }
         }
         public EventRecyclerAdapter(int layout,List <Event> eventList) {
@@ -67,8 +72,9 @@ public class EventRecyclerAdapter extends RecyclerView.Adapter<EventRecyclerAdap
         public void onBindViewHolder(ViewHolder viewHolder, final int position) {
 
             viewHolder.getTextViewTitle().setText(eventList.get(position).getName());
-            viewHolder.getTextViewDescription().setText(eventList.get(position).getDescription());
-            viewHolder.getTextViewOrganizator().setText(eventList.get(position).getVenue());
+            viewHolder.getTextViewDate().setText(eventList.get(position).getDate());
+            viewHolder.getTextViewPartecipant().setText(eventList.get(position).getPartecipant());
+            viewHolder.getTextViewLocation().setText(eventList.get(position).getLocation());
         }
 
         @Override
