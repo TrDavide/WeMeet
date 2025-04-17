@@ -19,5 +19,13 @@
         app:strokeColor="?attr/colorOnSurfaceVariant"
         app:strokeWidth="1dp" />
 
+    <androidx.recyclerview.widget.RecyclerView
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:id="@+id/recyclerViewHome">
+
+
+    </androidx.recyclerview.widget.RecyclerView>
+
 
 </RelativeLayout>

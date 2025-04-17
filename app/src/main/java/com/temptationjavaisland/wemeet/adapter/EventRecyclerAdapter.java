@@ -1,14 +1,8 @@
 package com.temptationjavaisland.wemeet.adapter;
 
-import android.content.Context;
-import android.graphics.drawable.ColorDrawable;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.CheckBox;
-import android.widget.CompoundButton;
-import android.widget.ImageView;
 import android.widget.TextView;
 import com.temptationjavaisland.wemeet.R;
 import com.temptationjavaisland.wemeet.model.Event;
@@ -52,7 +46,7 @@ public class EventRecyclerAdapter extends RecyclerView.Adapter<EventRecyclerAdap
                 return textViewPartecipant;
             }
         }
-        public EventRecyclerAdapter(int layout,List <Event> eventList) {
+        public EventRecyclerAdapter(int layout) {
             this.layout = layout;
             this.eventList = eventList;
         }
