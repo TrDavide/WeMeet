@@ -2,11 +2,10 @@ package com.temptationjavaisland.wemeet.model;
 
 public class Genre {
 
-    public Genre (){}
-
     private String id;
     private String name;
 
+    public Genre (){}
 
     public String getId() {
         return id;

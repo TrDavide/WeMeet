@@ -3,7 +3,6 @@ package com.temptationjavaisland.wemeet.model;
 import android.media.Image;
 
 import java.util.List;
-import java.util.Objects;
 
 public class Event {
 
@@ -16,13 +15,12 @@ public class Event {
     private List<Image> images;
     private Dates dates;
     private List<Classification> classifications;
+    private EventEmbedded _embedded;
 
 
     public Event() {}
 
     // Getter & Setter
-
-
 
 /*
     @Override
@@ -112,5 +110,13 @@ public class Event {
 
     public void setClassifications(List<Classification> classifications) {
         this.classifications = classifications;
+    }
+
+    public EventEmbedded getEventEmbedded() {
+        return _embedded;
+    }
+
+    public void setEventEmbedded(EventEmbedded eventEmbedded) {
+        this._embedded = eventEmbedded;
     }
 }

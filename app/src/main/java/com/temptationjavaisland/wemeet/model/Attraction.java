@@ -60,11 +60,4 @@ public class Attraction {
         this.locale = locale;
     }
 
-    public Links getLinks() {
-        return links;
-    }
-
-    public void setLinks(Links links) {
-        this.links = links;
-    }
 }

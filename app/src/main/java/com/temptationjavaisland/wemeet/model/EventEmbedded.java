@@ -13,7 +13,7 @@ public class EventEmbedded {
         return venues;
     }
 
-    public void setVenues(List<Venue> venues) {
+    public void setVenue(List<Venue> venues) {
         this.venues = venues;
     }
 

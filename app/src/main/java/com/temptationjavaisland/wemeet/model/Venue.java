@@ -11,7 +11,6 @@ public class Venue {
     private City city;
     private Country country;
     private Location location;
-    private UpcomingEvents upcomingEvents;
 
     public Venue (){}
 
@@ -88,11 +87,4 @@ public class Venue {
         this.location = location;
     }
 
-    public UpcomingEvents getUpcomingEvents() {
-        return upcomingEvents;
-    }
-
-    public void setUpcomingEvents(UpcomingEvents upcomingEvents) {
-        this.upcomingEvents = upcomingEvents;
-    }
 }

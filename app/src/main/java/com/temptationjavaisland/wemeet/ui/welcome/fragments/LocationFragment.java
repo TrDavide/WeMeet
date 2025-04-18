@@ -15,7 +15,7 @@ import com.google.android.material.bottomnavigation.BottomNavigationView;
 import com.temptationjavaisland.wemeet.R;
 import android.view.MenuItem;
 import android.widget.Toast;
-import androidx.appcompat.app.AppCompatActivity;
+
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
@@ -51,10 +51,15 @@ public class LocationFragment extends Fragment {
                              Bundle savedInstanceState) {
         View view = inflater.inflate(R.layout.fragment_location, container, false);
 
+        RecyclerView recyclerView = view.findViewById(R.id.recyclerViewHome);
+        recyclerView.setLayoutManager(new LinearLayoutManager(view.getContext()));
         JSONParserUtils jsonParserUtils = new JSONParserUtils(getContext());
         try {
             EventAPIResponse response = jsonParserUtils.parserJSONFileWithGsson(Constants.SAMPLE_JSON_FILENAME);
-            Log.i(TAG, response.getTotalResults() + "sono io");
+            //Log.i(TAG, response.getTotalResults() + "pirla");
+            List<Event> eventList= response.getEvents();
+            EventRecyclerAdapter adapter = new EventRecyclerAdapter(R.layout.event_card, eventList);
+            recyclerView.setAdapter(adapter);
         } catch (IOException e) {
             throw new RuntimeException(e);
         }

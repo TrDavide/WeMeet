@@ -3,15 +3,20 @@ import java.util.List;
 
 public class EventAPIResponse {
 
-    private List<Event> event;
+    private List<Event> events;
 
     public EventAPIResponse(){}
 
 
-    public List<Event> getEvent() {
-        return event;
+    public List<Event> getEvents() {
+        return events;
     }
-    public void setArticles(List<Event> event) {
-        this.event = event;
+    public void setArticles(List<Event> events) {
+        this.events = events;
     }
+
+    public String getTotalResults() {
+        return "CIAOOOOOOO";
+    }
+
 }

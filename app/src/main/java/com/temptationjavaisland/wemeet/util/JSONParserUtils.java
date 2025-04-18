@@ -5,7 +5,6 @@ import android.content.Context;
 import com.google.gson.Gson;
 import com.temptationjavaisland.wemeet.model.EventAPIResponse;
 
-import java.io.BufferedInputStream;
 import java.io.BufferedReader;
 import java.io.IOException;
 import java.io.InputStream;
