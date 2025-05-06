@@ -1,16 +1,13 @@
 package com.temptationjavaisland.wemeet.model;
 
-public class Images {
-
+public class Image {
     private String ratio;
     private String url;
     private int width;
     private int height;
     private boolean fallback;
 
-
-    public Images(){}
-
+    // Getter e Setter
     public String getRatio() {
         return ratio;
     }

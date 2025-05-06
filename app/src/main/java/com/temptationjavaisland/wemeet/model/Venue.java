@@ -1,7 +1,8 @@
 package com.temptationjavaisland.wemeet.model;
 
-public class Venue {
+import java.util.Map;
 
+public class Venue {
     private String name;
     private String type;
     private String id;
@@ -11,10 +12,10 @@ public class Venue {
     private City city;
     private Country country;
     private Location location;
+    private UpcomingEvents upcomingEvents;
+    private Links _links;
 
-    public Venue (){}
-
-
+    // Getter e Setter
     public String getName() {
         return name;
     }
@@ -87,4 +88,107 @@ public class Venue {
         this.location = location;
     }
 
+    public UpcomingEvents getUpcomingEvents() {
+        return upcomingEvents;
+    }
+
+    public void setUpcomingEvents(UpcomingEvents upcomingEvents) {
+        this.upcomingEvents = upcomingEvents;
+    }
+
+    public Links getLinks() {
+        return _links;
+    }
+
+    public void setLinks(Links _links) {
+        this._links = _links;
+    }
+
+    public static class City {
+        private String name;
+
+        // Getter e Setter
+        public String getName() {
+            return name;
+        }
+
+        public void setName(String name) {
+            this.name = name;
+        }
+    }
+
+    public static class Country {
+        private String name;
+        private String countryCode;
+
+        // Getter e Setter
+        public String getName() {
+            return name;
+        }
+
+        public void setName(String name) {
+            this.name = name;
+        }
+
+        public String getCountryCode() {
+            return countryCode;
+        }
+
+        public void setCountryCode(String countryCode) {
+            this.countryCode = countryCode;
+        }
+    }
+
+    public static class Location {
+        private String longitude;
+        private String latitude;
+
+        // Getter e Setter
+        public String getLongitude() {
+            return longitude;
+        }
+
+        public void setLongitude(String longitude) {
+            this.longitude = longitude;
+        }
+
+        public String getLatitude() {
+            return latitude;
+        }
+
+        public void setLatitude(String latitude) {
+            this.latitude = latitude;
+        }
+    }
+
+    public static class UpcomingEvents {
+        private Map<String, Integer> events;
+        private int _total;
+        private int _filtered;
+
+        // Getter e Setter
+        public Map<String, Integer> getEvents() {
+            return events;
+        }
+
+        public void setEvents(Map<String, Integer> events) {
+            this.events = events;
+        }
+
+        public int getTotal() {
+            return _total;
+        }
+
+        public void setTotal(int _total) {
+            this._total = _total;
+        }
+
+        public int getFiltered() {
+            return _filtered;
+        }
+
+        public void setFiltered(int _filtered) {
+            this._filtered = _filtered;
+        }
+    }
 }

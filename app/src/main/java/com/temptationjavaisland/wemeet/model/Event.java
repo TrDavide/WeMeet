@@ -5,41 +5,20 @@ import android.media.Image;
 import java.util.List;
 
 public class Event {
-
     private String name;
     private String type;
     private String id;
     private boolean test;
     private String url;
     private String locale;
-    private List<Image> images;
+    private transient List<Image> images;
+    private Sales sales;
     private Dates dates;
     private List<Classification> classifications;
-    private EventEmbedded _embedded;
+    private Links _links;
+    private EmbeddedEvent _embedded;
 
-
-    public Event() {}
-
-    // Getter & Setter
-
-/*
-    @Override
-    public boolean equals(Object o) {
-        if (this == o) return true;
-        if (!(o instanceof Event)) return false;
-        Event event = (Event) o;
-        return Objects.equals(getId(), event.getId()) &&
-                Objects.equals(getName(), event.getName()) &&
-                Objects.equals(getType(), event.getType()) &&
-                Objects.equals(isTest(), event.isTest()) &&
-                Objects.equals(getUrl(), event.getUrl()) &&
-                Objects.equals(getLocale(), event.getLocale()) &&
-                Objects.equals(getImages(), event.getImages()) &&
-                Objects.equals(getSales(), event.getSales()) &&
-                Objects.equals(getDates(), event.getDates())&&
-                Objects.equals(getClassifications(), event.getClassifications());
-    }*/
-
+    // Getter e Setter
     public String getName() {
         return name;
     }
@@ -96,6 +75,14 @@ public class Event {
         this.images = images;
     }
 
+    public Sales getSales() {
+        return sales;
+    }
+
+    public void setSales(Sales sales) {
+        this.sales = sales;
+    }
+
     public Dates getDates() {
         return dates;
     }
@@ -112,11 +99,19 @@ public class Event {
         this.classifications = classifications;
     }
 
-    public EventEmbedded getEventEmbedded() {
+    public Links getLinks() {
+        return _links;
+    }
+
+    public void setLinks(Links _links) {
+        this._links = _links;
+    }
+
+    public EmbeddedEvent getEmbedded() {
         return _embedded;
     }
 
-    public void setEventEmbedded(EventEmbedded eventEmbedded) {
-        this._embedded = eventEmbedded;
+    public void setEmbedded(EmbeddedEvent _embedded) {
+        this._embedded = _embedded;
     }
 }

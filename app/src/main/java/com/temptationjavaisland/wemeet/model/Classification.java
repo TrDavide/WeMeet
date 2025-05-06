@@ -1,7 +1,6 @@
 package com.temptationjavaisland.wemeet.model;
 
 public class Classification {
-
     private boolean primary;
     private Segment segment;
     private Genre genre;
@@ -10,9 +9,7 @@ public class Classification {
     private SubType subType;
     private boolean family;
 
-    public Classification (){}
-
-
+    // Getter e Setter
     public boolean isPrimary() {
         return primary;
     }
@@ -67,5 +64,115 @@ public class Classification {
 
     public void setFamily(boolean family) {
         this.family = family;
+    }
+
+    public static class Segment {
+        private String id;
+        private String name;
+
+        // Getter e Setter
+        public String getId() {
+            return id;
+        }
+
+        public void setId(String id) {
+            this.id = id;
+        }
+
+        public String getName() {
+            return name;
+        }
+
+        public void setName(String name) {
+            this.name = name;
+        }
+    }
+
+    public static class Genre {
+        private String id;
+        private String name;
+
+        // Getter e Setter
+        public String getId() {
+            return id;
+        }
+
+        public void setId(String id) {
+            this.id = id;
+        }
+
+        public String getName() {
+            return name;
+        }
+
+        public void setName(String name) {
+            this.name = name;
+        }
+    }
+
+    public static class SubGenre {
+        private String id;
+        private String name;
+
+        // Getter e Setter
+        public String getId() {
+            return id;
+        }
+
+        public void setId(String id) {
+            this.id = id;
+        }
+
+        public String getName() {
+            return name;
+        }
+
+        public void setName(String name) {
+            this.name = name;
+        }
+    }
+
+    public static class Type {
+        private String id;
+        private String name;
+
+        // Getter e Setter
+        public String getId() {
+            return id;
+        }
+
+        public void setId(String id) {
+            this.id = id;
+        }
+
+        public String getName() {
+            return name;
+        }
+
+        public void setName(String name) {
+            this.name = name;
+        }
+    }
+
+    public static class SubType {
+        private String id;
+        private String name;
+
+        // Getter e Setter
+        public String getId() {
+            return id;
+        }
+
+        public void setId(String id) {
+            this.id = id;
+        }
+
+        public String getName() {
+            return name;
+        }
+
+        public void setName(String name) {
+            this.name = name;
+        }
     }
 }
