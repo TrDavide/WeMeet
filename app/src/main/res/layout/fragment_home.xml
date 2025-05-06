@@ -56,4 +56,25 @@
         android:shadowColor="@color/md_theme_onSurface_mediumContrast"
         />
 
+
+    <TextView
+        android:id="@+id/PopolatiText"
+        android:layout_below="@id/view"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="I più popolari"
+        android:layout_marginStart="@dimen/margin_default"
+        android:textStyle="bold"
+        android:textSize="26sp"
+        android:textColor="@color/red_primary"/>
+
+    <androidx.recyclerview.widget.RecyclerView
+        android:id="@+id/recyclerViewHome"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:layout_below="@id/PopolatiText"
+        android:layout_marginBottom="110dp" />
+
+
+
 </RelativeLayout>

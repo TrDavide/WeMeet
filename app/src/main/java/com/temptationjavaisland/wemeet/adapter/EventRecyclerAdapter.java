@@ -61,9 +61,9 @@ public class EventRecyclerAdapter extends RecyclerView.Adapter<EventRecyclerAdap
         public void onBindViewHolder(ViewHolder viewHolder, final int position) {
 
             viewHolder.getTextViewTitle().setText(eventList.get(position).getName());
-            //viewHolder.getTextViewDate().setText(eventList.get(position).getDates().getStart().getLocalDate());
+            viewHolder.getTextViewDate().setText(eventList.get(position).getDates().getStart().getLocalDate());
             //viewHolder.getTextViewPartecipant().setText(eventList.get(position).getPartecipant());
-            //viewHolder.getTextViewLocation().setText(eventList.get(position).getEventEmbedded().getVenues());
+            viewHolder.getTextViewLocation().setText(eventList.get(position).getEmbedded().getVenues().get(0).getName());
         }
 
         @Override
