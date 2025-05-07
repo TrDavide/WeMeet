@@ -43,7 +43,7 @@
             android:layout_width="150dp"
             android:layout_height="150dp"
             android:scaleType="centerCrop"
-            android:src="@mipmap/profile_default_round"/>
+            android:src="@mipmap/profile_default"/>
     </androidx.cardview.widget.CardView>
 
 

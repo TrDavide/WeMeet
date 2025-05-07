@@ -34,7 +34,7 @@
         android:layout_marginTop="55dp"
         android:layout_centerHorizontal="true"
         android:layout_alignParentTop="true"
-        android:src="@drawable/baseline_account_circle_24"/>
+        android:src="@mipmap/profile_default"/>
 
     <TextView
         android:id="@+id/clickableText"
