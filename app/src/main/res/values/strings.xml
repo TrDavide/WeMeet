@@ -15,6 +15,7 @@
     <string name="or_withGoogle">Login with Google</string>
     <!-- TODO: Remove or change this placeholder text -->
     <string name="hello_blank_fragment">Hello blank fragment</string>
+
     <string name="nome">Nome</string>
     <string name="cognome">Cognome</string>
     <string name="confermapassword">Conferma password</string>
@@ -49,6 +50,9 @@
     <string name="milano">Milano, MI</string>
     <string name="filtri">Filtri</string>
     <string name="cercahint">Cerca...</string>
+    <string name="eventi_salvati">Eventi salvati</string>
+    <string name="nome_utente">Nome utente</string>
+    <string name="profilo_utente">Profilo Utente</string>
     <string name="salvati">I tuoi salvati</string>
     <string name="i_tuoi_eventi">Cerca qui i tuoi eventi...</string>
 

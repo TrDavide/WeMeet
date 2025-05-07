@@ -41,4 +41,7 @@
     <string name="filtri">Filtri</string>
     <string name="cercahint">Cerca...</string>
     <string name="i_tuoi_eventi">Cerca qui i tuoi eventi...</string>
+    <string name="eventi_salvati">Eventi salvati</string>
+    <string name="nome_utente">Nome utente</string>
+    <string name="profilo_utente">Profilo Utente</string>
 </resources>
