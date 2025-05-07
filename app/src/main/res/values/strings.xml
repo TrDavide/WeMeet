@@ -50,5 +50,6 @@
     <string name="milano">Milano, MI</string>
     <string name="filtri">Filtri</string>
     <string name="cercahint">Cerca...</string>
+    <string name="i_tuoi_eventi">Cerca qui i tuoi eventi...</string>
 
 </resources>

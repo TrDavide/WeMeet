@@ -51,14 +51,14 @@ public class LocationFragment extends Fragment {
                              Bundle savedInstanceState) {
         View view = inflater.inflate(R.layout.fragment_location, container, false);
 
-        RecyclerView recyclerView = view.findViewById(R.id.recyclerViewLocation);
-        recyclerView.setLayoutManager(new LinearLayoutManager(view.getContext()));
+        //RecyclerView recyclerView = view.findViewById(R.id.recyclerViewLocation);
+        //recyclerView.setLayoutManager(new LinearLayoutManager(view.getContext()));
         JSONParserUtils jsonParserUtils = new JSONParserUtils(getContext());
         try {
             EventAPIResponse response = jsonParserUtils.parserJSONFileWithGsson(Constants.SAMPLE_JSON_FILENAME);
             List<Event> eventList= response.getEmbedded().getEvents();
             EventRecyclerAdapter adapter = new EventRecyclerAdapter(R.layout.event_card, eventList);
-            recyclerView.setAdapter(adapter);
+            //recyclerView.setAdapter(adapter);
         } catch (IOException e) {
             throw new RuntimeException(e);
         }
@@ -69,8 +69,8 @@ public class LocationFragment extends Fragment {
     public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
         SearchBar searchBar = view.findViewById(R.id.search_bar);
-        RecyclerView recyclerViewHome = view.findViewById(R.id.recyclerViewLocation);
-        recyclerViewHome.setLayoutManager(new LinearLayoutManager(view.getContext()));
+        //RecyclerView recyclerViewHome = view.findViewById(R.id.recyclerViewLocation);
+        //recyclerViewHome.setLayoutManager(new LinearLayoutManager(view.getContext()));
 
         // Gestione click sul menu (tre puntini)
         searchBar.setOnMenuItemClickListener(new SearchBar.OnMenuItemClickListener() {

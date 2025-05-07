@@ -6,7 +6,8 @@
     android:layout_height="match_parent"
     android:orientation="vertical"
     tools:context=".ui.welcome.fragments.LocationFragment"
-    android:id="@+id/placeFragment">
+    android:id="@+id/placeFragment"
+    android:background="@color/white">
 
     <View
         android:id="@+id/viewSearch"
@@ -28,26 +29,26 @@
         app:strokeWidth="1dp" />
 
     <LinearLayout
-        android:layout_width="match_parent"
+        android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:orientation="horizontal"
-        android:layout_below="@id/viewSearch">
+        android:orientation="vertical"
+        android:layout_below="@id/viewSearch"
+        android:layout_centerHorizontal="true"
+        android:layout_marginTop="160dp"
+        android:gravity="center_horizontal">
 
         <TextView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="Cerca qui i tuoi eventi..."
-            android:textStyle="bold"
-            android:textSize="30dp"/>
+            android:text="@string/i_tuoi_eventi"
+            android:textSize="30sp"
+            android:textStyle="bold"/>
 
         <ImageView
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"/>
-
-
+            android:layout_width="500dp"
+            android:layout_height="250dp"
+            android:layout_marginTop="16dp"
+            android:src="@mipmap/dance_foreground"/>
     </LinearLayout>
-
-
-
 
 </RelativeLayout>
