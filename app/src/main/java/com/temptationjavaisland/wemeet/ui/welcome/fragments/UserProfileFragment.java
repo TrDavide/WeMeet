@@ -59,7 +59,7 @@ public class UserProfileFragment extends Fragment {
     public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
         SearchBar searchBar = view.findViewById(R.id.search_bar);
-        RecyclerView recyclerViewHome = view.findViewById(R.id.recyclerViewUserProfile);
-        recyclerViewHome.setLayoutManager(new LinearLayoutManager(view.getContext()));
+        RecyclerView recyclerViewUserProfile = view.findViewById(R.id.recyclerViewUserProfile);
+        recyclerViewUserProfile.setLayoutManager(new LinearLayoutManager(view.getContext()));
     }
 }
