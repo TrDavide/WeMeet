@@ -16,6 +16,7 @@ import java.util.List;
 public class EventRecyclerAdapter extends RecyclerView.Adapter<EventRecyclerAdapter.ViewHolder> {
         private int layout;
         private List<Event> eventList;
+        private boolean heartVisible;
 
         public static class ViewHolder extends RecyclerView.ViewHolder {
             private final TextView textViewTitle;
@@ -65,13 +66,11 @@ public class EventRecyclerAdapter extends RecyclerView.Adapter<EventRecyclerAdap
         }
 
         @Override
-        /*final int  position*/
-        public void onBindViewHolder(ViewHolder viewHolder, final int  position) {
-
+        public void onBindViewHolder(ViewHolder viewHolder, final int position) {
             viewHolder.getTextViewTitle().setText(eventList.get(position).getName());
             viewHolder.getTextViewDate().setText(eventList.get(position).getDates().getStart().getLocalDate());
-            //viewHolder.getTextViewPartecipant().setText(eventList.get(position).getPartecipant());
             viewHolder.getTextViewLocation().setText(eventList.get(position).getEmbedded().getVenues().get(0).getName());
+
             viewHolder.getCheckBoxSaved().setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
                 @Override
                 public void onCheckedChanged(CompoundButton compoundButton, boolean b) {
@@ -86,10 +85,11 @@ public class EventRecyclerAdapter extends RecyclerView.Adapter<EventRecyclerAdap
             });
         }
 
-        @Override
+    @Override
         public int getItemCount() {
             return eventList.size();
         }
+
 
     public void updateData(List<Event> newEvents) {
         this.eventList = newEvents;

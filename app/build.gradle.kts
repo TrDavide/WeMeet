@@ -50,5 +50,4 @@ dependencies {
     implementation (libs.gson)
     implementation(libs.room.runtime)
     annotationProcessor(libs.room.compiler)
-
 }

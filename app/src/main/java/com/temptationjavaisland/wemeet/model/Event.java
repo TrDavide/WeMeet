@@ -1,5 +1,5 @@
 package com.temptationjavaisland.wemeet.model;
-import android.media.Image;
+import com.temptationjavaisland.wemeet.model.Image;
 import java.util.List;
 
 import androidx.room.DatabaseView;
@@ -20,6 +20,16 @@ public class Event {
     private boolean test;
     private String url;
     private String locale;
+    private boolean saved;
+
+    public boolean isSaved() {
+        return saved;
+    }
+
+    public void setSaved(boolean saved) {
+        this.saved = saved;
+    }
+
 
     //@Relation(parentColumn = "uid", entityColumn = "eventid")
     private transient List<Image> images;

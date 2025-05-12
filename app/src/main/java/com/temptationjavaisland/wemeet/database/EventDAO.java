@@ -4,6 +4,7 @@ import androidx.room.Dao;
 import androidx.room.Delete;
 import androidx.room.Insert;
 import androidx.room.Query;
+import androidx.room.Update;
 
 import com.temptationjavaisland.wemeet.model.Event;
 
@@ -22,5 +23,8 @@ public interface EventDAO {
 
     @Query("DELETE from Event")
     void deleteAll();
+    @Update
+    void updateEvent(Event event);
+
 
 }
