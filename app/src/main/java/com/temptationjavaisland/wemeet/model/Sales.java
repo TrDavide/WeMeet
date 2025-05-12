@@ -1,7 +1,17 @@
 package com.temptationjavaisland.wemeet.model;
 
+import androidx.room.DatabaseView;
+import androidx.room.Embedded;
+import androidx.room.Entity;
+
+@Entity
 public class Sales {
+    @Embedded(prefix = "_public_")
     private Public _public;
+
+    public Sales(Public _public) {
+        this._public = _public;
+    }
 
     // Getter e Setter
     public Public getPublic() {
@@ -12,6 +22,7 @@ public class Sales {
         this._public = _public;
     }
 
+    @Entity
     public static class Public {
         private String startDateTime;
         private boolean startTBD;

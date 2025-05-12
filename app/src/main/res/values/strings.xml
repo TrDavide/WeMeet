@@ -53,7 +53,7 @@
     <string name="eventi_salvati">Eventi salvati</string>
     <string name="nome_utente">Nome utente</string>
     <string name="profilo_utente">Profilo Utente</string>
-    <string name="salvati">I tuoi salvati</string>
+    <string name="salvati">Eventi salvati</string>
     <string name="i_tuoi_eventi">Cerca qui i tuoi eventi...</string>
 
 </resources>

@@ -1,11 +1,27 @@
 package com.temptationjavaisland.wemeet.model;
 
+import androidx.room.DatabaseView;
+import androidx.room.Embedded;
+import androidx.room.Entity;
+import androidx.room.PrimaryKey;
+
+@Entity
 public class Classification {
+    @PrimaryKey(autoGenerate = true)
+    public int id;
+
+    public int eventId;
+
     private boolean primary;
+    @Embedded(prefix = "segment_")
     private Segment segment;
+    @Embedded(prefix = "genre_")
     private Genre genre;
+    @Embedded(prefix = "subGenre_")
     private SubGenre subGenre;
+    @Embedded(prefix = "type_")
     private Type type;
+    @Embedded(prefix = "subType_")
     private SubType subType;
     private boolean family;
 
@@ -66,6 +82,7 @@ public class Classification {
         this.family = family;
     }
 
+    @Entity
     public static class Segment {
         private String id;
         private String name;
@@ -88,6 +105,7 @@ public class Classification {
         }
     }
 
+    @Entity
     public static class Genre {
         private String id;
         private String name;
@@ -110,6 +128,7 @@ public class Classification {
         }
     }
 
+    @Entity
     public static class SubGenre {
         private String id;
         private String name;
@@ -132,9 +151,12 @@ public class Classification {
         }
     }
 
+    @Entity
     public static class Type {
         private String id;
         private String name;
+
+        public Type() {}
 
         // Getter e Setter
         public String getId() {
@@ -154,6 +176,7 @@ public class Classification {
         }
     }
 
+    @Entity
     public static class SubType {
         private String id;
         private String name;

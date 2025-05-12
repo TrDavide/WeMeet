@@ -1,10 +1,20 @@
 package com.temptationjavaisland.wemeet.model;
 
+import androidx.room.DatabaseView;
+import androidx.room.Embedded;
+import androidx.room.Entity;
+
+@Entity
 public class Dates {
+    @Embedded(prefix = "start_")
     private Start start;
     private String timezone;
+    @Embedded(prefix = "status_")
     private Status status;
     private boolean spanMultipleDays;
+
+
+    public Dates() {}
 
     // Getter e Setter
     public Start getStart() {
@@ -39,6 +49,7 @@ public class Dates {
         this.spanMultipleDays = spanMultipleDays;
     }
 
+    @Entity
     public static class Start {
         private String localDate;
         private String localTime;
@@ -47,6 +58,8 @@ public class Dates {
         private boolean dateTBA;
         private boolean timeTBA;
         private boolean noSpecificTime;
+
+        public Start() {}
 
         // Getter e Setter
         public String getLocalDate() {
@@ -106,8 +119,14 @@ public class Dates {
         }
     }
 
+    @Entity
     public static class Status {
         private String code;
+
+
+        public Status(String code) {
+            this.code = code;
+        }
 
         // Getter e Setter
         public String getCode() {

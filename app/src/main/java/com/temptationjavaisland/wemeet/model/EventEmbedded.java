@@ -1,10 +1,16 @@
 package com.temptationjavaisland.wemeet.model;
 
+import androidx.room.DatabaseView;
+import androidx.room.Entity;
+import androidx.room.Ignore;
+
 import java.util.List;
 
+@Entity
 public class EventEmbedded {
-
+    @Ignore
     private List<Venue> venues;
+    @Ignore
     private List<Attraction> attractions;
 
     public EventEmbedded (){}

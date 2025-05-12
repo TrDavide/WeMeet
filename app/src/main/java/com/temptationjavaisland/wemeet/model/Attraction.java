@@ -1,7 +1,11 @@
 package com.temptationjavaisland.wemeet.model;
 
-import java.util.List;
+import androidx.room.DatabaseView;
+import androidx.room.Entity;
+import androidx.room.Ignore;
 
+import java.util.List;
+@Entity
 public class Attraction {
     private String name;
     private String type;
@@ -10,7 +14,9 @@ public class Attraction {
     private String url;
     private String locale;
     private ExternalLinks externalLinks;
+    @Ignore
     private List<Image> images;
+    @Ignore
     private List<Classification> classifications;
     private Venue.UpcomingEvents upcomingEvents;
     private Links _links;
@@ -104,17 +110,30 @@ public class Attraction {
         this._links = _links;
     }
 
+
+    @Entity
     public static class ExternalLinks {
+        @Ignore
         private List<ExternalLink> youtube;
+        @Ignore
         private List<ExternalLink> twitter;
+        @Ignore
         private List<ExternalLink> itunes;
+        @Ignore
         private List<ExternalLink> lastfm;
+        @Ignore
         private List<ExternalLink> spotify;
+        @Ignore
         private List<ExternalLink> wiki;
+        @Ignore
         private List<ExternalLink> facebook;
+        @Ignore
         private List<MusicBrainzLink> musicbrainz;
+        @Ignore
         private List<ExternalLink> instagram;
+        @Ignore
         private List<ExternalLink> homepage;
+        @Ignore
 
         // Getter e Setter
         public List<ExternalLink> getYoutube() {
@@ -198,6 +217,8 @@ public class Attraction {
         }
     }
 
+
+    @Entity
     public static class ExternalLink {
         private String url;
 
@@ -211,6 +232,8 @@ public class Attraction {
         }
     }
 
+
+    @Entity
     public static class MusicBrainzLink {
         private String id;
         private String url;

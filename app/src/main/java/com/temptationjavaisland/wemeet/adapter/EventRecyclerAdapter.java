@@ -3,8 +3,11 @@ package com.temptationjavaisland.wemeet.adapter;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.CheckBox;
+import android.widget.CompoundButton;
 import android.widget.TextView;
 import com.temptationjavaisland.wemeet.R;
+import com.temptationjavaisland.wemeet.database.EventRoomDatabase;
 import com.temptationjavaisland.wemeet.model.Event;
 import androidx.recyclerview.widget.RecyclerView;
 
@@ -18,7 +21,9 @@ public class EventRecyclerAdapter extends RecyclerView.Adapter<EventRecyclerAdap
             private final TextView textViewTitle;
             private final TextView textViewDate;
             private final TextView textViewLocation;
+            private final CheckBox checkBoxSaved;
             //private final TextView textViewPartecipant;
+
 
             public ViewHolder(View view) {
                 super(view);
@@ -27,6 +32,7 @@ public class EventRecyclerAdapter extends RecyclerView.Adapter<EventRecyclerAdap
                 textViewTitle = view.findViewById(R.id.event_title);
                 textViewDate = view.findViewById(R.id.event_date_time);
                 textViewLocation =  view.findViewById(R.id.event_location);
+                checkBoxSaved =  view.findViewById(R.id.favoriteButton);
                 //textViewPartecipant = view.findViewById(R.id.partecipant_count);
             }
 
@@ -39,6 +45,7 @@ public class EventRecyclerAdapter extends RecyclerView.Adapter<EventRecyclerAdap
             public TextView getTextViewLocation(){
                 return textViewLocation;
             }
+            public CheckBox getCheckBoxSaved() {return checkBoxSaved;}
             //public TextView getTextViewPartecipant() {return textViewPartecipant;}
         }
         public EventRecyclerAdapter(int layout, List<Event> eventList) {
@@ -58,17 +65,37 @@ public class EventRecyclerAdapter extends RecyclerView.Adapter<EventRecyclerAdap
         }
 
         @Override
-        public void onBindViewHolder(ViewHolder viewHolder, final int position) {
+        /*final int  position*/
+        public void onBindViewHolder(ViewHolder viewHolder, final int  position) {
 
             viewHolder.getTextViewTitle().setText(eventList.get(position).getName());
             viewHolder.getTextViewDate().setText(eventList.get(position).getDates().getStart().getLocalDate());
             //viewHolder.getTextViewPartecipant().setText(eventList.get(position).getPartecipant());
             viewHolder.getTextViewLocation().setText(eventList.get(position).getEmbedded().getVenues().get(0).getName());
+            viewHolder.getCheckBoxSaved().setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
+                @Override
+                public void onCheckedChanged(CompoundButton compoundButton, boolean b) {
+                    if (b){
+                        EventRoomDatabase.getDatabase(viewHolder.getTextViewTitle().getContext())
+                                .eventsDao().insertAll(eventList.get(position));
+                    }else {
+                        EventRoomDatabase.getDatabase(viewHolder.getTextViewTitle().getContext())
+                                .eventsDao().delete(eventList.get(position));
+                    }
+                }
+            });
         }
 
         @Override
         public int getItemCount() {
             return eventList.size();
         }
+
+    public void updateData(List<Event> newEvents) {
+        this.eventList = newEvents;
+        notifyDataSetChanged();
     }
+
+
+}
 

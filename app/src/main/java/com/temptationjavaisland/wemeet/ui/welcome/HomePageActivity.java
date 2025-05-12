@@ -1,5 +1,7 @@
 package com.temptationjavaisland.wemeet.ui.welcome;
 
+import static java.security.AccessController.getContext;
+
 import android.content.res.ColorStateList;
 import android.graphics.Color;
 import android.os.Bundle;
@@ -19,6 +21,7 @@ import androidx.navigation.ui.NavigationUI;
 import com.google.android.material.bottomnavigation.BottomNavigationView;
 import com.google.android.material.navigation.NavigationBarView;
 import com.temptationjavaisland.wemeet.R;
+import com.temptationjavaisland.wemeet.database.EventRoomDatabase;
 
 public class HomePageActivity extends AppCompatActivity {
 
@@ -46,6 +49,8 @@ public class HomePageActivity extends AppCompatActivity {
 
         NavigationUI.setupWithNavController(bottomNav, navController);
        // NavigationUI.setupActionBarWithNavController(this, navController, appBarConfiguration);
+
+        //EventRoomDatabase.getDatabase(getApplicationContext()).eventsDao().deleteAll();
     }
 
 }

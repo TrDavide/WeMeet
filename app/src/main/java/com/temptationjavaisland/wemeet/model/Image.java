@@ -1,11 +1,23 @@
 package com.temptationjavaisland.wemeet.model;
 
+import androidx.room.DatabaseView;
+import androidx.room.Entity;
+import androidx.room.PrimaryKey;
+
+@Entity
 public class Image {
+    @PrimaryKey(autoGenerate = true)
+    public int id;
+
+    public int eventId;
+
     private String ratio;
     private String url;
     private int width;
     private int height;
     private boolean fallback;
+
+    public Image() {}
 
     // Getter e Setter
     public String getRatio() {

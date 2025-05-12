@@ -1,11 +1,21 @@
 package com.temptationjavaisland.wemeet.model;
 
-import java.util.List;
+import androidx.room.DatabaseView;
+import androidx.room.Embedded;
+import androidx.room.Entity;
+import androidx.room.Ignore;
 
+import java.util.List;
+@Entity
 public class Links {
+    @Embedded(prefix = "self_")
     private Link self;
+    @Ignore
     private List<Link> attractions;
+    @Ignore
     private List<Link> venues;
+
+    public Links() {}
 
     // Getter e Setter
     public Link getSelf() {

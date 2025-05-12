@@ -11,14 +11,15 @@
         android:id="@+id/profile"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="@string/account"
-        android:textSize="30sp"
-        android:textColor="@color/md_theme_bianchino"
-        android:textStyle="bold"
-        android:layout_marginTop="@dimen/margin_default2"
-        android:layout_marginStart="@dimen/margin_default"
+        android:layout_below="@id/profileImageView"
         android:layout_alignParentTop="true"
-        android:layout_below="@id/profileImageView"/>
+        android:layout_marginStart="@dimen/margin_default"
+        android:layout_marginTop="@dimen/margin_default2"
+        android:fontFamily="@font/open_sans_bold"
+        android:text="@string/account"
+        android:textColor="@color/md_theme_bianchino"
+        android:textSize="30sp"
+        android:textStyle="bold" />
     <View
         android:layout_width="match_parent"
         android:layout_height="match_parent"
@@ -51,21 +52,23 @@
         android:id="@+id/textprofile"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
+        android:layout_below="@id/profileImageView"
+        android:layout_centerHorizontal="true"
+        android:fontFamily="@font/open_sans_bold"
         android:text="@string/username"
         android:textSize="30sp"
-        android:textStyle="bold"
-        android:layout_below="@id/profileImageView"
-        android:layout_centerHorizontal="true"/>
+        android:textStyle="bold" />
 
     <TextView
         android:id="@+id/username"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="@string/username"
-        android:textSize="20sp"
-        android:textColor="#A0A0A0"
         android:layout_below="@id/textprofile"
-        android:layout_centerHorizontal="true"/>
+        android:layout_centerHorizontal="true"
+        android:fontFamily="@font/open_sans_medium"
+        android:text="@string/username"
+        android:textColor="#A0A0A0"
+        android:textSize="20sp" />
     <View
         android:id="@+id/spazio"
         android:layout_width="wrap_content"
@@ -73,65 +76,69 @@
         android:layout_below="@id/username"/>
 
 
-
     <TextView
         android:id="@+id/bio"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="@string/frase_bio"
-        android:textSize="15sp"
         android:layout_below="@id/spazio"
-        android:layout_centerHorizontal="true"/>
+        android:layout_centerHorizontal="true"
+        android:fontFamily="@font/open_sans"
+        android:text="@string/frase_bio"
+        android:textSize="15sp" />
     <View
         android:id="@+id/spazio2"
         android:layout_width="wrap_content"
         android:layout_height="35sp"
         android:layout_below="@id/bio"/>
+
     <Button
         android:id="@+id/modifica_profilo"
         android:layout_width="364dp"
         android:layout_height="63dp"
+        android:layout_below="@id/spazio2"
         android:layout_marginStart="32dp"
         android:layout_marginEnd="20dp"
         android:backgroundTint="#F4E1C6"
+        android:fontFamily="@font/open_sans_medium"
         android:padding="15dp"
         android:text="@string/modifica_profilo"
         android:textColor="@color/md_theme_scrim"
         app:icon="@drawable/pencil"
         app:iconGravity="textEnd"
-        android:layout_below="@id/spazio2"
         app:iconTint="@null" />
 
     <Button
         android:layout_width="364dp"
         android:layout_height="63dp"
+        android:layout_below="@id/modifica_profilo"
         android:layout_marginStart="32dp"
         android:layout_marginEnd="20dp"
         android:backgroundTint="#F4E1C6"
+        android:fontFamily="@font/open_sans_semibold"
         android:padding="15dp"
         android:text="@string/elimina_preferiti"
         android:textColor="@color/md_theme_scrim"
         app:icon="@drawable/delete_save"
         app:iconGravity="textEnd"
-        android:layout_below="@id/modifica_profilo"
         app:iconTint="@null" />
 
     <Button
         android:id="@+id/bottone_logout"
         android:layout_width="364dp"
         android:layout_height="63dp"
+        android:layout_centerHorizontal="true"
         android:layout_marginStart="32dp"
         android:layout_marginTop="550dp"
+        android:layout_marginBottom="20dp"
         android:backgroundTint="#C2B280"
-        android:textSize="20sp"
+        android:fontFamily="@font/open_sans_bold"
         android:padding="15dp"
         android:text="@string/esciAccount"
         android:textColor="@color/md_theme_scrim"
+        android:textSize="20sp"
         app:icon="@drawable/esci"
         app:iconGravity="textEnd"
-        android:layout_centerHorizontal="true"
-        android:layout_marginBottom="20dp"
-        app:iconTint="@null"/>
+        app:iconTint="@null" />
 
 
 </RelativeLayout>

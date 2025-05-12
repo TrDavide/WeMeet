@@ -14,6 +14,8 @@ constraintlayout = "2.1.4"
 materialVersion = "1.12.0"
 navigationFragment = "2.8.5"
 navigationUi = "2.8.5"
+roomRuntime = "2.7.1"
+roomCommonJvm = "2.7.1"
 
 [libraries]
 
@@ -31,6 +33,9 @@ material-v1110 = { module = "com.google.android.material:material", version.ref 
 material-v1120 = { module = "com.google.android.material:material", version.ref = "materialVersion" }
 navigation-fragment = { group = "androidx.navigation", name = "navigation-fragment", version.ref = "navigationFragment" }
 navigation-ui = { group = "androidx.navigation", name = "navigation-ui", version.ref = "navigationUi" }
+room-compiler = { module = "androidx.room:room-compiler", version.ref = "roomRuntime" }
+room-runtime = { module = "androidx.room:room-runtime", version.ref = "roomRuntime" }
+room-common-jvm = { group = "androidx.room", name = "room-common-jvm", version.ref = "roomCommonJvm" }
 
 [plugins]
 android-application = { id = "com.android.application", version.ref = "agp" }

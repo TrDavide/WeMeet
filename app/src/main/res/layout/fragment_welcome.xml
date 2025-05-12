@@ -22,16 +22,17 @@
         android:layout_below="@id/LogoWemeet"
         android:background="@drawable/border"
         android:backgroundTint="@color/main_red"/>
+
     <TextView
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="@string/benvenuto"
         android:layout_marginStart="20dp"
         android:layout_marginTop="480dp"
-        android:textSize="40dp"
+        android:fontFamily="@font/open_sans_bold"
+        android:text="@string/benvenuto"
         android:textColor="@color/md_theme_onPrimary"
-        android:textStyle="bold"
-        />
+        android:textSize="40dp"
+        android:textStyle="bold" />
 
     <TextView
         android:id="@+id/FraseBenvenuto"
@@ -39,21 +40,22 @@
         android:layout_height="wrap_content"
         android:layout_marginStart="20dp"
         android:layout_marginTop="560dp"
+        android:fontFamily="@font/open_sans"
         android:text="@string/frase_benvenuto"
         android:textColor="@color/md_theme_onPrimary"
-        android:textSize="20sp"/>
+        android:textSize="20sp" />
 
     <TextView
         android:id="@+id/FraseBenvenuto2"
-        android:layout_below="@id/FraseBenvenuto"
         android:layout_width="320dp"
         android:layout_height="wrap_content"
+        android:layout_below="@id/FraseBenvenuto"
         android:layout_marginStart="20dp"
-        android:textSize="20sp"
+        android:fontFamily="@font/open_sans"
         android:text="@string/frase_benvenuto2"
         android:textColor="@color/md_theme_onPrimary"
 
-        />
+        android:textSize="20sp" />
 
 
     <LinearLayout
@@ -65,17 +67,17 @@
 
 
         <Button
-            style="@style/Widget.Material3.Button.ElevatedButton"
             android:id="@+id/accediButton"
-            android:backgroundTint="@color/red_primary"
+            style="@style/Widget.Material3.Button.ElevatedButton"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_below="@id/FraseBenvenuto2"
             android:layout_marginTop="720dp"
             android:layout_weight="1"
-            android:fontFamily="sans-serif-medium"
-            android:text="@string/accedi"
+            android:backgroundTint="@color/red_primary"
+            android:fontFamily="@font/open_sans_bold"
             android:padding="15dp"
+            android:text="@string/accedi"
             android:textColor="@color/md_theme_onSecondaryFixed_mediumContrast"
             android:textSize="20sp" />
 
@@ -85,14 +87,14 @@
             android:layout_height="0dp" />
 
         <Button
-            style="@style/Widget.Material3.Button.ElevatedButton"
             android:id="@+id/RegistratiButton"
+            style="@style/Widget.Material3.Button.ElevatedButton"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_marginTop="720dp"
-            android:padding="15dp"
             android:layout_weight="1"
-            android:fontFamily="sans-serif-medium"
+            android:fontFamily="@font/open_sans_bold"
+            android:padding="15dp"
             android:text="@string/register"
             android:textColor="@color/md_theme_scrim"
             android:textSize="20sp" />

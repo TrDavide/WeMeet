@@ -35,21 +35,21 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_marginStart="30dp"
-                android:fontFamily="sans-serif-medium"
+                android:fontFamily="@font/open_sans_bold"
                 android:text="@string/crea_account"
                 android:textColor="@color/white"
                 android:textSize="40sp"
-                android:textStyle="bold"/>
+                android:textStyle="bold" />
 
             <TextView
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_marginStart="35dp"
-                android:layout_marginEnd="90dp"
                 android:layout_marginTop="5dp"
+                android:layout_marginEnd="90dp"
+                android:fontFamily="@font/open_sans"
                 android:text="@string/frase_signup"
-                android:textColor="@color/white"
-                />
+                android:textColor="@color/white" />
 
         </LinearLayout>
     </FrameLayout>
@@ -71,7 +71,7 @@
                 android:layout_height="wrap_content"
                 android:layout_marginStart="@dimen/margin_default2"
                 android:layout_marginTop="20dp"
-                android:fontFamily="sans-serif-medium"
+                android:fontFamily="@font/open_sans_bold"
                 android:text="@string/nome"
                 android:textStyle="bold" />
 
@@ -95,9 +95,9 @@
                 android:layout_height="wrap_content"
                 android:layout_marginStart="@dimen/margin_default2"
                 android:layout_marginTop="20dp"
+                android:fontFamily="@font/open_sans_bold"
                 android:text="@string/cognome"
-                android:textStyle="bold"
-                android:fontFamily="sans-serif-medium"/>
+                android:textStyle="bold" />
 
             <com.google.android.material.textfield.TextInputLayout
                 style="?attr/textInputOutlinedStyle"
@@ -119,9 +119,9 @@
                 android:layout_height="wrap_content"
                 android:layout_marginStart="@dimen/margin_default2"
                 android:layout_marginTop="20dp"
+                android:fontFamily="@font/open_sans_bold"
                 android:text="@string/email"
-                android:textStyle="bold"
-                android:fontFamily="sans-serif-medium"/>
+                android:textStyle="bold" />
 
             <com.google.android.material.textfield.TextInputLayout
                 style="?attr/textInputOutlinedStyle"
@@ -143,9 +143,9 @@
                 android:layout_height="wrap_content"
                 android:layout_marginStart="@dimen/margin_default2"
                 android:layout_marginTop="20dp"
+                android:fontFamily="@font/open_sans_bold"
                 android:text="@string/password"
-                android:textStyle="bold"
-                android:fontFamily="sans-serif-medium"/>
+                android:textStyle="bold" />
 
             <com.google.android.material.textfield.TextInputLayout
                 style="?attr/textInputOutlinedStyle"
@@ -168,9 +168,9 @@
                 android:layout_height="wrap_content"
                 android:layout_marginStart="@dimen/margin_default2"
                 android:layout_marginTop="20dp"
+                android:fontFamily="@font/open_sans_bold"
                 android:text="@string/confermapassword"
-                android:textStyle="bold"
-                android:fontFamily="sans-serif-medium"/>
+                android:textStyle="bold" />
 
             <com.google.android.material.textfield.TextInputLayout
                 style="?attr/textInputOutlinedStyle"
@@ -189,20 +189,20 @@
             </com.google.android.material.textfield.TextInputLayout>
 
             <Button
-                style="@style/Widget.Material3.Button.ElevatedButton"
                 android:id="@+id/registerButton"
+                style="@style/Widget.Material3.Button.ElevatedButton"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:text="@string/register"
                 android:layout_gravity="center"
-                android:fontFamily="sans-serif-medium"
-                app:backgroundTint="@color/md_theme_scrim"
-                android:textColor="@color/white"
-                android:padding="15dp"
                 android:layout_marginStart="40dp"
-                android:layout_marginEnd="40dp"
                 android:layout_marginTop="20dp"
-                android:textSize="20sp" />
+                android:layout_marginEnd="40dp"
+                android:fontFamily="@font/open_sans_bold"
+                android:padding="15dp"
+                android:text="@string/register"
+                android:textColor="@color/white"
+                android:textSize="20sp"
+                app:backgroundTint="@color/md_theme_scrim" />
 
         </LinearLayout>
 

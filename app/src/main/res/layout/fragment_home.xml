@@ -34,26 +34,23 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginTop="5dp"
-            android:text="@string/laTuaPoszione"
-            android:textSize="20sp"
+            android:fontFamily="@font/open_sans_semibold"
             android:paddingStart="8dp"
-            android:textColor="@color/white" />
+            android:text="@string/laTuaPoszione"
+            android:textColor="@color/white"
+            android:textSize="20sp" />
     </LinearLayout>
 
     <TextView
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_below="@id/laTuaPosizione"
-        android:text="@string/milano"
-        android:layout_marginTop="5dp"
         android:layout_marginStart="30dp"
-        android:textSize="34sp"
+        android:layout_marginTop="5dp"
+        android:fontFamily="@font/open_sans_bold"
+        android:text="@string/milano"
         android:textColor="@color/white"
-        android:shadowDx="4"
-        android:shadowDy="4"
-        android:shadowRadius="2"
-        android:textStyle="bold"
-        android:shadowColor="@color/black" />
+        android:textSize="34sp"/>
 
     <!-- Blocco con titolo e icona -->
     <LinearLayout
@@ -70,10 +67,11 @@
             android:id="@+id/PopolatiText"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
+            android:fontFamily="@font/open_sans_bold"
             android:text="I più popolari"
-            android:textStyle="bold"
+            android:textColor="@color/black"
             android:textSize="26sp"
-            android:textColor="@color/black" />
+            android:textStyle="bold" />
 
         <ImageView
             android:layout_width="24dp"

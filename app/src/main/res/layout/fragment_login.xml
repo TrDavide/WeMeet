@@ -10,29 +10,29 @@
     android:orientation="vertical"
     tools:context=".ui.welcome.LoginActivity"
     tools:ignore="ExtraText">
+
     <TextView
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_marginStart="32dp"
         android:layout_marginTop="100dp"
-        android:fontFamily="sans-serif-medium"
+        android:fontFamily="@font/open_sans_bold"
         android:text="@string/login"
         android:textColor="@color/md_theme_onSecondary"
         android:textSize="50sp"
-        android:textStyle="bold"
-        />
+        android:textStyle="bold" />
 
     <TextView
-        android:layout_marginTop="170dp"
         android:id="@+id/FraseSottoLogin"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_marginStart="32dp"
+        android:layout_marginTop="170dp"
         android:layout_marginEnd="20dp"
-        android:textSize="25sp"
+        android:fontFamily="@font/open_sans"
         android:text="@string/frase_login"
-        android:fontFamily="sans-serif-medium"
-        android:textColor="@color/md_theme_onSecondary"/>
+        android:textColor="@color/md_theme_onSecondary"
+        android:textSize="25sp" />
 
     <View
         android:layout_marginTop="30dp"
@@ -46,21 +46,20 @@
         android:layout_height="wrap_content"
         android:layout_marginStart="32dp"
         android:layout_marginTop="320dp"
-        android:fontFamily="sans-serif-medium"
+        android:fontFamily="@font/open_sans_bold"
         android:text="@string/email"
         android:textColor="@color/md_theme_scrim"
-        android:textStyle="bold"
-        />
+        android:textStyle="bold" />
+
     <TextView
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_marginStart="32dp"
         android:layout_marginTop="420dp"
-        android:fontFamily="sans-serif-medium"
+        android:fontFamily="@font/open_sans_bold"
         android:text="@string/password"
         android:textColor="@color/md_theme_scrim"
-        android:textStyle="bold"
-        />
+        android:textStyle="bold" />
 
     <com.google.android.material.textfield.TextInputLayout
 
@@ -98,27 +97,28 @@
     </com.google.android.material.textfield.TextInputLayout>
 
     <Button
-        style="@style/Widget.Material3.Button.TextButton"
         android:id="@+id/textButton"
+        style="@style/Widget.Material3.Button.TextButton"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginTop="500dp"
         android:layout_marginStart="230dp"
-        android:text="@string/forgot_password"
-        />
+        android:layout_marginTop="500dp"
+        android:fontFamily="@font/open_sans_medium"
+        android:text="@string/forgot_password" />
+
     <Button
-        style="@style/Widget.Material3.Button.ElevatedButton"
         android:id="@+id/loginButton"
-        android:backgroundTint="@color/md_theme_scrim"
+        style="@style/Widget.Material3.Button.ElevatedButton"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_marginTop="560dp"
-        android:fontFamily="sans-serif-medium"
-        android:text="@string/accedi"
-        android:padding="15dp"
-        android:textColor="@color/md_theme_onSecondaryFixed_mediumContrast"
         android:layout_marginStart="32dp"
+        android:layout_marginTop="560dp"
         android:layout_marginEnd="20dp"
+        android:backgroundTint="@color/md_theme_scrim"
+        android:fontFamily="@font/open_sans_bold"
+        android:padding="15dp"
+        android:text="@string/accedi"
+        android:textColor="@color/md_theme_onSecondaryFixed_mediumContrast"
         android:textSize="20sp" />
 
     <RelativeLayout

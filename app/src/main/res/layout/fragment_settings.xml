@@ -40,31 +40,32 @@
         android:id="@+id/clickableText"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="@string/modificaImmagineProfilo"
-        android:textColor="@android:color/holo_blue_light"
-        android:clickable="true"
-        android:textSize="20sp"
-        android:textStyle="bold"
         android:layout_below="@id/profileImageView"
         android:layout_centerHorizontal="true"
+        android:clickable="true"
+        android:focusable="true"
+        android:fontFamily="@font/open_sans_bold"
         android:minHeight="48dp"
-        android:focusable="true"/>
+        android:text="@string/modificaImmagineProfilo"
+        android:textColor="@android:color/holo_blue_light"
+        android:textSize="20sp"
+        android:textStyle="bold" />
     <View
         android:id="@+id/spazio"
         android:layout_width="wrap_content"
         android:layout_height="30sp"
         android:layout_below="@id/clickableText"/>
+
     <TextView
         android:id="@+id/inputName"
-        android:layout_below="@id/spazio"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
+        android:layout_below="@id/spazio"
         android:layout_marginStart="32dp"
-        android:fontFamily="sans-serif-medium"
-        android:textSize="15sp"
+        android:fontFamily="@font/open_sans_semibold"
         android:text="@string/modifica_nome"
         android:textColor="@color/md_theme_scrim"
-        />
+        android:textSize="15sp" />
     <View
         android:id="@+id/spazio2"
         android:layout_width="wrap_content"
@@ -89,14 +90,14 @@
 
     <TextView
         android:id="@+id/inputBio"
-        android:layout_below="@id/textInputEmail2"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
+        android:layout_below="@id/textInputEmail2"
         android:layout_marginStart="32dp"
-        android:fontFamily="sans-serif-medium"
-        android:textSize="15sp"
+        android:fontFamily="@font/open_sans_semibold"
         android:text="@string/modifica_bio"
-        android:textColor="@color/md_theme_scrim"/>
+        android:textColor="@color/md_theme_scrim"
+        android:textSize="15sp" />
     <View
         android:id="@+id/spazio3"
         android:layout_width="wrap_content"

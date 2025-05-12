@@ -42,10 +42,13 @@ dependencies {
     implementation (libs.material.v1110)
     implementation (libs.commons.validator)
     implementation (libs.cardview)
+    implementation(libs.room.common.jvm)
     testImplementation(libs.junit)
     androidTestImplementation(libs.ext.junit)
     androidTestImplementation(libs.espresso.core)
     implementation (libs.material.v1120)
     implementation (libs.gson)
+    implementation(libs.room.runtime)
+    annotationProcessor(libs.room.compiler)
 
 }

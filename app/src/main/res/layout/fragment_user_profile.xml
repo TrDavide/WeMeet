@@ -11,14 +11,15 @@
         android:id="@+id/profile"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="@string/profilo_utente"
-        android:textSize="30sp"
-        android:textColor="@color/md_theme_bianchino"
-        android:textStyle="bold"
-        android:layout_marginTop="@dimen/margin_default2"
-        android:layout_marginStart="@dimen/margin_default"
+        android:layout_below="@id/profileImageView"
         android:layout_alignParentTop="true"
-        android:layout_below="@id/profileImageView"/>
+        android:layout_marginStart="@dimen/margin_default"
+        android:layout_marginTop="@dimen/margin_default2"
+        android:fontFamily="@font/open_sans_bold"
+        android:text="@string/profilo_utente"
+        android:textColor="@color/md_theme_bianchino"
+        android:textSize="30sp"
+        android:textStyle="bold" />
 
     <androidx.cardview.widget.CardView
         android:id="@+id/profileImageView"
@@ -50,33 +51,35 @@
         android:id="@+id/textprofile"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
+        android:layout_below="@id/profileImageView"
+        android:layout_centerHorizontal="true"
+        android:fontFamily="@font/open_sans_bold"
         android:text="@string/nome_utente"
         android:textSize="30sp"
-        android:textStyle="bold"
-        android:layout_below="@id/profileImageView"
-        android:layout_centerHorizontal="true"/>
+        android:textStyle="bold" />
 
     <TextView
         android:id="@+id/bio"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="@string/frase_bio"
-        android:textSize="15sp"
         android:layout_below="@id/textprofile"
-        android:layout_centerHorizontal="true"/>
+        android:layout_centerHorizontal="true"
+        android:fontFamily="@font/open_sans"
+        android:text="@string/frase_bio"
+        android:textSize="15sp" />
 
 
     <TextView
         android:id="@+id/testo_eventi"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginTop="50sp"
-        android:layout_marginStart="@dimen/margin_default"
-        android:textSize="30sp"
-        android:textStyle="bold"
         android:layout_below="@id/bio"
+        android:layout_marginStart="@dimen/margin_default"
+        android:layout_marginTop="50sp"
+        android:fontFamily="@font/open_sans_bold"
         android:text="@string/eventi_salvati"
-        />
+        android:textSize="30sp"
+        android:textStyle="bold" />
 
     <androidx.recyclerview.widget.RecyclerView
         android:id="@+id/recyclerViewUserProfile"

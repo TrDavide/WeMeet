@@ -1,6 +1,10 @@
 package com.temptationjavaisland.wemeet.model;
+import androidx.room.DatabaseView;
+import androidx.room.Entity;
+
 import java.util.List;
 
+@Entity
 public class EventAPIResponse {
     private Embedded _embedded;
 
@@ -13,8 +17,7 @@ public class EventAPIResponse {
         this._embedded = _embedded;
     }
 
-
-
+    @Entity
     public static class Embedded {
         private List<Event> events;
 

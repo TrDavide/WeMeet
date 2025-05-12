@@ -1,5 +1,9 @@
 package com.temptationjavaisland.wemeet.model;
 
+import androidx.room.DatabaseView;
+import androidx.room.Entity;
+
+@Entity
 public class Link {
     private String href;
 

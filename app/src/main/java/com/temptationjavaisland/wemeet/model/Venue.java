@@ -1,7 +1,12 @@
 package com.temptationjavaisland.wemeet.model;
 
+import androidx.room.DatabaseView;
+import androidx.room.Entity;
+import androidx.room.Ignore;
+
 import java.util.Map;
 
+@Entity
 public class Venue {
     private String name;
     private String type;
@@ -104,6 +109,7 @@ public class Venue {
         this._links = _links;
     }
 
+    @Entity
     public static class City {
         private String name;
 
@@ -117,6 +123,7 @@ public class Venue {
         }
     }
 
+    @Entity
     public static class Country {
         private String name;
         private String countryCode;
@@ -139,6 +146,7 @@ public class Venue {
         }
     }
 
+    @Entity
     public static class Location {
         private String longitude;
         private String latitude;
@@ -161,7 +169,9 @@ public class Venue {
         }
     }
 
+    @Entity
     public static class UpcomingEvents {
+        @Ignore
         private Map<String, Integer> events;
         private int _total;
         private int _filtered;

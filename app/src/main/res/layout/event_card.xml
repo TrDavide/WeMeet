@@ -45,6 +45,7 @@
                 android:id="@+id/event_title"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
+                android:fontFamily="@font/open_sans_bold"
                 android:text="Imagine Dragons - LOOM World Tour"
                 android:textSize="18sp"
                 android:textStyle="bold" />
@@ -53,16 +54,18 @@
                 android:id="@+id/event_date_time"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="2025-05-27"
                 android:layout_marginTop="8dp"
+                android:fontFamily="@font/open_sans"
+                android:text="2025-05-27"
                 android:textSize="14sp" />
 
             <TextView
                 android:id="@+id/event_location"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="Ippodromo SNAI La Maura"
                 android:layout_marginTop="8dp"
+                android:fontFamily="@font/open_sans_medium"
+                android:text="Ippodromo SNAI La Maura"
                 android:textSize="14sp" />
 
             <androidx.constraintlayout.widget.ConstraintLayout
@@ -74,6 +77,7 @@
                     android:id="@+id/partecipant_count"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
+                    android:fontFamily="@font/open_sans_regular"
                     android:text="150 partecipanti"
                     android:textSize="14sp"
                     app:layout_constraintBottom_toBottomOf="parent"
