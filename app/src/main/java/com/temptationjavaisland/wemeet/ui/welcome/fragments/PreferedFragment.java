@@ -8,6 +8,7 @@ import androidx.fragment.app.Fragment;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -33,10 +34,10 @@ public class PreferedFragment extends Fragment {
 
     public PreferedFragment() {}
 
-    public static PreferedFragment newInstance(String param1, String param2) {
+    /*public static PreferedFragment newInstance() {
         PreferedFragment fragment = new PreferedFragment();
         return fragment;
-    }
+    }*/
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
@@ -51,13 +52,13 @@ public class PreferedFragment extends Fragment {
         RecyclerView recyclerView = view.findViewById(R.id.recyclerViewPrefered);
         recyclerView.setLayoutManager(new LinearLayoutManager(view.getContext()));
 
-        /*List<Event> eventList =
-                EventRoomDatabase.getDatabase(getContext())
-                        .eventsDao().getAll();*/
+        List<Event> eventList = EventRoomDatabase.getDatabase(getContext()).eventsDao().isSaved();
+        Log.d("DB_TEST", "Eventi salvati: " + eventList.size());
 
-        //EventRecyclerAdapter adapter = new EventRecyclerAdapter(R.layout.event_card,eventList);
+        EventRecyclerAdapter adapter =
+                new EventRecyclerAdapter(R.layout.event_card, eventList, false);
 
-        //recyclerView.setAdapter(adapter);
+        recyclerView.setAdapter(adapter);
 
         return view;
     }

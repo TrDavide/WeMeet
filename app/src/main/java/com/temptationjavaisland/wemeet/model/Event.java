@@ -8,6 +8,7 @@ import androidx.room.Entity;
 import androidx.room.Ignore;
 import androidx.room.PrimaryKey;
 import androidx.room.Relation;
+import androidx.room.TypeConverters;
 
 @Entity
 public class Event {
@@ -20,7 +21,7 @@ public class Event {
     //private boolean test;
     //private String url;
     //private String locale;
-   private boolean saved;
+    private boolean saved;
 
     public boolean isSaved() {
         return saved;
@@ -38,6 +39,7 @@ public class Event {
     //private Sales sales;
 
     @Embedded(prefix = "dates_")
+    @TypeConverters(Converters.class)
     private Dates dates;
 
     //@Relation(parentColumn = "uid", entityColumn = "eventId")
@@ -47,6 +49,7 @@ public class Event {
     //private Links _links;
 
     @Embedded(prefix = "_embedded_")
+    @TypeConverters(Converters.class)
     private EmbeddedEvent _embedded;
 
     public Event() {}

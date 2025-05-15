@@ -1,14 +1,18 @@
 package com.temptationjavaisland.wemeet.model;
 
 import androidx.room.DatabaseView;
+import androidx.room.Embedded;
 import androidx.room.Entity;
 import androidx.room.Ignore;
+import androidx.room.TypeConverters;
 
 import java.util.List;
 
 @Entity
 public class EmbeddedEvent {
     @Ignore
+    @Embedded(prefix = "venues_")
+    @TypeConverters(Converters.class)
     private List<Venue> venues;
     //@Ignore
     //private List<Attraction> attractions;

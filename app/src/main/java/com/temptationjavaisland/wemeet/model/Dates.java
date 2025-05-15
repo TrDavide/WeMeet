@@ -3,10 +3,12 @@ package com.temptationjavaisland.wemeet.model;
 import androidx.room.DatabaseView;
 import androidx.room.Embedded;
 import androidx.room.Entity;
+import androidx.room.TypeConverters;
 
 @Entity
 public class Dates {
     @Embedded(prefix = "start_")
+    @TypeConverters(Converters.class)
     private Start start;
     private String timezone;
     //@Embedded(prefix = "status_")

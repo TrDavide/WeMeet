@@ -51,9 +51,10 @@ public class EventRecyclerAdapter extends RecyclerView.Adapter<EventRecyclerAdap
             public CheckBox getCheckBoxSaved() {return checkBoxSaved;}
             //public TextView getTextViewPartecipant() {return textViewPartecipant;}
         }
-        public EventRecyclerAdapter(int layout, List<Event> eventList) {
+        public EventRecyclerAdapter(int layout, List<Event> eventList, boolean heartVisible) {
             this.layout = layout;
             this.eventList = eventList;
+            this.heartVisible = heartVisible;
         }
 
         // Create new views (invoked by the layout manager
@@ -70,8 +71,26 @@ public class EventRecyclerAdapter extends RecyclerView.Adapter<EventRecyclerAdap
         @Override
         public void onBindViewHolder(ViewHolder viewHolder, final int position) {
             viewHolder.getTextViewTitle().setText(eventList.get(position).getName());
-            viewHolder.getTextViewDate().setText(eventList.get(position).getDates().getStart().getLocalDate());
-            viewHolder.getTextViewLocation().setText(eventList.get(position).getEmbedded().getVenues().get(0).getName());
+            //viewHolder.getTextViewDate().setText(eventList.get(position).getDates().getStart().getLocalDate());
+            //viewHolder.getTextViewLocation().setText(eventList.get(position).getEmbedded().getVenues().get(0).getName());
+
+            if (eventList.get(position).getDates() != null && eventList.get(position).getDates().getStart() != null) {
+                viewHolder.getTextViewDate().setText(eventList.get(position).getDates().getStart().getLocalDate());
+            } else {
+                viewHolder.getTextViewDate().setText("Data non disponibile");
+            }
+
+            String locationText = "Luogo non disponibile";
+            if (eventList.get(position).getEmbedded() != null &&
+                    eventList.get(position).getEmbedded().getVenues() != null &&
+                    !eventList.get(position).getEmbedded().getVenues().isEmpty() &&
+                    eventList.get(position).getEmbedded().getVenues().get(0) != null &&
+                    eventList.get(position).getEmbedded().getVenues().get(0).getName() != null) {
+                locationText = eventList.get(position).getEmbedded().getVenues().get(0).getName();
+            }
+            viewHolder.getTextViewLocation().setText(locationText);
+            viewHolder.getCheckBoxSaved().setChecked(eventList.get(position).isSaved());
+
 
             viewHolder.getCheckBoxSaved().setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
                 @Override

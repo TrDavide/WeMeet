@@ -57,7 +57,7 @@ public class LocationFragment extends Fragment {
         try {
             EventAPIResponse response = jsonParserUtils.parserJSONFileWithGsson(Constants.SAMPLE_JSON_FILENAME);
             List<Event> eventList= response.getEmbedded().getEvents();
-            EventRecyclerAdapter adapter = new EventRecyclerAdapter(R.layout.event_card, eventList);
+            EventRecyclerAdapter adapter = new EventRecyclerAdapter(R.layout.event_card, eventList, false);
             //recyclerView.setAdapter(adapter);
 
         } catch (IOException e) {

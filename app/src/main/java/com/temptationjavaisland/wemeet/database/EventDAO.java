@@ -24,6 +24,9 @@ public interface EventDAO {
     @Query("DELETE from Event")
     void deleteAll();
 
+    @Query("SELECT * FROM Event WHERE saved = 1")
+    List<Event> isSaved();
+
     @Update
     void updateArticle(Event event);
 
