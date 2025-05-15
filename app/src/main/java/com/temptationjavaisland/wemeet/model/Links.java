@@ -6,7 +6,7 @@ import androidx.room.Entity;
 import androidx.room.Ignore;
 
 import java.util.List;
-@Entity
+/*
 public class Links {
     @Embedded(prefix = "self_")
     private Link self;
@@ -15,10 +15,10 @@ public class Links {
     @Ignore
     private List<Link> venues;
 
-    public Links() {}
+    public Links() {}*/
 
     // Getter e Setter
-    public Link getSelf() {
+    /*public Link getSelf() {
         return self;
     }
 
@@ -41,4 +41,4 @@ public class Links {
     public void setVenues(List<Link> venues) {
         this.venues = venues;
     }
-}
+}*/

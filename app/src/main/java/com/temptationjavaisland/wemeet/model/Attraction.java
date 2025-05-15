@@ -5,21 +5,20 @@ import androidx.room.Entity;
 import androidx.room.Ignore;
 
 import java.util.List;
-@Entity
-public class Attraction {
+/*public class Attraction {
     private String name;
     private String type;
     private String id;
     private boolean test;
     private String url;
     private String locale;
-    private ExternalLinks externalLinks;
-    @Ignore
-    private List<Image> images;
-    @Ignore
-    private List<Classification> classifications;
-    private Venue.UpcomingEvents upcomingEvents;
-    private Links _links;
+    //private ExternalLinks externalLinks;
+    //@Ignore
+    //private List<Image> images;
+    //@Ignore
+    //private List<Classification> classifications;
+    //private Venue.UpcomingEvents upcomingEvents;
+    //private Links _links;
 
     // Getter e Setter
     public String getName() {
@@ -68,17 +67,17 @@ public class Attraction {
 
     public void setLocale(String locale) {
         this.locale = locale;
-    }
+    }*/
 
-    public ExternalLinks getExternalLinks() {
+    /*public ExternalLinks getExternalLinks() {
         return externalLinks;
     }
 
     public void setExternalLinks(ExternalLinks externalLinks) {
         this.externalLinks = externalLinks;
-    }
+    }*/
 
-    public List<Image> getImages() {
+    /*public List<Image> getImages() {
         return images;
     }
 
@@ -108,10 +107,10 @@ public class Attraction {
 
     public void setLinks(Links _links) {
         this._links = _links;
-    }
+    }*/
 
 
-    @Entity
+    /*
     public static class ExternalLinks {
         @Ignore
         private List<ExternalLink> youtube;
@@ -133,10 +132,10 @@ public class Attraction {
         private List<ExternalLink> instagram;
         @Ignore
         private List<ExternalLink> homepage;
-        @Ignore
+        @Ignore*/
 
         // Getter e Setter
-        public List<ExternalLink> getYoutube() {
+        /*public List<ExternalLink> getYoutube() {
             return youtube;
         }
 
@@ -215,10 +214,10 @@ public class Attraction {
         public void setHomepage(List<ExternalLink> homepage) {
             this.homepage = homepage;
         }
-    }
+    }*/
 
 
-    @Entity
+    /*
     public static class ExternalLink {
         private String url;
 
@@ -230,10 +229,10 @@ public class Attraction {
         public void setUrl(String url) {
             this.url = url;
         }
-    }
+    }*/
 
 
-    @Entity
+    /*
     public static class MusicBrainzLink {
         private String id;
         private String url;
@@ -254,5 +253,5 @@ public class Attraction {
         public void setUrl(String url) {
             this.url = url;
         }
-    }
-}
+    }*/
+//}

@@ -23,8 +23,9 @@ public interface EventDAO {
 
     @Query("DELETE from Event")
     void deleteAll();
+
     @Update
-    void updateEvent(Event event);
+    void updateArticle(Event event);
 
 
 }

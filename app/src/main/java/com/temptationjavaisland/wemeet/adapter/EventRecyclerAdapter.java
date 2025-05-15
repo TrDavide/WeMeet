@@ -9,6 +9,8 @@ import android.widget.TextView;
 import com.temptationjavaisland.wemeet.R;
 import com.temptationjavaisland.wemeet.database.EventRoomDatabase;
 import com.temptationjavaisland.wemeet.model.Event;
+import com.temptationjavaisland.wemeet.model.EventAPIResponse;
+
 import androidx.recyclerview.widget.RecyclerView;
 
 import java.util.List;
@@ -74,6 +76,12 @@ public class EventRecyclerAdapter extends RecyclerView.Adapter<EventRecyclerAdap
             viewHolder.getCheckBoxSaved().setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
                 @Override
                 public void onCheckedChanged(CompoundButton compoundButton, boolean b) {
+                    Event currentEvent = eventList.get(viewHolder.getAdapterPosition());
+
+                    currentEvent.setSaved(b);
+
+                    /*EventRoomDatabase.getDatabase(viewHolder.getTextViewTitle().getContext()).
+                            eventsDao().updateArticle(currentEvent);*/
                     if (b){
                         EventRoomDatabase.getDatabase(viewHolder.getTextViewTitle().getContext())
                                 .eventsDao().insertAll(eventList.get(position));
@@ -81,6 +89,21 @@ public class EventRecyclerAdapter extends RecyclerView.Adapter<EventRecyclerAdap
                         EventRoomDatabase.getDatabase(viewHolder.getTextViewTitle().getContext())
                                 .eventsDao().delete(eventList.get(position));
                     }
+
+                    /*new Thread(() -> {
+                        if (b) {
+                            EventRoomDatabase
+                                    .getDatabase(viewHolder.itemView.getContext())
+                                    .eventsDao()
+                                    .insertAll(eventList.get(viewHolder.getAdapterPosition()));
+                        } else {
+                            EventRoomDatabase
+                                    .getDatabase(viewHolder.itemView.getContext())
+                                    .eventsDao()
+                                    .delete(eventList.get(viewHolder.getAdapterPosition()));
+                        }
+                    }).start();*/
+
                 }
             });
         }

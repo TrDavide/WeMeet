@@ -1,6 +1,7 @@
 package com.temptationjavaisland.wemeet.model;
 
 import androidx.room.DatabaseView;
+import androidx.room.Embedded;
 import androidx.room.Entity;
 import androidx.room.Ignore;
 
@@ -14,11 +15,16 @@ public class Venue {
     private boolean test;
     private String locale;
     private String postalCode;
+    /*@Embedded(prefix = "city_")
     private City city;
+    @Embedded(prefix = "country_")
     private Country country;
+    @Embedded(prefix = "location_")
     private Location location;
+    @Embedded(prefix = "upcomingEvents_")
     private UpcomingEvents upcomingEvents;
-    private Links _links;
+    @Embedded(prefix = "_links_")
+    private Links _links;*/
 
     // Getter e Setter
     public String getName() {
@@ -69,7 +75,7 @@ public class Venue {
         this.postalCode = postalCode;
     }
 
-    public City getCity() {
+    /*public City getCity() {
         return city;
     }
 
@@ -107,10 +113,10 @@ public class Venue {
 
     public void setLinks(Links _links) {
         this._links = _links;
-    }
+    }*/
 
-    @Entity
-    public static class City {
+
+    /*public static class City {
         private String name;
 
         // Getter e Setter
@@ -121,10 +127,10 @@ public class Venue {
         public void setName(String name) {
             this.name = name;
         }
-    }
+    }*/
 
-    @Entity
-    public static class Country {
+
+    /*public static class Country {
         private String name;
         private String countryCode;
 
@@ -144,10 +150,10 @@ public class Venue {
         public void setCountryCode(String countryCode) {
             this.countryCode = countryCode;
         }
-    }
+    }*/
 
-    @Entity
-    public static class Location {
+
+    /*public static class Location {
         private String longitude;
         private String latitude;
 
@@ -167,10 +173,10 @@ public class Venue {
         public void setLatitude(String latitude) {
             this.latitude = latitude;
         }
-    }
+    }*/
 
-    @Entity
-    public static class UpcomingEvents {
+
+    /*public static class UpcomingEvents {
         @Ignore
         private Map<String, Integer> events;
         private int _total;
@@ -200,5 +206,5 @@ public class Venue {
         public void setFiltered(int _filtered) {
             this._filtered = _filtered;
         }
-    }
+    }*/
 }

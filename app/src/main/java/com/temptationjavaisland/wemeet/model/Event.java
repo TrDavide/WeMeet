@@ -15,12 +15,12 @@ public class Event {
     public int uid;
 
     private String name;
-    private String type;
-    private String id;
-    private boolean test;
-    private String url;
-    private String locale;
-    private boolean saved;
+    //private String type;
+    //private String id;
+    //private boolean test;
+    //private String url;
+    //private String locale;
+   private boolean saved;
 
     public boolean isSaved() {
         return saved;
@@ -32,19 +32,19 @@ public class Event {
 
 
     //@Relation(parentColumn = "uid", entityColumn = "eventid")
-    private transient List<Image> images;
+    //private transient List<Image> images;
 
-    @Embedded(prefix = "sales_")
-    private Sales sales;
+    //@Embedded(prefix = "sales_")
+    //private Sales sales;
 
     @Embedded(prefix = "dates_")
     private Dates dates;
 
     //@Relation(parentColumn = "uid", entityColumn = "eventId")
-    private List<Classification> classifications;
+    //private List<Classification> classifications;
 
-    @Embedded(prefix = "_links_")
-    private Links _links;
+    //@Embedded(prefix = "_links_")
+    //private Links _links;
 
     @Embedded(prefix = "_embedded_")
     private EmbeddedEvent _embedded;
@@ -60,7 +60,7 @@ public class Event {
         this.name = name;
     }
 
-    public String getType() {
+    /*public String getType() {
         return type;
     }
 
@@ -100,13 +100,13 @@ public class Event {
         this.locale = locale;
     }
 
-    /*public List<Image> getImages() {
+    public List<Image> getImages() {
         return images;
     }
 
     public void setImages(List<Image> images) {
         this.images = images;
-    }*/
+    }
 
     public Sales getSales() {
         return sales;
@@ -114,7 +114,7 @@ public class Event {
 
     public void setSales(Sales sales) {
         this.sales = sales;
-    }
+    }*/
 
     public Dates getDates() {
         return dates;
@@ -124,7 +124,7 @@ public class Event {
         this.dates = dates;
     }
 
-    public List<Classification> getClassifications() {
+    /*public List<Classification> getClassifications() {
         return classifications;
     }
 
@@ -138,7 +138,7 @@ public class Event {
 
     public void setLinks(Links _links) {
         this._links = _links;
-    }
+    }*/
 
     public EmbeddedEvent getEmbedded() {
         return _embedded;

@@ -11,18 +11,16 @@ public class Image {
 
     public int eventId;
 
-    private String ratio;
-    private String url;
-    private int width;
-    private int height;
-    private boolean fallback;
+    //private String ratio;
+    //private String url;
+    //private int width;
+    //private int height;
+    //private boolean fallback;
 
     public Image() {}
 
     // Getter e Setter
-    public String getRatio() {
-        return ratio;
-    }
+    /*public String getRatio() {return ratio;}
 
     public void setRatio(String ratio) {
         this.ratio = ratio;
@@ -58,5 +56,5 @@ public class Image {
 
     public void setFallback(boolean fallback) {
         this.fallback = fallback;
-    }
+    }*/
 }

@@ -9,8 +9,8 @@ public class Dates {
     @Embedded(prefix = "start_")
     private Start start;
     private String timezone;
-    @Embedded(prefix = "status_")
-    private Status status;
+    //@Embedded(prefix = "status_")
+    //private Status status;
     private boolean spanMultipleDays;
 
 
@@ -33,13 +33,13 @@ public class Dates {
         this.timezone = timezone;
     }
 
-    public Status getStatus() {
+    /*public Status getStatus() {
         return status;
     }
 
     public void setStatus(Status status) {
         this.status = status;
-    }
+    }*/
 
     public boolean isSpanMultipleDays() {
         return spanMultipleDays;
@@ -49,7 +49,7 @@ public class Dates {
         this.spanMultipleDays = spanMultipleDays;
     }
 
-    @Entity
+
     public static class Start {
         private String localDate;
         private String localTime;
@@ -118,8 +118,7 @@ public class Dates {
             this.noSpecificTime = noSpecificTime;
         }
     }
-
-    @Entity
+/*
     public static class Status {
         private String code;
 
@@ -136,5 +135,5 @@ public class Dates {
         public void setCode(String code) {
             this.code = code;
         }
-    }
+    }*/
 }

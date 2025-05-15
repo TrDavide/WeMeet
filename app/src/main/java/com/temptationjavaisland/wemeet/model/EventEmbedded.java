@@ -10,8 +10,8 @@ import java.util.List;
 public class EventEmbedded {
     @Ignore
     private List<Venue> venues;
-    @Ignore
-    private List<Attraction> attractions;
+    //@Ignore
+    //private List<Attraction> attractions;
 
     public EventEmbedded (){}
 
@@ -23,11 +23,11 @@ public class EventEmbedded {
         this.venues = venues;
     }
 
-    public List<Attraction> getAttractions() {
+    /*public List<Attraction> getAttractions() {
         return attractions;
     }
 
     public void setAttractions(List<Attraction> attractions) {
         this.attractions = attractions;
-    }
+    }*/
 }

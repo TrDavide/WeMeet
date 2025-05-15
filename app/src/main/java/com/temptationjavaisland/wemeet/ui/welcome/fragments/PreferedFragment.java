@@ -51,14 +51,13 @@ public class PreferedFragment extends Fragment {
         RecyclerView recyclerView = view.findViewById(R.id.recyclerViewPrefered);
         recyclerView.setLayoutManager(new LinearLayoutManager(view.getContext()));
 
-
-        List<Event> eventList =
+        /*List<Event> eventList =
                 EventRoomDatabase.getDatabase(getContext())
-                        .eventsDao().getAll();
+                        .eventsDao().getAll();*/
 
-        EventRecyclerAdapter adapter = new EventRecyclerAdapter(R.layout.event_card,eventList);
+        //EventRecyclerAdapter adapter = new EventRecyclerAdapter(R.layout.event_card,eventList);
 
-        recyclerView.setAdapter(adapter);
+        //recyclerView.setAdapter(adapter);
 
         return view;
     }

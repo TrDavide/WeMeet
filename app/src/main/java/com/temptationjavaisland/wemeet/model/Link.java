@@ -2,8 +2,7 @@ package com.temptationjavaisland.wemeet.model;
 
 import androidx.room.DatabaseView;
 import androidx.room.Entity;
-
-@Entity
+/*
 public class Link {
     private String href;
 
@@ -15,4 +14,4 @@ public class Link {
     public void setHref(String href) {
         this.href = href;
     }
-}
+}*/
