@@ -56,9 +56,11 @@ public class PreferedFragment extends Fragment {
         Log.d("DB_TEST", "Eventi salvati: " + eventList.size());
 
         EventRecyclerAdapter adapter =
-                new EventRecyclerAdapter(R.layout.event_card, eventList, false);
+                new EventRecyclerAdapter(R.layout.event_card, eventList);
 
         recyclerView.setAdapter(adapter);
+
+
 
         return view;
     }

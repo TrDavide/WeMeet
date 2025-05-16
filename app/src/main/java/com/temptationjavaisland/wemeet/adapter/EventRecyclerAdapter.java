@@ -18,7 +18,15 @@ import java.util.List;
 public class EventRecyclerAdapter extends RecyclerView.Adapter<EventRecyclerAdapter.ViewHolder> {
         private int layout;
         private List<Event> eventList;
-        private boolean heartVisible;
+
+        public interface OnHeartClickListener {
+            void onHeartClick(Event event);
+        }
+        private OnHeartClickListener onHeartClickListener;
+
+        public void setOnHeartClickListener(OnHeartClickListener listener) {
+            this.onHeartClickListener = listener;
+        }
 
         public static class ViewHolder extends RecyclerView.ViewHolder {
             private final TextView textViewTitle;
@@ -51,10 +59,9 @@ public class EventRecyclerAdapter extends RecyclerView.Adapter<EventRecyclerAdap
             public CheckBox getCheckBoxSaved() {return checkBoxSaved;}
             //public TextView getTextViewPartecipant() {return textViewPartecipant;}
         }
-        public EventRecyclerAdapter(int layout, List<Event> eventList, boolean heartVisible) {
+        public EventRecyclerAdapter(int layout, List<Event> eventList) {
             this.layout = layout;
             this.eventList = eventList;
-            this.heartVisible = heartVisible;
         }
 
         // Create new views (invoked by the layout manager
@@ -96,8 +103,23 @@ public class EventRecyclerAdapter extends RecyclerView.Adapter<EventRecyclerAdap
                 @Override
                 public void onCheckedChanged(CompoundButton compoundButton, boolean b) {
                     Event currentEvent = eventList.get(viewHolder.getAdapterPosition());
-
                     currentEvent.setSaved(b);
+
+                    viewHolder.getCheckBoxSaved().setOnCheckedChangeListener(null); // evita il trigger errato
+                    viewHolder.getCheckBoxSaved().setChecked(eventList.get(position).isSaved());
+
+                    viewHolder.getCheckBoxSaved().setOnCheckedChangeListener((buttonView, isChecked) -> {
+                        currentEvent.setSaved(isChecked);
+
+                        if (isChecked) {
+                            EventRoomDatabase.getDatabase(viewHolder.itemView.getContext())
+                                    .eventsDao().insertAll(currentEvent);
+                        } else {
+                            if (onHeartClickListener != null) {
+                                onHeartClickListener.onHeartClick(currentEvent); //chiama il Fragment
+                            }
+                        }
+                    });
 
                     /*EventRoomDatabase.getDatabase(viewHolder.getTextViewTitle().getContext()).
                             eventsDao().updateArticle(currentEvent);*/

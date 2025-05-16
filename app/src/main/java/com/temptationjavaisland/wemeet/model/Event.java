@@ -2,6 +2,7 @@ package com.temptationjavaisland.wemeet.model;
 import com.temptationjavaisland.wemeet.model.Image;
 import java.util.List;
 
+import androidx.annotation.NonNull;
 import androidx.room.DatabaseView;
 import androidx.room.Embedded;
 import androidx.room.Entity;
@@ -12,6 +13,7 @@ import androidx.room.TypeConverters;
 
 @Entity
 public class Event {
+
     @PrimaryKey(autoGenerate = true)
     public int uid;
 
@@ -31,7 +33,13 @@ public class Event {
         this.saved = saved;
     }
 
+    public int getUid() {
+        return uid;
+    }
 
+    public void setUid(@NonNull int uid) {
+        this.uid = uid;
+    }
     //@Relation(parentColumn = "uid", entityColumn = "eventid")
     //private transient List<Image> images;
 

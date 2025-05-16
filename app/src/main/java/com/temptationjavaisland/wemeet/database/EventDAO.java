@@ -30,5 +30,8 @@ public interface EventDAO {
     @Update
     void updateArticle(Event event);
 
+    @Query("DELETE FROM event WHERE uid = :eventId")
+    void deleteById(String eventId);
+
 
 }
