@@ -15,7 +15,7 @@ import androidx.room.TypeConverters;
 public class Event {
 
     @PrimaryKey(autoGenerate = true)
-    public long uid;
+    public int uid;
 
     private String name;
     //private String type;
@@ -33,7 +33,7 @@ public class Event {
         this.saved = saved;
     }
 
-    public long getUid() {
+    public int getUid() {
         return uid;
     }
 

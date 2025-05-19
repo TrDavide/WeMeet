@@ -18,12 +18,12 @@ import java.util.List;
 public class EventRecyclerAdapter extends RecyclerView.Adapter<EventRecyclerAdapter.ViewHolder> {
         private int layout;
         private List<Event> eventList;
+        private OnHeartClickListener onHeartClickListener;
+
 
         public interface OnHeartClickListener {
             void onHeartClick(Event event);
         }
-        private OnHeartClickListener onHeartClickListener;
-
         public void setOnHeartClickListener(OnHeartClickListener listener) {
             this.onHeartClickListener = listener;
         }

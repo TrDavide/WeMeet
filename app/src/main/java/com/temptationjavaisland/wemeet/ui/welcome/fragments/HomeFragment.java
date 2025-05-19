@@ -20,6 +20,7 @@ import com.google.android.material.search.SearchBar;
 import com.google.android.material.snackbar.Snackbar;
 import com.temptationjavaisland.wemeet.R;
 import com.temptationjavaisland.wemeet.adapter.EventRecyclerAdapter;
+import com.temptationjavaisland.wemeet.database.EventRoomDatabase;
 import com.temptationjavaisland.wemeet.model.Event;
 import com.temptationjavaisland.wemeet.model.EventAPIResponse;
 import com.temptationjavaisland.wemeet.repository.EventAPIRepository;
@@ -57,7 +58,9 @@ public class HomeFragment extends Fragment {
             EventAPIResponse response = jsonParserUtils.parserJSONFileWithGsson(Constants.SAMPLE_JSON_FILENAME);
             List<Event> eventList= response.getEmbedded().getEvents();
             EventRecyclerAdapter adapter = new EventRecyclerAdapter(R.layout.event_card, eventList);
+            EventRoomDatabase db = EventRoomDatabase.getDatabase(requireContext());
             recyclerView.setAdapter(adapter);
+
         } catch (IOException e) {
             throw new RuntimeException(e);
         }

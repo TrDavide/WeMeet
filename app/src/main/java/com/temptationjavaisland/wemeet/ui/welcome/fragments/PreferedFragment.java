@@ -44,6 +44,7 @@ public class PreferedFragment extends Fragment implements ResponseCallBack {
     private List<Event> eventList;
     private EventRecyclerAdapter adapter;
     private static final String TAG = EventAPIRepository.class.getSimpleName();
+    private List<Event> savedEvents;
 
     public PreferedFragment() {}
 
