@@ -8,21 +8,29 @@ import androidx.fragment.app.Fragment;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Toast;
 
+import com.google.android.material.progressindicator.CircularProgressIndicator;
 import com.google.android.material.search.SearchBar;
+import com.google.android.material.snackbar.Snackbar;
 import com.temptationjavaisland.wemeet.R;
 import com.temptationjavaisland.wemeet.adapter.EventRecyclerAdapter;
 import com.temptationjavaisland.wemeet.model.Event;
 import com.temptationjavaisland.wemeet.model.EventAPIResponse;
+import com.temptationjavaisland.wemeet.repository.EventAPIRepository;
+import com.temptationjavaisland.wemeet.repository.EventMockRepository;
+import com.temptationjavaisland.wemeet.repository.IEventRepository;
 import com.temptationjavaisland.wemeet.util.Constants;
 import com.temptationjavaisland.wemeet.util.JSONParserUtils;
+import com.temptationjavaisland.wemeet.util.ResponseCallBack;
 
 import java.io.IOException;
+import java.util.ArrayList;
 import java.util.List;
 
 public class HomeFragment extends Fragment {

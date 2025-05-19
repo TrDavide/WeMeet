@@ -44,4 +44,11 @@
     <string name="salvati">Eventi salvati</string>
     <string name="nome_utente">Nome utente</string>
     <string name="profilo_utente">Profilo Utente</string>
+
+    <!-- Errors -->
+    <string name="error_email_login">Check the email address</string>
+    <string name="error_password_login">The password must have at least 8 characters</string>
+    <string name="error_retrieving_news">There was an error retrieving the news</string>
+    <string name="error_no_internet">No internet connection</string>
+
 </resources>

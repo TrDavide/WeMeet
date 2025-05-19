@@ -3,6 +3,7 @@ package com.temptationjavaisland.wemeet.database;
 import androidx.room.Dao;
 import androidx.room.Delete;
 import androidx.room.Insert;
+import androidx.room.OnConflictStrategy;
 import androidx.room.Query;
 import androidx.room.Update;
 
@@ -32,6 +33,10 @@ public interface EventDAO {
 
     @Query("DELETE FROM event WHERE uid = :eventId")
     void deleteById(String eventId);
+
+    @Insert(onConflict = OnConflictStrategy.REPLACE)
+    List<Long> insertNewsList(List<Event> newsList);
+
 
 
 }

@@ -24,6 +24,8 @@ public abstract class EventRoomDatabase extends RoomDatabase {
     public abstract EventDAO eventsDao();
 
     private static volatile EventRoomDatabase INSTANCE;
+    public static final ExecutorService databaseWriteExecutor =
+            Executors.newFixedThreadPool(Runtime.getRuntime().availableProcessors());
 
     public static EventRoomDatabase getDatabase(final Context context) {
         if (INSTANCE == null) {
