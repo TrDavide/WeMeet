@@ -44,6 +44,14 @@
     <string name="salvati">Eventi salvati</string>
     <string name="nome_utente">Nome utente</string>
     <string name="profilo_utente">Profilo Utente</string>
+    <string name="partecipazione_eventi1">Eventi a cui partecipa</string>
+    <string name="partecipazione_eventi2">Eventi a cui partecipo</string>
+    <string name="partecipa">Partecipa</string>
+    <string name="posizione_evento">Posizione evento</string>
+    <string name="location_senza_eguali">Una location senza eguali che vi lascerà senza parole...</string>
+    <string name="info_evento">Informazioni sull’evento</string>
+    <string name="gattopardo_milano">Gattopardo Milano</string>
+    <string name="impostazioni">Impostazioni</string>
 
     <!-- Errors -->
     <string name="error_email_login">Check the email address</string>

@@ -7,6 +7,20 @@
     android:background="@color/main_red"
     tools:context=".ui.welcome.fragments.ProfileFragment">
 
+    <com.google.android.material.button.MaterialButton
+        android:id="@+id/button_settings"
+        style="?attr/materialIconButtonStyle"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignParentTop="true"
+        android:layout_alignParentEnd="true"
+        android:layout_marginTop="@dimen/margin_default2"
+        android:layout_marginEnd="@dimen/margin_default"
+        android:backgroundTint="@android:color/white"
+        app:icon="@drawable/icons8_impostazioni_24"
+        app:iconSize="30dp"
+        app:iconTint="@color/black" />
+
     <TextView
         android:id="@+id/profile"
         android:layout_width="wrap_content"
@@ -20,6 +34,7 @@
         android:textColor="@color/md_theme_bianchino"
         android:textSize="30sp"
         android:textStyle="bold" />
+
     <View
         android:layout_width="match_parent"
         android:layout_height="match_parent"
@@ -85,60 +100,34 @@
         android:fontFamily="@font/open_sans"
         android:text="@string/frase_bio"
         android:textSize="15sp" />
+
     <View
         android:id="@+id/spazio2"
         android:layout_width="wrap_content"
         android:layout_height="35sp"
         android:layout_below="@id/bio"/>
 
-    <Button
-        android:id="@+id/modifica_profilo"
-        android:layout_width="364dp"
-        android:layout_height="63dp"
-        android:layout_below="@id/spazio2"
-        android:layout_marginStart="32dp"
-        android:layout_marginEnd="20dp"
-        android:backgroundTint="#F4E1C6"
-        android:fontFamily="@font/open_sans_medium"
-        android:padding="15dp"
-        android:text="@string/modifica_profilo"
-        android:textColor="@color/md_theme_scrim"
-        app:icon="@drawable/pencil"
-        app:iconGravity="textEnd"
-        app:iconTint="@null" />
-
-    <Button
-        android:layout_width="364dp"
-        android:layout_height="63dp"
-        android:layout_below="@id/modifica_profilo"
-        android:layout_marginStart="32dp"
-        android:layout_marginEnd="20dp"
-        android:backgroundTint="#F4E1C6"
-        android:fontFamily="@font/open_sans_semibold"
-        android:padding="15dp"
-        android:text="@string/elimina_preferiti"
-        android:textColor="@color/md_theme_scrim"
-        app:icon="@drawable/delete_save"
-        app:iconGravity="textEnd"
-        app:iconTint="@null" />
-
-    <Button
-        android:id="@+id/bottone_logout"
-        android:layout_width="364dp"
-        android:layout_height="63dp"
-        android:layout_centerHorizontal="true"
-        android:layout_marginStart="32dp"
-        android:layout_marginTop="550dp"
-        android:layout_marginBottom="20dp"
-        android:backgroundTint="#C2B280"
+    <TextView
+        android:id="@+id/testo_eventi"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_below="@id/bio"
+        android:layout_marginStart="@dimen/margin_default"
+        android:layout_marginTop="50sp"
         android:fontFamily="@font/open_sans_bold"
-        android:padding="15dp"
-        android:text="@string/esciAccount"
-        android:textColor="@color/md_theme_scrim"
-        android:textSize="20sp"
-        app:icon="@drawable/esci"
-        app:iconGravity="textEnd"
-        app:iconTint="@null" />
+        android:text="@string/partecipazione_eventi2"
+        android:textSize="30sp"
+        android:textStyle="bold" />
+
+    <androidx.recyclerview.widget.RecyclerView
+        android:id="@+id/recyclerViewUserProfile"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:layout_below="@id/testo_eventi"
+        android:layout_marginBottom="110sp"
+        android:layout_marginStart="@dimen/margin_default"
+        >
+    </androidx.recyclerview.widget.RecyclerView>
 
 
 </RelativeLayout>

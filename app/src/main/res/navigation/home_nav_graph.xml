@@ -26,5 +26,20 @@
         android:name="com.temptationjavaisland.wemeet.ui.welcome.fragments.HomeFragment"
         android:label="fragment_home"
         tools:layout="@layout/fragment_home" />
+    <fragment
+        android:id="@+id/userProfileFragment"
+        android:name="com.temptationjavaisland.wemeet.ui.welcome.fragments.UserProfileFragment"
+        android:label="fragment_user_profile"
+        tools:layout="@layout/fragment_user_profile" />
+    <fragment
+        android:id="@+id/settingsFragment"
+        android:name="com.temptationjavaisland.wemeet.SettingsFragment"
+        android:label="fragment_settings"
+        tools:layout="@layout/fragment_settings" />
+    <fragment
+        android:id="@+id/eventPageFragment"
+        android:name="com.temptationjavaisland.wemeet.EventPageFragment"
+        android:label="fragment_event_page"
+        tools:layout="@layout/fragment_event_page" />
 
 </navigation>
