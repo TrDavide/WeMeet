@@ -36,6 +36,7 @@ import java.util.List;
 
 public class HomeFragment extends Fragment {
 
+    private CircularProgressIndicator circularProgressIndicator;
 
     public HomeFragment() {}
 
@@ -52,21 +53,38 @@ public class HomeFragment extends Fragment {
                              Bundle savedInstanceState) {
         View view = inflater.inflate(R.layout.fragment_home, container, false);
         RecyclerView recyclerView = view.findViewById(R.id.recyclerViewHome);
+        circularProgressIndicator = view.findViewById(R.id.progressIndicator);
         recyclerView.setLayoutManager(new LinearLayoutManager(view.getContext()));
+
+        // Mostra progress indicator
+        recyclerView.setVisibility(View.GONE);
+        circularProgressIndicator.setVisibility(View.VISIBLE);
+
+
         JSONParserUtils jsonParserUtils = new JSONParserUtils(getContext());
         try {
             EventAPIResponse response = jsonParserUtils.parserJSONFileWithGsson(Constants.SAMPLE_JSON_FILENAME);
-            List<Event> eventList= response.getEmbedded().getEvents();
+            List<Event> eventList = response.getEmbedded().getEvents();
             EventRecyclerAdapter adapter = new EventRecyclerAdapter(R.layout.event_card, eventList);
             EventRoomDatabase db = EventRoomDatabase.getDatabase(requireContext());
-            recyclerView.setAdapter(adapter);
+
+            new android.os.Handler().postDelayed(() -> {
+                recyclerView.setAdapter(adapter);
+                adapter.notifyDataSetChanged();
+
+                circularProgressIndicator.setVisibility(View.GONE);
+                recyclerView.setVisibility(View.VISIBLE);
+            }, 1000); // 2 secondi per test visivo
 
         } catch (IOException e) {
-            throw new RuntimeException(e);
+            requireActivity().runOnUiThread(() ->
+                    Snackbar.make(view, "Errore nel caricamento eventi", Snackbar.LENGTH_LONG).show()
+            );
         }
 
         return view;
     }
+
 
     @Override
     public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {

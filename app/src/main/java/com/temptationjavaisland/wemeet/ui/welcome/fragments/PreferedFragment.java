@@ -44,7 +44,6 @@ public class PreferedFragment extends Fragment {
 
         View view = inflater.inflate(R.layout.fragment_prefered, container, false);
         recyclerView = view.findViewById(R.id.recyclerViewPrefered);
-        circularProgressIndicator = view.findViewById(R.id.progressIndicator);
         recyclerView.setLayoutManager(new LinearLayoutManager(view.getContext()));
 
         adapter = new EventRecyclerAdapter(R.layout.event_card, eventList);
@@ -70,7 +69,6 @@ public class PreferedFragment extends Fragment {
                 adapter.notifyDataSetChanged();
 
                 recyclerView.setVisibility(View.VISIBLE);
-                circularProgressIndicator.setVisibility(View.GONE);
             });
         }).start();
     }
