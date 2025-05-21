@@ -32,10 +32,13 @@ public interface EventDAO {
     void updateArticle(Event event);
 
     @Query("DELETE FROM event WHERE uid = :eventId")
-    void deleteById(String eventId);
+    void deleteById(int eventId);
 
     @Insert(onConflict = OnConflictStrategy.REPLACE)
     List<Long> insertNewsList(List<Event> newsList);
+
+    @Query("SELECT * FROM event WHERE saved = 1")
+    List<Event> getAllSavedEvents();
 
 
 
