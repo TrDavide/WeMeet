@@ -5,21 +5,18 @@ import android.os.Bundle;
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
-
-import android.util.Log;
-import android.view.LayoutInflater;
-import android.view.View;
-import android.view.ViewGroup;
-
-import com.google.android.material.bottomnavigation.BottomNavigationView;
-import com.temptationjavaisland.wemeet.R;
-import android.view.MenuItem;
-import android.widget.Toast;
-
+import androidx.navigation.Navigation;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
+import android.view.LayoutInflater;
+import android.view.MenuItem;
+import android.view.View;
+import android.view.ViewGroup;
+import android.widget.Toast;
+
 import com.google.android.material.search.SearchBar;
+import com.temptationjavaisland.wemeet.R;
 import com.temptationjavaisland.wemeet.adapter.EventRecyclerAdapter;
 import com.temptationjavaisland.wemeet.model.Event;
 import com.temptationjavaisland.wemeet.model.EventAPIResponse;
@@ -31,7 +28,10 @@ import java.util.List;
 
 public class LocationFragment extends Fragment {
 
-    BottomNavigationView bottomNavigationView;
+    private RecyclerView recyclerView;
+    private EventRecyclerAdapter adapter;
+
+
     public static final String TAG = LocationFragment.class.getName();
 
     public LocationFragment() {}
@@ -51,18 +51,37 @@ public class LocationFragment extends Fragment {
                              Bundle savedInstanceState) {
         View view = inflater.inflate(R.layout.fragment_location, container, false);
 
-        //RecyclerView recyclerView = view.findViewById(R.id.recyclerViewLocation);
-        //recyclerView.setLayoutManager(new LinearLayoutManager(view.getContext()));
+        recyclerView = view.findViewById(R.id.recyclerViewLocation);
+        recyclerView.setLayoutManager(new LinearLayoutManager(view.getContext()));
+
         JSONParserUtils jsonParserUtils = new JSONParserUtils(getContext());
         try {
             EventAPIResponse response = jsonParserUtils.parserJSONFileWithGsson(Constants.SAMPLE_JSON_FILENAME);
             List<Event> eventList= response.getEmbedded().getEvents();
-            EventRecyclerAdapter adapter = new EventRecyclerAdapter(R.layout.event_card, eventList);
-            //recyclerView.setAdapter(adapter);
+
+            adapter = new EventRecyclerAdapter(R.layout.event_card, eventList, new EventRecyclerAdapter.OnItemClickListener() {
+                @Override
+                public void onEventClick(Event event) {
+                    Bundle bundle = new Bundle();
+                    bundle.putParcelable("event_data", event); // Assicurati che Event implementi Parcelable
+                    Navigation.findNavController(requireView()).navigate(R.id.action_locationFragment_to_eventPageFragment, bundle);
+                }
+            });
+
+            recyclerView.setAdapter(adapter);
 
         } catch (IOException e) {
             throw new RuntimeException(e);
         }
+
+        /*
+        // Questo era commentato nel codice originale, mantenuto così
+        //RecyclerView recyclerView = view.findViewById(R.id.recyclerViewLocation);
+        //recyclerView.setLayoutManager(new LinearLayoutManager(view.getContext()));
+        //EventRecyclerAdapter adapter = new EventRecyclerAdapter(R.layout.event_card, eventList);
+        //recyclerView.setAdapter(adapter);
+        */
+
         return view;
     }
 
@@ -93,8 +112,5 @@ public class LocationFragment extends Fragment {
         } catch (IOException e) {
             throw new RuntimeException(e);
         }*/
-
     }
-
-
 }

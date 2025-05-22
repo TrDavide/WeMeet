@@ -1,11 +1,14 @@
 package com.temptationjavaisland.wemeet.model;
 
-import androidx.room.DatabaseView;
+import android.os.Parcel;
+import android.os.Parcelable;
+
 import androidx.room.Entity;
 import androidx.room.PrimaryKey;
 
 @Entity
-public class Image {
+public class Image implements Parcelable {
+
     @PrimaryKey(autoGenerate = true)
     public int id;
 
@@ -57,4 +60,34 @@ public class Image {
     public void setFallback(boolean fallback) {
         this.fallback = fallback;
     }*/
+
+    protected Image(Parcel in) {
+        id = in.readInt();
+        eventId = in.readInt();
+        // Se volessi includere i campi commentati, qui andrebbero letti con in.readString(), in.readInt(), ecc.
+    }
+
+    @Override
+    public void writeToParcel(Parcel dest, int flags) {
+        dest.writeInt(id);
+        dest.writeInt(eventId);
+        // Se volessi includere i campi commentati, qui andrebbero scritti con dest.writeString(), dest.writeInt(), ecc.
+    }
+
+    @Override
+    public int describeContents() {
+        return 0;
+    }
+
+    public static final Creator<Image> CREATOR = new Creator<Image>() {
+        @Override
+        public Image createFromParcel(Parcel in) {
+            return new Image(in);
+        }
+
+        @Override
+        public Image[] newArray(int size) {
+            return new Image[size];
+        }
+    };
 }

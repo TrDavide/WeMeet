@@ -4,11 +4,9 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.CheckBox;
-import android.widget.CompoundButton;
 import android.widget.TextView;
-
+import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
-
 import com.temptationjavaisland.wemeet.R;
 import com.temptationjavaisland.wemeet.database.EventRoomDatabase;
 import com.temptationjavaisland.wemeet.model.Event;
@@ -16,16 +14,19 @@ import com.temptationjavaisland.wemeet.model.Event;
 import java.util.List;
 
 public class EventRecyclerAdapter extends RecyclerView.Adapter<EventRecyclerAdapter.ViewHolder> {
-    private int layout;
-    private List<Event> eventList;
-    private OnHeartClickListener onHeartClickListener;
 
-    public interface OnHeartClickListener {
-        void onHeartClick(Event event);
+    public interface OnItemClickListener {
+        void onEventClick(Event event);
     }
 
-    public void setOnHeartClickListener(OnHeartClickListener listener) {
-        this.onHeartClickListener = listener;
+    private int layout;
+    private List<Event> eventList;
+    private final OnItemClickListener onItemClickListener;
+
+    public EventRecyclerAdapter(int layout, List<Event> eventList, OnItemClickListener onItemClickListener) {
+        this.layout = layout;
+        this.eventList = eventList;
+        this.onItemClickListener = onItemClickListener;
     }
 
     public static class ViewHolder extends RecyclerView.ViewHolder {
@@ -42,27 +43,26 @@ public class EventRecyclerAdapter extends RecyclerView.Adapter<EventRecyclerAdap
             checkBoxSaved = view.findViewById(R.id.favoriteButton);
         }
 
+        public void bind(Event event, OnItemClickListener listener) {
+            itemView.setOnClickListener(v -> listener.onEventClick(event));
+        }
+
         public TextView getTextViewTitle() { return textViewTitle; }
         public TextView getTextViewDate() { return textViewDate; }
         public TextView getTextViewLocation() { return textViewLocation; }
         public CheckBox getCheckBoxSaved() { return checkBoxSaved; }
     }
 
-    public EventRecyclerAdapter(int layout, List<Event> eventList) {
-        this.layout = layout;
-        this.eventList = eventList;
-    }
-
+    @NonNull
     @Override
-    public ViewHolder onCreateViewHolder(ViewGroup viewGroup, int viewType) {
-        View view = LayoutInflater.from(viewGroup.getContext()).inflate(layout, viewGroup, false);
+    public ViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
+        View view = LayoutInflater.from(parent.getContext()).inflate(R.layout.event_card, parent, false);
         return new ViewHolder(view);
     }
 
     @Override
     public void onBindViewHolder(ViewHolder viewHolder, final int position) {
         Event currentEvent = eventList.get(position);
-
         viewHolder.getTextViewTitle().setText(currentEvent.getName());
 
         if (currentEvent.getDates() != null && currentEvent.getDates().getStart() != null) {
@@ -81,14 +81,11 @@ public class EventRecyclerAdapter extends RecyclerView.Adapter<EventRecyclerAdap
         }
 
         viewHolder.getTextViewLocation().setText(locationText);
-        viewHolder.getCheckBoxSaved().setChecked(currentEvent.isSaved());
-
-        viewHolder.getCheckBoxSaved().setOnCheckedChangeListener(null); // previene loop
+        viewHolder.getCheckBoxSaved().setOnCheckedChangeListener(null);
         viewHolder.getCheckBoxSaved().setChecked(currentEvent.isSaved());
 
         viewHolder.getCheckBoxSaved().setOnCheckedChangeListener((buttonView, isChecked) -> {
             currentEvent.setSaved(isChecked);
-
             new Thread(() -> {
                 if (isChecked) {
                     EventRoomDatabase.getDatabase(viewHolder.itemView.getContext())
@@ -100,11 +97,9 @@ public class EventRecyclerAdapter extends RecyclerView.Adapter<EventRecyclerAdap
                             .deleteById(currentEvent.getUid());
                 }
             }).start();
-
-            if (onHeartClickListener != null) {
-                onHeartClickListener.onHeartClick(currentEvent);
-            }
         });
+
+        viewHolder.bind(currentEvent, onItemClickListener); // << AGGIUNTO QUI
     }
 
     @Override

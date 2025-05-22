@@ -5,6 +5,7 @@ import android.os.Bundle;
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
+import androidx.navigation.Navigation;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
@@ -46,7 +47,14 @@ public class UserProfileFragment extends Fragment {
         try {
             EventAPIResponse response = jsonParserUtils.parserJSONFileWithGsson(Constants.SAMPLE_JSON_FILENAME);
             List<Event> eventList= response.getEmbedded().getEvents();
-            EventRecyclerAdapter adapter = new EventRecyclerAdapter(R.layout.event_card, eventList);
+            EventRecyclerAdapter adapter = new EventRecyclerAdapter(R.layout.event_card, eventList, new EventRecyclerAdapter.OnItemClickListener() {
+                @Override
+                public void onEventClick(Event event) {
+                    Bundle bundle = new Bundle();
+                    bundle.putParcelable("event_data", event); // Assicurati che Event implementi Parcelable
+                    Navigation.findNavController(requireView()).navigate(R.id.action_userProfileFragment_to_eventPageFragment, bundle);
+                }
+            });
             recyclerView.setAdapter(adapter);
         } catch (IOException e) {
             throw new RuntimeException(e);

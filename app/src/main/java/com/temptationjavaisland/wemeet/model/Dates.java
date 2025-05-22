@@ -1,20 +1,22 @@
 package com.temptationjavaisland.wemeet.model;
 
-import androidx.room.DatabaseView;
+import android.os.Parcel;
+import android.os.Parcelable;
+
 import androidx.room.Embedded;
 import androidx.room.Entity;
 import androidx.room.TypeConverters;
 
 @Entity
-public class Dates {
+public class Dates implements Parcelable {
+
     @Embedded(prefix = "start_")
     @TypeConverters(Converters.class)
     private Start start;
     private String timezone;
-    //@Embedded(prefix = "status_")
-    //private Status status;
+    // @Embedded(prefix = "status_")
+    // private Status status;
     private boolean spanMultipleDays;
-
 
     public Dates() {}
 
@@ -35,13 +37,15 @@ public class Dates {
         this.timezone = timezone;
     }
 
-    /*public Status getStatus() {
+    /*
+    public Status getStatus() {
         return status;
     }
 
     public void setStatus(Status status) {
         this.status = status;
-    }*/
+    }
+    */
 
     public boolean isSpanMultipleDays() {
         return spanMultipleDays;
@@ -51,8 +55,39 @@ public class Dates {
         this.spanMultipleDays = spanMultipleDays;
     }
 
+    protected Dates(Parcel in) {
+        start = in.readParcelable(Start.class.getClassLoader());
+        timezone = in.readString();
+        spanMultipleDays = in.readByte() != 0;
+        // status non implementato, rimane commentato
+    }
 
-    public static class Start {
+    @Override
+    public void writeToParcel(Parcel dest, int flags) {
+        dest.writeParcelable(start, flags);
+        dest.writeString(timezone);
+        dest.writeByte((byte) (spanMultipleDays ? 1 : 0));
+        // status non implementato, rimane commentato
+    }
+
+    @Override
+    public int describeContents() {
+        return 0;
+    }
+
+    public static final Creator<Dates> CREATOR = new Creator<Dates>() {
+        @Override
+        public Dates createFromParcel(Parcel in) {
+            return new Dates(in);
+        }
+
+        @Override
+        public Dates[] newArray(int size) {
+            return new Dates[size];
+        }
+    };
+
+    public static class Start implements Parcelable {
         private String localDate;
         private String localTime;
         private String dateTime;
@@ -119,11 +154,49 @@ public class Dates {
         public void setNoSpecificTime(boolean noSpecificTime) {
             this.noSpecificTime = noSpecificTime;
         }
+
+        protected Start(Parcel in) {
+            localDate = in.readString();
+            localTime = in.readString();
+            dateTime = in.readString();
+            dateTBD = in.readByte() != 0;
+            dateTBA = in.readByte() != 0;
+            timeTBA = in.readByte() != 0;
+            noSpecificTime = in.readByte() != 0;
+        }
+
+        @Override
+        public void writeToParcel(Parcel dest, int flags) {
+            dest.writeString(localDate);
+            dest.writeString(localTime);
+            dest.writeString(dateTime);
+            dest.writeByte((byte) (dateTBD ? 1 : 0));
+            dest.writeByte((byte) (dateTBA ? 1 : 0));
+            dest.writeByte((byte) (timeTBA ? 1 : 0));
+            dest.writeByte((byte) (noSpecificTime ? 1 : 0));
+        }
+
+        @Override
+        public int describeContents() {
+            return 0;
+        }
+
+        public static final Creator<Start> CREATOR = new Creator<Start>() {
+            @Override
+            public Start createFromParcel(Parcel in) {
+                return new Start(in);
+            }
+
+            @Override
+            public Start[] newArray(int size) {
+                return new Start[size];
+            }
+        };
     }
-/*
+
+    /*
     public static class Status {
         private String code;
-
 
         public Status(String code) {
             this.code = code;
@@ -137,5 +210,6 @@ public class Dates {
         public void setCode(String code) {
             this.code = code;
         }
-    }*/
+    }
+    */
 }

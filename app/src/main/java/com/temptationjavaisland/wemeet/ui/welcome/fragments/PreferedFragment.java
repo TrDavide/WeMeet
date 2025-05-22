@@ -7,6 +7,7 @@ import android.view.View;
 import android.view.ViewGroup;
 
 import androidx.fragment.app.Fragment;
+import androidx.navigation.Navigation;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
@@ -46,7 +47,14 @@ public class PreferedFragment extends Fragment {
         recyclerView = view.findViewById(R.id.recyclerViewPrefered);
         recyclerView.setLayoutManager(new LinearLayoutManager(view.getContext()));
 
-        adapter = new EventRecyclerAdapter(R.layout.event_card, eventList);
+        adapter = new EventRecyclerAdapter(R.layout.event_card, eventList, new EventRecyclerAdapter.OnItemClickListener() {
+            @Override
+            public void onEventClick(Event event) {
+                Bundle bundle = new Bundle();
+                bundle.putParcelable("event_data", event); // Assicurati che Event implementi Parcelable
+                Navigation.findNavController(requireView()).navigate(R.id.action_preferedFragment_to_eventPageFragment, bundle);
+            }
+        });
         recyclerView.setAdapter(adapter);
 
         loadSavedEvents();

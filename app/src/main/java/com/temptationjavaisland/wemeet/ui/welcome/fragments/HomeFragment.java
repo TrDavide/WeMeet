@@ -5,6 +5,7 @@ import android.os.Bundle;
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
+import androidx.navigation.Navigation;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
@@ -64,28 +65,35 @@ public class HomeFragment extends Fragment implements ResponseCallBack{
         circularProgressIndicator = view.findViewById(R.id.progressIndicator);
         recyclerView.setLayoutManager(new LinearLayoutManager(view.getContext()));
 
-        adapter = new EventRecyclerAdapter(R.layout.event_card, eventList);
+        // Inizializzo adapter con lista vuota e listener di click
+        adapter = new EventRecyclerAdapter(R.layout.event_card, eventList, new EventRecyclerAdapter.OnItemClickListener() {
+            @Override
+            public void onEventClick(Event event) {
+                Bundle bundle = new Bundle();
+                bundle.putParcelable("event_data", event);
+                Navigation.findNavController(requireView()).navigate(R.id.action_homeFragment_to_eventPageFragment, bundle);
+            }
+        });
         recyclerView.setAdapter(adapter);
 
-        // Mostra progress indicator
+        // Mostra progress indicator e nascondi recyclerView in attesa dati
         recyclerView.setVisibility(View.GONE);
         circularProgressIndicator.setVisibility(View.VISIBLE);
-
 
         JSONParserUtils jsonParserUtils = new JSONParserUtils(getContext());
         try {
             EventAPIResponse response = jsonParserUtils.parserJSONFileWithGsson(Constants.SAMPLE_JSON_FILENAME);
-            List<Event> eventList = response.getEmbedded().getEvents();
-            adapter = new EventRecyclerAdapter(R.layout.event_card, eventList);
-            EventRoomDatabase db = EventRoomDatabase.getDatabase(requireContext());
+            List<Event> newEventList = response.getEmbedded().getEvents();
+
+            // Aggiorno la lista dati dell'adapter
+            eventList.clear();
+            eventList.addAll(newEventList);
+            adapter.notifyDataSetChanged();
 
             new android.os.Handler().postDelayed(() -> {
-                recyclerView.setAdapter(adapter);
-                adapter.notifyDataSetChanged();
-
                 circularProgressIndicator.setVisibility(View.GONE);
                 recyclerView.setVisibility(View.VISIBLE);
-            }, 1000); // 2 secondi per test visivo
+            }, 1000); // 1 secondo per test visivo
 
         } catch (IOException e) {
             requireActivity().runOnUiThread(() ->

@@ -10,12 +10,20 @@
         android:id="@+id/locationFragment"
         android:name="com.temptationjavaisland.wemeet.ui.welcome.fragments.LocationFragment"
         android:label="fragment_location"
-        tools:layout="@layout/fragment_location"/>
+        tools:layout="@layout/fragment_location">
+            <action
+            android:id="@+id/action_locationFragment_to_eventPageFragment"
+            app:destination="@id/eventPageFragment" />
+    </fragment>
     <fragment
         android:id="@+id/preferedFragment"
         android:name="com.temptationjavaisland.wemeet.ui.welcome.fragments.PreferedFragment"
         android:label="fragment_prefered"
-        tools:layout="@layout/fragment_prefered"/>
+        tools:layout="@layout/fragment_prefered">
+            <action
+            android:id="@+id/action_preferedFragment_to_eventPageFragment"
+            app:destination="@id/eventPageFragment" />
+    </fragment>
     <fragment
         android:id="@+id/profileFragment"
         android:name="com.temptationjavaisland.wemeet.ui.welcome.fragments.ProfileFragment"
@@ -25,12 +33,20 @@
         android:id="@+id/homeFragment"
         android:name="com.temptationjavaisland.wemeet.ui.welcome.fragments.HomeFragment"
         android:label="fragment_home"
-        tools:layout="@layout/fragment_home" />
+        tools:layout="@layout/fragment_home">
+            <action
+            android:id="@+id/action_homeFragment_to_eventPageFragment"
+            app:destination="@id/eventPageFragment" />
+    </fragment>
     <fragment
         android:id="@+id/userProfileFragment"
         android:name="com.temptationjavaisland.wemeet.ui.welcome.fragments.UserProfileFragment"
         android:label="fragment_user_profile"
-        tools:layout="@layout/fragment_user_profile" />
+        tools:layout="@layout/fragment_user_profile">
+        <action
+            android:id="@+id/action_userProfileFragment_to_eventPageFragment"
+            app:destination="@id/eventPageFragment" />
+    </fragment>
     <fragment
         android:id="@+id/settingsFragment"
         android:name="com.temptationjavaisland.wemeet.ui.welcome.fragments.SettingsFragment"

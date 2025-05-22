@@ -3,7 +3,7 @@ package com.temptationjavaisland.wemeet.util;
 public class Constants{
 
     public static final String SAMPLE_JSON_FILENAME = "sample_api_response.json";
-    public static final int DATABASE_VERSION = 2;
+    public static final int DATABASE_VERSION = 3;
     public static final String SAVED_ARTICLES_DATABASE= "saved db";
 
     public static final String TICKETMASTER_API_BASE_URL = "https://app.ticketmaster.com/discovery/v2/";
