@@ -13,6 +13,7 @@ import android.view.LayoutInflater;
 import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.Adapter;
 import android.widget.Toast;
 
 import com.google.android.material.progressindicator.CircularProgressIndicator;
@@ -34,9 +35,13 @@ import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
 
-public class HomeFragment extends Fragment {
+public class HomeFragment extends Fragment implements ResponseCallBack{
 
     private CircularProgressIndicator circularProgressIndicator;
+    private List<Event> eventList;
+    public static final String TAG = LocationFragment.class.getName();
+    private RecyclerView recyclerView;
+    private EventRecyclerAdapter adapter;
 
     public HomeFragment() {}
 
@@ -46,15 +51,21 @@ public class HomeFragment extends Fragment {
     }
 
     @Override
-    public void onCreate(Bundle savedInstanceState) {super.onCreate(savedInstanceState);}
+    public void onCreate(Bundle savedInstanceState) {
+        super.onCreate(savedInstanceState);
+        eventList = new ArrayList<>();
+    }
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         View view = inflater.inflate(R.layout.fragment_home, container, false);
-        RecyclerView recyclerView = view.findViewById(R.id.recyclerViewHome);
+        recyclerView = view.findViewById(R.id.recyclerViewHome);
         circularProgressIndicator = view.findViewById(R.id.progressIndicator);
         recyclerView.setLayoutManager(new LinearLayoutManager(view.getContext()));
+
+        adapter = new EventRecyclerAdapter(R.layout.event_card, eventList);
+        recyclerView.setAdapter(adapter);
 
         // Mostra progress indicator
         recyclerView.setVisibility(View.GONE);
@@ -65,7 +76,7 @@ public class HomeFragment extends Fragment {
         try {
             EventAPIResponse response = jsonParserUtils.parserJSONFileWithGsson(Constants.SAMPLE_JSON_FILENAME);
             List<Event> eventList = response.getEmbedded().getEvents();
-            EventRecyclerAdapter adapter = new EventRecyclerAdapter(R.layout.event_card, eventList);
+            adapter = new EventRecyclerAdapter(R.layout.event_card, eventList);
             EventRoomDatabase db = EventRoomDatabase.getDatabase(requireContext());
 
             new android.os.Handler().postDelayed(() -> {
@@ -92,5 +103,25 @@ public class HomeFragment extends Fragment {
         SearchBar searchBar = view.findViewById(R.id.search_bar);
         RecyclerView recyclerViewHome = view.findViewById(R.id.recyclerViewHome);
         recyclerViewHome.setLayoutManager(new LinearLayoutManager(view.getContext()));
+    }
+
+    @Override
+    public void onSuccess(List<Event> newEventsList, long lastUpdate) {
+        eventList.clear();
+        eventList.addAll(newEventsList);
+        requireActivity().runOnUiThread(new Runnable() {
+            @Override
+            public void run() {
+                adapter.notifyDataSetChanged();
+                recyclerView.setVisibility(View.VISIBLE);
+                circularProgressIndicator.setVisibility(View.GONE);
+            }
+        });
+        Log.i(TAG, newEventsList.get(0).toString());
+    }
+
+    @Override
+    public void onFailure(String errorMessage) {
+
     }
 }

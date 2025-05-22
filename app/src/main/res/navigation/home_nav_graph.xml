@@ -33,12 +33,12 @@
         tools:layout="@layout/fragment_user_profile" />
     <fragment
         android:id="@+id/settingsFragment"
-        android:name="com.temptationjavaisland.wemeet.SettingsFragment"
+        android:name="com.temptationjavaisland.wemeet.ui.welcome.fragments.SettingsFragment"
         android:label="fragment_settings"
         tools:layout="@layout/fragment_settings" />
     <fragment
         android:id="@+id/eventPageFragment"
-        android:name="com.temptationjavaisland.wemeet.EventPageFragment"
+        android:name="com.temptationjavaisland.wemeet.ui.welcome.fragments.EventPageFragment"
         android:label="fragment_event_page"
         tools:layout="@layout/fragment_event_page" />
 

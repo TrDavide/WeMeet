@@ -29,13 +29,13 @@ public interface EventDAO {
     List<Event> isSaved();
 
     @Update
-    void updateArticle(Event event);
+    void updateEvent(Event event);
 
     @Query("DELETE FROM event WHERE uid = :eventId")
     void deleteById(int eventId);
 
     @Insert(onConflict = OnConflictStrategy.REPLACE)
-    List<Long> insertNewsList(List<Event> newsList);
+    List<Long> insertEventsList(List<Event> newsList);
 
     @Query("SELECT * FROM event WHERE saved = 1")
     List<Event> getAllSavedEvents();

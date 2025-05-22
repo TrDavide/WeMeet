@@ -95,7 +95,7 @@ public class EventAPIRepository implements IEventRepository{
                     apiEvents.set(apiEvents.indexOf(event), event);
                 }
             }
-            List<Long> insertedNewsIds = eventDAO.insertNewsList(apiEvents);
+            List<Long> insertedNewsIds = eventDAO.insertEventsList(apiEvents);
             for (int i = 0; i < apiEvents.size(); i++) {
                 apiEvents.get(i).setUid(Math.toIntExact(insertedNewsIds.get(i)));
             }

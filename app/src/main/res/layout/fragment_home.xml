@@ -88,11 +88,6 @@
         android:layout_marginTop="@dimen/margin_default"
         android:layout_marginBottom="110dp">
 
-        <androidx.recyclerview.widget.RecyclerView
-            android:id="@+id/recyclerViewHome"
-            android:layout_width="match_parent"
-            android:layout_height="match_parent" />
-
         <com.google.android.material.progressindicator.CircularProgressIndicator
             android:id="@+id/progressIndicator"
             android:layout_width="48dp"
@@ -100,6 +95,13 @@
             android:layout_gravity="center"
             android:indeterminate="true"
             android:visibility="visible"/>
+
+        <androidx.recyclerview.widget.RecyclerView
+            android:id="@+id/recyclerViewHome"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent" />
+
+
     </FrameLayout>
 
 

@@ -1,10 +1,14 @@
 package com.temptationjavaisland.wemeet.model;
 
 import androidx.annotation.NonNull;
+import androidx.room.ColumnInfo;
 import androidx.room.Embedded;
 import androidx.room.Entity;
 import androidx.room.PrimaryKey;
+import androidx.room.Relation;
 import androidx.room.TypeConverters;
+
+import java.util.List;
 
 @Entity
 public class Event {
@@ -35,8 +39,9 @@ public class Event {
     public void setUid(@NonNull int uid) {
         this.uid = uid;
     }
-    //@Relation(parentColumn = "uid", entityColumn = "eventid")
-    //private transient List<Image> images;
+    //@Relation(parentColumn = "uid", entityColumn = "eventId")
+    @TypeConverters(Converters.class)
+    private transient List<Image> images;
 
     //@Embedded(prefix = "sales_")
     //private Sales sales;
@@ -104,7 +109,7 @@ public class Event {
 
     public void setLocale(String locale) {
         this.locale = locale;
-    }
+    }*/
 
     public List<Image> getImages() {
         return images;
@@ -113,7 +118,7 @@ public class Event {
     public void setImages(List<Image> images) {
         this.images = images;
     }
-
+/*
     public Sales getSales() {
         return sales;
     }
