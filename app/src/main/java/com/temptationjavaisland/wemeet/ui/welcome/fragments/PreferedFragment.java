@@ -7,6 +7,7 @@ import android.view.View;
 import android.view.ViewGroup;
 
 import androidx.fragment.app.Fragment;
+import androidx.fragment.app.FragmentTransaction;
 import androidx.navigation.Navigation;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
@@ -50,13 +51,20 @@ public class PreferedFragment extends Fragment {
         adapter = new EventRecyclerAdapter(R.layout.event_card, eventList, new EventRecyclerAdapter.OnItemClickListener() {
             @Override
             public void onEventClick(Event event) {
+                EventPageFragment eventPageFragment = new EventPageFragment();
                 Bundle bundle = new Bundle();
-                bundle.putParcelable("event_data", event); // Assicurati che Event implementi Parcelable
-                Navigation.findNavController(requireView()).navigate(R.id.action_preferedFragment_to_eventPageFragment, bundle);
+                bundle.putParcelable("event_data", event);
+                eventPageFragment.setArguments(bundle);
+
+                FragmentTransaction transaction = requireActivity()
+                        .getSupportFragmentManager()
+                        .beginTransaction();
+                transaction.replace(R.id.fragmentContainerView, eventPageFragment);
+                transaction.addToBackStack(null); // permette di tornare indietro correttamente
+                transaction.commit();
             }
         });
         recyclerView.setAdapter(adapter);
-
         loadSavedEvents();
 
         return view;

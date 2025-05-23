@@ -5,6 +5,7 @@ import android.os.Bundle;
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
+import androidx.fragment.app.FragmentTransaction;
 import androidx.navigation.Navigation;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
@@ -17,6 +18,7 @@ import android.view.ViewGroup;
 import android.widget.Adapter;
 import android.widget.Toast;
 
+import com.google.android.material.button.MaterialButton;
 import com.google.android.material.progressindicator.CircularProgressIndicator;
 import com.google.android.material.search.SearchBar;
 import com.google.android.material.snackbar.Snackbar;
@@ -65,15 +67,23 @@ public class HomeFragment extends Fragment implements ResponseCallBack{
         circularProgressIndicator = view.findViewById(R.id.progressIndicator);
         recyclerView.setLayoutManager(new LinearLayoutManager(view.getContext()));
 
-        // Inizializzo adapter con lista vuota e listener di click
         adapter = new EventRecyclerAdapter(R.layout.event_card, eventList, new EventRecyclerAdapter.OnItemClickListener() {
             @Override
             public void onEventClick(Event event) {
+                EventPageFragment eventPageFragment = new EventPageFragment();
                 Bundle bundle = new Bundle();
                 bundle.putParcelable("event_data", event);
-                Navigation.findNavController(requireView()).navigate(R.id.action_homeFragment_to_eventPageFragment, bundle);
+                eventPageFragment.setArguments(bundle);
+
+                FragmentTransaction transaction = requireActivity()
+                        .getSupportFragmentManager()
+                        .beginTransaction();
+                transaction.replace(R.id.fragmentContainerView, eventPageFragment);
+                transaction.addToBackStack(null); // permette di tornare indietro correttamente
+                transaction.commit();
             }
         });
+
         recyclerView.setAdapter(adapter);
 
         // Mostra progress indicator e nascondi recyclerView in attesa dati

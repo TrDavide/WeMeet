@@ -2,12 +2,15 @@ package com.temptationjavaisland.wemeet.ui.welcome.fragments;
 
 import android.os.Bundle;
 
+import androidx.annotation.NonNull;
+import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
 
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 
+import com.google.android.material.button.MaterialButton;
 import com.temptationjavaisland.wemeet.R;
 
 public class EventPageFragment extends Fragment {
@@ -27,5 +30,16 @@ public class EventPageFragment extends Fragment {
                              Bundle savedInstanceState) {
         View view = inflater.inflate(R.layout.fragment_event_page, container, false);
         return view;
+    }
+
+    @Override
+    public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
+        super.onViewCreated(view, savedInstanceState);
+        MaterialButton backButton = view.findViewById(R.id.arrowBack); // Sostituisci con l'ID esatto del tuo bottone
+
+        backButton.setOnClickListener(v -> {
+            requireActivity().getSupportFragmentManager().popBackStack();
+        });
+
     }
 }
