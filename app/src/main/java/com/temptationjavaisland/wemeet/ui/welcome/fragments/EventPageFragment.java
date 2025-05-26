@@ -10,10 +10,16 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 
+import com.google.android.gms.maps.CameraUpdateFactory;
+import com.google.android.gms.maps.MapView;
+import com.google.android.gms.maps.model.LatLng;
+import com.google.android.gms.maps.model.MarkerOptions;
 import com.google.android.material.button.MaterialButton;
 import com.temptationjavaisland.wemeet.R;
 
 public class EventPageFragment extends Fragment {
+
+    MapView mapView;
 
     public EventPageFragment() {}
 
@@ -29,6 +35,13 @@ public class EventPageFragment extends Fragment {
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         View view = inflater.inflate(R.layout.fragment_event_page, container, false);
+        mapView = view.findViewById(R.id.mapsView);
+        mapView.onCreate(savedInstanceState);
+        mapView.getMapAsync(googleMap -> {
+            LatLng milano = new LatLng(45.4642, 9.1900);
+            googleMap.addMarker(new MarkerOptions().position(milano).title("Milano"));
+            googleMap.moveCamera(CameraUpdateFactory.newLatLngZoom(milano, 12));
+        });
         return view;
     }
 
