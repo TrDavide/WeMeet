@@ -1,169 +1,190 @@
 <?xml version="1.0" encoding="utf-8"?>
-<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="#F9F9F9">
+    android:orientation="vertical"
+    android:background="#F9F9F9"
+    android:layout_marginStart="@dimen/margin_default"
+    android:layout_marginEnd="@dimen/margin_default"
+    android:layout_marginTop="@dimen/margin_default2">
 
-    <!-- Contenuto scrollabile -->
-    <ScrollView
-        android:id="@+id/scrollContent"
+    <LinearLayout
         android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:layout_above="@+id/btnPartecipa"
-        android:fillViewport="true">
+        android:layout_height="wrap_content"
+        android:orientation="vertical">
 
-        <LinearLayout
+        <FrameLayout
+            android:layout_width="match_parent"
+            android:layout_height="200dp">
+
+            <com.google.android.material.imageview.ShapeableImageView
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:scaleType="centerCrop"
+                android:src="@mipmap/gattopardo"
+                android:contentDescription="@string/immagine_evento"
+                app:shapeAppearanceOverlay="@style/RoundedImageViewStyle" />
+
+            <com.google.android.material.button.MaterialButton
+                android:id="@+id/arrowBack"
+                android:layout_width="40dp"
+                android:layout_height="40dp"
+                android:layout_gravity="top|start"
+                android:layout_margin="12dp"
+                android:background="@drawable/bg_circle_white"
+                app:icon="@drawable/arrow_left"
+                app:iconSize="20dp"
+                app:iconGravity="textStart"
+                app:iconTint="@color/black" />
+
+        </FrameLayout>
+
+
+        <com.google.android.material.card.MaterialCardView
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:orientation="vertical"
-            android:padding="16dp">
+            android:layout_marginTop="12dp"
+            android:layout_marginBottom="12dp"
+            app:cardCornerRadius="16dp"
+            app:cardElevation="4dp"
+            app:cardBackgroundColor="#FFFFFF">
 
-            <!-- Immagine evento con pulsante indietro sopra -->
-            <FrameLayout
+            <LinearLayout
                 android:layout_width="match_parent"
-                android:layout_height="200dp">
+                android:layout_height="wrap_content"
+                android:orientation="vertical"
+                android:padding="16dp">
 
-                <ImageView
-                    android:id="@+id/imageEvento"
-                    android:layout_width="match_parent"
-                    android:layout_height="match_parent"
-                    android:scaleType="centerCrop"
-                    android:background="@mipmap/gattopardo" />
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="Gattopardo Milano"
+                    android:textSize="18sp"
+                    android:textStyle="bold"
+                    android:textColor="#000000" />
+                <LinearLayout
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:orientation="horizontal">
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="15 Dicembre 2024"
+                        android:textColor="#777777"
+                        android:layout_marginTop="4dp"
+                        android:layout_marginEnd="@dimen/margin_default2"/>
 
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="Milano"
+                        android:textColor="#777777"
+                        android:layout_marginTop="2dp"/>
+                </LinearLayout>
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="1275 Persone"
+                    android:textColor="@color/black"
+                    android:layout_marginTop="2dp"/>
+
+            </LinearLayout>
+        </com.google.android.material.card.MaterialCardView>
+
+        <com.google.android.material.card.MaterialCardView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginBottom="12dp"
+            app:cardCornerRadius="16dp"
+            app:cardElevation="4dp"
+            app:cardBackgroundColor="#FFFFFF">
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="vertical"
+                android:padding="16dp">
+
+                <!-- Titolo in grassetto -->
+                <TextView
+                    android:id="@+id/textTitle"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="@string/informazioni_evento"
+                    android:textStyle="bold"
+                    android:textSize="20sp"
+                    android:textColor="#000000" />
+
+                <!-- Sottotitolo o descrizione -->
+                <TextView
+                    android:id="@+id/textSubtitle"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="@string/Informazioni_evento_default"
+                    android:textSize="14sp"
+                    android:textColor="#777777"
+                    android:layout_marginTop="4dp" />
+
+                <!-- Bottone rosso -->
                 <com.google.android.material.button.MaterialButton
-                    android:id="@+id/arrowBack"
-                    style="?attr/materialIconButtonStyle"
-                    android:layout_width="wrap_content"
+                    android:id="@+id/buttonPartecipa"
+                    android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:layout_margin="16dp"
-                    android:layout_gravity="top|start"
-                    android:backgroundTint="@android:color/white"
-                    app:icon="@drawable/baseline_arrow_back_24"
-                    app:iconSize="24dp"
-                    app:iconTint="@color/black" />
-            </FrameLayout>
-
-            <!-- Titolo e dettagli -->
-            <TextView
-                android:id="@+id/titoloEvento"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:text="@string/gattopardo_milano"
-                android:textStyle="bold"
-                android:textSize="20sp"
-                android:layout_marginTop="12dp" />
-
-            <LinearLayout
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:orientation="horizontal"
-                android:layout_marginTop="6dp">
-
-                <ImageView
-                    android:layout_width="11dp"
-                    android:layout_height="match_parent"
-                    android:layout_marginEnd="4dp"
-                    android:src="@drawable/calendar" />
-
-                <TextView
-                    android:id="@+id/dataEvento"
+                    android:text="@string/vedi_partecipanti"
+                    style="?attr/materialButtonOutlinedStyle"
+                    android:textColor="#FFFFFF"
+                    app:backgroundTint="#E53935"
+                    android:layout_marginTop="12dp"
+                    android:layout_marginBottom="@dimen/margin_default"/>
+                <LinearLayout
                     android:layout_width="wrap_content"
+                    android:layout_height="wrap_content">
+                    <ImageView
+                        android:layout_width="24dp"
+                        android:layout_height="24dp"
+                        android:layout_marginTop="5dp"
+                        android:layout_marginBottom="@dimen/margin_default"
+                        android:src="@drawable/place_active"
+                        android:contentDescription="@string/icona_profilo"
+                        app:tint="@color/black" />
+                    <TextView
+                        android:id="@+id/textPersone"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="@string/posizione_evento_default"
+                        android:textStyle="bold"
+                        android:textSize="20sp"
+                        android:textColor="#000000"
+                        android:layout_marginTop="4dp"
+                        android:layout_marginStart="4dp"/>
+                </LinearLayout>
+
+                <com.google.android.material.card.MaterialCardView
+                    android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:text="15 Dic 2024" />
+                    android:layout_marginBottom="8dp"
+                    app:cardCornerRadius="16dp">
+                    <FrameLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="200dp"
+                        android:layout_gravity="center">
+                        <com.google.android.gms.maps.MapView
+                            android:id="@+id/mappaView"
+                            android:layout_width="match_parent"
+                            android:layout_height="match_parent" />
+                    </FrameLayout>
+                </com.google.android.material.card.MaterialCardView>
             </LinearLayout>
+        </com.google.android.material.card.MaterialCardView>
 
-            <LinearLayout
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:orientation="horizontal"
-                android:layout_marginTop="4dp">
 
-                <ImageView
-                    android:src="@drawable/place"
-                    android:layout_width="16dp"
-                    android:layout_height="16dp"
-                    android:layout_marginEnd="4dp" />
+        <!-- Altri contenuti scrollabili qui -->
 
-                <TextView
-                    android:id="@+id/luogoEvento"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:text="Milano" />
-            </LinearLayout>
+    </LinearLayout>
 
-            <LinearLayout
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:orientation="horizontal"
-                android:layout_marginTop="4dp">
-
-                <ImageView
-                    android:src="@drawable/profile"
-                    android:layout_width="16dp"
-                    android:layout_height="16dp"
-                    android:layout_marginEnd="4dp" />
-
-                <TextView
-                    android:id="@+id/partecipantiEvento"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:text="1.233 persone" />
-            </LinearLayout>
-
-            <View
-                android:layout_width="match_parent"
-                android:layout_height="1dp"
-                android:background="@android:color/black" />
-
-            <!-- Info -->
-            <TextView
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:text="@string/info_evento"
-                android:textStyle="bold"
-                android:layout_marginTop="7dp"
-                android:textSize="16sp" />
-
-            <TextView
-                android:id="@+id/descrizioneEvento"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:text="@string/location_senza_eguali"
-                android:layout_marginTop="4dp" />
-
-            <!-- Bottone "Vedi partecipanti" -->
-            <Button
-                android:id="@+id/btnVediPartecipanti"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:text="Vedi partecipanti"
-                android:textColor="#FFF"
-                android:backgroundTint="#E53935"
-                android:layout_marginTop="12dp" />
-
-            <!-- Mappa -->
-            <TextView
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:text="@string/posizione_evento"
-                android:textStyle="bold"
-                android:layout_marginTop="16dp"
-                android:textSize="16sp" />
-
-            <!-- Mappa fake -->
-            <ImageView
-                android:id="@+id/mapView"
-                android:layout_width="match_parent"
-                android:layout_height="150dp"
-                android:layout_marginTop="8dp"
-                android:scaleType="centerCrop"
-                android:src="@mipmap/gattopardo" />
-
-        </LinearLayout>
-    </ScrollView>
-
-    <!-- Bottone Partecipa fisso in basso -->
+    <!-- Bottone Partecipa fisso in basso
     <Button
         android:id="@+id/btnPartecipa"
         android:layout_width="match_parent"
@@ -172,6 +193,5 @@
         android:textColor="#FFF"
         android:backgroundTint="#E53935"
         android:layout_alignParentBottom="true"
-        android:layout_margin="12dp" />
-
-</RelativeLayout>
+        android:layout_margin="12dp" />-->
+</ScrollView>
