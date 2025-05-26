@@ -16,10 +16,9 @@
         android:layout_alignParentEnd="true"
         android:layout_marginTop="@dimen/margin_default2"
         android:layout_marginEnd="@dimen/margin_default"
-        android:backgroundTint="@android:color/white"
-        app:icon="@drawable/icons8_impostazioni_24"
+        app:icon="@drawable/settings"
         app:iconSize="30dp"
-        app:iconTint="@color/black" />
+        app:iconTint="@color/white" />
 
     <TextView
         android:id="@+id/profile"

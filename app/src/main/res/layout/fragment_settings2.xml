@@ -11,10 +11,10 @@
         android:id="@+id/arrowBackWelcome"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        app:icon="@drawable/baseline_arrow_back_24"
+        app:icon="@drawable/arrow_left"
         android:layout_marginTop="@dimen/margin_default"
-        app:iconTint="@color/md_theme_scrim"
-        app:iconSize="35dp"/>
+        app:iconTint="@color/white"
+        app:iconSize="30dp"/>
 
     <View
         android:layout_width="match_parent"
@@ -36,25 +36,11 @@
         android:layout_alignParentTop="true"
         android:src="@mipmap/profile_default"/>
 
-    <TextView
-        android:id="@+id/clickableText"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_below="@id/profileImageView"
-        android:layout_centerHorizontal="true"
-        android:clickable="true"
-        android:focusable="true"
-        android:fontFamily="@font/open_sans_bold"
-        android:minHeight="48dp"
-        android:text="@string/modificaImmagineProfilo"
-        android:textColor="@android:color/holo_blue_light"
-        android:textSize="20sp"
-        android:textStyle="bold" />
     <View
         android:id="@+id/spazio"
         android:layout_width="wrap_content"
         android:layout_height="30sp"
-        android:layout_below="@id/clickableText"/>
+        android:layout_below="@id/profileImageView"/>
 
     <TextView
         android:id="@+id/inputName"
@@ -65,7 +51,8 @@
         android:fontFamily="@font/open_sans_semibold"
         android:text="@string/modifica_nome"
         android:textColor="@color/md_theme_scrim"
-        android:textSize="15sp" />
+        android:textSize="16sp" />
+
     <View
         android:id="@+id/spazio2"
         android:layout_width="wrap_content"
@@ -84,8 +71,7 @@
             android:id="@+id/textInputEmail3"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:minHeight="48dp"
-            />
+            android:minHeight="48dp"/>
     </com.google.android.material.textfield.TextInputLayout>
 
     <TextView
@@ -94,10 +80,12 @@
         android:layout_height="wrap_content"
         android:layout_below="@id/textInputEmail2"
         android:layout_marginStart="32dp"
+        android:layout_marginTop="10dp"
         android:fontFamily="@font/open_sans_semibold"
         android:text="@string/modifica_bio"
         android:textColor="@color/md_theme_scrim"
-        android:textSize="15sp" />
+        android:textSize="16sp" />
+
     <View
         android:id="@+id/spazio3"
         android:layout_width="wrap_content"
@@ -116,22 +104,24 @@
             android:id="@+id/textInputEmail5"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:minHeight="48dp"
-            />
+            android:minHeight="48dp"/>
     </com.google.android.material.textfield.TextInputLayout>
 
-    <Button
-        android:id="@+id/save_button"
-        style="?attr/materialIconButtonStyle"
-        android:layout_width="wrap_content"
+    <!-- Bottone Salva Modifiche -->
+    <com.google.android.material.button.MaterialButton
+        android:id="@+id/buttonSalvaModifiche"
+        style="?attr/materialButtonOutlinedStyle"
+        android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_alignParentEnd="true"
         android:layout_alignParentBottom="true"
-        android:layout_centerVertical="true"
-        android:layout_marginEnd="17dp"
-        android:layout_marginBottom="30dp"
-        app:icon="@drawable/icons8_salva_50"
-        app:iconSize="50dp"
-        app:iconTint="@color/main_red" />
+        android:layout_margin="12dp"
+        android:elevation="4dp"
+        android:fontFamily="@font/open_sans_bold"
+        android:paddingTop="14dp"
+        android:paddingBottom="14dp"
+        android:text="@string/salva_modifiche"
+        android:textColor="#FFFFFF"
+        android:textSize="18sp"
+        app:backgroundTint="#E53935" />
 
 </RelativeLayout>

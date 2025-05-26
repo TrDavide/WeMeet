@@ -5,7 +5,6 @@
     android:layout_height="match_parent"
     android:background="#F9F9F9">
 
-    <!-- Contenuto scrollabile -->
     <ScrollView
         android:id="@+id/scrollContent"
         android:layout_width="match_parent"
@@ -21,7 +20,6 @@
             android:paddingTop="@dimen/margin_default2"
             android:paddingBottom="16dp">
 
-            <!-- Immagine e contenuto -->
             <FrameLayout
                 android:layout_width="match_parent"
                 android:layout_height="200dp">
@@ -29,13 +27,12 @@
                 <com.google.android.material.imageview.ShapeableImageView
                     android:layout_width="match_parent"
                     android:layout_height="match_parent"
+                    android:contentDescription="@string/immagine_evento"
                     android:scaleType="centerCrop"
                     android:src="@mipmap/gattopardo"
-                    android:contentDescription="@string/immagine_evento"
                     app:shapeAppearanceOverlay="@style/RoundedImageViewStyle" />
             </FrameLayout>
 
-            <!-- Dettagli evento -->
             <com.google.android.material.card.MaterialCardView
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
@@ -94,7 +91,6 @@
                 </LinearLayout>
             </com.google.android.material.card.MaterialCardView>
 
-            <!-- Informazioni e Mappa -->
             <com.google.android.material.card.MaterialCardView
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
@@ -194,11 +190,10 @@
         </LinearLayout>
     </ScrollView>
 
-    <!-- Bottone indietro fisso -->
     <com.google.android.material.button.MaterialButton
         android:id="@+id/arrowBack"
-        android:layout_width="40dp"
-        android:layout_height="40dp"
+        android:layout_width="42dp"
+        android:layout_height="42dp"
         android:layout_gravity="top|start"
         android:layout_margin="30dp"
         android:fontFamily="@font/open_sans_medium"
@@ -210,10 +205,9 @@
         app:cornerRadius="12dp"
         app:icon="@drawable/arrow_left"
         app:iconGravity="textStart"
-        app:iconSize="20dp"
+        app:iconSize="24dp"
         app:iconTint="@color/black" />
 
-    <!-- Bottone Partecipa fisso -->
     <com.google.android.material.button.MaterialButton
         android:id="@+id/btnPartecipa"
         android:layout_width="match_parent"

@@ -144,8 +144,8 @@
             android:layout_height="wrap_content"
             android:layout_marginTop="@dimen/margin_default"
             android:contentDescription="@string/login"
-            app:icon="@drawable/baseline_arrow_back_24"
-            app:iconSize="35dp"
+            app:icon="@drawable/arrow_left"
+            app:iconSize="30dp"
             app:iconTint="@color/black"
             app:layout_constraintTop_toTopOf="parent"
             app:layout_constraintStart_toStartOf="parent" />

@@ -76,5 +76,6 @@
     <string name="vedi_partecipanti">Vedi partecipanti</string>
     <string name="posizione_evento_default">Posizione Evento</string>
     <string name="icona_profilo">Icona Profilo</string>
+    <string name="salva_modifiche">Salva modifiche</string>
 
 </resources>
