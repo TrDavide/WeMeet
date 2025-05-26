@@ -114,7 +114,6 @@ public class HomeFragment extends Fragment implements ResponseCallBack{
         return view;
     }
 
-
     @Override
     public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);

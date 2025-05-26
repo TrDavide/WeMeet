@@ -7,19 +7,25 @@ import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
 import androidx.navigation.Navigation;
 
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
 
+import com.google.android.gms.auth.api.identity.BeginSignInRequest;
+import com.google.android.gms.auth.api.identity.Identity;
+import com.google.android.gms.auth.api.identity.SignInClient;
 import com.google.android.material.snackbar.Snackbar;
 import com.google.android.material.textfield.TextInputEditText;
+import com.google.firebase.auth.FirebaseAuth;
+import com.google.firebase.auth.FirebaseUser;
 import com.temptationjavaisland.wemeet.R;
 
 import org.apache.commons.validator.routines.EmailValidator;
 
 public class LoginFragment extends Fragment {
-
+    private static final String TAG = LoginFragment.class.getSimpleName();
     private TextInputEditText editTextEmail, editTextPassword;
 
     public LoginFragment() {}
@@ -51,28 +57,42 @@ public class LoginFragment extends Fragment {
         Button loginButton = view.findViewById(R.id.loginButton);
 
         loginButton.setOnClickListener(v -> {
-            if(isEmailOk(editTextEmail.getText().toString()) && editTextEmail.getText() != null/*editTextEmail.getText() != null && isEmailOk(editTextEmail.getText().toString())*/){
-                if(editTextPassword.getText() != null && isPasswordOk(editTextPassword.getText().toString())){
-                    /*Intent intent = new Intent(getActivity(), HomePageActivity.class);
-                    try {
-                        startActivity(intent);
-                    }catch (ActivityNotFoundException e){
+            /*if(isEmailOk(editTextEmail.getText().toString()) && editTextEmail.getText() != null){
 
-                    }*/
+                if(editTextPassword.getText() != null && isPasswordOk(editTextPassword.getText().toString())){
+
                     Navigation.findNavController(v).navigate(R.id.action_loginFragment_to_homePageActivity); //cambio pagina con navigation
+
                 } else{
-                    //editTextPassword.setError("The password must have at least 8 chars");
                     Snackbar.make(view, "Inserisci una password corretta", Snackbar.LENGTH_SHORT)
                             .show();
                 }
 
             } else{
-
-                //editTextEmail.setError("Check your email");
                 Snackbar.make(view, "Inserisci una mail corretta", Snackbar.LENGTH_SHORT)
                         .show(); // content: restituisce il primo elemento del layout, quindi in questo caso LinearLayout (gli viene assegnato un id)
-            }
+            }*/
+
+            SignInClient oneTapClient = Identity.getSignInClient(requireActivity());
+            BeginSignInRequest signInRequest = BeginSignInRequest.builder()
+                    .setPasswordRequestOptions(BeginSignInRequest.PasswordRequestOptions.builder()
+                            .setSupported(true)
+                            .build())
+                    .setGoogleIdTokenRequestOptions(BeginSignInRequest.GoogleIdTokenRequestOptions.builder()
+                            .setSupported(true)
+                            // Your server's client ID, not your Android client ID.
+                            .setServerClientId(getString(R.string.default_web_client_id))
+                            // Only show accounts previously used to sign in.
+                            .setFilterByAuthorizedAccounts(false)
+                            .build())
+                    // Automatically sign in when exactly one credential is retrieved.
+                    .setAutoSelectEnabled(true)
+                    .build();
         });
+        FirebaseAuth mAuth = FirebaseAuth.getInstance();
+        FirebaseUser user = mAuth.getCurrentUser();
+
+        Log.i(TAG,user + "");
     }
 
     private boolean isEmailOk(String email){
