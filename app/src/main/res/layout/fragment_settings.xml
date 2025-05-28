@@ -11,7 +11,6 @@
         android:layout_height="wrap_content"
         android:padding="24dp">
 
-        <!-- Profilo con cerchio colorato dietro -->
         <View
             android:id="@+id/profileCircleBg"
             android:layout_width="180dp"
@@ -39,7 +38,6 @@
                 android:contentDescription="@string/username"/>
         </androidx.cardview.widget.CardView>
 
-        <!-- Username -->
         <TextView
             android:id="@+id/textprofile"
             android:layout_width="wrap_content"
@@ -53,7 +51,6 @@
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintEnd_toEndOf="parent"/>
 
-        <!-- Username sotto -->
         <TextView
             android:id="@+id/username"
             android:layout_width="wrap_content"
@@ -67,7 +64,6 @@
             app:layout_constraintEnd_toEndOf="parent"
             android:layout_marginTop="4dp"/>
 
-        <!-- Bio -->
         <TextView
             android:id="@+id/bio"
             android:layout_width="0dp"
@@ -81,7 +77,6 @@
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintEnd_toEndOf="parent"/>
 
-        <!-- Bottone Modifica Profilo con gradient -->
         <com.google.android.material.button.MaterialButton
             android:id="@+id/modifica_profilo"
             android:layout_width="0dp"
@@ -99,7 +94,6 @@
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintEnd_toEndOf="parent"/>
 
-        <!-- Bottone Elimina Preferiti con bordo -->
         <com.google.android.material.button.MaterialButton
             android:id="@+id/elimina_preferiti"
             android:layout_width="0dp"
@@ -118,7 +112,6 @@
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintEnd_toEndOf="parent"/>
 
-        <!-- Bottone Logout -->
         <com.google.android.material.button.MaterialButton
             android:id="@+id/bottone_logout"
             android:layout_width="0dp"
@@ -136,7 +129,6 @@
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintEnd_toEndOf="parent"/>
 
-        <!-- Back button piccolo in alto a sinistra -->
         <com.google.android.material.button.MaterialButton
             android:id="@+id/arrowBackWelcome"
             style="?attr/materialIconButtonStyle"
@@ -145,11 +137,10 @@
             android:layout_marginTop="@dimen/margin_default"
             android:contentDescription="@string/login"
             app:icon="@drawable/arrow_left"
-            app:iconSize="30dp"
+            app:iconSize="24dp"
             app:iconTint="@color/black"
             app:layout_constraintTop_toTopOf="parent"
             app:layout_constraintStart_toStartOf="parent" />
 
     </androidx.constraintlayout.widget.ConstraintLayout>
-
 </androidx.core.widget.NestedScrollView>

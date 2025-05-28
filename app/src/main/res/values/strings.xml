@@ -39,7 +39,7 @@
     <string name="EventiCuiPartecipo">Eventi a cui partecipo</string>
     <string name="modificaImmagineProfilo">Modifica immagine del profilo</string>
     <string name="settings">Impostazioni</string>
-    <string name="account">Account</string>
+    <string name="il_mio_account">Il mio account</string>
     <string name="modifica_profilo">Modifica Profilo</string>
     <string name="esciAccount">Esci</string>
     <string name="elimina_preferiti">Elimina Preferiti</string>
@@ -63,9 +63,6 @@
     <string name="info_evento">Informazioni sull’evento</string>
     <string name="gattopardo_milano">Gattopardo Milano</string>
     <string name="impostazioni">Impostazioni</string>
-
-
-    <!-- Errors -->
     <string name="error_email_login">Check the email address</string>
     <string name="error_password_login">The password must have at least 8 characters</string>
     <string name="error_retrieving_news">There was an error retrieving the news</string>

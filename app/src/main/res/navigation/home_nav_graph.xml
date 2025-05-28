@@ -55,11 +55,20 @@
         android:id="@+id/settingsFragment"
         android:name="com.temptationjavaisland.wemeet.ui.welcome.fragments.SettingsFragment"
         android:label="fragment_settings"
-        tools:layout="@layout/fragment_settings" />
+        tools:layout="@layout/fragment_settings">
+        <action
+            android:id="@+id/action_settingsFragment_to_modificaProfiloFragment"
+            app:destination="@id/modificaProfiloFragment" />
+    </fragment>
     <fragment
         android:id="@+id/eventPageFragment"
         android:name="com.temptationjavaisland.wemeet.ui.welcome.fragments.EventPageFragment"
         android:label="fragment_event_page"
         tools:layout="@layout/fragment_event_page" />
+    <fragment
+        android:id="@+id/modificaProfiloFragment"
+        android:name="com.temptationjavaisland.wemeet.ui.welcome.fragments.ModificaProfiloFragment"
+        android:label="fragment_modifica_profilo"
+        tools:layout="@layout/fragment_modifica_profilo" />
 
 </navigation>

@@ -1,5 +1,8 @@
 package com.temptationjavaisland.wemeet.ui.welcome.fragments;
 
+import android.location.Address;
+import android.location.Geocoder;
+import android.os.AsyncTask;
 import android.os.Bundle;
 
 import androidx.annotation.NonNull;
@@ -16,6 +19,7 @@ import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Adapter;
+import android.widget.TextView;
 import android.widget.Toast;
 
 import com.google.android.material.button.MaterialButton;
@@ -37,6 +41,7 @@ import com.temptationjavaisland.wemeet.util.ResponseCallBack;
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Locale;
 
 public class HomeFragment extends Fragment implements ResponseCallBack{
 
@@ -66,6 +71,15 @@ public class HomeFragment extends Fragment implements ResponseCallBack{
         recyclerView = view.findViewById(R.id.recyclerViewHome);
         circularProgressIndicator = view.findViewById(R.id.progressIndicator);
         recyclerView.setLayoutManager(new LinearLayoutManager(view.getContext()));
+
+        Bundle args = getArguments();
+        if (args != null) {
+            double lat = args.getDouble("lat", 0);
+            double lon = args.getDouble("lon", 0);
+
+            // Qui fai geocoding inverso e aggiorni la TextView
+            getCityNameAsync(lat, lon, view);
+        }
 
         adapter = new EventRecyclerAdapter(R.layout.event_card, eventList, new EventRecyclerAdapter.OnItemClickListener() {
             @Override
@@ -113,6 +127,37 @@ public class HomeFragment extends Fragment implements ResponseCallBack{
 
         return view;
     }
+
+    private void getCityNameAsync(double lat, double lon, View rootView) {
+        TextView cityTextView = rootView.findViewById(R.id.cityTextView);
+
+        new AsyncTask<Void, Void, String>() {
+            @Override
+            protected String doInBackground(Void... voids) {
+                Geocoder geocoder = new Geocoder(getContext(), Locale.getDefault());
+                try {
+                    List<Address> addresses = geocoder.getFromLocation(lat, lon, 1);
+                    if (addresses != null && !addresses.isEmpty()) {
+                        Address address = addresses.get(0);
+                        String city = address.getLocality();
+                        if (city == null) {
+                            city = address.getSubAdminArea();
+                        }
+                        return city;
+                    }
+                } catch (Exception e) {
+                    e.printStackTrace();
+                }
+                return "N/A";
+            }
+
+            @Override
+            protected void onPostExecute(String city) {
+                cityTextView.setText(city);
+            }
+        }.execute();
+    }
+
 
 
     @Override

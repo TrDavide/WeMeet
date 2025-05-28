@@ -6,6 +6,7 @@ import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
 import androidx.fragment.app.FragmentTransaction;
+import androidx.navigation.NavController;
 import androidx.navigation.Navigation;
 
 import android.view.LayoutInflater;
@@ -45,6 +46,14 @@ public class SettingsFragment extends Fragment {
         });
 
         MaterialButton logoutButton = view.findViewById(R.id.bottone_logout);
+
+        MaterialButton modificaButton = view.findViewById(R.id.modifica_profilo);
+
+        modificaButton.setOnClickListener(v -> {
+            NavController navController = Navigation.findNavController(view);
+            navController.navigate(R.id.action_settingsFragment_to_modificaProfiloFragment);
+        });
+
         logoutButton.setOnClickListener(v -> {
             FragmentTransaction transaction = requireActivity()
                     .getSupportFragmentManager()
