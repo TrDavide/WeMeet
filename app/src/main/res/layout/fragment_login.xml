@@ -152,6 +152,7 @@
     </RelativeLayout>
 
     <Button
+        android:id="@+id/loginGoogleButton"
         android:layout_width="364dp"
         android:layout_height="63dp"
         android:layout_marginStart="32dp"

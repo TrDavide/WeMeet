@@ -2,6 +2,9 @@ package com.temptationjavaisland.wemeet.ui.welcome.fragments;
 
 import android.os.Bundle;
 
+import androidx.activity.result.ActivityResultLauncher;
+import androidx.activity.result.IntentSenderRequest;
+import androidx.activity.result.contract.ActivityResultContracts;
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
@@ -14,8 +17,13 @@ import android.view.ViewGroup;
 import android.widget.Button;
 
 import com.google.android.gms.auth.api.identity.BeginSignInRequest;
+import com.google.android.gms.auth.api.identity.BeginSignInResult;
 import com.google.android.gms.auth.api.identity.Identity;
 import com.google.android.gms.auth.api.identity.SignInClient;
+import com.google.android.gms.auth.api.identity.SignInCredential;
+import com.google.android.gms.common.api.ApiException;
+import com.google.android.gms.tasks.OnFailureListener;
+import com.google.android.gms.tasks.OnSuccessListener;
 import com.google.android.material.snackbar.Snackbar;
 import com.google.android.material.textfield.TextInputEditText;
 import com.google.firebase.auth.FirebaseAuth;
@@ -27,7 +35,10 @@ import org.apache.commons.validator.routines.EmailValidator;
 public class LoginFragment extends Fragment {
     private static final String TAG = LoginFragment.class.getSimpleName();
     private TextInputEditText editTextEmail, editTextPassword;
-
+    private ActivityResultLauncher<IntentSenderRequest> activityResultLauncher;
+    private ActivityResultContracts.StartIntentSenderForResult startIntentSenderForResult;
+    private UserViewModel userViewModel;
+    private SignInClient oneTapClient;
     public LoginFragment() {}
 
     public static LoginFragment newInstance() {
@@ -53,6 +64,7 @@ public class LoginFragment extends Fragment {
 
         editTextEmail = view.findViewById(R.id.textInputEmail);
         editTextPassword = view.findViewById(R.id.textInputPassword);
+        Button loginGoogleButton = view.findViewById(R.id.loginGoogleButton);
 
         Button loginButton = view.findViewById(R.id.loginButton);
 
@@ -88,11 +100,69 @@ public class LoginFragment extends Fragment {
                     // Automatically sign in when exactly one credential is retrieved.
                     .setAutoSelectEnabled(true)
                     .build();
+
+            startIntentSenderForResult = new ActivityResultContracts.StartIntentSenderForResult();
+
+            activityResultLauncher = registerForActivityResult(startIntentSenderForResult, activityResult -> {
+                if (activityResult.getResultCode() == Activity.RESULT_OK) {
+                    Log.d(TAG, "result.getResultCode() == Activity.RESULT_OK");
+                    try {
+                        SignInCredential credential = oneTapClient.getSignInCredentialFromIntent(activityResult.getData());
+                        String idToken = credential.getGoogleIdToken();
+                        if (idToken !=  null) {
+                            // Got an ID token from Google. Use it to authenticate with Firebase.
+                            userViewModel.getGoogleUserMutableLiveData(idToken).observe(getViewLifecycleOwner(), authenticationResult -> {
+                                if (authenticationResult.isSuccess()) {
+                                    User user = ((Result.UserSuccess) authenticationResult).getData();
+                                    //saveLoginData(user.getEmail(), null, user.getIdToken());
+                                    Log.i(TAG, "Logged as: " + user.getEmail());
+                                    userViewModel.setAuthenticationError(false);
+                                    retrieveUserInformationAndStartActivity(user, getView());
+                                } else {
+                                    userViewModel.setAuthenticationError(true);
+                                    Snackbar.make(requireActivity().findViewById(android.R.id.content),
+                                            getErrorMessage(((Result.Error) authenticationResult).getMessage()),
+                                            Snackbar.LENGTH_SHORT).show();
+                                }
+                            });
+                        }
+                    } catch (ApiException e) {
+                        Snackbar.make(requireActivity().findViewById(android.R.id.content),
+                                requireActivity().getString(R.string.error_unexpected),
+                                Snackbar.LENGTH_SHORT).show();
+                    }
+                }
+            });
         });
+
         FirebaseAuth mAuth = FirebaseAuth.getInstance();
         FirebaseUser user = mAuth.getCurrentUser();
 
         Log.i(TAG,user + "");
+
+
+        loginGoogleButton.setOnClickListener(v -> oneTapClient.beginSignIn(signInRequest)
+                .addOnSuccessListener(requireActivity(), new OnSuccessListener<BeginSignInResult>() {
+                    @Override
+                    public void onSuccess(BeginSignInResult result) {
+                        Log.d(TAG, "onSuccess from oneTapClient.beginSignIn(BeginSignInRequest)");
+                        IntentSenderRequest intentSenderRequest =
+                                new IntentSenderRequest.Builder(result.getPendingIntent()).build();
+                        activityResultLauncher.launch(intentSenderRequest);
+                    }
+                })
+                .addOnFailureListener(requireActivity(), new OnFailureListener() {
+                    @Override
+                    public void onFailure(@NonNull Exception e) {
+                        // No saved credentials found. Launch the One Tap sign-up flow, or
+                        // do nothing and continue presenting the signed-out UI.
+                        Log.d(TAG, e.getLocalizedMessage());
+
+                        Snackbar.make(requireActivity().findViewById(android.R.id.content),
+                                requireActivity().getString(R.string.error_unexpected),
+                                Snackbar.LENGTH_SHORT).show();
+                    }
+                }));
     }
 
     private boolean isEmailOk(String email){
