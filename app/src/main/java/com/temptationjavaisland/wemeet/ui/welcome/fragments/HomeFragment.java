@@ -64,11 +64,8 @@ public class HomeFragment extends Fragment implements ResponseCallBack {
         circularProgressIndicator = view.findViewById(R.id.progressIndicator);
         recyclerView.setLayoutManager(new LinearLayoutManager(view.getContext()));
 
-        // Inizializza il repository
         eventRepository = new EventAPIRepository(requireActivity().getApplication(), this);
 
-
-        // Ottieni i parametri lat/lon e avvia la chiamata API
         Bundle args = getArguments();
         if (args != null) {
             double lat = 45.464003; //args.getDouble("lat", 0);
@@ -76,13 +73,11 @@ public class HomeFragment extends Fragment implements ResponseCallBack {
 
             getCityNameAsync(lat, lon, view);
 
-            // ✅ Chiamata API via GPS
             String latlong = lat + "," + lon;
             int radius = 300;
             eventRepository.fetchEventsByLocation(latlong, radius, System.currentTimeMillis());
         }
 
-        // Inizializza adapter
         adapter = new EventRecyclerAdapter(R.layout.event_card, eventList, event -> {
             EventPageFragment eventPageFragment = new EventPageFragment();
             Bundle bundle = new Bundle();
@@ -98,8 +93,6 @@ public class HomeFragment extends Fragment implements ResponseCallBack {
         });
 
         recyclerView.setAdapter(adapter);
-
-        // Mostra progress indicator
         recyclerView.setVisibility(View.GONE);
         circularProgressIndicator.setVisibility(View.VISIBLE);
 
