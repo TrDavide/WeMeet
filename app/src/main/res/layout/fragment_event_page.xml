@@ -209,18 +209,15 @@
         app:iconTint="@color/black" />
 
     <com.google.android.material.button.MaterialButton
-        android:id="@+id/btnPartecipa"
+        android:id="@+id/fixedButton"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_gravity="bottom|center_horizontal"
-        android:layout_margin="110dp"
-        android:elevation="8dp"
+        android:layout_gravity="bottom"
+        android:layout_margin="16dp"
         android:fontFamily="@font/open_sans_bold"
-        android:text="@string/partecipa"
+        android:text="Prenota ora"
         android:textColor="#FFFFFF"
         android:textSize="18sp"
-        android:paddingTop="14dp"
-        android:paddingBottom="14dp"
-        app:backgroundTint="#E53935" />
-
+        app:backgroundTint="#E53935"
+        app:cornerRadius="12dp" />
 </FrameLayout>
