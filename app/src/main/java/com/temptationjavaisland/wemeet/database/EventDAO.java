@@ -40,6 +40,7 @@ public interface EventDAO {
     @Query("SELECT * FROM event WHERE saved = 1")
     List<Event> getAllSavedEvents();
 
-
+    @Query("DELETE FROM Event WHERE saved = 1") //Per elimina preferiti
+    void deleteAllSavedEvents();
 
 }
