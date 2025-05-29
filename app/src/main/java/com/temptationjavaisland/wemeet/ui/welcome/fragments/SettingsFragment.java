@@ -61,7 +61,7 @@ public class SettingsFragment extends Fragment {
         logoutButton.setOnClickListener(v -> {
             Intent intent = new Intent(requireContext(), WelcomeActivity.class);
             startActivity(intent);
-        }); 
+        });
 
         eliminaPreferitiBtn.setOnClickListener(v -> {
             EventRoomDatabase.databaseWriteExecutor.execute(() -> {
