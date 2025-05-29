@@ -1,5 +1,6 @@
 package com.temptationjavaisland.wemeet.ui.welcome.fragments;
 
+import android.content.Intent;
 import android.os.Bundle;
 
 import androidx.annotation.NonNull;
@@ -16,6 +17,8 @@ import android.view.ViewGroup;
 import com.google.android.material.button.MaterialButton;
 import com.temptationjavaisland.wemeet.R;
 import com.temptationjavaisland.wemeet.database.EventRoomDatabase;
+import com.temptationjavaisland.wemeet.ui.welcome.LoginActivity;
+import com.temptationjavaisland.wemeet.ui.welcome.WelcomeActivity;
 
 
 public class SettingsFragment extends Fragment {
@@ -56,12 +59,9 @@ public class SettingsFragment extends Fragment {
         });
 
         logoutButton.setOnClickListener(v -> {
-            FragmentTransaction transaction = requireActivity()
-                    .getSupportFragmentManager()
-                    .beginTransaction();
-            transaction.replace(R.id.fragmentContainerView, new WelcomeFragment());
-            transaction.commit();
-        });
+            Intent intent = new Intent(requireContext(), WelcomeActivity.class);
+            startActivity(intent);
+        }); 
 
         eliminaPreferitiBtn.setOnClickListener(v -> {
             EventRoomDatabase.databaseWriteExecutor.execute(() -> {
