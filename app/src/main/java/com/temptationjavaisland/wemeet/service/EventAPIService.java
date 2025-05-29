@@ -22,4 +22,13 @@ public interface EventAPIService {
             @Query(TOP_HEADLINES_KEYWORD_PARAMETER) String keyword, //Ricerca per Artista/Evento
             @Query(TOP_HEADLINES_PAGE_SIZE_PARAMETER) int pageSize,
             @Header("Authorization")String apiKey);
+
+    @GET("events.json")
+    Call<EventAPIResponse> getEventsByLocation(
+            @Query("latlong") String latlong,
+            @Query("radius") int radius,
+            @Query("unit") String unit,
+            @Query("locale") String locale,
+            @Query("apikey") String apikey
+    );
 }
