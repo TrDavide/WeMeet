@@ -3,7 +3,7 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="#F9F9F9">
+    android:background="@color/white">
 
     <ScrollView
         android:id="@+id/scrollContent"
@@ -46,14 +46,16 @@
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:orientation="vertical"
-                    android:padding="16dp">
+                    android:padding="16dp"
+                    android:background="@color/white"
+                    >
 
                     <TextView
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:fontFamily="@font/open_sans_bold"
                         android:text="Gattopardo Milano"
-                        android:textColor="#000000"
+                        android:textColor="@color/black"
                         android:textSize="18sp"
                         android:textStyle="bold" />
 
@@ -103,7 +105,8 @@
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:orientation="vertical"
-                    android:padding="16dp">
+                    android:padding="16dp"
+                    android:background="@color/white">
 
                     <TextView
                         android:id="@+id/textTitle"
@@ -111,7 +114,7 @@
                         android:layout_height="wrap_content"
                         android:fontFamily="@font/open_sans_bold"
                         android:text="@string/informazioni_evento"
-                        android:textColor="#000000"
+                        android:textColor="@color/black"
                         android:textSize="20sp"
                         android:textStyle="bold" />
 
@@ -162,7 +165,7 @@
                             android:layout_marginTop="4dp"
                             android:fontFamily="@font/open_sans_bold"
                             android:text="@string/posizione_evento_default"
-                            android:textColor="#000000"
+                            android:textColor="@color/black"
                             android:textSize="20sp"
                             android:textStyle="bold" />
                     </LinearLayout>
@@ -206,7 +209,7 @@
         app:icon="@drawable/arrow_left"
         app:iconGravity="textStart"
         app:iconSize="24dp"
-        app:iconTint="@color/black" />
+        app:iconTint="#000000" />
 
     <com.google.android.material.button.MaterialButton
         android:id="@+id/btnPartecipa"
