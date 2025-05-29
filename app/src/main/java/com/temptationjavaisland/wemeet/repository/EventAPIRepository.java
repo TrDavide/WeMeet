@@ -76,6 +76,43 @@ public class EventAPIRepository implements IEventRepository{
 
     }
 
+    public void fetchEventsByLocation(String latlong, int radius, long lastUpdate) {
+        Call<EventAPIResponse> eventResponseCall = eventAPIService.getEventsByLocation(
+                latlong,
+                radius,
+                "km",           // oppure "miles"
+                "*",            // tutte le lingue/localizzazioni
+                application.getString(R.string.ticketmaster_key)
+        );
+
+        eventResponseCall.enqueue(new Callback<EventAPIResponse>() {
+            @Override
+            public void onResponse(@NonNull Call<EventAPIResponse> call, @NonNull Response<EventAPIResponse> response) {
+                if (response.isSuccessful()) {
+                    Log.d("API_DEBUG", "Risposta ricevuta: " + response.body());
+
+                    if (response.body() != null && response.body().getEmbedded() != null) {
+                        List<Event> eventList = response.body().getEmbedded().getEvents();
+                        saveDataInDatabase(eventList);
+                    } else {
+                        Log.d("API_DEBUG", "Nessun evento trovato");
+                        responseCallback.onFailure("Nessun evento trovato");
+                    }
+                } else {
+                    Log.e("API_DEBUG", "Risposta NON OK: " + response.code());
+                    responseCallback.onFailure("Errore nella risposta");
+                }
+            }
+
+
+            @Override
+            public void onFailure(@NonNull Call<EventAPIResponse> call, @NonNull Throwable t) {
+                readDataFromDatabase(lastUpdate);
+            }
+        });
+    }
+
+
     @Override
     public void updateEvents(Event event) {}
 

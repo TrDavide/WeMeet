@@ -11,6 +11,11 @@ public class EventMockRepository implements IEventRepository{
     }
 
     @Override
+    public void fetchEventsByLocation(String latlong, int radius, long lastUpdate) {
+
+    }
+
+    @Override
     public void updateEvents(Event event) {
 
     }

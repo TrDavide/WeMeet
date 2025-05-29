@@ -15,4 +15,13 @@ public class Constants{
     public static final String TOP_HEADLINES_APIKEY = "apiKey";
     public static final int TOP_HEADLINES_PAGE_SIZE_VALUE = 100;
 
+    public static final String TOP_HEADLINES_LATLONG_PARAMETER = "latlong";
+    public static final String TOP_HEADLINES_RADIUS_PARAMETER = "radius";
+    public static final String TOP_HEADLINES_UNIT_PARAMETER = "unit";
+    public static final String TOP_HEADLINES_LOCALE_PARAMETER = "locale";
+
+
+
+
+
 }

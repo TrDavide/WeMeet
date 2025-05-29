@@ -206,7 +206,7 @@
         app:icon="@drawable/arrow_left"
         app:iconGravity="textStart"
         app:iconSize="24dp"
-        app:iconTint="@color/black" />
+        app:iconTint="@color/black"/>
 
     <com.google.android.material.button.MaterialButton
         android:id="@+id/btnPartecipa"
