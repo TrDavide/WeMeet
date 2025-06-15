@@ -3,6 +3,7 @@ import androidx.room.DatabaseView;
 import androidx.room.Embedded;
 import androidx.room.Entity;
 
+import java.util.ArrayList;
 import java.util.List;
 
 @Entity
@@ -34,4 +35,5 @@ public class EventAPIResponse {
         }
 
     }
+
 }
