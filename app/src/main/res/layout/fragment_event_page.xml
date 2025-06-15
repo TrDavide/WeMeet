@@ -25,6 +25,7 @@
                 android:layout_height="200dp">
 
                 <com.google.android.material.imageview.ShapeableImageView
+                    android:id="@+id/shapeableImageView"
                     android:layout_width="match_parent"
                     android:layout_height="match_parent"
                     android:contentDescription="@string/immagine_evento"
@@ -221,7 +222,7 @@
         app:icon="@drawable/arrow_left"
         app:iconGravity="textStart"
         app:iconSize="24dp"
-        app:iconTint="#000000" />
+        app:iconTint="@color/black" />
 
 
 

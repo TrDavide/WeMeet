@@ -1,5 +1,6 @@
 package com.temptationjavaisland.wemeet.model;
 
+import android.location.Location;
 import android.os.Parcel;
 import android.os.Parcelable;
 
@@ -15,7 +16,7 @@ public class Venue implements Parcelable {
     private boolean test;
     private String locale;
     private String postalCode;
-
+    private Location location;
     /*@Embedded(prefix = "city_")
     private City city;
     @Embedded(prefix = "country_")
@@ -54,16 +55,17 @@ public class Venue implements Parcelable {
 
     public Country getCountry() { return country; }
     public void setCountry(Country country) { this.country = country; }
-
+*/
     public Location getLocation() { return location; }
     public void setLocation(Location location) { this.location = location; }
 
+    /*
     public UpcomingEvents getUpcomingEvents() { return upcomingEvents; }
     public void setUpcomingEvents(UpcomingEvents upcomingEvents) { this.upcomingEvents = upcomingEvents; }
 
     public Links getLinks() { return _links; }
-    public void setLinks(Links _links) { this._links = _links; }
-    */
+    public void setLinks(Links _links) { this._links = _links; }*/
+
 
     // Parcelable implementation
 

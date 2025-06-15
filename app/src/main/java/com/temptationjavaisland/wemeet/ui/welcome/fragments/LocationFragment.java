@@ -1,7 +1,6 @@
 package com.temptationjavaisland.wemeet.ui.welcome.fragments;
 
 import android.os.Bundle;
-
 import androidx.annotation.NonNull;
 import androidx.fragment.app.Fragment;
 import androidx.navigation.Navigation;
@@ -17,18 +16,23 @@ import android.widget.SearchView;
 import com.temptationjavaisland.wemeet.R;
 import com.temptationjavaisland.wemeet.adapter.EventRecyclerAdapter;
 import com.temptationjavaisland.wemeet.model.Event;
-import com.temptationjavaisland.wemeet.model.EventAPIResponse;
-import com.temptationjavaisland.wemeet.util.Constants;
-import com.temptationjavaisland.wemeet.util.JSONParserUtils;
+import com.temptationjavaisland.wemeet.model.EventApiResponseRetrofit;
+import com.temptationjavaisland.wemeet.model.EventService;
 
-import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
 
+import retrofit2.*;
+import retrofit2.converter.gson.GsonConverterFactory;
+
 public class LocationFragment extends Fragment {
 
+    private static final String API_KEY = "A5mU8sFCAGSybDD2Po2bLphN3AlazHoG";
     private EventRecyclerAdapter adapter;
     private List<Event> allEvents = new ArrayList<>();
+    private RecyclerView recyclerView;
+    private ImageView imageView;
+    private SearchView searchView;
 
     public LocationFragment() {}
 
@@ -37,51 +41,30 @@ public class LocationFragment extends Fragment {
     }
 
     @Override
-    public View onCreateView(@NonNull LayoutInflater inflater, ViewGroup container,
-                             Bundle savedInstanceState) {
+    public View onCreateView(@NonNull LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         View view = inflater.inflate(R.layout.fragment_location, container, false);
 
-        RecyclerView recyclerView = view.findViewById(R.id.recyclerViewLocation);
+        recyclerView = view.findViewById(R.id.recyclerViewLocation);
         recyclerView.setLayoutManager(new LinearLayoutManager(getContext()));
 
-        ImageView imageView = view.findViewById(R.id.imageView);
-        SearchView searchView = view.findViewById(R.id.search_bar);
+        imageView = view.findViewById(R.id.imageView);
+        searchView = view.findViewById(R.id.search_bar);
 
         recyclerView.setVisibility(View.GONE);
         imageView.setVisibility(View.VISIBLE);
 
-        // Caricamento eventi dal JSON
-        JSONParserUtils jsonParserUtils = new JSONParserUtils(getContext());
-        try {
-            EventAPIResponse response = jsonParserUtils.parserJSONFileWithGsson(Constants.SAMPLE_JSON_FILENAME);
-            allEvents = response.getEmbedded().getEvents();
-        } catch (IOException e) {
-            e.printStackTrace();
-        }
+        fetchEvents();
 
-        adapter = new EventRecyclerAdapter(R.layout.event_card, allEvents, event -> {
-            Bundle bundle = new Bundle();
-            bundle.putParcelable("event_data", event); // Event deve implementare Parcelable
-            Navigation.findNavController(requireView()).navigate(R.id.action_locationFragment_to_eventPageFragment, bundle);
-        });
-
-        recyclerView.setAdapter(adapter);
-
-        // Filtraggio in tempo reale
         searchView.setOnQueryTextListener(new SearchView.OnQueryTextListener() {
             @Override
             public boolean onQueryTextSubmit(String query) {
-                recyclerView.setVisibility(View.VISIBLE);
-                imageView.setVisibility(View.GONE);
-                filterEvents(query);
+                fetchFilteredEvents(query);
                 return true;
             }
 
             @Override
             public boolean onQueryTextChange(String newText) {
-                recyclerView.setVisibility(View.VISIBLE);
-                imageView.setVisibility(View.GONE);
-                filterEvents(newText);
+                fetchFilteredEvents(newText);
                 return true;
             }
         });
@@ -100,31 +83,60 @@ public class LocationFragment extends Fragment {
         return view;
     }
 
-    private void filterEvents(String query) {
-        List<Event> filteredList = new ArrayList<>();
-        if (query == null || query.trim().isEmpty()) {
-            filteredList.addAll(allEvents);
-        } else {
-            String lowerQuery = query.toLowerCase();
-            for (Event event : allEvents) {
-                if (event.getName() != null && event.getName().toLowerCase().contains(lowerQuery)) {
-                    filteredList.add(event);
+    private void fetchEvents() {
+        Retrofit retrofit = new Retrofit.Builder()
+                .baseUrl("https://app.ticketmaster.com/discovery/v2/")
+                .addConverterFactory(GsonConverterFactory.create())
+                .build();
+
+        EventService service = retrofit.create(EventService.class);
+
+        service.getEvents(API_KEY).enqueue(new Callback<EventApiResponseRetrofit>() {
+            @Override
+            public void onResponse(Call<EventApiResponseRetrofit> call, Response<EventApiResponseRetrofit> response) {
+                if (response.isSuccessful() && response.body() != null && response.body().getEmbedded() != null) {
+                    allEvents = response.body().getEmbedded().getEvents();
+
+                    adapter = new EventRecyclerAdapter(R.layout.event_card, allEvents, event -> {
+                        Bundle bundle = new Bundle();
+                        bundle.putParcelable("event_data", event);
+                        Navigation.findNavController(requireView()).navigate(R.id.action_locationFragment_to_eventPageFragment, bundle);
+                    });
+
+                    recyclerView.setAdapter(adapter);
+                    recyclerView.setVisibility(View.VISIBLE);
+                    imageView.setVisibility(View.GONE);
                 }
             }
-        }
-        adapter.updateData(filteredList);
+
+            @Override
+            public void onFailure(Call<EventApiResponseRetrofit> call, Throwable t) {
+                t.printStackTrace();
+            }
+        });
     }
 
-    @Override
-    public void onResume() {
-        super.onResume();
-        View view = getView();
-        if (view != null) {
-            RecyclerView recyclerView = view.findViewById(R.id.recyclerViewLocation);
-            ImageView imageView = view.findViewById(R.id.imageView);
+    private void fetchFilteredEvents(String keyword) {
+        Retrofit retrofit = new Retrofit.Builder()
+                .baseUrl("https://app.ticketmaster.com/discovery/v2/")
+                .addConverterFactory(GsonConverterFactory.create())
+                .build();
 
-            recyclerView.setVisibility(View.GONE);
-            imageView.setVisibility(View.VISIBLE);
-        }
+        EventService service = retrofit.create(EventService.class);
+
+        service.searchEvents(API_KEY, keyword).enqueue(new Callback<EventApiResponseRetrofit>() {
+            @Override
+            public void onResponse(Call<EventApiResponseRetrofit> call, Response<EventApiResponseRetrofit> response) {
+                if (response.isSuccessful() && response.body() != null && response.body().getEmbedded() != null) {
+                    List<Event> filtered = response.body().getEmbedded().getEvents();
+                    adapter.updateData(filtered);
+                }
+            }
+
+            @Override
+            public void onFailure(Call<EventApiResponseRetrofit> call, Throwable t) {
+                t.printStackTrace();
+            }
+        });
     }
 }
