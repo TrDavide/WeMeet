@@ -20,7 +20,6 @@ public class EventAPIResponse {
         this._embedded = _embedded;
     }
 
-
     public static class Embedded {
         private List<Event> events;
 
