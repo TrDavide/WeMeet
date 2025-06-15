@@ -74,7 +74,7 @@
             android:layout_below="@id/FraseBenvenuto2"
             android:layout_marginTop="720dp"
             android:layout_weight="1"
-            android:backgroundTint="@color/red_primary"
+            android:backgroundTint="@color/marrone_rosso"
             android:fontFamily="@font/open_sans_bold"
             android:padding="15dp"
             android:text="@string/accedi"
@@ -89,6 +89,7 @@
         <Button
             android:id="@+id/RegistratiButton"
             style="@style/Widget.Material3.Button.ElevatedButton"
+            android:backgroundTint="@color/white"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_marginTop="720dp"
@@ -96,7 +97,7 @@
             android:fontFamily="@font/open_sans_bold"
             android:padding="15dp"
             android:text="@string/register"
-            android:textColor="@color/md_theme_scrim"
+            android:textColor="@color/black"
             android:textSize="20sp" />
     </LinearLayout>
 

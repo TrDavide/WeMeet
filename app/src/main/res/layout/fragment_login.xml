@@ -39,7 +39,8 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_below="@id/FraseSottoLogin"
-        android:background="@drawable/border2"/>
+        android:background="@drawable/border2"
+        android:backgroundTint="@color/white"/>
 
     <TextView
         android:layout_width="match_parent"
@@ -48,7 +49,7 @@
         android:layout_marginTop="320dp"
         android:fontFamily="@font/open_sans_bold"
         android:text="@string/email"
-        android:textColor="@color/md_theme_scrim"
+        android:textColor="@color/black"
         android:textStyle="bold" />
 
     <TextView
@@ -58,7 +59,7 @@
         android:layout_marginTop="420dp"
         android:fontFamily="@font/open_sans_bold"
         android:text="@string/password"
-        android:textColor="@color/md_theme_scrim"
+        android:textColor="@color/black"
         android:textStyle="bold" />
 
     <com.google.android.material.textfield.TextInputLayout
@@ -114,11 +115,11 @@
         android:layout_marginStart="32dp"
         android:layout_marginTop="560dp"
         android:layout_marginEnd="20dp"
-        android:backgroundTint="@color/md_theme_scrim"
+        android:backgroundTint="@color/black"
         android:fontFamily="@font/open_sans_bold"
         android:padding="15dp"
         android:text="@string/accedi"
-        android:textColor="@color/md_theme_onSecondaryFixed_mediumContrast"
+        android:textColor="@color/white"
         android:textSize="20sp" />
 
     <RelativeLayout
@@ -160,7 +161,7 @@
         android:backgroundTint="@color/md_theme_bianchino"
         android:padding="15dp"
         android:text="@string/or_withGoogle"
-        android:textColor="@color/md_theme_scrim"
+        android:textColor="@color/black"
         app:icon="@drawable/googleicon"
         app:iconGravity="textStart"
         app:iconTint="@null" />
