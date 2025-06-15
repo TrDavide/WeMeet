@@ -1,11 +1,10 @@
 <?xml version="1.0" encoding="utf-8"?>
-<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:id="@+id/main"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="@color/md_theme_onPrimary"
     android:orientation="vertical"
     tools:context=".ui.welcome.WelcomeActivity"
     tools:ignore="ExtraText">
@@ -16,91 +15,89 @@
         android:layout_height="425dp"
         app:srcCompat="@drawable/logowemeet"/>
 
-    <View
-        android:layout_width="match_parent"
-        android:layout_height="420dp"
-        android:layout_below="@id/LogoWemeet"
-        android:background="@drawable/border"
-        android:backgroundTint="@color/main_red"/>
-
-    <TextView
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginStart="20dp"
-        android:layout_marginTop="480dp"
-        android:fontFamily="@font/open_sans_bold"
-        android:text="@string/benvenuto"
-        android:textColor="@color/md_theme_onPrimary"
-        android:textSize="40dp"
-        android:textStyle="bold" />
-
-    <TextView
-        android:id="@+id/FraseBenvenuto"
-        android:layout_width="365dp"
-        android:layout_height="wrap_content"
-        android:layout_marginStart="20dp"
-        android:layout_marginTop="560dp"
-        android:fontFamily="@font/open_sans"
-        android:text="@string/frase_benvenuto"
-        android:textColor="@color/md_theme_onPrimary"
-        android:textSize="20sp" />
-
-    <TextView
-        android:id="@+id/FraseBenvenuto2"
-        android:layout_width="320dp"
-        android:layout_height="wrap_content"
-        android:layout_below="@id/FraseBenvenuto"
-        android:layout_marginStart="20dp"
-        android:fontFamily="@font/open_sans"
-        android:text="@string/frase_benvenuto2"
-        android:textColor="@color/md_theme_onPrimary"
-
-        android:textSize="20sp" />
-
-
     <LinearLayout
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_marginStart="@dimen/margin_default"
-        android:layout_marginEnd="@dimen/margin_default"
-        android:orientation="horizontal">
+        android:layout_height="match_parent"
+        android:backgroundTint="@color/main_red"
+        android:background="@drawable/border2"
+        android:orientation="vertical">
 
-
-        <Button
-            android:id="@+id/accediButton"
-            style="@style/Widget.Material3.Button.ElevatedButton"
-            android:layout_width="match_parent"
+        <TextView
+            android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_below="@id/FraseBenvenuto2"
-            android:layout_marginTop="720dp"
-            android:layout_weight="1"
-            android:backgroundTint="@color/marrone_rosso"
+            android:layout_marginTop="20dp"
+            android:layout_marginStart="@dimen/margin_default"
             android:fontFamily="@font/open_sans_bold"
-            android:padding="15dp"
-            android:text="@string/accedi"
-            android:textColor="@color/md_theme_onSecondaryFixed_mediumContrast"
-            android:textSize="20sp" />
+            android:text="@string/benvenuto"
+            android:textColor="@color/md_theme_onPrimary"
+            android:textSize="36dp"
+            android:textStyle="bold" />
 
-
-        <View
-            android:layout_width="@dimen/margin_default"
-            android:layout_height="0dp" />
-
-        <Button
-            android:id="@+id/RegistratiButton"
-            style="@style/Widget.Material3.Button.ElevatedButton"
-            android:backgroundTint="@color/white"
-            android:layout_width="match_parent"
+        <TextView
+            android:id="@+id/FraseBenvenuto"
+            android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_marginTop="720dp"
-            android:layout_weight="1"
-            android:fontFamily="@font/open_sans_bold"
-            android:padding="15dp"
-            android:text="@string/register"
-            android:textColor="@color/black"
-            android:textSize="20sp" />
+            android:layout_marginTop="10dp"
+            android:layout_marginStart="@dimen/margin_default"
+            android:layout_marginEnd="@dimen/margin_default"
+            android:fontFamily="@font/open_sans"
+            android:text="@string/frase_benvenuto"
+            android:textColor="@color/md_theme_onPrimary"
+            android:textSize="18sp" />
+
+        <TextView
+            android:id="@+id/FraseBenvenuto2"
+            android:layout_width="320dp"
+            android:layout_marginTop="5dp"
+            android:layout_height="wrap_content"
+            android:layout_below="@id/FraseBenvenuto"
+            android:layout_marginStart="@dimen/margin_default"
+            android:fontFamily="@font/open_sans"
+            android:text="@string/frase_benvenuto2"
+            android:textColor="@color/md_theme_onPrimary"
+            android:textSize="18sp" />
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:layout_marginTop="20dp"
+            android:orientation="horizontal"
+            android:layout_marginStart="@dimen/margin_default"
+            android:layout_marginEnd="@dimen/margin_default">
+
+
+            <Button
+                android:id="@+id/accediButton"
+                style="@style/Widget.Material3.Button.ElevatedButton"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:backgroundTint="@color/marrone_rosso"
+                android:fontFamily="@font/open_sans_bold"
+                android:padding="15dp"
+                android:text="@string/accedi"
+                android:textColor="@color/md_theme_onSecondaryFixed_mediumContrast"
+                android:textSize="20sp" />
+
+
+            <View
+                android:layout_width="@dimen/margin_default"
+                android:layout_height="0dp" />
+
+            <Button
+                android:id="@+id/RegistratiButton"
+                style="@style/Widget.Material3.Button.ElevatedButton"
+                android:backgroundTint="@color/white"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:fontFamily="@font/open_sans_bold"
+                android:padding="15dp"
+                android:text="@string/register"
+                android:textColor="@color/black"
+                android:textSize="20sp" />
+        </LinearLayout>
+
     </LinearLayout>
 
-
-</RelativeLayout>
-
+</LinearLayout>
