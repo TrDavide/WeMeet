@@ -66,5 +66,6 @@
     <color name="md_theme_onPrimary_mediumContrast">#3A0B01</color>
     <color name="md_theme_primaryContainer_mediumContrast">#914D38</color>
     <color name="md_theme_onPrimaryContainer_mediumContrast">#FFE5DE</color>
+    <color name="marrone_rosso">#3F0700</color>
 
 </resources>
