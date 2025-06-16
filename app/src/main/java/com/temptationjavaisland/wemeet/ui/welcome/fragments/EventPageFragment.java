@@ -6,53 +6,115 @@ import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
 
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.ImageView;
+import android.widget.TextView;
 
+import com.bumptech.glide.Glide;
 import com.google.android.gms.maps.CameraUpdateFactory;
 import com.google.android.gms.maps.MapView;
 import com.google.android.gms.maps.model.LatLng;
 import com.google.android.gms.maps.model.MarkerOptions;
 import com.google.android.material.button.MaterialButton;
 import com.temptationjavaisland.wemeet.R;
+import com.temptationjavaisland.wemeet.model.Event;
 
 public class EventPageFragment extends Fragment {
 
-    MapView mapView;
+    private MapView mapView;
+    private ImageView eventImageView;
+    private TextView titleTextView, dateTextView, locationTextView, descriptionTextView, positionTextView;
+    private Event event;
 
     public EventPageFragment() {}
 
-    public static EventPageFragment newInstance(String param1, String param2) {
-        EventPageFragment fragment = new EventPageFragment();
-        return fragment;
-    }
-
     @Override
-    public void onCreate(Bundle savedInstanceState) {super.onCreate(savedInstanceState);}
-
-    @Override
-    public View onCreateView(LayoutInflater inflater, ViewGroup container,
-                             Bundle savedInstanceState) {
+    public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         View view = inflater.inflate(R.layout.fragment_event_page, container, false);
+
+        // Recupera l'evento dal bundle
+        Bundle bundle = getArguments();
+        if (bundle != null) {
+            event = bundle.getParcelable("event_data");
+        }
+
+        // Collega le view
+        eventImageView = view.findViewById(R.id.shapeableImageView);
+        titleTextView = view.findViewById(R.id.eventTitleTextView);
+        dateTextView = view.findViewById(R.id.eventDateTextView);
+        locationTextView = view.findViewById(R.id.eventLocationTextView);
+        descriptionTextView = view.findViewById(R.id.textSubtitle);
+        positionTextView = view.findViewById(R.id.textPersone);
         mapView = view.findViewById(R.id.mapsView);
+
+        if (event != null) {
+            titleTextView.setText(event.getName());
+
+            if (event.getDates() != null && event.getDates().getStart() != null) {
+                dateTextView.setText(event.getDates().getStart().getLocalTime());
+            } else {
+                dateTextView.setText("Data non disponibile");
+            }
+
+            if (event.getEmbedded() != null &&
+                    event.getEmbedded().getVenues() != null &&
+                    !event.getEmbedded().getVenues().isEmpty() &&
+                    event.getEmbedded().getVenues().get(0) != null) {
+
+                locationTextView.setText(event.getEmbedded().getVenues().get(0).getName());
+
+                if (event.getEmbedded().getVenues().get(0).getCity() != null &&
+                        event.getEmbedded().getVenues().get(0).getCity().getName() != null) {
+                    positionTextView.setText(event.getEmbedded().getVenues().get(0).getCity().getName());
+                } else {
+                    positionTextView.setText("Posizione non disponibile");
+                }
+            } else {
+                locationTextView.setText("Luogo non disponibile");
+                positionTextView.setText("Posizione non disponibile");
+            }
+
+            descriptionTextView.setText(event.getName()); // o event.getDescription() se ce l'hai
+
+            if (event.getImages() != null && !event.getImages().isEmpty() && eventImageView != null) {
+                String imageUrl = event.getImages().get(0).getUrl();
+                Glide.with(requireContext())
+                        .load(imageUrl)
+                        .placeholder(R.drawable.event_background)
+                        .into(eventImageView);
+            } else if (eventImageView != null) {
+                eventImageView.setImageResource(R.drawable.event_background);
+            }
+        }
+
+
         mapView.onCreate(savedInstanceState);
         mapView.getMapAsync(googleMap -> {
-            LatLng milano = new LatLng(45.4642, 9.1900);
-            googleMap.addMarker(new MarkerOptions().position(milano).title("Milano"));
-            googleMap.moveCamera(CameraUpdateFactory.newLatLngZoom(milano, 12));
+            if (event != null && event.getEmbedded() != null && !event.getEmbedded().getVenues().isEmpty()) {
+                double lat = Double.parseDouble(event.getEmbedded().getVenues().get(0).getLocation().getLatitude());
+                double lng = Double.parseDouble(event.getEmbedded().getVenues().get(0).getLocation().getLongitude());
+
+                Log.d("MAP_DEBUG", "Latitudine: " + lat + ", Longitudine: " + lng);
+
+                LatLng location = new LatLng(lat, lng);
+
+                googleMap.addMarker(new MarkerOptions().position(location).title(event.getName()));
+                googleMap.moveCamera(CameraUpdateFactory.newLatLngZoom(location, 14));
+            } else {
+                Log.e("MAP_DEBUG", "Evento o venues mancanti");
+            }
         });
+
         return view;
     }
 
     @Override
     public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
-        MaterialButton backButton = view.findViewById(R.id.arrowBack); // Sostituisci con l'ID esatto del tuo bottone
-
-        backButton.setOnClickListener(v -> {
-            requireActivity().getSupportFragmentManager().popBackStack();
-        });
-
+        MaterialButton backButton = view.findViewById(R.id.arrowBack);
+        backButton.setOnClickListener(v -> requireActivity().getSupportFragmentManager().popBackStack());
     }
 }

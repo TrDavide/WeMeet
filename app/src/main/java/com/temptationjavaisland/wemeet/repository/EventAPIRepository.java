@@ -39,6 +39,7 @@ public class EventAPIRepository implements IEventRepository{
     }
 
 
+
     @Override
     public void fetchEvents(String country, String city, String keyword, int page, long lastUpdate) {
         long currentTime = System.currentTimeMillis();

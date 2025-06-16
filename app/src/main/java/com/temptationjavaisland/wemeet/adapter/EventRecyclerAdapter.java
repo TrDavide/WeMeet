@@ -4,9 +4,11 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.CheckBox;
+import android.widget.ImageView;  // aggiunto import
 import android.widget.TextView;
 import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
+import com.bumptech.glide.Glide; // aggiunto import Glide
 import com.temptationjavaisland.wemeet.R;
 import com.temptationjavaisland.wemeet.database.EventRoomDatabase;
 import com.temptationjavaisland.wemeet.model.Event;
@@ -34,6 +36,7 @@ public class EventRecyclerAdapter extends RecyclerView.Adapter<EventRecyclerAdap
         private final TextView textViewDate;
         private final TextView textViewLocation;
         private final CheckBox checkBoxSaved;
+        private final ImageView eventImageView;  // nuova ImageView
 
         public ViewHolder(View view) {
             super(view);
@@ -41,6 +44,7 @@ public class EventRecyclerAdapter extends RecyclerView.Adapter<EventRecyclerAdap
             textViewDate = view.findViewById(R.id.event_date_time);
             textViewLocation = view.findViewById(R.id.event_location);
             checkBoxSaved = view.findViewById(R.id.favoriteButton);
+            eventImageView = view.findViewById(R.id.event_image); // riferimento ImageView (deve esistere nel layout)
         }
 
         public void bind(Event event, OnItemClickListener listener) {
@@ -51,6 +55,7 @@ public class EventRecyclerAdapter extends RecyclerView.Adapter<EventRecyclerAdap
         public TextView getTextViewDate() { return textViewDate; }
         public TextView getTextViewLocation() { return textViewLocation; }
         public CheckBox getCheckBoxSaved() { return checkBoxSaved; }
+        public ImageView getEventImageView() { return eventImageView; }
     }
 
     @NonNull
@@ -79,8 +84,19 @@ public class EventRecyclerAdapter extends RecyclerView.Adapter<EventRecyclerAdap
                 currentEvent.getEmbedded().getVenues().get(0).getName() != null) {
             locationText = currentEvent.getEmbedded().getVenues().get(0).getName();
         }
-
         viewHolder.getTextViewLocation().setText(locationText);
+
+        // Carica immagine evento con Glide
+        if (currentEvent.getImages() != null && !currentEvent.getImages().isEmpty()) {
+            String imageUrl = currentEvent.getImages().get(0).getUrl();
+            Glide.with(viewHolder.itemView.getContext())
+                    .load(imageUrl)
+                    //.placeholder(R.drawable.placeholder) // immagine temporanea
+                    .into(viewHolder.getEventImageView());
+        } else {
+            viewHolder.getEventImageView().setImageResource(R.drawable.event_background); // fallback
+        }
+
         viewHolder.getCheckBoxSaved().setOnCheckedChangeListener(null);
         viewHolder.getCheckBoxSaved().setChecked(currentEvent.isSaved());
 
@@ -99,7 +115,7 @@ public class EventRecyclerAdapter extends RecyclerView.Adapter<EventRecyclerAdap
             }).start();
         });
 
-        viewHolder.bind(currentEvent, onItemClickListener); // << AGGIUNTO QUI
+        viewHolder.bind(currentEvent, onItemClickListener);
     }
 
     @Override

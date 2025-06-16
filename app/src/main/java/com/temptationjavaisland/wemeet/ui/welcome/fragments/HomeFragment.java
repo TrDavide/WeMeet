@@ -68,8 +68,8 @@ public class HomeFragment extends Fragment implements ResponseCallBack {
 
         Bundle args = getArguments();
         if (args != null) {
-            double lat = 45.464003; //args.getDouble("lat", 0);
-            double lon = 9.189664; //args.getDouble("lon", 0);
+            double lat = args.getDouble("lat", 0); //45.464003;
+            double lon = args.getDouble("lon", 0);  //9.189664;
 
             getCityNameAsync(lat, lon, view);
 
