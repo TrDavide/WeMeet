@@ -6,6 +6,6 @@ import java.util.List;
 
 public interface ResponseCallBack {
 
-    void onSuccess(List<Event> articlesList, long lastUpdate);
+    void onSuccess(List<Event> eventsList, long lastUpdate);
     void onFailure(String errorMessage);
 }
