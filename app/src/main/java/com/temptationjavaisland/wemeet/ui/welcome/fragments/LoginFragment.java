@@ -48,7 +48,12 @@ public class LoginFragment extends Fragment {
         editTextEmail = view.findViewById(R.id.textInputEmail);
         editTextPassword = view.findViewById(R.id.textInputPassword);
 
+        Button arrowBackButton = view.findViewById(R.id.arrowBackLogin);
         Button loginButton = view.findViewById(R.id.loginButton);
+
+        arrowBackButton.setOnClickListener(v -> {
+            Navigation.findNavController(v).navigate(R.id.action_loginFragment_to_welcomeFragment);
+        });
 
         loginButton.setOnClickListener(v -> {
             if(isEmailOk(editTextEmail.getText().toString()) && editTextEmail.getText() != null/*editTextEmail.getText() != null && isEmailOk(editTextEmail.getText().toString())*/){
