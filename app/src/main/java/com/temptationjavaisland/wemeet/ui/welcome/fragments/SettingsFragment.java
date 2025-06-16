@@ -13,7 +13,9 @@ import androidx.navigation.Navigation;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.Button;
 
+import com.google.android.material.bottomnavigation.BottomNavigationView;
 import com.google.android.material.button.MaterialButton;
 import com.temptationjavaisland.wemeet.R;
 import com.temptationjavaisland.wemeet.database.EventRoomDatabase;
@@ -43,18 +45,27 @@ public class SettingsFragment extends Fragment {
     @Override
     public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
+
+        BottomNavigationView bottomNav = requireActivity().findViewById(R.id.bottom_navigation);
+        if (bottomNav != null) {
+            bottomNav.setVisibility(View.GONE);
+        }
+
+
         // Trova il bottone della freccia
-        MaterialButton backButton = view.findViewById(R.id.arrowBackWelcome);
-        backButton.setOnClickListener(v -> {
-            Navigation.findNavController(v).navigateUp();
+        Button arrowBackButton = view.findViewById(R.id.arrowBackSetting);
+
+        arrowBackButton.setOnClickListener(v -> {
+            Navigation.findNavController(v).navigate(R.id.action_settingsFragment_to_profileFragment);
         });
+
+        NavController navController = Navigation.findNavController(view);
 
         MaterialButton logoutButton = view.findViewById(R.id.bottone_logout);
         MaterialButton modificaButton = view.findViewById(R.id.modifica_profilo);
         MaterialButton eliminaPreferitiBtn = view.findViewById(R.id.elimina_preferiti);
 
         modificaButton.setOnClickListener(v -> {
-            NavController navController = Navigation.findNavController(view);
             navController.navigate(R.id.action_settingsFragment_to_modificaProfiloFragment);
         });
 
@@ -73,4 +84,5 @@ public class SettingsFragment extends Fragment {
         });
 
     }
+
 }

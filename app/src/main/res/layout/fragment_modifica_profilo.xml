@@ -9,10 +9,11 @@
 
     <Button
         style="?attr/materialIconButtonStyle"
-        android:id="@+id/arrowBackWelcome"
+        android:id="@+id/arrowBackModificaProfilo"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginTop="@dimen/margin_default"
+        android:layout_marginStart="10dp"
+        android:layout_marginTop="20dp"
         app:icon="@drawable/arrow_left"
         app:iconTint="@color/white"
         app:iconSize="24dp" />
@@ -23,7 +24,7 @@
         android:layout_height="0dp"
         android:layout_weight="1"
         android:orientation="vertical"
-        android:background="@drawable/border2"
+        android:background="@drawable/border"
         android:backgroundTint="@color/white"
         android:layout_marginTop="50sp">
 
@@ -50,7 +51,7 @@
             android:layout_marginStart="32dp"
             android:fontFamily="@font/open_sans_semibold"
             android:text="@string/modifica_nome"
-            android:textColor="@color/md_theme_scrim"
+            android:textColor="@color/black"
             android:textSize="16sp" />
 
         <View
@@ -80,7 +81,7 @@
             android:layout_marginTop="10dp"
             android:fontFamily="@font/open_sans_semibold"
             android:text="@string/modifica_bio"
-            android:textColor="@color/md_theme_scrim"
+            android:textColor="@color/black"
             android:textSize="16sp" />
 
         <View
