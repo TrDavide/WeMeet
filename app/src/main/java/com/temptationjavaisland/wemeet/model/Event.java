@@ -19,28 +19,28 @@ public class Event implements Parcelable {
     private int uid;
 
     private String name;
-    //private String type;
-    //private String id;
-    //private boolean test;
-    //private String url;
-   //private String locale;
+    private String type;
+    private String id;
+    private boolean test;
+    private String url;
+    private String locale;
     private boolean saved;
 
     @TypeConverters(Converters.class)
     private List<Image> images;
 
-    /*@Embedded(prefix = "sales_")
-    private Sales sales;*/
+    @Embedded(prefix = "sales_")
+    private Sales sales;
 
     @Embedded(prefix = "dates_")
     @TypeConverters(Converters.class)
     private Dates dates;
 
-    //@TypeConverters(Converters.class)
-    //private List<Classification> classifications;
+    @TypeConverters(Converters.class)
+    private List<Classification> classifications;
 
-    //@Embedded(prefix = "_links_")
-    //private Links _links;
+    @Embedded(prefix = "_links_")
+    private Links _links;
 
     @Embedded(prefix = "_embedded_")
     @TypeConverters(Converters.class)
@@ -73,7 +73,7 @@ public class Event implements Parcelable {
         this.saved = saved;
     }
 
-    /*public String getType() {
+    public String getType() {
         return type;
     }
 
@@ -111,7 +111,7 @@ public class Event implements Parcelable {
 
     public void setLocale(String locale) {
         this.locale = locale;
-    }*/
+    }
 
     public List<Image> getImages() {
         return images;
@@ -121,13 +121,13 @@ public class Event implements Parcelable {
         this.images = images;
     }
 
-    /*public Sales getSales() {
+    public Sales getSales() {
         return sales;
     }
 
     public void setSales(Sales sales) {
         this.sales = sales;
-    }*/
+    }
 
     public Dates getDates() {
         return dates;
@@ -137,7 +137,7 @@ public class Event implements Parcelable {
         this.dates = dates;
     }
 
-    /*public List<Classification> getClassifications() {
+    public List<Classification> getClassifications() {
         return classifications;
     }
 
@@ -151,7 +151,7 @@ public class Event implements Parcelable {
 
     public void setLinks(Links _links) {
         this._links = _links;
-    }*/
+    }
 
     public EmbeddedEvent getEmbedded() {
         return _embedded;
@@ -165,17 +165,17 @@ public class Event implements Parcelable {
     protected Event(Parcel in) {
         uid = in.readInt();
         name = in.readString();
-        //type = in.readString();
-        //id = in.readString();
-        //test = in.readByte() != 0;
-        //url = in.readString();
-        //locale = in.readString();
+        type = in.readString();
+        id = in.readString();
+        test = in.readByte() != 0;
+        url = in.readString();
+        locale = in.readString();
         saved = in.readByte() != 0;
         images = in.createTypedArrayList(Image.CREATOR);
-        //sales = in.readParcelable(Sales.class.getClassLoader());
+        sales = in.readParcelable(Sales.class.getClassLoader());
         dates = in.readParcelable(Dates.class.getClassLoader());
-        //classifications = in.createTypedArrayList(Classification.CREATOR);
-        //_links = in.readParcelable(Links.class.getClassLoader());
+        classifications = in.createTypedArrayList(Classification.CREATOR);
+        _links = in.readParcelable(Links.class.getClassLoader());
         _embedded = in.readParcelable(EmbeddedEvent.class.getClassLoader());
     }
 
@@ -183,17 +183,17 @@ public class Event implements Parcelable {
     public void writeToParcel(Parcel dest, int flags) {
         dest.writeInt(uid);
         dest.writeString(name);
-        //dest.writeString(type);
-        //dest.writeString(id);
-        //dest.writeByte((byte) (test ? 1 : 0));
-        //dest.writeString(url);
-        //dest.writeString(locale);
+        dest.writeString(type);
+        dest.writeString(id);
+        dest.writeByte((byte) (test ? 1 : 0));
+        dest.writeString(url);
+        dest.writeString(locale);
         dest.writeByte((byte) (saved ? 1 : 0));
         dest.writeTypedList(images);
-        //dest.writeParcelable(sales, flags);
+        dest.writeParcelable(sales, flags);
         dest.writeParcelable(dates, flags);
-        //dest.writeTypedList(classifications);
-        //dest.writeParcelable(_links, flags);
+        dest.writeTypedList(classifications);
+        dest.writeParcelable(_links, flags);
         dest.writeParcelable(_embedded, flags);
     }
 

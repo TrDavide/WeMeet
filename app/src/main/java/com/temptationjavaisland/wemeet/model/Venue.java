@@ -16,17 +16,16 @@ public class Venue implements Parcelable {
     private boolean test;
     private String locale;
     private String postalCode;
-    private Location location;
-    /*@Embedded(prefix = "city_")
+    @Embedded(prefix = "city_")
     private City city;
-    @Embedded(prefix = "country_")
-    private Country country;
+    //@Embedded(prefix = "country_")
+    //private Country country;
     @Embedded(prefix = "location_")
     private Location location;
-    @Embedded(prefix = "upcomingEvents_")
-    private UpcomingEvents upcomingEvents;
+    //@Embedded(prefix = "upcomingEvents_")
+    //private UpcomingEvents upcomingEvents;
     @Embedded(prefix = "_links_")
-    private Links _links;*/
+    private Links _links;
 
     public Venue() {}
 
@@ -49,22 +48,22 @@ public class Venue implements Parcelable {
     public String getPostalCode() { return postalCode; }
     public void setPostalCode(String postalCode) { this.postalCode = postalCode; }
 
-    /*
+
     public City getCity() { return city; }
     public void setCity(City city) { this.city = city; }
 
-    public Country getCountry() { return country; }
-    public void setCountry(Country country) { this.country = country; }
-*/
+    /*public Country getCountry() { return country; }
+    public void setCountry(Country country) { this.country = country; }*/
+
     public Location getLocation() { return location; }
     public void setLocation(Location location) { this.location = location; }
 
     /*
     public UpcomingEvents getUpcomingEvents() { return upcomingEvents; }
-    public void setUpcomingEvents(UpcomingEvents upcomingEvents) { this.upcomingEvents = upcomingEvents; }
+    public void setUpcomingEvents(UpcomingEvents upcomingEvents) { this.upcomingEvents = upcomingEvents; }*/
 
     public Links getLinks() { return _links; }
-    public void setLinks(Links _links) { this._links = _links; }*/
+    public void setLinks(Links _links) { this._links = _links; }
 
 
     // Parcelable implementation
@@ -120,7 +119,7 @@ public class Venue implements Parcelable {
     };
 
 
-    /*
+
     // Esempio di classi embedded (per implementare anche loro Parcelable, se necessario)
     public static class City implements Parcelable {
         private String name;
@@ -156,5 +155,7 @@ public class Venue implements Parcelable {
             }
         };
     }
-    */
+
+
+
 }
