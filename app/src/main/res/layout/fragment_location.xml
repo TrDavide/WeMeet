@@ -46,6 +46,7 @@
 
     <!-- Layout decorativo in basso -->
     <LinearLayout
+        android:id="@+id/layoutEmptyState"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:orientation="vertical"
