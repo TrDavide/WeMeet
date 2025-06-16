@@ -124,7 +124,9 @@ public class EventRecyclerAdapter extends RecyclerView.Adapter<EventRecyclerAdap
     }
 
     public void updateData(List<Event> newEvents) {
-        this.eventList = newEvents;
+        eventList.clear();
+        eventList.addAll(newEvents);
         notifyDataSetChanged();
     }
+
 }
