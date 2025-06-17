@@ -13,6 +13,7 @@ import java.util.List;
 
 @Dao
 public interface EventDAO {
+
     @Query("SELECT * FROM Event")
     List<Event> getAll();
 
@@ -42,5 +43,9 @@ public interface EventDAO {
 
     @Query("DELETE FROM Event WHERE saved = 1") //Per elimina preferiti
     void deleteAllSavedEvents();
+
+    //@Query("SELECT EXISTS(SELECT 1 FROM Event WHERE uid = :eventId AND saved = 1)")
+    //boolean isEventSaved(int eventId);
+
 
 }

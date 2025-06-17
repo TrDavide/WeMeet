@@ -6,12 +6,16 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 
+import androidx.annotation.NonNull;
+import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
 import androidx.fragment.app.FragmentTransaction;
+import androidx.navigation.NavController;
 import androidx.navigation.Navigation;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
+import com.google.android.material.bottomnavigation.BottomNavigationView;
 import com.google.android.material.progressindicator.CircularProgressIndicator;
 import com.temptationjavaisland.wemeet.R;
 import com.temptationjavaisland.wemeet.adapter.EventRecyclerAdapter;
@@ -51,19 +55,14 @@ public class PreferedFragment extends Fragment {
         adapter = new EventRecyclerAdapter(R.layout.event_card, eventList, new EventRecyclerAdapter.OnItemClickListener() {
             @Override
             public void onEventClick(Event event) {
-                EventPageFragment eventPageFragment = new EventPageFragment();
                 Bundle bundle = new Bundle();
                 bundle.putParcelable("event_data", event);
-                eventPageFragment.setArguments(bundle);
 
-                FragmentTransaction transaction = requireActivity()
-                        .getSupportFragmentManager()
-                        .beginTransaction();
-                transaction.replace(R.id.fragmentContainerView, eventPageFragment);
-                transaction.addToBackStack(null); // permette di tornare indietro correttamente
-                transaction.commit();
+                NavController navController = Navigation.findNavController(requireActivity(), R.id.fragmentContainerView);
+                navController.navigate(R.id.eventPageFragment, bundle);
             }
         });
+
         recyclerView.setAdapter(adapter);
         loadSavedEvents();
 
@@ -87,5 +86,16 @@ public class PreferedFragment extends Fragment {
                 recyclerView.setVisibility(View.VISIBLE);
             });
         }).start();
+    }
+
+    @Override
+    public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
+        super.onViewCreated(view, savedInstanceState);
+
+        BottomNavigationView bottomNav = requireActivity().findViewById(R.id.bottom_navigation);
+        if (bottomNav != null) {
+            bottomNav.setVisibility(View.VISIBLE);
+        }
+
     }
 }

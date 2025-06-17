@@ -10,6 +10,8 @@ import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
 import androidx.fragment.app.FragmentTransaction;
+import androidx.navigation.NavController;
+import androidx.navigation.Navigation;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
@@ -19,6 +21,7 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.TextView;
 
+import com.google.android.material.bottomnavigation.BottomNavigationView;
 import com.google.android.material.progressindicator.CircularProgressIndicator;
 import com.google.android.material.search.SearchBar;
 import com.google.android.material.snackbar.Snackbar;
@@ -79,17 +82,12 @@ public class HomeFragment extends Fragment implements ResponseCallBack {
         }
 
         adapter = new EventRecyclerAdapter(R.layout.event_card, eventList, event -> {
-            EventPageFragment eventPageFragment = new EventPageFragment();
             Bundle bundle = new Bundle();
             bundle.putParcelable("event_data", event);
-            eventPageFragment.setArguments(bundle);
 
-            FragmentTransaction transaction = requireActivity()
-                    .getSupportFragmentManager()
-                    .beginTransaction();
-            transaction.replace(R.id.fragmentContainerView, eventPageFragment);
-            transaction.addToBackStack(null);
-            transaction.commit();
+            NavController navController = Navigation.findNavController(requireActivity(), R.id.fragmentContainerView);
+            navController.navigate(R.id.eventPageFragment, bundle);
+
         });
 
         recyclerView.setAdapter(adapter);
@@ -132,6 +130,12 @@ public class HomeFragment extends Fragment implements ResponseCallBack {
     @Override
     public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
+
+        BottomNavigationView bottomNav = requireActivity().findViewById(R.id.bottom_navigation);
+        if (bottomNav != null) {
+            bottomNav.setVisibility(View.VISIBLE);
+        }
+
         SearchBar searchBar = view.findViewById(R.id.search_bar);
         recyclerView.setLayoutManager(new LinearLayoutManager(view.getContext()));
     }

@@ -62,12 +62,14 @@ public class SettingsFragment extends Fragment {
         NavController navController = Navigation.findNavController(view);
 
         MaterialButton logoutButton = view.findViewById(R.id.bottone_logout);
-        MaterialButton modificaButton = view.findViewById(R.id.modifica_profilo);
+        //MaterialButton modificaButton = view.findViewById(R.id.modifica_profilo);
         MaterialButton eliminaPreferitiBtn = view.findViewById(R.id.elimina_preferiti);
 
-        modificaButton.setOnClickListener(v -> {
+        /*modificaButton.setOnClickListener(v -> {
             navController.navigate(R.id.action_settingsFragment_to_modificaProfiloFragment);
         });
+
+         */
 
         logoutButton.setOnClickListener(v -> {
             Intent intent = new Intent(requireContext(), WelcomeActivity.class);
