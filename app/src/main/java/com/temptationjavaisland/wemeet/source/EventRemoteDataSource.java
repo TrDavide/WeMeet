@@ -1,13 +1,13 @@
 package com.temptationjavaisland.wemeet.source;
 
-import static com.unimib.worldnews.util.Constants.API_KEY_ERROR;
-import static com.unimib.worldnews.util.Constants.RETROFIT_ERROR;
+import static com.temptationjavaisland.wemeet.util.Constants.API_KEY_ERROR;
+import static com.temptationjavaisland.wemeet.util.Constants.RETROFIT_ERROR;
 
 import androidx.annotation.NonNull;
 
 import com.temptationjavaisland.wemeet.model.EventAPIResponse;
 import com.temptationjavaisland.wemeet.service.EventAPIService;
-import com.unimib.worldnews.util.ServiceLocator;
+import com.temptationjavaisland.wemeet.service.ServiceLocator;
 import com.temptationjavaisland.wemeet.util.JSONParserUtils;
 import retrofit2.Call;
 import retrofit2.Callback;
@@ -27,9 +27,8 @@ public class EventRemoteDataSource extends BaseEventRemoteDataSource {
     }
 
     @Override
-    public void getEvents(String city) {
-        Call<EventAPIResponse> eventsCall = eventAPIService.getEvents(city, apiKey);
-
+    public void getEvents(String country, String city, String keyword, int pageSize, long lastUpdate) {
+        Call<EventAPIResponse> eventsCall = eventAPIService.getEvents(country,city, keyword,pageSize,apiKey);
         eventsCall.enqueue(new Callback<EventAPIResponse>() {
             @Override
             public void onResponse(@NonNull Call<EventAPIResponse> call,
@@ -48,4 +47,5 @@ public class EventRemoteDataSource extends BaseEventRemoteDataSource {
             }
         });
     }
+
 }

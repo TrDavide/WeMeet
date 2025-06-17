@@ -160,6 +160,14 @@ public class Event implements Parcelable {
     public void setEmbedded(EmbeddedEvent _embedded) {
         this._embedded = _embedded;
     }
+    /*
+     * Used to fill the shimmer list
+     */
+    public static Event getSampleArticle() {
+        Event sample = new Event();
+        sample.setName("Not so long title sample");
+        return sample;
+    }
 
     // Parcelable implementation
     protected Event(Parcel in) {

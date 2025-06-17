@@ -9,6 +9,12 @@ import java.util.List;
 @Entity
 public class EventAPIResponse {
 
+    private List<Event> events;
+
+    public EventAPIResponse(List<Event> events) {
+        this.events = events;
+    }
+
     @androidx.room.Embedded(prefix = "_embedded_")
     private Embedded _embedded;
 

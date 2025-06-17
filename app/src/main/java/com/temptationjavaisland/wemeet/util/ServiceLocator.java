@@ -45,31 +45,31 @@ public class ServiceLocator {
 
     public EventAPIService getEventAPIService() {
         Retrofit retrofit = new Retrofit.Builder()
-                .baseUrl(Constants.EVENT_API_BASE_URL)  // definisci la base url nel Constants
+                .baseUrl(Constants.TICKETMASTER_API_BASE_URL)  // definisci la base url nel Constants
                 .client(client)
                 .addConverterFactory(GsonConverterFactory.create())
                 .build();
         return retrofit.create(EventAPIService.class);
     }
 
-    public EventRoomDatabase getEventDatabase(Application application) {
+    public EventRoomDatabase getEventDao(Application application) {
         return EventRoomDatabase.getDatabase(application);
     }
 
     public EventRepository getEventRepository(Application application, boolean debugMode) {
-        BaseEventRemoteDataSource remoteDataSource;
-        BaseEventLocalDataSource localDataSource;
+        BaseEventRemoteDataSource eventRemoteDataSource;
+        BaseEventLocalDataSource eventLocalDataSource;
 
         if (debugMode) {
             JSONParserUtils jsonParserUtils = new JSONParserUtils(application);
-            remoteDataSource = new EventMockDataSource(jsonParserUtils);
+            eventRemoteDataSource = new EventMockDataSource(jsonParserUtils);
         } else {
-            String apiKey = application.getString(R.string.event_api_key);
-            remoteDataSource = new EventRemoteDataSource(apiKey);
+            String apiKey = application.getString(R.string.ticketmaster_key);
+            eventRemoteDataSource = new EventRemoteDataSource(apiKey);
         }
 
-        localDataSource = new EventLocalDataSource(getEventDatabase(application));
+        eventLocalDataSource = new EventLocalDataSource(getEventDao(application));
 
-        return new EventRepository(remoteDataSource, localDataSource);
+        return new EventRepository(eventRemoteDataSource, eventLocalDataSource);
     }
 }

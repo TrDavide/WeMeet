@@ -16,20 +16,23 @@ public interface EventDAO {
     @Query("SELECT * FROM Event")
     List<Event> getAll();
 
+    @Query("SELECT * FROM Event WHERE uid = :eventId")
+    Event getEvent(int eventId);
+
     @Insert(onConflict = OnConflictStrategy.REPLACE)
     void insertAll(Event... users);
 
     @Delete
     void delete(Event user);
 
-    @Query("DELETE from Event")
+    @Query("DELETE FROM Event")
     void deleteAll();
 
     @Query("SELECT * FROM Event WHERE saved = 1")
     List<Event> isSaved();
 
     @Update
-    void updateEvent(Event event);
+    int updateEvent(Event event);
 
     @Query("DELETE FROM event WHERE uid = :eventId")
     void deleteById(int eventId);
@@ -42,5 +45,6 @@ public interface EventDAO {
 
     @Query("DELETE FROM Event WHERE saved = 1") //Per elimina preferiti
     void deleteAllSavedEvents();
-
+    @Update
+    int updateEventList(List<Event> events);
 }

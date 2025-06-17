@@ -10,6 +10,7 @@ import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
 import androidx.fragment.app.FragmentTransaction;
+import androidx.lifecycle.ViewModelProvider;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
@@ -17,6 +18,7 @@ import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.FrameLayout;
 import android.widget.TextView;
 
 import com.google.android.material.progressindicator.CircularProgressIndicator;
@@ -26,13 +28,20 @@ import com.temptationjavaisland.wemeet.R;
 import com.temptationjavaisland.wemeet.adapter.EventRecyclerAdapter;
 import com.temptationjavaisland.wemeet.model.Event;
 import com.temptationjavaisland.wemeet.repository.EventAPIRepository;
+import com.temptationjavaisland.wemeet.repository.EventRepository;
 import com.temptationjavaisland.wemeet.repository.IEventRepository;
+import com.temptationjavaisland.wemeet.ui.welcome.viewmodel.EventViewModel;
+import com.temptationjavaisland.wemeet.ui.welcome.viewmodel.EventViewModelFactory;
+import com.temptationjavaisland.wemeet.util.NetworkUtil;
 import com.temptationjavaisland.wemeet.util.ResponseCallBack;
+import com.temptationjavaisland.wemeet.util.ServiceLocator;
 
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Locale;
 import android.location.Geocoder;
+import android.widget.LinearLayout;
+
 
 public class HomeFragment extends Fragment implements ResponseCallBack {
 
@@ -42,7 +51,10 @@ public class HomeFragment extends Fragment implements ResponseCallBack {
     private RecyclerView recyclerView;
     private EventRecyclerAdapter adapter;
     private IEventRepository eventRepository;
-
+    private EventViewModel eventViewModel;
+    private LinearLayout shimmerLinearLayout;
+    private FrameLayout noInternetView;
+    private static final int initialShimmerElements = 5;
     public HomeFragment() {}
 
     public static HomeFragment newInstance() {
@@ -52,6 +64,17 @@ public class HomeFragment extends Fragment implements ResponseCallBack {
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+
+        EventRepository eventRepository =
+                ServiceLocator.getInstance().getEventRepository(
+                        requireActivity().getApplication(),
+                        requireActivity().getApplication().getResources().getBoolean(R.bool.debug_mode)
+                );
+
+        eventViewModel = new ViewModelProvider(
+                requireActivity(),
+                new EventViewModelFactory(eventRepository)).get(EventViewModel.class);
+
         eventList = new ArrayList<>();
     }
 
@@ -60,10 +83,14 @@ public class HomeFragment extends Fragment implements ResponseCallBack {
                              Bundle savedInstanceState) {
         View view = inflater.inflate(R.layout.fragment_home, container, false);
 
+        shimmerLinearLayout = view.findViewById(R.id.shimmerLinearLayout);
+        noInternetView = view.findViewById(R.id.noInternetMessage);
         recyclerView = view.findViewById(R.id.recyclerViewHome);
         circularProgressIndicator = view.findViewById(R.id.progressIndicator);
         recyclerView.setLayoutManager(new LinearLayoutManager(view.getContext()));
 
+        eventList = new ArrayList<>();
+        for (int i = 0; i < initialShimmerElements; i++) eventList.add(Event.getSampleArticle());
         eventRepository = new EventAPIRepository(requireActivity().getApplication(), this);
 
         Bundle args = getArguments();
@@ -91,10 +118,18 @@ public class HomeFragment extends Fragment implements ResponseCallBack {
             transaction.addToBackStack(null);
             transaction.commit();
         });
+        String lastUpdate = "0";
+        
+        if (!NetworkUtil.isInternetAvailable(getContext())) {
+            noInternetView.setVisibility(View.VISIBLE);
+
+            //Trick to avoid doing the API call
+            lastUpdate = System.currentTimeMillis() + "";
+        }
+
 
         recyclerView.setAdapter(adapter);
         recyclerView.setVisibility(View.GONE);
-        circularProgressIndicator.setVisibility(View.VISIBLE);
 
         return view;
     }

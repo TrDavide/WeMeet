@@ -12,7 +12,7 @@ public class EventLocalDataSource extends BaseEventLocalDataSource {
     private final EventDAO eventDAO;
 
     public EventLocalDataSource(EventRoomDatabase eventRoomDatabase) {
-        this.eventDAO = eventRoomDatabase.eventDao();
+        this.eventDAO = eventRoomDatabase.eventsDao();
     }
 
     @Override
@@ -25,18 +25,18 @@ public class EventLocalDataSource extends BaseEventLocalDataSource {
     @Override
     public void getFavoriteEvents() {
         EventRoomDatabase.databaseWriteExecutor.execute(() -> {
-            List<Event> favoriteEvents = eventDAO.getSaved();
+            List<Event> favoriteEvents = eventDAO.getAllSavedEvents();
             eventCallback.onFavoriteStatusChanged(favoriteEvents);
         });
     }
 
     @Override
-    public void updateEvent(Event event) {
+    public void updateEvent(Event event) { 
         EventRoomDatabase.databaseWriteExecutor.execute(() -> {
             int rowUpdated = eventDAO.updateEvent(event);
             if (rowUpdated == 1) {
                 Event updatedEvent = eventDAO.getEvent(event.getUid());
-                eventCallback.onFavoriteStatusChanged(updatedEvent, eventDAO.getSaved());
+                eventCallback.onFavoriteStatusChanged(updatedEvent, eventDAO.isSaved());
             } else {
                 eventCallback.onFailureFromLocal(new Exception("Unexpected error during update."));
             }
@@ -46,7 +46,7 @@ public class EventLocalDataSource extends BaseEventLocalDataSource {
     @Override
     public void deleteFavoriteEvents() {
         EventRoomDatabase.databaseWriteExecutor.execute(() -> {
-            List<Event> favoriteEvents = eventDAO.getSaved();
+            List<Event> favoriteEvents = eventDAO.isSaved();
             for (Event event : favoriteEvents) {
                 event.setSaved(false);
             }
@@ -70,7 +70,7 @@ public class EventLocalDataSource extends BaseEventLocalDataSource {
                         eventList.set(eventList.indexOf(event), event);
                     }
                 }
-                List<Long> insertedIds = eventDAO.insertEventList(eventList);
+                List<Long> insertedIds = eventDAO.insertEventsList(eventList);
                 for (int i = 0; i < eventList.size(); i++) {
                     eventList.get(i).setUid(insertedIds.get(i).intValue());
                 }

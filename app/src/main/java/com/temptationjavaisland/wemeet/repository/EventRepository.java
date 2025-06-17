@@ -1,112 +1,124 @@
 package com.temptationjavaisland.wemeet.repository;
-package com.temptationjavaisland.wemeet.repository;
+import static com.temptationjavaisland.wemeet.util.Constants.FRESH_TIMEOUT;
 
 import androidx.lifecycle.MutableLiveData;
 
 import com.temptationjavaisland.wemeet.model.Event;
-import com.temptationjavaisland.wemeet.model.EventApiResponseRetrofit;
+import com.temptationjavaisland.wemeet.model.EventAPIResponse;
 import com.temptationjavaisland.wemeet.model.Result;
+import com.temptationjavaisland.wemeet.source.EventCallback;
 import com.temptationjavaisland.wemeet.source.BaseEventLocalDataSource;
 import com.temptationjavaisland.wemeet.source.BaseEventRemoteDataSource;
-import com.temptationjavaisland.wemeet.source.EventCallback;
 
 import java.util.List;
 
+
+/**
+ * Repository class to get the news from local or from a remote source.
+ */
 public class EventRepository implements EventCallback {
 
-    private final MutableLiveData<Result> allEventsLiveData = new MutableLiveData<>();
-    private final MutableLiveData<Result> favoriteEventsLiveData = new MutableLiveData<>();
+    private static final String TAG = EventRepository.class.getSimpleName();
 
-    private final BaseEventRemoteDataSource remoteDataSource;
-    private final BaseEventLocalDataSource localDataSource;
+    private final MutableLiveData<Result> allEventsMutableLiveData;
+    private final MutableLiveData<Result> preferedEventsMutableLiveData;
+    private final BaseEventRemoteDataSource eventRemoteDataSource;
+    private final BaseEventLocalDataSource eventLocalDataSource;
 
-    public EventRepository(BaseEventRemoteDataSource remoteDataSource,
-                           BaseEventLocalDataSource localDataSource) {
-        this.remoteDataSource = remoteDataSource;
-        this.localDataSource = localDataSource;
+    public EventRepository(BaseEventRemoteDataSource eventRemoteDataSource,
+                             BaseEventLocalDataSource eventLocalDataSource) {
 
-        this.remoteDataSource.setEventCallback(this);
-        this.localDataSource.setEventCallback(this);
+        allEventsMutableLiveData = new MutableLiveData<>();
+        preferedEventsMutableLiveData = new MutableLiveData<>();
+        this.eventRemoteDataSource = eventRemoteDataSource;
+        this.eventLocalDataSource = eventLocalDataSource;
+        this.eventRemoteDataSource.setEventCallback(this);
+        this.eventLocalDataSource.setEventCallback(this);
     }
 
-    public MutableLiveData<Result> fetchEvents(String location, long lastUpdate, long freshTimeout) {
+    public MutableLiveData<Result> fetchEvents(String country, String city, String keyword, int page, long lastUpdate) {
         long currentTime = System.currentTimeMillis();
-        if (currentTime - lastUpdate > freshTimeout) {
-            remoteDataSource.getEvents(location);
+
+        // It gets the news from the Web Service if the last download
+        // of the news has been performed more than FRESH_TIMEOUT value ago
+        if (currentTime - lastUpdate > FRESH_TIMEOUT) {
+            eventRemoteDataSource.getEvents(country, city, keyword, page, lastUpdate);
         } else {
-            localDataSource.getEvents();
+            eventLocalDataSource.getEvents();
         }
-        return allEventsLiveData;
+
+        return allEventsMutableLiveData;
     }
 
     public MutableLiveData<Result> getFavoriteEvents() {
-        localDataSource.getFavoriteEvents();
-        return favoriteEventsLiveData;
+        eventLocalDataSource.getFavoriteEvents();
+        return preferedEventsMutableLiveData;
     }
 
-    public void updateEvent(Event event) {
-        localDataSource.updateEvent(event);
+    public void updateEvent(Event Event) {
+        eventLocalDataSource.updateEvent(Event);
     }
 
     public void deleteFavoriteEvents() {
-        localDataSource.deleteFavoriteEvents();
+        eventLocalDataSource.deleteFavoriteEvents();
     }
 
-    @Override
-    public void onSuccessFromRemote(EventApiResponseRetrofit response, long lastUpdate) {
-        localDataSource.insertEvents(response.getEmbedded().getEvents());
+    public void onSuccessFromRemote(EventAPIResponse EventApiResponse, long lastUpdate) {
+        eventLocalDataSource.insertEvents(EventApiResponse.getEmbedded().getEvents());
     }
 
-    @Override
     public void onFailureFromRemote(Exception exception) {
-        allEventsLiveData.postValue(new Result.Error(exception.getMessage()));
+        Result.Error result = new Result.Error(exception.getMessage());
+        allEventsMutableLiveData.postValue(result);
     }
 
-    @Override
-    public void onSuccessFromLocal(List<Event> eventList) {
-        allEventsLiveData.postValue(new Result.Success(eventList));
+    public void onSuccessFromLocal(List<Event> EventList) {
+        Result.Success result = new Result.Success(new EventAPIResponse(EventList));
+        allEventsMutableLiveData.postValue(result);
     }
 
-    @Override
     public void onFailureFromLocal(Exception exception) {
-        Result.Error error = new Result.Error(exception.getMessage());
-        allEventsLiveData.postValue(error);
-        favoriteEventsLiveData.postValue(error);
+        Result.Error resultError = new Result.Error(exception.getMessage());
+        allEventsMutableLiveData.postValue(resultError);
+        preferedEventsMutableLiveData.postValue(resultError);
     }
 
-    @Override
+
     public void onFavoriteStatusChanged(Event event, List<Event> favoriteEvents) {
-        Result allEventsResult = allEventsLiveData.getValue();
+        Result allEventsResult = allEventsMutableLiveData.getValue();
+
         if (allEventsResult != null && allEventsResult.isSuccess()) {
-            List<Event> oldEvents = ((Result.Success<List<Event>>) allEventsResult).getData();
-            if (oldEvents.contains(event)) {
-                oldEvents.set(oldEvents.indexOf(event), event);
-                allEventsLiveData.postValue(allEventsResult);
+            List<Event> oldAllEvents = ((Result.Success)allEventsResult).getData().getEmbedded().getEvents();
+            if (oldAllEvents.contains(event)) {
+                oldAllEvents.set(oldAllEvents.indexOf(event), event);
+                allEventsMutableLiveData.postValue(allEventsResult);
             }
         }
-        favoriteEventsLiveData.postValue(new Result.Success(favoriteEvents));
+        preferedEventsMutableLiveData.postValue(new Result.Success(new EventAPIResponse(favoriteEvents)));
     }
 
-    @Override
-    public void onFavoriteStatusChanged(List<Event> events) {
-        favoriteEventsLiveData.postValue(new Result.Success(events));
+    public void onFavoriteStatusChanged(List<Event> favoriteEvents) {
+        preferedEventsMutableLiveData.postValue(new Result.Success(new EventAPIResponse(favoriteEvents)));
     }
 
-    @Override
     public void onDeleteFavoriteSuccess(List<Event> favoriteEvents) {
-        Result allEventsResult = allEventsLiveData.getValue();
+        Result allEventsResult = allEventsMutableLiveData.getValue();
+
         if (allEventsResult != null && allEventsResult.isSuccess()) {
-            List<Event> oldEvents = ((Result.Success<List<Event>>) allEventsResult).getData();
+            List<Event> oldAllEvents = ((Result.Success)allEventsResult).getData().getEmbedded().getEvents();
             for (Event event : favoriteEvents) {
-                if (oldEvents.contains(event)) {
-                    oldEvents.set(oldEvents.indexOf(event), event);
+                if (oldAllEvents.contains(event)) {
+                    oldAllEvents.set(oldAllEvents.indexOf(event), event);
                 }
             }
-            allEventsLiveData.postValue(allEventsResult);
+            allEventsMutableLiveData.postValue(allEventsResult);
         }
-        if (favoriteEventsLiveData.getValue() != null && favoriteEventsLiveData.getValue().isSuccess()) {
+
+        if (preferedEventsMutableLiveData.getValue() != null &&
+                preferedEventsMutableLiveData.getValue().isSuccess()) {
             favoriteEvents.clear();
-            favoriteEventsLiveData.postValue(new Result.Success(favoriteEvents));
+            Result.Success result = new Result.Success(new EventAPIResponse(favoriteEvents));
+            preferedEventsMutableLiveData.postValue(result);
         }
     }
 }

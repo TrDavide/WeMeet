@@ -10,5 +10,5 @@ public abstract class BaseEventRemoteDataSource {
         this.eventCallback = eventCallback;
     }
 
-    public abstract void getEvents(String location);
+    public abstract void getEvents(String country, String city, String keyword, int page, long lastUpdate);
 }
