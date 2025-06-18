@@ -10,6 +10,7 @@ import androidx.core.view.WindowInsetsCompat;
 import androidx.fragment.app.Fragment;
 import androidx.navigation.Navigation;
 
+import android.text.InputFilter;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -57,6 +58,13 @@ public class SignUpFragment extends Fragment {
         editTextPassword = view.findViewById(R.id.inputTextPassword);
         editTextConfermaPassword = view.findViewById(R.id.inputTextConfermaPassword);
 
+        editTextNome.setFilters(new InputFilter[] { new InputFilter.LengthFilter(25) });
+        editTextCognome.setFilters(new InputFilter[] { new InputFilter.LengthFilter(25) });
+        editTextEmail.setFilters(new InputFilter[] { new InputFilter.LengthFilter(40) });
+        editTextPassword.setFilters(new InputFilter[] { new InputFilter.LengthFilter(20) });
+        editTextConfermaPassword.setFilters(new InputFilter[] { new InputFilter.LengthFilter(20) });
+
+
         Button arrowBackButton = view.findViewById(R.id.arrowBackWelcome);
         Button registerButton = view.findViewById(R.id.registerButton);
 
@@ -72,7 +80,7 @@ public class SignUpFragment extends Fragment {
                             if(checkPasswords()/*editTextPassword.getText().toString() == editTextConfermaPassword.getText().toString()*/){
                                 Navigation.findNavController(v).navigate(R.id.action_signUpFragment_to_homePageActivity);
                             }else{
-                                editTextConfermaPassword.setError("Le mail non corrispondono");
+                                editTextConfermaPassword.setError("Le password non corrispondono");
                                 Snackbar.make(view, "Reinserisci la password", Snackbar.LENGTH_SHORT)
                                         .show();
                             }
@@ -93,6 +101,8 @@ public class SignUpFragment extends Fragment {
                         .show();
             }
         });
+
+
 
     }//fine metodo onViewCreated
 

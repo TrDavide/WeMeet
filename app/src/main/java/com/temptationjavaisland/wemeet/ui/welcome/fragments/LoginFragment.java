@@ -7,6 +7,7 @@ import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
 import androidx.navigation.Navigation;
 
+import android.text.InputFilter;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -47,6 +48,9 @@ public class LoginFragment extends Fragment {
 
         editTextEmail = view.findViewById(R.id.textInputEmail);
         editTextPassword = view.findViewById(R.id.textInputPassword);
+
+        editTextEmail.setFilters(new InputFilter[] { new InputFilter.LengthFilter(40) });
+        editTextPassword.setFilters(new InputFilter[] { new InputFilter.LengthFilter(20) });
 
         Button arrowBackButton = view.findViewById(R.id.arrowBackLogin);
         Button loginButton = view.findViewById(R.id.loginButton);

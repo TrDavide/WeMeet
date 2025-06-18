@@ -5,6 +5,7 @@ import android.os.Bundle;
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
+import androidx.navigation.NavOptions;
 import androidx.navigation.Navigation;
 
 import android.util.Log;
@@ -128,6 +129,21 @@ public class EventPageFragment extends Fragment {
         backButton.setOnClickListener(v -> {
             Navigation.findNavController(v).popBackStack();
         });
+
+
+        Button vediPartecipantiButton = view.findViewById(R.id.buttonVediPartecipanti);
+
+        // Usa NavController per la navigazione
+        vediPartecipantiButton.setOnClickListener(v -> {
+            Navigation.findNavController(v).navigate(
+                    R.id.action_eventPageFragment_to_participantsFragment,
+                    null,
+                    new NavOptions.Builder()
+                            .setPopUpTo(R.id.eventPageFragment, true) // Rimuove l'evento dallo stack
+                            .build()
+            );
+        });
+
 
 
         //backButton.setOnClickListener(v -> requireActivity().getSupportFragmentManager().popBackStack());

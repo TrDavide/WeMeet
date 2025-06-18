@@ -67,7 +67,11 @@
         android:id="@+id/eventPageFragment"
         android:name="com.temptationjavaisland.wemeet.ui.welcome.fragments.EventPageFragment"
         android:label="fragment_event_page"
-        tools:layout="@layout/fragment_event_page" />
+        tools:layout="@layout/fragment_event_page" >
+        <action
+            android:id="@+id/action_eventPageFragment_to_participantsFragment"
+            app:destination="@id/participantsFragment" />
+    </fragment>
     <fragment
         android:id="@+id/modificaProfiloFragment"
         android:name="com.temptationjavaisland.wemeet.ui.welcome.fragments.ModificaProfiloFragment"
@@ -76,6 +80,15 @@
         <action
             android:id="@+id/action_modificaProfiloFragment_to_settingsFragment"
             app:destination="@id/settingsFragment" />
+    </fragment>
+    <fragment
+        android:id="@+id/participantsFragment"
+        android:name="com.temptationjavaisland.wemeet.ui.welcome.fragments.ParticipantsFragment"
+        android:label="fragment_partecipants"
+        tools:layout="@layout/fragment_partecipants" >
+        <action
+            android:id="@+id/action_participantsFragment_to_eventPageFragment"
+            app:destination="@id/eventPageFragment" />
     </fragment>
 
 </navigation>
