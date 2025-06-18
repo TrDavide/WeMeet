@@ -35,7 +35,7 @@ import com.temptationjavaisland.wemeet.ui.welcome.viewmodel.EventViewModelFactor
 import com.temptationjavaisland.wemeet.util.NetworkUtil;
 import com.temptationjavaisland.wemeet.util.ResponseCallBack;
 import com.temptationjavaisland.wemeet.util.ServiceLocator;
-
+import com.temptationjavaisland.wemeet.model.Result;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Locale;
@@ -119,7 +119,7 @@ public class HomeFragment extends Fragment implements ResponseCallBack {
             transaction.commit();
         });
         String lastUpdate = "0";
-        
+
         if (!NetworkUtil.isInternetAvailable(getContext())) {
             noInternetView.setVisibility(View.VISIBLE);
 
@@ -130,6 +130,29 @@ public class HomeFragment extends Fragment implements ResponseCallBack {
 
         recyclerView.setAdapter(adapter);
         recyclerView.setVisibility(View.GONE);
+
+        eventViewModel.getEvents("IT", "Milano", "rock", 0, Long.parseLong(lastUpdate))
+                .observe(getViewLifecycleOwner(), result -> {
+                    if (result.isSuccess()) {
+                        Result.Success successResult = (Result.Success) result;
+                        com.temptationjavaisland.wemeet.model.EventAPIResponse data = successResult.getData();
+                        if (data != null && data.getEmbedded() != null && data.getEmbedded().getEvents() != null) {
+                            int initialSize = this.eventList.size();
+                            this.eventList.clear();
+                            this.eventList.addAll(data.getEmbedded().getEvents());
+                            adapter.notifyItemRangeInserted(initialSize, this.eventList.size());
+                            recyclerView.setVisibility(View.VISIBLE);
+                            shimmerLinearLayout.setVisibility(View.GONE);
+                        } else {
+                            Snackbar.make(requireView(), "Nessun evento trovato", Snackbar.LENGTH_SHORT).show();
+                        }
+                    } else {
+                        Snackbar.make(requireView(),
+                                getString(R.string.error_retrieving_events),
+                                Snackbar.LENGTH_SHORT).show();
+                    }
+                });
+
 
         return view;
     }

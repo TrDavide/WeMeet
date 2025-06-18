@@ -61,7 +61,7 @@ public class EventAPIRepository implements IEventRepository{
                         //Event.filterArticles(articleList);
                         saveDataInDatabase(eventList);
                     } else {
-                        responseCallback.onFailure(application.getString(R.string.error_retrieving_news));
+                        responseCallback.onFailure(application.getString(R.string.error_retrieving_events));
                     }
                 }
 
