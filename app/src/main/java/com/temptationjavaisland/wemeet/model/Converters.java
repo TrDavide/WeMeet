@@ -1,29 +1,19 @@
 package com.temptationjavaisland.wemeet.model;
 
 import androidx.room.TypeConverter;
+
 import com.google.gson.Gson;
 import com.google.gson.reflect.TypeToken;
+
 import java.lang.reflect.Type;
 import java.util.List;
 
 public class Converters {
-
     private static final Gson gson = new Gson();
 
     @TypeConverter
-    public String fromClassificationList(List<Classification> list) {
-        return gson.toJson(list);
-    }
-
-    @TypeConverter
-    public List<Classification> toClassificationList(String json) {
-        Type listType = new TypeToken<List<Classification>>() {}.getType();
-        return gson.fromJson(json, listType);
-    }
-
-    @TypeConverter
     public static String fromImageList(List<Image> images) {
-        return new Gson().toJson(images);
+        return gson.toJson(images);
     }
 
     @TypeConverter
@@ -33,33 +23,14 @@ public class Converters {
     }
 
     @TypeConverter
-    public static Dates fromStringToDates(String value) {
-        return gson.fromJson(value, Dates.class);
+    public static String fromClassificationList(List<Classification> list) {
+        return gson.toJson(list);
     }
 
     @TypeConverter
-    public static String fromDatesToString(Dates dates) {
-        return gson.toJson(dates);
-    }
-
-    @TypeConverter
-    public static EmbeddedEvent fromStringToEmbedded(String value) {
-        return gson.fromJson(value, EmbeddedEvent.class);
-    }
-
-    @TypeConverter
-    public static String fromEmbeddedToString(EmbeddedEvent embedded) {
-        return gson.toJson(embedded);
-    }
-
-    @TypeConverter
-    public static String fromStart(Dates.Start start) {
-        return gson.toJson(start);
-    }
-
-    @TypeConverter
-    public static Dates.Start toStart(String data) {
-        return gson.fromJson(data, Dates.Start.class);
+    public static List<Classification> toClassificationList(String json) {
+        Type type = new TypeToken<List<Classification>>() {}.getType();
+        return gson.fromJson(json, type);
     }
 
     @TypeConverter
@@ -68,11 +39,39 @@ public class Converters {
     }
 
     @TypeConverter
-    public static List<Venue> toVenueList(String data) {
-        Type listType = new TypeToken<List<Venue>>() {}.getType();
-        return gson.fromJson(data, listType);
+    public static List<Venue> toVenueList(String json) {
+        Type type = new TypeToken<List<Venue>>() {}.getType();
+        return gson.fromJson(json, type);
     }
 
+    @TypeConverter
+    public static String fromAttractionList(List<Attraction> list) {
+        return gson.toJson(list);
+    }
+
+    @TypeConverter
+    public static List<Attraction> toAttractionList(String json) {
+        Type type = new TypeToken<List<Attraction>>() {}.getType();
+        return gson.fromJson(json, type);
+    }
+
+    @TypeConverter
+    public static String fromDates(Dates dates) {
+        return gson.toJson(dates);
+    }
+
+    @TypeConverter
+    public static Dates toDates(String json) {
+        return gson.fromJson(json, Dates.class);
+    }
+
+    @TypeConverter
+    public static String fromEmbeddedEvent(EmbeddedEvent embedded) {
+        return gson.toJson(embedded);
+    }
+
+    @TypeConverter
+    public static EmbeddedEvent toEmbeddedEvent(String json) {
+        return gson.fromJson(json, EmbeddedEvent.class);
+    }
 }
-
-

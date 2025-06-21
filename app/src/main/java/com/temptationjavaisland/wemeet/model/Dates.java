@@ -7,6 +7,8 @@ import androidx.room.Embedded;
 import androidx.room.Entity;
 import androidx.room.TypeConverters;
 
+import com.google.android.gms.common.api.Status;
+
 @Entity
 public class Dates implements Parcelable {
 
@@ -14,8 +16,8 @@ public class Dates implements Parcelable {
     @TypeConverters(Converters.class)
     private Start start;
     private String timezone;
-    // @Embedded(prefix = "status_")
-    // private Status status;
+    @Embedded(prefix = "status_")
+    private Status status;
     private boolean spanMultipleDays;
 
     public Dates() {}
@@ -37,7 +39,7 @@ public class Dates implements Parcelable {
         this.timezone = timezone;
     }
 
-    /*
+
     public Status getStatus() {
         return status;
     }
@@ -45,7 +47,7 @@ public class Dates implements Parcelable {
     public void setStatus(Status status) {
         this.status = status;
     }
-    */
+
 
     public boolean isSpanMultipleDays() {
         return spanMultipleDays;
@@ -194,7 +196,7 @@ public class Dates implements Parcelable {
         };
     }
 
-    /*
+
     public static class Status {
         private String code;
 
@@ -211,5 +213,5 @@ public class Dates implements Parcelable {
             this.code = code;
         }
     }
-    */
+
 }

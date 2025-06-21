@@ -11,6 +11,7 @@ import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
 import androidx.fragment.app.FragmentTransaction;
 import androidx.lifecycle.ViewModelProvider;
+import androidx.navigation.Navigation;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
@@ -90,7 +91,7 @@ public class HomeFragment extends Fragment implements ResponseCallBack {
         recyclerView.setLayoutManager(new LinearLayoutManager(view.getContext()));
 
         eventList = new ArrayList<>();
-        for (int i = 0; i < initialShimmerElements; i++) eventList.add(Event.getSampleArticle());
+        for (int i = 0; i < initialShimmerElements; i++) eventList.add(Event.getSampleEvent());
         eventRepository = new EventAPIRepository(requireActivity().getApplication(), this);
 
         Bundle args = getArguments();
@@ -105,18 +106,27 @@ public class HomeFragment extends Fragment implements ResponseCallBack {
             eventRepository.fetchEventsByLocation(latlong, radius, System.currentTimeMillis());
         }
 
-        adapter = new EventRecyclerAdapter(R.layout.event_card, eventList, event -> {
-            EventPageFragment eventPageFragment = new EventPageFragment();
-            Bundle bundle = new Bundle();
-            bundle.putParcelable("event_data", event);
-            eventPageFragment.setArguments(bundle);
+        adapter = new EventRecyclerAdapter(R.layout.event_card, eventList,
+                new EventRecyclerAdapter.OnItemClickListener() {
+                    @Override
+                    public void onEventClick(Event event) {
+                        EventPageFragment eventPageFragment = new EventPageFragment();
+                        Bundle bundle = new Bundle();
+                        bundle.putParcelable("event_data", event);
+                        eventPageFragment.setArguments(bundle);
 
-            FragmentTransaction transaction = requireActivity()
-                    .getSupportFragmentManager()
-                    .beginTransaction();
-            transaction.replace(R.id.fragmentContainerView, eventPageFragment);
-            transaction.addToBackStack(null);
-            transaction.commit();
+                        FragmentTransaction transaction = requireActivity()
+                                .getSupportFragmentManager()
+                                .beginTransaction();
+                        transaction.replace(R.id.fragmentContainerView, eventPageFragment);
+                        transaction.addToBackStack(null);
+                        transaction.commit();
+                    }
+                    @Override
+                    public void onFavoriteButtonPressed(int position) {
+                        eventList.get(position).setSaved(!eventList.get(position).isSaved());
+                        eventViewModel.updateEvent(eventList.get(position));
+                    }
         });
         String lastUpdate = "0";
 

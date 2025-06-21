@@ -18,6 +18,7 @@ import com.temptationjavaisland.wemeet.R;
 import com.temptationjavaisland.wemeet.adapter.EventRecyclerAdapter;
 import com.temptationjavaisland.wemeet.model.Event;
 import com.temptationjavaisland.wemeet.model.EventAPIResponse;
+import com.temptationjavaisland.wemeet.ui.welcome.viewmodel.EventViewModel;
 import com.temptationjavaisland.wemeet.util.Constants;
 import com.temptationjavaisland.wemeet.util.JSONParserUtils;
 
@@ -25,7 +26,7 @@ import java.io.IOException;
 import java.util.List;
 
 public class UserProfileFragment extends Fragment {
-
+    private EventViewModel eventViewModel;
 
     public UserProfileFragment() {}
 
@@ -47,13 +48,19 @@ public class UserProfileFragment extends Fragment {
         try {
             EventAPIResponse response = jsonParserUtils.parserJSONFileWithGsson(Constants.SAMPLE_JSON_FILENAME);
             List<Event> eventList= response.getEmbedded().getEvents();
-            EventRecyclerAdapter adapter = new EventRecyclerAdapter(R.layout.event_card, eventList, new EventRecyclerAdapter.OnItemClickListener() {
-                @Override
-                public void onEventClick(Event event) {
-                    Bundle bundle = new Bundle();
-                    bundle.putParcelable("event_data", event); // Assicurati che Event implementi Parcelable
-                    Navigation.findNavController(requireView()).navigate(R.id.action_userProfileFragment_to_eventPageFragment, bundle);
-                }
+            EventRecyclerAdapter adapter = new EventRecyclerAdapter(R.layout.event_card, eventList,
+                    new EventRecyclerAdapter.OnItemClickListener() {
+                        @Override
+                        public void onEventClick(Event event) {
+                            Bundle bundle = new Bundle();
+                            bundle.putParcelable("event_data", event); // Assicurati che Event implementi Parcelable
+                            Navigation.findNavController(requireView()).navigate(R.id.action_userProfileFragment_to_eventPageFragment, bundle);
+                        }
+                        @Override
+                        public void onFavoriteButtonPressed(int position) {
+                            eventList.get(position).setSaved(!eventList.get(position).isSaved());
+                            eventViewModel.updateEvent(eventList.get(position));
+                        }
             });
             recyclerView.setAdapter(adapter);
         } catch (IOException e) {

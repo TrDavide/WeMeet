@@ -8,15 +8,16 @@ import java.util.List;
 
 @Entity
 public class EventAPIResponse {
+    private List<Event> eventList;
 
-    private List<Event> events;
-
-    public EventAPIResponse(List<Event> events) {
-        this.events = events;
-    }
-
-    @androidx.room.Embedded(prefix = "_embedded_")
+    @androidx.room.Embedded(prefix = "embedded")
     private Embedded _embedded;
+
+    public EventAPIResponse(List<Event> eventList) {
+        this.eventList = eventList;
+    }
+    public EventAPIResponse() {
+    }
 
     // Getter e Setter
     public Embedded getEmbedded() {

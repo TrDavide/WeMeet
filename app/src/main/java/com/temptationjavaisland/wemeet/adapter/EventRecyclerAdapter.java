@@ -13,23 +13,19 @@ import com.temptationjavaisland.wemeet.model.Event;
 
 import java.util.List;
 
-public class EventRecyclerAdapter extends RecyclerView.Adapter<EventRecyclerAdapter.ViewHolder> {
+public class EventRecyclerAdapter extends RecyclerView.Adapter<EventRecyclerAdapter.ViewHolder>{
 
     public interface OnItemClickListener {
         void onEventClick(Event event);
+        void onFavoriteButtonPressed(int position);
     }
 
     private int layout;
     private List<Event> eventList;
     private final OnItemClickListener onItemClickListener;
 
-    public EventRecyclerAdapter(int layout, List<Event> eventList, OnItemClickListener onItemClickListener) {
-        this.layout = layout;
-        this.eventList = eventList;
-        this.onItemClickListener = onItemClickListener;
-    }
 
-    public static class ViewHolder extends RecyclerView.ViewHolder {
+    public class ViewHolder extends RecyclerView.ViewHolder implements View.OnClickListener{
         private final TextView textViewTitle;
         private final TextView textViewDate;
         private final TextView textViewLocation;
@@ -41,6 +37,9 @@ public class EventRecyclerAdapter extends RecyclerView.Adapter<EventRecyclerAdap
             textViewDate = view.findViewById(R.id.event_date_time);
             textViewLocation = view.findViewById(R.id.event_location);
             checkBoxSaved = view.findViewById(R.id.favoriteButton);
+
+            checkBoxSaved.setOnClickListener(this);
+            view.setOnClickListener(this);
         }
 
         public void bind(Event event, OnItemClickListener listener) {
@@ -51,6 +50,22 @@ public class EventRecyclerAdapter extends RecyclerView.Adapter<EventRecyclerAdap
         public TextView getTextViewDate() { return textViewDate; }
         public TextView getTextViewLocation() { return textViewLocation; }
         public CheckBox getCheckBoxSaved() { return checkBoxSaved; }
+
+        @Override
+        public void onClick(View v){
+            if(v.getId() == R.id.favoriteButton){
+                onItemClickListener.onFavoriteButtonPressed(getAdapterPosition());
+            }else{
+                onItemClickListener.onEventClick(eventList.get(getAdapterPosition()));
+            }
+
+        }
+    }
+
+    public EventRecyclerAdapter(int layout, List<Event> eventList, OnItemClickListener onItemClickListener) {
+        this.layout = layout;
+        this.eventList = eventList;
+        this.onItemClickListener = onItemClickListener;
     }
 
     @NonNull
