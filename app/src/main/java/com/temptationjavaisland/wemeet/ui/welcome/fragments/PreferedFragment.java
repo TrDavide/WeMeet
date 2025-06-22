@@ -8,6 +8,7 @@ import android.view.ViewGroup;
 
 import androidx.fragment.app.Fragment;
 import androidx.fragment.app.FragmentTransaction;
+import androidx.lifecycle.ViewModelProvider;
 import androidx.navigation.Navigation;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
@@ -17,6 +18,10 @@ import com.temptationjavaisland.wemeet.R;
 import com.temptationjavaisland.wemeet.adapter.EventRecyclerAdapter;
 import com.temptationjavaisland.wemeet.database.EventRoomDatabase;
 import com.temptationjavaisland.wemeet.model.Event;
+import com.temptationjavaisland.wemeet.repository.EventRepository;
+import com.temptationjavaisland.wemeet.ui.welcome.viewmodel.EventViewModel;
+import com.temptationjavaisland.wemeet.ui.welcome.viewmodel.EventViewModelFactory;
+import com.temptationjavaisland.wemeet.util.ServiceLocator;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -27,7 +32,7 @@ public class PreferedFragment extends Fragment {
     private CircularProgressIndicator circularProgressIndicator;
     private List<Event> eventList;
     private EventRecyclerAdapter adapter;
-
+    private EventViewModel eventViewModel;
     public PreferedFragment() {}
 
     public static PreferedFragment newInstance() {
@@ -37,6 +42,17 @@ public class PreferedFragment extends Fragment {
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+        EventRepository articleRepository =
+                ServiceLocator.getInstance().getEventRepository(
+                        requireActivity().getApplication(),
+                        requireActivity().getApplication().getResources().getBoolean(R.bool.debug_mode)
+                );
+
+
+        eventViewModel = new ViewModelProvider(
+                requireActivity(),
+                new EventViewModelFactory(articleRepository)).get(EventViewModel.class);
+
         eventList = new ArrayList<>();
     }
 
@@ -48,25 +64,30 @@ public class PreferedFragment extends Fragment {
         recyclerView = view.findViewById(R.id.recyclerViewPrefered);
         recyclerView.setLayoutManager(new LinearLayoutManager(view.getContext()));
 
-        adapter = new EventRecyclerAdapter(R.layout.event_card, eventList, new EventRecyclerAdapter.OnItemClickListener() {
-            @Override
-            public void onEventClick(Event event) {
-                EventPageFragment eventPageFragment = new EventPageFragment();
-                Bundle bundle = new Bundle();
-                bundle.putParcelable("event_data", event);
-                eventPageFragment.setArguments(bundle);
+        adapter = new EventRecyclerAdapter(R.layout.event_card, eventList,
+                new EventRecyclerAdapter.OnItemClickListener() {
+                    @Override
+                    public void onEventClick(Event event) {
+                        EventPageFragment eventPageFragment = new EventPageFragment();
+                        Bundle bundle = new Bundle();
+                        bundle.putParcelable("event_data", event);
+                        eventPageFragment.setArguments(bundle);
 
-                FragmentTransaction transaction = requireActivity()
-                        .getSupportFragmentManager()
-                        .beginTransaction();
-                transaction.replace(R.id.fragmentContainerView, eventPageFragment);
-                transaction.addToBackStack(null); // permette di tornare indietro correttamente
-                transaction.commit();
-            }
+                        FragmentTransaction transaction = requireActivity()
+                                .getSupportFragmentManager()
+                                .beginTransaction();
+                        transaction.replace(R.id.fragmentContainerView, eventPageFragment);
+                        transaction.addToBackStack(null); // permette di tornare indietro correttamente
+                        transaction.commit();
+                    }
+                    @Override
+                    public void onFavoriteButtonPressed(int position) {
+                        eventList.get(position).setSaved(!eventList.get(position).isSaved());
+                        eventViewModel.updateEvent(eventList.get(position));
+                    }
         });
         recyclerView.setAdapter(adapter);
         loadSavedEvents();
-
         return view;
     }
 

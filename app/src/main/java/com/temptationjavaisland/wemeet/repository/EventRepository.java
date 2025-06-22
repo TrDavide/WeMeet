@@ -88,14 +88,19 @@ public class EventRepository implements EventCallback {
         Result allEventsResult = allEventsMutableLiveData.getValue();
 
         if (allEventsResult != null && allEventsResult.isSuccess()) {
-            List<Event> oldAllEvents = ((Result.Success)allEventsResult).getData().getEmbedded().getEvents();
-            if (oldAllEvents.contains(event)) {
-                oldAllEvents.set(oldAllEvents.indexOf(event), event);
-                allEventsMutableLiveData.postValue(allEventsResult);
+            EventAPIResponse data = ((Result.Success) allEventsResult).getData();
+            if (data.getEmbedded() != null) {
+                List<Event> oldAllEvents = data.getEmbedded().getEvents();
+                if (oldAllEvents.contains(event)) {
+                    oldAllEvents.set(oldAllEvents.indexOf(event), event);
+                    allEventsMutableLiveData.postValue(allEventsResult);
+                }
             }
         }
+
         preferedEventsMutableLiveData.postValue(new Result.Success(new EventAPIResponse(favoriteEvents)));
     }
+
 
     public void onFavoriteStatusChanged(List<Event> favoriteEvents) {
         preferedEventsMutableLiveData.postValue(new Result.Success(new EventAPIResponse(favoriteEvents)));

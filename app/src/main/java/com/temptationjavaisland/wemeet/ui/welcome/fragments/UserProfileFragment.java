@@ -5,6 +5,7 @@ import android.os.Bundle;
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
+import androidx.lifecycle.ViewModelProvider;
 import androidx.navigation.Navigation;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
@@ -18,16 +19,20 @@ import com.temptationjavaisland.wemeet.R;
 import com.temptationjavaisland.wemeet.adapter.EventRecyclerAdapter;
 import com.temptationjavaisland.wemeet.model.Event;
 import com.temptationjavaisland.wemeet.model.EventAPIResponse;
+import com.temptationjavaisland.wemeet.repository.EventRepository;
 import com.temptationjavaisland.wemeet.ui.welcome.viewmodel.EventViewModel;
+import com.temptationjavaisland.wemeet.ui.welcome.viewmodel.EventViewModelFactory;
 import com.temptationjavaisland.wemeet.util.Constants;
 import com.temptationjavaisland.wemeet.util.JSONParserUtils;
+import com.temptationjavaisland.wemeet.util.ServiceLocator;
 
 import java.io.IOException;
+import java.util.ArrayList;
 import java.util.List;
 
 public class UserProfileFragment extends Fragment {
     private EventViewModel eventViewModel;
-
+    private List<Event> eventList;
     public UserProfileFragment() {}
 
     public static UserProfileFragment newInstance() {
@@ -36,7 +41,20 @@ public class UserProfileFragment extends Fragment {
     }
 
     @Override
-    public void onCreate(Bundle savedInstanceState) {super.onCreate(savedInstanceState);}
+    public void onCreate(Bundle savedInstanceState) {super.onCreate(savedInstanceState);
+        EventRepository articleRepository =
+                ServiceLocator.getInstance().getEventRepository(
+                        requireActivity().getApplication(),
+                        requireActivity().getApplication().getResources().getBoolean(R.bool.debug_mode)
+                );
+
+
+        eventViewModel = new ViewModelProvider(
+                requireActivity(),
+                new EventViewModelFactory(articleRepository)).get(EventViewModel.class);
+
+        eventList = new ArrayList<>();
+    }
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
