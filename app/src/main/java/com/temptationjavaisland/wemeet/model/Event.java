@@ -48,6 +48,12 @@ public class Event implements Parcelable {
 
     public Event() {}
 
+    public static Event getSampleEvent() {
+        Event sample = new Event();
+        sample.setName("Not so long title sample");
+        return sample;
+    }
+
     // Getter e Setter
     public int getUid() {
         return uid;

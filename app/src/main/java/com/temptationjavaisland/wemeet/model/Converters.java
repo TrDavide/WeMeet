@@ -9,6 +9,7 @@ import java.lang.reflect.Type;
 import java.util.List;
 
 public class Converters {
+
     private static final Gson gson = new Gson();
 
     @TypeConverter
@@ -66,12 +67,14 @@ public class Converters {
     }
 
     @TypeConverter
-    public static String fromEmbeddedEvent(EmbeddedEvent embedded) {
-        return gson.toJson(embedded);
-    }
-
-    @TypeConverter
     public static EmbeddedEvent toEmbeddedEvent(String json) {
         return gson.fromJson(json, EmbeddedEvent.class);
     }
+    @TypeConverter
+    public static EmbeddedEvent fromStringToEmbedded(String value) {
+        return gson.fromJson(value, EmbeddedEvent.class);
+    }
+
 }
+
+

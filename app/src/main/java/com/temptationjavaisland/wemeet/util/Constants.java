@@ -3,7 +3,7 @@ package com.temptationjavaisland.wemeet.util;
 public class Constants{
 
     public static final String SAMPLE_JSON_FILENAME = "sample_api_response.json";
-    public static final int DATABASE_VERSION = 5;
+    public static final int DATABASE_VERSION = 3;
     public static final String SAVED_ARTICLES_DATABASE= "saved db";
 
     public static final String TICKETMASTER_API_BASE_URL = "https://app.ticketmaster.com/discovery/v2/";
@@ -14,12 +14,13 @@ public class Constants{
     public static final String TOP_HEADLINES_PAGE_SIZE_PARAMETER = "pageSize";
     public static final String TOP_HEADLINES_APIKEY = "apiKey";
     public static final int TOP_HEADLINES_PAGE_SIZE_VALUE = 100;
-
+    public static final int FRESH_TIMEOUT = 1000 * 60; // 1 minute in milliseconds
     public static final String TOP_HEADLINES_LATLONG_PARAMETER = "latlong";
     public static final String TOP_HEADLINES_RADIUS_PARAMETER = "radius";
     public static final String TOP_HEADLINES_UNIT_PARAMETER = "unit";
     public static final String TOP_HEADLINES_LOCALE_PARAMETER = "locale";
-
+    public static final String RETROFIT_ERROR = "retrofit_error";
+    public static final String API_KEY_ERROR = "api_key_error";
 
 
 

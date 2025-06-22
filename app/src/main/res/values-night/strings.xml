@@ -52,11 +52,10 @@
     <string name="info_evento">Informazioni sull’evento</string>
     <string name="gattopardo_milano">Gattopardo Milano</string>
     <string name="impostazioni">Impostazioni</string>
-
+    <string name="error_retrieving_events">There was an error retrieving events</string>
     <!-- Errors -->
     <string name="error_email_login">Check the email address</string>
     <string name="error_password_login">The password must have at least 8 characters</string>
-    <string name="error_retrieving_news">There was an error retrieving the news</string>
     <string name="error_no_internet">No internet connection</string>
     <string name="Informazioni_evento_default">Una location senza eguali che vi lascerà senza parole e serate accompagnate dalle acrobazie strabilianti dei migliori artisti e performer, un mix inarrivabile che trovi solo al Gattopardo.</string>
     <string name="posizione_evento_default">Posizione Evento</string>

@@ -62,7 +62,7 @@ public class EventAPIRepository implements IEventRepository{
                         //Event.filterArticles(articleList);
                         saveDataInDatabase(eventList);
                     } else {
-                        responseCallback.onFailure(application.getString(R.string.error_retrieving_news));
+                        responseCallback.onFailure(application.getString(R.string.error_retrieving_events));
                     }
                 }
 
@@ -115,7 +115,11 @@ public class EventAPIRepository implements IEventRepository{
 
 
     @Override
-    public void updateEvents(Event event) {}
+    public void updateEvents(Event event) {
+        EventRoomDatabase.databaseWriteExecutor.execute(() -> {
+            eventDAO.updateEvent(event);
+        });
+    }
 
     @Override
     public void getFavoriteEvents() {}
@@ -137,6 +141,7 @@ public class EventAPIRepository implements IEventRepository{
             for (int i = 0; i < apiEvents.size(); i++) {
                 apiEvents.get(i).setUid(Math.toIntExact(insertedNewsIds.get(i)));
             }
+            eventDAO.updateEventList(apiEvents);//codice modificata
 
             responseCallback.onSuccess(apiEvents, System.currentTimeMillis());
         });

@@ -48,6 +48,7 @@ dependencies {
     implementation (libs.commons.validator)
     implementation (libs.cardview)
     implementation(libs.room.common.jvm)
+    implementation(libs.firebase.database)
     testImplementation(libs.junit)
     androidTestImplementation(libs.ext.junit)
     androidTestImplementation(libs.espresso.core)

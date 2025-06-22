@@ -1,5 +1,7 @@
 package com.temptationjavaisland.wemeet.adapter;
 
+import android.content.Context;
+import android.graphics.drawable.ColorDrawable;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -15,10 +17,10 @@ import com.temptationjavaisland.wemeet.model.Event;
 
 import java.util.List;
 
-public class EventRecyclerAdapter extends RecyclerView.Adapter<EventRecyclerAdapter.ViewHolder> {
-
+public class EventRecyclerAdapter extends RecyclerView.Adapter<EventRecyclerAdapter.ViewHolder>{
     public interface OnItemClickListener {
         void onEventClick(Event event);
+        void onFavoriteButtonPressed(int position);
     }
 
     private int layout;
@@ -31,12 +33,12 @@ public class EventRecyclerAdapter extends RecyclerView.Adapter<EventRecyclerAdap
         this.onItemClickListener = onItemClickListener;
     }
 
-    public static class ViewHolder extends RecyclerView.ViewHolder {
+    public class ViewHolder extends RecyclerView.ViewHolder implements View.OnClickListener{
         private final TextView textViewTitle;
         private final TextView textViewDate;
         private final TextView textViewLocation;
         private final CheckBox checkBoxSaved;
-        private final ImageView eventImageView;  // nuova ImageView
+        private final ImageView eventImageView;
 
         public ViewHolder(View view) {
             super(view);
@@ -44,8 +46,11 @@ public class EventRecyclerAdapter extends RecyclerView.Adapter<EventRecyclerAdap
             textViewDate = view.findViewById(R.id.event_date_time);
             textViewLocation = view.findViewById(R.id.event_location);
             checkBoxSaved = view.findViewById(R.id.favoriteButton);
-            eventImageView = view.findViewById(R.id.event_image); // riferimento ImageView (deve esistere nel layout)
+            eventImageView = view.findViewById(R.id.event_image);
+            checkBoxSaved.setOnClickListener(this);
+            view.setOnClickListener(this);
         }
+
 
         public void bind(Event event, OnItemClickListener listener) {
             itemView.setOnClickListener(v -> listener.onEventClick(event));
@@ -56,6 +61,16 @@ public class EventRecyclerAdapter extends RecyclerView.Adapter<EventRecyclerAdap
         public TextView getTextViewLocation() { return textViewLocation; }
         public CheckBox getCheckBoxSaved() { return checkBoxSaved; }
         public ImageView getEventImageView() { return eventImageView; }
+
+        @Override
+        public void onClick(View v){
+            if(v.getId() == R.id.favoriteButton){
+                onItemClickListener.onFavoriteButtonPressed(getAdapterPosition());
+            }else{
+                onItemClickListener.onEventClick(eventList.get(getAdapterPosition()));
+            }
+
+        }
     }
 
     @NonNull
@@ -84,6 +99,7 @@ public class EventRecyclerAdapter extends RecyclerView.Adapter<EventRecyclerAdap
                 currentEvent.getEmbedded().getVenues().get(0).getName() != null) {
             locationText = currentEvent.getEmbedded().getVenues().get(0).getName();
         }
+
         viewHolder.getTextViewLocation().setText(locationText);
 
         // Carica immagine evento con Glide
@@ -99,21 +115,6 @@ public class EventRecyclerAdapter extends RecyclerView.Adapter<EventRecyclerAdap
 
         viewHolder.getCheckBoxSaved().setOnCheckedChangeListener(null);
         viewHolder.getCheckBoxSaved().setChecked(currentEvent.isSaved());
-
-        viewHolder.getCheckBoxSaved().setOnCheckedChangeListener((buttonView, isChecked) -> {
-            currentEvent.setSaved(isChecked);
-            new Thread(() -> {
-                if (isChecked) {
-                    EventRoomDatabase.getDatabase(viewHolder.itemView.getContext())
-                            .eventsDao()
-                            .insertAll(currentEvent);
-                } else {
-                    EventRoomDatabase.getDatabase(viewHolder.itemView.getContext())
-                            .eventsDao()
-                            .deleteById(currentEvent.getUid());
-                }
-            }).start();
-        });
 
         viewHolder.bind(currentEvent, onItemClickListener);
     }
