@@ -14,6 +14,7 @@ import android.widget.Button;
 
 import com.google.android.material.button.MaterialButton;
 import com.temptationjavaisland.wemeet.R;
+import com.temptationjavaisland.wemeet.model.Event;
 
 /**
  * A simple {@link Fragment} subclass.
@@ -26,10 +27,11 @@ public class ParticipantsFragment extends Fragment {
     // the fragment initialization parameters, e.g. ARG_ITEM_NUMBER
     private static final String ARG_PARAM1 = "param1";
     private static final String ARG_PARAM2 = "param2";
-
     // TODO: Rename and change types of parameters
     private String mParam1;
     private String mParam2;
+
+    private Event event;
 
     public ParticipantsFragment() {
         // Required empty public constructor
@@ -76,8 +78,14 @@ public class ParticipantsFragment extends Fragment {
         Button arrowBackParticipant = view.findViewById(R.id.arrowBackParticipants);
 
         arrowBackParticipant.setOnClickListener(v -> {
-            Navigation.findNavController(v).navigate(R.id.action_participantsFragment_to_eventPageFragment);
-        });
+            Bundle bundle = new Bundle();
+            bundle.putParcelable("event_data", event); // ripassa l'evento
 
+            // Naviga verso EventPageFragment con bundle
+            Navigation.findNavController(v).navigate(R.id.eventPageFragment, bundle);
+
+            // Subito dopo, rimuovi ParticipantsFragment dallo stack
+            Navigation.findNavController(v).popBackStack(R.id.participantsFragment, true);
+        });
     }
 }

@@ -127,29 +127,33 @@ public class EventPageFragment extends Fragment {
         Button backButton = view.findViewById(R.id.arrowBack);
 
         backButton.setOnClickListener(v -> {
-            Navigation.findNavController(v).popBackStack();
+            // Se participantsFragment è nello stack, lo rimuovi
+            boolean popped = Navigation.findNavController(v).popBackStack(R.id.participantsFragment, true);
+
+            if (popped) {
+                // Poi torni ancora indietro, così salti sia participants che eventPage
+                Navigation.findNavController(v).popBackStack();
+            } else {
+                // Comportamento normale
+                Navigation.findNavController(v).popBackStack();
+            }
         });
 
 
         Button vediPartecipantiButton = view.findViewById(R.id.buttonVediPartecipanti);
 
-        // Usa NavController per la navigazione
         vediPartecipantiButton.setOnClickListener(v -> {
+            Bundle bundle = new Bundle();
+            bundle.putParcelable("event_data", event); // se ti serve
+
             Navigation.findNavController(v).navigate(
                     R.id.action_eventPageFragment_to_participantsFragment,
-                    null,
-                    new NavOptions.Builder()
-                            .setPopUpTo(R.id.eventPageFragment, true) // Rimuove l'evento dallo stack
-                            .build()
+                    bundle
             );
         });
 
-
-
-        //backButton.setOnClickListener(v -> requireActivity().getSupportFragmentManager().popBackStack());
-
-
     }
+
 
 
 }
