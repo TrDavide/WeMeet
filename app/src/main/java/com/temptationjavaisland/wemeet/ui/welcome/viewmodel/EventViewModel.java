@@ -24,11 +24,22 @@ public class EventViewModel extends ViewModel {
         this.page = 1;
     }
 
-    public MutableLiveData<Result> getEvents(String country, String city, String keyword, int page, long lastUpdate) {
+    /*public MutableLiveData<Result> getEvents(String country, String city, String keyword, int page, long lastUpdate) {
         if (eventsListLiveData == null) {
             fetchEvents(country,city, keyword,page, lastUpdate);
         }
         return eventsListLiveData;
+    }*/
+
+    public MutableLiveData<Result> getEventsLocation(String latlong, int radius, String unit, String locale, long lastUpdate) {
+        if (eventsListLiveData == null) {
+            fetchEventsLocation(latlong,radius, unit,locale, lastUpdate);
+        }
+        return eventsListLiveData;
+    }
+
+    private void fetchEventsLocation(String latlong, int radius, String unit, String locale, long lastUpdate) {
+        eventsListLiveData = eventRepository.fetchEventsLocation(latlong,radius, unit,locale, lastUpdate);
     }
 
     public MutableLiveData<Result> getFavoriteEventsLiveData() {
@@ -43,9 +54,9 @@ public class EventViewModel extends ViewModel {
         eventRepository.updateEvent(event);
     }
 
-    private void fetchEvents(String country, String city, String keyword, int page, long lastUpdate) {
+    /*private void fetchEvents(String country, String city, String keyword, int page, long lastUpdate) {
         eventsListLiveData = eventRepository.fetchEvents(country,city, keyword,page, lastUpdate);
-    }
+    }*/
 
     private void getFavoriteEvents() {
         preferedEventsMutableLiveData = eventRepository.getFavoriteEvents();

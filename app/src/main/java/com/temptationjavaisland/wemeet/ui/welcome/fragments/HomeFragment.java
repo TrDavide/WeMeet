@@ -16,6 +16,8 @@ import androidx.navigation.NavController;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
+import android.os.Handler;
+import android.os.Looper;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -42,6 +44,9 @@ import com.temptationjavaisland.wemeet.model.Result;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Locale;
+import java.util.concurrent.ExecutorService;
+import java.util.concurrent.Executors;
+
 import android.location.Geocoder;
 import android.widget.LinearLayout;
 
@@ -58,6 +63,10 @@ public class HomeFragment extends Fragment implements ResponseCallBack {
     private LinearLayout shimmerLinearLayout;
     private FrameLayout noInternetView;
     private static final int initialShimmerElements = 5;
+    private String latlong;
+    int radius = 300;
+    private Long lastUpdate;
+
     public HomeFragment() {}
 
     public static HomeFragment newInstance() {
@@ -94,7 +103,7 @@ public class HomeFragment extends Fragment implements ResponseCallBack {
 
         eventList = new ArrayList<>();
         for (int i = 0; i < initialShimmerElements; i++) eventList.add(Event.getSampleEvent());
-        eventRepository = new EventAPIRepository(requireActivity().getApplication(), this);
+        //eventRepository = new EventAPIRepository(requireActivity().getApplication(), this);
 
         Bundle args = getArguments();
         if (args != null) {
@@ -103,9 +112,9 @@ public class HomeFragment extends Fragment implements ResponseCallBack {
 
             getCityNameAsync(lat, lon, view);
 
-            String latlong = lat + "," + lon;
-            int radius = 300;
-            eventRepository.fetchEventsByLocation(latlong, radius, System.currentTimeMillis());
+            latlong = lat + "," + lon;
+
+            //eventRepository.fetchEventsLocation(latlong, radius, System.currentTimeMillis());
         }
 
         adapter = new EventRecyclerAdapter(R.layout.event_card, eventList,
@@ -129,21 +138,20 @@ public class HomeFragment extends Fragment implements ResponseCallBack {
                         eventList.get(position).setSaved(!eventList.get(position).isSaved());
                         eventViewModel.updateEvent(eventList.get(position));
                     }
-        });
-        String lastUpdate = "0";
+                });
+        lastUpdate = System.currentTimeMillis();
 
         if (!NetworkUtil.isInternetAvailable(getContext())) {
             noInternetView.setVisibility(View.VISIBLE);
-
             //Trick to avoid doing the API call
-            lastUpdate = System.currentTimeMillis() + "";
+            lastUpdate = Long.valueOf(System.currentTimeMillis() + "");
         }
 
 
         recyclerView.setAdapter(adapter);
         recyclerView.setVisibility(View.GONE);
 
-        eventViewModel.getEvents("IT", "Milano", "rock", 0, Long.parseLong(lastUpdate))
+        eventViewModel.getEventsLocation(latlong, radius, "", "", lastUpdate)
                 .observe(getViewLifecycleOwner(), result -> {
                     if (result.isSuccess()) {
                         Result.Success successResult = (Result.Success) result;
@@ -169,34 +177,30 @@ public class HomeFragment extends Fragment implements ResponseCallBack {
         return view;
     }
 
+    private final ExecutorService executor = Executors.newSingleThreadExecutor();
+    private final Handler mainHandler = new Handler(Looper.getMainLooper());
+
     private void getCityNameAsync(double lat, double lon, View rootView) {
         TextView cityTextView = rootView.findViewById(R.id.cityTextView);
 
-        new AsyncTask<Void, Void, String>() {
-            @Override
-            protected String doInBackground(Void... voids) {
-                Geocoder geocoder = new Geocoder(getContext(), Locale.getDefault());
-                try {
-                    List<Address> addresses = geocoder.getFromLocation(lat, lon, 1);
-                    if (addresses != null && !addresses.isEmpty()) {
-                        Address address = addresses.get(0);
-                        String city = address.getLocality();
-                        if (city == null) {
-                            city = address.getSubAdminArea();
-                        }
-                        return city;
+        executor.execute(() -> {
+            Geocoder geocoder = new Geocoder(getContext(), Locale.getDefault());
+            String city = "N/A";
+            try {
+                List<Address> addresses = geocoder.getFromLocation(lat, lon, 1);
+                if (addresses != null && !addresses.isEmpty()) {
+                    Address address = addresses.get(0);
+                    city = address.getLocality();
+                    if (city == null) {
+                        city = address.getSubAdminArea();
                     }
-                } catch (Exception e) {
-                    e.printStackTrace();
                 }
-                return "N/A";
+            } catch (Exception e) {
+                e.printStackTrace();
             }
-
-            @Override
-            protected void onPostExecute(String city) {
-                cityTextView.setText(city);
-            }
-        }.execute();
+            String finalCity = city;
+            mainHandler.post(() -> cityTextView.setText(finalCity));
+        });
     }
 
     @Override

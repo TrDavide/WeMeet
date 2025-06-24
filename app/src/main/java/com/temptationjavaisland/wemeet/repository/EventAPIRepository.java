@@ -77,7 +77,7 @@ public class EventAPIRepository implements IEventRepository{
 
     }
 
-    public void fetchEventsByLocation(String latlong, int radius, long lastUpdate) {
+    public void fetchEventsLocation(String latlong, int radius, String unit, String locale, long lastUpdate) {
         Call<EventAPIResponse> eventResponseCall = eventAPIService.getEventsByLocation(
                 latlong,
                 radius,

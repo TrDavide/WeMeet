@@ -6,7 +6,9 @@ public interface IEventRepository {
 
     void fetchEvents(String country, String city, String keyword, int page, long lastUpdate);
 
-    void fetchEventsByLocation(String latlong, int radius, long lastUpdate);
+    //void fetchEventsByLocation(String latlong, int radius, String unit, String locale, long lastUpdate);
+
+    void fetchEventsLocation(String latlong, int radius, String unit, String locale, long lastUpdate);
 
     void updateEvents(Event event);
 

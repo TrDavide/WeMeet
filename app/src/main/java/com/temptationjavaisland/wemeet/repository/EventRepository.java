@@ -26,7 +26,7 @@ public class EventRepository implements EventCallback {
     private final BaseEventLocalDataSource eventLocalDataSource;
 
     public EventRepository(BaseEventRemoteDataSource eventRemoteDataSource,
-                             BaseEventLocalDataSource eventLocalDataSource) {
+                           BaseEventLocalDataSource eventLocalDataSource) {
 
         allEventsMutableLiveData = new MutableLiveData<>();
         preferedEventsMutableLiveData = new MutableLiveData<>();
@@ -36,13 +36,27 @@ public class EventRepository implements EventCallback {
         this.eventLocalDataSource.setEventCallback(this);
     }
 
-    public MutableLiveData<Result> fetchEvents(String country, String city, String keyword, int page, long lastUpdate) {
+    /*public MutableLiveData<Result> fetchEvents(String latlong, int radius, String unit, String locale, long lastUpdate) {
         long currentTime = System.currentTimeMillis();
 
         // It gets the news from the Web Service if the last download
         // of the news has been performed more than FRESH_TIMEOUT value ago
         if (currentTime - lastUpdate > FRESH_TIMEOUT) {
-            eventRemoteDataSource.getEvents(country, city, keyword, page, lastUpdate);
+            eventRemoteDataSource.getEvents(latlong, radius, unit,locale, lastUpdate);
+        } else {
+            eventLocalDataSource.getEvents();
+        }
+
+        return allEventsMutableLiveData;
+    }*/
+
+    public MutableLiveData<Result> fetchEventsLocation(String latlong, int radius, String unit, String locale, long lastUpdate) {
+        long currentTime = System.currentTimeMillis();
+
+        // It gets the news from the Web Service if the last download
+        // of the news has been performed more than FRESH_TIMEOUT value ago
+        if (currentTime - lastUpdate > FRESH_TIMEOUT) {
+            eventRemoteDataSource.getEventsLocation(latlong, radius, unit,locale, lastUpdate);
         } else {
             eventLocalDataSource.getEvents();
         }

@@ -70,10 +70,6 @@ public class Converters {
     public static EmbeddedEvent toEmbeddedEvent(String json) {
         return gson.fromJson(json, EmbeddedEvent.class);
     }
-    @TypeConverter
-    public static EmbeddedEvent fromStringToEmbedded(String value) {
-        return gson.fromJson(value, EmbeddedEvent.class);
-    }
 
 }
 
