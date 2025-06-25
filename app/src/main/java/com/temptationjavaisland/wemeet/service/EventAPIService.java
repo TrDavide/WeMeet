@@ -33,5 +33,6 @@ public interface EventAPIService {
             @Query(TOP_HEADLINES_RADIUS_PARAMETER) int radius,
             @Query(TOP_HEADLINES_UNIT_PARAMETER) String unit,
             @Query(TOP_HEADLINES_LOCALE_PARAMETER) String locale,
+            @Query(TOP_HEADLINES_PAGE_SIZE_PARAMETER) int pageSize,
             @Query("apikey") String apiKey);
 }

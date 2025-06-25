@@ -11,9 +11,9 @@ public abstract class Result {
      * Class that represents a successful action during the interaction
      * with a Web Service or a local database.
      */
-    public static final class Success extends Result {
+    public static final class EventSuccess extends Result {
         private final EventAPIResponse eventAPIResponse;
-        public Success(EventAPIResponse eventAPIResponse) {
+        public EventSuccess(EventAPIResponse eventAPIResponse) {
             this.eventAPIResponse = eventAPIResponse;
         }
         public EventAPIResponse getData() {

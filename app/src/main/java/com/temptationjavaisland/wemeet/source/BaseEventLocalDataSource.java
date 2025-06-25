@@ -6,19 +6,19 @@ import com.temptationjavaisland.wemeet.repository.EventResponseCallback;
 import java.util.List;
 
 public abstract class BaseEventLocalDataSource {
-    protected EventResponseCallback eventResponseCallback;
+    protected EventResponseCallback eventCallback;
 
-    public void setEventCallback(EventResponseCallback eventResponseCallback) {
-        this.eventResponseCallback = eventResponseCallback;
+    public void setEventCallback(EventResponseCallback eventCallback) {
+        this.eventCallback = eventCallback;
     }
 
     public abstract void getEvents();
 
-    public abstract void getFavoriteEvents();
+    public abstract void getPreferedEvents();
 
     public abstract void updateEvent(Event event);
 
-    public abstract void deleteFavoriteEvents();
+    public abstract void deletePreferedEvents();
 
     public abstract void insertEvents(List<Event> eventList);
 }

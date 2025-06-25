@@ -17,7 +17,7 @@ public class EventViewModel extends ViewModel {
     private final EventRepository eventRepository;
     private final int page;
     private MutableLiveData<Result> eventsListLiveData;
-    private MutableLiveData<Result> preferedEventsMutableLiveData;
+    private MutableLiveData<Result> preferedEventsListLiveData;
 
     public EventViewModel(EventRepository eventRepository) {
         this.eventRepository = eventRepository;
@@ -31,22 +31,18 @@ public class EventViewModel extends ViewModel {
         return eventsListLiveData;
     }*/
 
-    public MutableLiveData<Result> getEventsLocation(String latlong, int radius, String unit, String locale, long lastUpdate) {
+    public MutableLiveData<Result> getEventsLocation(String latlong, int radius, String unit, String locale, int pageSize, long lastUpdate) {
         if (eventsListLiveData == null) {
-            fetchEventsLocation(latlong,radius, unit,locale, lastUpdate);
+            fetchEventsLocation(latlong,radius, unit,locale, pageSize, lastUpdate);
         }
         return eventsListLiveData;
     }
 
-    private void fetchEventsLocation(String latlong, int radius, String unit, String locale, long lastUpdate) {
-        eventsListLiveData = eventRepository.fetchEventsLocation(latlong,radius, unit,locale, lastUpdate);
-    }
-
-    public MutableLiveData<Result> getFavoriteEventsLiveData() {
-        if (preferedEventsMutableLiveData == null) {
-            getFavoriteEvents();
+    public MutableLiveData<Result> getPreferedEventsLiveData() {
+        if (preferedEventsListLiveData == null) {
+            getPreferedEvents();
         }
-        return preferedEventsMutableLiveData;
+        return preferedEventsListLiveData;
     }
 
 
@@ -54,12 +50,16 @@ public class EventViewModel extends ViewModel {
         eventRepository.updateEvent(event);
     }
 
+    private void fetchEventsLocation(String latlong, int radius, String unit, String locale, int pageSize, long lastUpdate) {
+        eventsListLiveData = eventRepository.fetchEventsLocation(latlong,radius, unit,locale, pageSize, lastUpdate);
+    }
+
     /*private void fetchEvents(String country, String city, String keyword, int page, long lastUpdate) {
         eventsListLiveData = eventRepository.fetchEvents(country,city, keyword,page, lastUpdate);
     }*/
 
-    private void getFavoriteEvents() {
-        preferedEventsMutableLiveData = eventRepository.getFavoriteEvents();
+    private void getPreferedEvents() {
+        preferedEventsListLiveData = eventRepository.getPreferedEvents();
     }
 
     public void removeFromFavorite(Event event) {

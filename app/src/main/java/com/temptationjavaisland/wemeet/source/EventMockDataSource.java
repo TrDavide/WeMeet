@@ -32,7 +32,7 @@ public class EventMockDataSource extends BaseEventRemoteDataSource {
     }*/
 
     @Override
-    public void getEventsLocation(String latlong, int radius, String unit, String locale, long lastUpdate) {
+    public void getEventsLocation(String latlong, int radius, String unit, String locale, int pageSize, long lastUpdate) {
         EventAPIResponse eventApiResponse = null;
 
         try {
@@ -42,9 +42,9 @@ public class EventMockDataSource extends BaseEventRemoteDataSource {
         }
 
         if (eventApiResponse != null) {
-            eventResponseCallback.onSuccessFromRemote(eventApiResponse, System.currentTimeMillis());
+            eventCallback.onSuccessFromRemote(eventApiResponse, System.currentTimeMillis());
         } else {
-            eventResponseCallback.onFailureFromRemote(new Exception("Errore nel parsing del file JSON"));
+            eventCallback.onFailureFromRemote(new Exception("Errore nel parsing del file JSON"));
         }
     }
 }

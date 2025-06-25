@@ -10,7 +10,7 @@ import java.util.List;
 public class EventAPIResponse {
     private List<Event> eventList;
 
-    @androidx.room.Embedded(prefix = "embedded")
+    @androidx.room.Embedded(prefix = "_embedded_")
     private Embedded _embedded;
 
     public EventAPIResponse(List<Event> eventList) {

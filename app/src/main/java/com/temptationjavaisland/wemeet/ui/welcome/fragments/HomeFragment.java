@@ -43,18 +43,18 @@ import java.util.concurrent.Executors;
 import android.widget.LinearLayout;
 
 
-public class HomeFragment extends Fragment implements ResponseCallBack {
+public class HomeFragment extends Fragment {
+
+    public static final String TAG = HomeFragment.class.getName();
 
     private CircularProgressIndicator circularProgressIndicator;
+    private static final int initialShimmerElements = 5;
+    private EventRecyclerAdapter eventRecyclerAdapter;
     private List<Event> eventList;
-    public static final String TAG = HomeFragment.class.getName();
-    private RecyclerView recyclerView;
-    private EventRecyclerAdapter adapter;
-    private IEventRepository eventRepository;
     private EventViewModel eventViewModel;
     private LinearLayout shimmerLinearLayout;
+    private RecyclerView recyclerView;
     private FrameLayout noInternetView;
-    private static final int initialShimmerElements = 5;
     private String latlong;
     int radius = 300;
     private Long lastUpdate;
@@ -109,10 +109,10 @@ public class HomeFragment extends Fragment implements ResponseCallBack {
             //eventRepository.fetchEventsLocation(latlong, radius, System.currentTimeMillis());
         }
 
-        adapter = new EventRecyclerAdapter(R.layout.event_card, eventList,
+        eventRecyclerAdapter = new EventRecyclerAdapter(R.layout.event_card, eventList,
                 new EventRecyclerAdapter.OnItemClickListener() {
                     @Override
-                    public void onEventClick(Event event) {
+                    public void onEventItemClick(Event event) {
                         EventPageFragment eventPageFragment = new EventPageFragment();
                         Bundle bundle = new Bundle();
                         bundle.putParcelable("event_data", event);
@@ -140,19 +140,19 @@ public class HomeFragment extends Fragment implements ResponseCallBack {
         }
 
 
-        recyclerView.setAdapter(adapter);
+        recyclerView.setAdapter(eventRecyclerAdapter);
         recyclerView.setVisibility(View.GONE);
 
         eventViewModel.getEventsLocation(latlong, radius, "", "", lastUpdate)
                 .observe(getViewLifecycleOwner(), result -> {
                     if (result.isSuccess()) {
-                        Result.Success successResult = (Result.Success) result;
+                        Result.EventSuccess successResult = (Result.EventSuccess) result;
                         com.temptationjavaisland.wemeet.model.EventAPIResponse data = successResult.getData();
                         if (data != null && data.getEmbedded() != null && data.getEmbedded().getEvents() != null) {
                             int initialSize = this.eventList.size();
                             this.eventList.clear();
                             this.eventList.addAll(data.getEmbedded().getEvents());
-                            adapter.notifyItemRangeInserted(initialSize, this.eventList.size());
+                            eventRecyclerAdapter.notifyItemRangeInserted(initialSize, this.eventList.size());
                             recyclerView.setVisibility(View.VISIBLE);
                             shimmerLinearLayout.setVisibility(View.GONE);
                         } else {
@@ -214,7 +214,7 @@ public class HomeFragment extends Fragment implements ResponseCallBack {
         eventList.addAll(newEventsList);
 
         requireActivity().runOnUiThread(() -> {
-            adapter.notifyDataSetChanged();
+            eventRecyclerAdapter.notifyDataSetChanged();
             recyclerView.setVisibility(View.VISIBLE);
             circularProgressIndicator.setVisibility(View.GONE);
         });

@@ -19,8 +19,17 @@ public interface EventDAO {
     @Query("SELECT * FROM Event WHERE uid = :eventId")
     Event getEvent(int eventId);
 
+    @Query("SELECT * FROM event WHERE saved = 1")
+    List<Event> getSaved();
+
     @Insert(onConflict = OnConflictStrategy.REPLACE)
-    void insertAll(Event... users);
+    void insert(Event... users);
+
+    @Insert(onConflict = OnConflictStrategy.REPLACE)
+    void insertAll(List<Event> events);
+
+    @Insert(onConflict = OnConflictStrategy.REPLACE)
+    List<Long> insertEventsList(List<Event> newsList);
 
     @Delete
     void delete(Event user);
@@ -28,23 +37,18 @@ public interface EventDAO {
     @Query("DELETE FROM Event")
     void deleteAll();
 
-    @Query("SELECT * FROM Event WHERE saved = 1")
-    List<Event> isSaved();
+    @Query("DELETE FROM event WHERE uid = :eventId")
+    void deleteById(int eventId);
+
+    @Query("DELETE FROM Event WHERE saved = 1") //Per elimina preferiti
+    void deleteAllSavedEvents();
 
     @Update
     int updateEvent(Event event);
 
-    @Query("DELETE FROM event WHERE uid = :eventId")
-    void deleteById(int eventId);
-
-    @Insert(onConflict = OnConflictStrategy.REPLACE)
-    List<Long> insertEventsList(List<Event> newsList);
-
-    @Query("SELECT * FROM event WHERE saved = 1")
-    List<Event> getAllSavedEvents();
-
-    @Query("DELETE FROM Event WHERE saved = 1") //Per elimina preferiti
-    void deleteAllSavedEvents();
     @Update
-    int updateEventList(List<Event> events);
+    int updateListPreferedEvent(List<Event> events);
+
+    @Query("SELECT * FROM Event WHERE saved = 1")
+    List<Event> isSaved();
 }

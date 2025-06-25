@@ -92,7 +92,7 @@ public class LocationFragment extends Fragment {
                 new EventRecyclerAdapter.OnItemClickListener() {
 
             @Override
-            public void onEventClick(Event event) {
+            public void onEventItemClick(Event event) {
                 Bundle bundle = new Bundle();
                 bundle.putParcelable("event_data", event);
                 Navigation.findNavController(requireView()).navigate(R.id.action_locationFragment_to_eventPageFragment, bundle);

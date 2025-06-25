@@ -19,19 +19,13 @@ import java.util.List;
 
 public class EventRecyclerAdapter extends RecyclerView.Adapter<EventRecyclerAdapter.ViewHolder>{
     public interface OnItemClickListener {
-        void onEventClick(Event event);
+        void onEventItemClick(Event event);
         void onFavoriteButtonPressed(int position);
     }
 
     private int layout;
     private List<Event> eventList;
     private final OnItemClickListener onItemClickListener;
-
-    public EventRecyclerAdapter(int layout, List<Event> eventList, OnItemClickListener onItemClickListener) {
-        this.layout = layout;
-        this.eventList = eventList;
-        this.onItemClickListener = onItemClickListener;
-    }
 
     public class ViewHolder extends RecyclerView.ViewHolder implements View.OnClickListener{
         private final TextView textViewTitle;
@@ -53,7 +47,7 @@ public class EventRecyclerAdapter extends RecyclerView.Adapter<EventRecyclerAdap
 
 
         public void bind(Event event, OnItemClickListener listener) {
-            itemView.setOnClickListener(v -> listener.onEventClick(event));
+            itemView.setOnClickListener(v -> listener.onEventItemClick(event));
         }
 
         public TextView getTextViewTitle() { return textViewTitle; }
@@ -67,10 +61,16 @@ public class EventRecyclerAdapter extends RecyclerView.Adapter<EventRecyclerAdap
             if(v.getId() == R.id.favoriteButton){
                 onItemClickListener.onFavoriteButtonPressed(getAdapterPosition());
             }else{
-                onItemClickListener.onEventClick(eventList.get(getAdapterPosition()));
+                onItemClickListener.onEventItemClick(eventList.get(getAdapterPosition()));
             }
 
         }
+    }
+
+    public EventRecyclerAdapter(int layout, List<Event> eventList, OnItemClickListener onItemClickListener) {
+        this.layout = layout;
+        this.eventList = eventList;
+        this.onItemClickListener = onItemClickListener;
     }
 
     @NonNull
@@ -124,7 +124,7 @@ public class EventRecyclerAdapter extends RecyclerView.Adapter<EventRecyclerAdap
         return eventList.size();
     }
 
-    public void updateData(List<Event> newEvents) {
+    public void updateData(List<Event> newEvents) { //questo metodo è usato solo in LocationFrgment
         eventList.clear();
         eventList.addAll(newEvents);
         notifyDataSetChanged();

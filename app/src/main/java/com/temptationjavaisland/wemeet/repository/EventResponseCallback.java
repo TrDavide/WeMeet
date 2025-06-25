@@ -9,8 +9,8 @@ public interface EventResponseCallback {
     void onFailureFromRemote(Exception exception);
     void onSuccessFromLocal(List<Event> eventList);
     void onFailureFromLocal(Exception exception);
-    void onFavoriteStatusChanged(Event event, List<Event> favoriteEvents);
+    void onFavoriteStatusChanged(Event event, List<Event> preferredEvents);
     void onFavoriteStatusChanged(List<Event> events);
-    void onDeleteFavoriteSuccess(List<Event> favoriteEvents);
+    void onDeleteFavoriteSuccess(List<Event> preferredEvents);
 }
 

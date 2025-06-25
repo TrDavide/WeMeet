@@ -69,7 +69,7 @@ public class UserProfileFragment extends Fragment {
             EventRecyclerAdapter adapter = new EventRecyclerAdapter(R.layout.event_card, eventList,
                     new EventRecyclerAdapter.OnItemClickListener() {
                         @Override
-                        public void onEventClick(Event event) {
+                        public void onEventItemClick(Event event) {
                             Bundle bundle = new Bundle();
                             bundle.putParcelable("event_data", event); // Assicurati che Event implementi Parcelable
                             Navigation.findNavController(requireView()).navigate(R.id.action_userProfileFragment_to_eventPageFragment, bundle);

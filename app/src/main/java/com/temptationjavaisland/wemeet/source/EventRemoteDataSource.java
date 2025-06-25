@@ -2,11 +2,13 @@ package com.temptationjavaisland.wemeet.source;
 
 import static com.temptationjavaisland.wemeet.util.Constants.API_KEY_ERROR;
 import static com.temptationjavaisland.wemeet.util.Constants.RETROFIT_ERROR;
+import static com.temptationjavaisland.wemeet.util.Constants.TOP_HEADLINES_PAGE_SIZE_VALUE;
 
 import androidx.annotation.NonNull;
 
 import com.temptationjavaisland.wemeet.model.EventAPIResponse;
 import com.temptationjavaisland.wemeet.service.EventAPIService;
+import com.temptationjavaisland.wemeet.util.ServiceLocator;
 
 import retrofit2.Call;
 import retrofit2.Callback;
@@ -48,23 +50,23 @@ public class EventRemoteDataSource extends BaseEventRemoteDataSource {
     }*/
 
     @Override
-    public void getEventsLocation(String latlong, int radius, String unit, String locale, long lastUpdate) {
-        Call<EventAPIResponse> eventsCall = eventAPIService.getEventsByLocation(latlong,radius, unit,locale,apiKey);
-        eventsCall.enqueue(new Callback<EventAPIResponse>() {
+    public void getEventsLocation(String latlong, int radius, String unit, String locale, int pageSize, long lastUpdate) {
+        Call<EventAPIResponse> eventsResponseCall = eventAPIService.getEventsByLocation(latlong,radius, unit,locale, TOP_HEADLINES_PAGE_SIZE_VALUE, apiKey);
+        eventsResponseCall.enqueue(new Callback<EventAPIResponse>() {
             @Override
             public void onResponse(@NonNull Call<EventAPIResponse> call,
                                    @NonNull Response<EventAPIResponse> response) {
 
                 if (response.body() != null && response.isSuccessful()) {
-                    eventResponseCallback.onSuccessFromRemote(response.body(), System.currentTimeMillis());
+                    eventCallback.onSuccessFromRemote(response.body(), System.currentTimeMillis());
                 } else {
-                    eventResponseCallback.onFailureFromRemote(new Exception(API_KEY_ERROR));
+                    eventCallback.onFailureFromRemote(new Exception(API_KEY_ERROR));
                 }
             }
 
             @Override
             public void onFailure(@NonNull Call<EventAPIResponse> call, @NonNull Throwable t) {
-                eventResponseCallback.onFailureFromRemote(new Exception(RETROFIT_ERROR));
+                eventCallback.onFailureFromRemote(new Exception(RETROFIT_ERROR));
             }
         });
     }

@@ -18,43 +18,43 @@ public class EventLocalDataSource extends BaseEventLocalDataSource {
     @Override
     public void getEvents() {
         EventRoomDatabase.databaseWriteExecutor.execute(() -> {
-            eventResponseCallback.onSuccessFromLocal(eventDAO.getAll());
+            eventCallback.onSuccessFromLocal(eventDAO.getAll());
         });
     }
 
     @Override
-    public void getFavoriteEvents() {
+    public void getPreferedEvents() {
         EventRoomDatabase.databaseWriteExecutor.execute(() -> {
-            List<Event> favoriteEvents = eventDAO.getAllSavedEvents();
-            eventResponseCallback.onFavoriteStatusChanged(favoriteEvents);
+            List<Event> preferedEvents = eventDAO.getSaved();
+            eventCallback.onFavoriteStatusChanged(preferedEvents);
         });
     }
 
     @Override
     public void updateEvent(Event event) { 
         EventRoomDatabase.databaseWriteExecutor.execute(() -> {
-            int rowUpdated = eventDAO.updateEvent(event);
-            if (rowUpdated == 1) {
+            int rowUpdatedCounter  = eventDAO.updateEvent(event);
+            if (rowUpdatedCounter == 1) {
                 Event updatedEvent = eventDAO.getEvent(event.getUid());
-                eventResponseCallback.onFavoriteStatusChanged(updatedEvent, eventDAO.isSaved());
+                eventCallback.onFavoriteStatusChanged(updatedEvent, eventDAO.getSaved());
             } else {
-                eventResponseCallback.onFailureFromLocal(new Exception("Unexpected error during update."));
+                eventCallback.onFailureFromLocal(new Exception("Unexpected error during update."));
             }
         });
     }
 
     @Override
-    public void deleteFavoriteEvents() {
+    public void deletePreferedEvents() {
         EventRoomDatabase.databaseWriteExecutor.execute(() -> {
-            List<Event> favoriteEvents = eventDAO.isSaved();
+            List<Event> favoriteEvents = eventDAO.getSaved();
             for (Event event : favoriteEvents) {
                 event.setSaved(false);
             }
-            int updated = eventDAO.updateEventList(favoriteEvents);
-            if (updated == favoriteEvents.size()) {
-                eventResponseCallback.onDeleteFavoriteSuccess(favoriteEvents);
+            int updatedRowsNumber  = eventDAO.updateListPreferedEvent(favoriteEvents);
+            if (updatedRowsNumber  == favoriteEvents.size()) {
+                eventCallback.onDeleteFavoriteSuccess(favoriteEvents);
             } else {
-                eventResponseCallback.onFailureFromLocal(new Exception("Error deleting favorite events."));
+                eventCallback.onFailureFromLocal(new Exception("Error deleting favorite events."));
             }
         });
     }
@@ -62,19 +62,19 @@ public class EventLocalDataSource extends BaseEventLocalDataSource {
     @Override
     public void insertEvents(List<Event> eventList) {
         EventRoomDatabase.databaseWriteExecutor.execute(() -> {
-            List<Event> existingEvents = eventDAO.getAll();
+            List<Event> allEvents = eventDAO.getAll();
 
             if (eventList != null) {
-                for (Event event : existingEvents) {
+                for (Event event : allEvents) {
                     if (eventList.contains(event)) {
                         eventList.set(eventList.indexOf(event), event);
                     }
                 }
-                List<Long> insertedIds = eventDAO.insertEventsList(eventList);
+                List<Long> insertedEventsIds = eventDAO.insertEventsList(eventList);
                 for (int i = 0; i < eventList.size(); i++) {
-                    eventList.get(i).setUid(insertedIds.get(i).intValue());
+                    eventList.get(i).setUid(insertedEventsIds.get(i).intValue());
                 }
-                eventResponseCallback.onSuccessFromLocal(eventList);
+                eventCallback.onSuccessFromLocal(eventList);
             }
         });
     }

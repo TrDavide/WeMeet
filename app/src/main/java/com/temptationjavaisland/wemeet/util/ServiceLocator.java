@@ -34,7 +34,7 @@ public class ServiceLocator {
         return INSTANCE;
     }
 
-    private final OkHttpClient client = new OkHttpClient.Builder()
+    OkHttpClient client = new OkHttpClient.Builder()
             .addInterceptor(chain -> {
                 Request request = chain.request().newBuilder()
                         .header("User-Agent", "Mozilla/5.0 (Android) WeMeetApp")

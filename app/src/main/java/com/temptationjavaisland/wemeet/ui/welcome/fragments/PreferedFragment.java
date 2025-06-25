@@ -71,7 +71,7 @@ public class PreferedFragment extends Fragment {
         adapter = new EventRecyclerAdapter(R.layout.event_card, eventList,
                 new EventRecyclerAdapter.OnItemClickListener() {
                     @Override
-                    public void onEventClick(Event event) {
+                    public void onEventItemClick(Event event) {
                         EventPageFragment eventPageFragment = new EventPageFragment();
                         Bundle bundle = new Bundle();
                         bundle.putParcelable("event_data", event);
