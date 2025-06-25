@@ -14,5 +14,5 @@ public abstract class BaseEventRemoteDataSource {
 
     //public abstract void getEvents(String country, String city, String keyword, int page, long lastUpdate);
 
-    public abstract void getEventsLocation(String latlong, int radius, String unit, String locale, int pageSize, long lastUpdate);
+    public abstract void getEventsLocation(String latlong, int radius, String unit, String locale, long lastUpdate);
 }

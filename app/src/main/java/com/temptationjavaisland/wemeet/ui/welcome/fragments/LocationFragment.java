@@ -45,7 +45,6 @@ public class LocationFragment extends Fragment {
     private List<Event> eventList;
     // Retrofit e service per le chiamate API
     private Retrofit retrofit;
-    private EventService eventService;
     private EventViewModel eventViewModel;
 
     @Override
@@ -129,7 +128,7 @@ public class LocationFragment extends Fragment {
         // All'avvio mostra layoutEmptyState (immagine + testo) e nascondi lista
         recyclerView.setVisibility(View.GONE);
         layoutEmptyState.setVisibility(View.VISIBLE);
-
+        /*
         // Inizializza Retrofit e EventService
         retrofit = new Retrofit.Builder()
                 .baseUrl("https://app.ticketmaster.com/discovery/v2/")
@@ -137,7 +136,7 @@ public class LocationFragment extends Fragment {
                 .build();
         eventService = retrofit.create(EventService.class);
 
-        setupSearchView();
+        setupSearchView();*/
 
         return view;
     }
@@ -186,7 +185,7 @@ public class LocationFragment extends Fragment {
             return;
         }
 
-        eventService.searchEvents(API_KEY, keyword).enqueue(new Callback<EventApiResponseRetrofit>() {
+        /*eventService.searchEvents(API_KEY, keyword).enqueue(new Callback<EventApiResponseRetrofit>() {
             @Override
             public void onResponse(Call<EventApiResponseRetrofit> call, Response<EventApiResponseRetrofit> response) {
                 if (response.isSuccessful() && response.body() != null && response.body().getEmbedded() != null) {
@@ -220,6 +219,6 @@ public class LocationFragment extends Fragment {
                 recyclerView.setVisibility(View.GONE);
                 layoutEmptyState.setVisibility(View.VISIBLE);
             }
-        });
+        });*/
     }
 }

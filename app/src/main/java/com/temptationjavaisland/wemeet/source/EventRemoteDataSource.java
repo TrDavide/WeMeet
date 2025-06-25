@@ -4,8 +4,11 @@ import static com.temptationjavaisland.wemeet.util.Constants.API_KEY_ERROR;
 import static com.temptationjavaisland.wemeet.util.Constants.RETROFIT_ERROR;
 import static com.temptationjavaisland.wemeet.util.Constants.TOP_HEADLINES_PAGE_SIZE_VALUE;
 
+import android.util.Log;
+
 import androidx.annotation.NonNull;
 
+import com.google.gson.Gson;
 import com.temptationjavaisland.wemeet.model.EventAPIResponse;
 import com.temptationjavaisland.wemeet.service.EventAPIService;
 import com.temptationjavaisland.wemeet.util.ServiceLocator;
@@ -50,15 +53,23 @@ public class EventRemoteDataSource extends BaseEventRemoteDataSource {
     }*/
 
     @Override
-    public void getEventsLocation(String latlong, int radius, String unit, String locale, int pageSize, long lastUpdate) {
-        Call<EventAPIResponse> eventsResponseCall = eventAPIService.getEventsByLocation(latlong,radius, unit,locale, TOP_HEADLINES_PAGE_SIZE_VALUE, apiKey);
+    public void getEventsLocation(String latlong, int radius, String unit, String locale, long lastUpdate) {
+        Call<EventAPIResponse> eventsResponseCall = eventAPIService.getEventsByLocation(
+                latlong, radius, unit, locale, TOP_HEADLINES_PAGE_SIZE_VALUE, apiKey);
+
         eventsResponseCall.enqueue(new Callback<EventAPIResponse>() {
             @Override
             public void onResponse(@NonNull Call<EventAPIResponse> call,
                                    @NonNull Response<EventAPIResponse> response) {
 
-                if (response.body() != null && response.isSuccessful()) {
-                    eventCallback.onSuccessFromRemote(response.body(), System.currentTimeMillis());
+                if (response.isSuccessful() && response.body() != null) {
+                    EventAPIResponse responseBody = response.body();
+                    Log.d("API_RESPONSE", "Raw response: " + new Gson().toJson(response.body()));
+                    if (responseBody.getEmbedded() != null && responseBody.getEmbedded().getEvents() != null) {
+                        eventCallback.onSuccessFromRemote(responseBody, System.currentTimeMillis());
+                    } else {
+                        eventCallback.onFailureFromRemote(new Exception("Nessun evento trovato nella risposta."));
+                    }
                 } else {
                     eventCallback.onFailureFromRemote(new Exception(API_KEY_ERROR));
                 }
@@ -70,5 +81,6 @@ public class EventRemoteDataSource extends BaseEventRemoteDataSource {
             }
         });
     }
+
 
 }

@@ -11,7 +11,7 @@ import androidx.fragment.app.FragmentTransaction;
 import androidx.lifecycle.ViewModelProvider;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
-
+import com.google.gson.Gson;
 import android.os.Handler;
 import android.os.Looper;
 import android.util.Log;
@@ -19,6 +19,7 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.FrameLayout;
+import android.widget.LinearLayout;
 import android.widget.TextView;
 
 import com.google.android.material.bottomnavigation.BottomNavigationView;
@@ -28,35 +29,32 @@ import com.google.android.material.snackbar.Snackbar;
 import com.temptationjavaisland.wemeet.R;
 import com.temptationjavaisland.wemeet.adapter.EventRecyclerAdapter;
 import com.temptationjavaisland.wemeet.model.Event;
+import com.temptationjavaisland.wemeet.model.EventAPIResponse;
+import com.temptationjavaisland.wemeet.model.Result;
 import com.temptationjavaisland.wemeet.repository.EventRepository;
 import com.temptationjavaisland.wemeet.ui.welcome.viewmodel.EventViewModel;
 import com.temptationjavaisland.wemeet.ui.welcome.viewmodel.EventViewModelFactory;
 import com.temptationjavaisland.wemeet.util.NetworkUtil;
 import com.temptationjavaisland.wemeet.util.ServiceLocator;
-import com.temptationjavaisland.wemeet.model.Result;
+
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Locale;
 import java.util.concurrent.ExecutorService;
 import java.util.concurrent.Executors;
 
-import android.widget.LinearLayout;
-
-
 public class HomeFragment extends Fragment {
 
-    public static final String TAG = HomeFragment.class.getName();
+    private static final String TAG = HomeFragment.class.getName();
 
     private CircularProgressIndicator circularProgressIndicator;
-    private static final int initialShimmerElements = 5;
-    private EventRecyclerAdapter eventRecyclerAdapter;
     private List<Event> eventList;
-    private EventViewModel eventViewModel;
-    private LinearLayout shimmerLinearLayout;
     private RecyclerView recyclerView;
+    private EventRecyclerAdapter adapter;
+    private EventViewModel eventViewModel;
     private FrameLayout noInternetView;
+    private static final int radius = 1;
     private String latlong;
-    int radius = 300;
     private Long lastUpdate;
 
     public HomeFragment() {}
@@ -87,29 +85,13 @@ public class HomeFragment extends Fragment {
                              Bundle savedInstanceState) {
         View view = inflater.inflate(R.layout.fragment_home, container, false);
 
-        shimmerLinearLayout = view.findViewById(R.id.shimmerLinearLayout);
         noInternetView = view.findViewById(R.id.noInternetMessage);
         recyclerView = view.findViewById(R.id.recyclerViewHome);
         circularProgressIndicator = view.findViewById(R.id.progressIndicator);
+
         recyclerView.setLayoutManager(new LinearLayoutManager(view.getContext()));
 
-        eventList = new ArrayList<>();
-        for (int i = 0; i < initialShimmerElements; i++) eventList.add(Event.getSampleEvent());
-        //eventRepository = new EventAPIRepository(requireActivity().getApplication(), this);
-
-        Bundle args = getArguments();
-        if (args != null) {
-            double lat = args.getDouble("lat", 0); //45.464003;
-            double lon = args.getDouble("lon", 0);  //9.189664;
-
-            getCityNameAsync(lat, lon, view);
-
-            latlong = lat + "," + lon;
-
-            //eventRepository.fetchEventsLocation(latlong, radius, System.currentTimeMillis());
-        }
-
-        eventRecyclerAdapter = new EventRecyclerAdapter(R.layout.event_card, eventList,
+        adapter = new EventRecyclerAdapter(R.layout.event_card, eventList,
                 new EventRecyclerAdapter.OnItemClickListener() {
                     @Override
                     public void onEventItemClick(Event event) {
@@ -125,46 +107,56 @@ public class HomeFragment extends Fragment {
                         transaction.addToBackStack(null);
                         transaction.commit();
                     }
+
                     @Override
                     public void onFavoriteButtonPressed(int position) {
                         eventList.get(position).setSaved(!eventList.get(position).isSaved());
                         eventViewModel.updateEvent(eventList.get(position));
                     }
                 });
+
         lastUpdate = System.currentTimeMillis();
+
+        Bundle args = getArguments();
+        if (args != null) {
+            double lat = 45.4642; //args.getDouble("lat", 45.4642);
+            double lon = 9.1900; //args.getDouble("lon", 9.1900);
+            getCityNameAsync(lat, lon, view);
+            latlong = lat + "," + lon;
+        } /*else {
+            latlong = "0,0"; // fallback
+        }*/
+
+        recyclerView.setAdapter(adapter);
+        recyclerView.setVisibility(View.GONE);
+        noInternetView.setVisibility(View.GONE);
+        circularProgressIndicator.setVisibility(View.VISIBLE);
 
         if (!NetworkUtil.isInternetAvailable(getContext())) {
             noInternetView.setVisibility(View.VISIBLE);
-            //Trick to avoid doing the API call
-            lastUpdate = Long.valueOf(System.currentTimeMillis() + "");
+            circularProgressIndicator.setVisibility(View.GONE);
+            lastUpdate = System.currentTimeMillis() + 100; // evita chiamata API
         }
 
+        Gson gson = new Gson();
 
-        recyclerView.setAdapter(eventRecyclerAdapter);
-        recyclerView.setVisibility(View.GONE);
-
-        eventViewModel.getEventsLocation(latlong, radius, "", "", lastUpdate)
+        eventViewModel.getEventsLocation(latlong, 20, "km", "it-it", 0L)
                 .observe(getViewLifecycleOwner(), result -> {
                     if (result.isSuccess()) {
-                        Result.EventSuccess successResult = (Result.EventSuccess) result;
-                        com.temptationjavaisland.wemeet.model.EventAPIResponse data = successResult.getData();
-                        if (data != null && data.getEmbedded() != null && data.getEmbedded().getEvents() != null) {
-                            int initialSize = this.eventList.size();
-                            this.eventList.clear();
-                            this.eventList.addAll(data.getEmbedded().getEvents());
-                            eventRecyclerAdapter.notifyItemRangeInserted(initialSize, this.eventList.size());
-                            recyclerView.setVisibility(View.VISIBLE);
-                            shimmerLinearLayout.setVisibility(View.GONE);
-                        } else {
-                            Snackbar.make(requireView(), "Nessun evento trovato", Snackbar.LENGTH_SHORT).show();
+                        List<Event> events = ((Result.EventSuccess) result).getData().getEmbedded().getEvents();
+                        for (Event event : events) {
+                            String eventJson = gson.toJson(event);
+                            Log.d(TAG, "Evento completo JSON: " + eventJson);
                         }
+                        eventList.clear();
+                        eventList.addAll(events);
+                        adapter.notifyDataSetChanged();
+                        recyclerView.setVisibility(View.VISIBLE);
+                        circularProgressIndicator.setVisibility(View.GONE);
                     } else {
-                        Snackbar.make(requireView(),
-                                getString(R.string.error_retrieving_events),
-                                Snackbar.LENGTH_SHORT).show();
+                        Log.e(TAG, "Errore fetch eventi: " + ((Result.Error) result));
                     }
                 });
-
 
         return view;
     }
@@ -193,42 +185,5 @@ public class HomeFragment extends Fragment {
             String finalCity = city;
             mainHandler.post(() -> cityTextView.setText(finalCity));
         });
-    }
-
-    @Override
-    public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
-        super.onViewCreated(view, savedInstanceState);
-
-        BottomNavigationView bottomNav = requireActivity().findViewById(R.id.bottom_navigation);
-        if (bottomNav != null) {
-            bottomNav.setVisibility(View.VISIBLE);
-        }
-
-        SearchBar searchBar = view.findViewById(R.id.search_bar);
-        recyclerView.setLayoutManager(new LinearLayoutManager(view.getContext()));
-    }
-
-    @Override
-    public void onSuccess(List<Event> newEventsList, long lastUpdate) {
-        eventList.clear();
-        eventList.addAll(newEventsList);
-
-        requireActivity().runOnUiThread(() -> {
-            eventRecyclerAdapter.notifyDataSetChanged();
-            recyclerView.setVisibility(View.VISIBLE);
-            circularProgressIndicator.setVisibility(View.GONE);
-        });
-
-        if (!newEventsList.isEmpty()) {
-            Log.i(TAG, newEventsList.get(0).toString());
-        }
-    }
-
-    @Override
-    public void onFailure(String errorMessage) {
-        requireActivity().runOnUiThread(() ->
-                Snackbar.make(requireView(), "Errore nel caricamento eventi: " + errorMessage, Snackbar.LENGTH_LONG).show()
-        );
-        circularProgressIndicator.setVisibility(View.GONE);
     }
 }

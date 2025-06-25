@@ -31,9 +31,9 @@ public class EventViewModel extends ViewModel {
         return eventsListLiveData;
     }*/
 
-    public MutableLiveData<Result> getEventsLocation(String latlong, int radius, String unit, String locale, int pageSize, long lastUpdate) {
+    public MutableLiveData<Result> getEventsLocation(String latlong, int radius, String unit, String locale, long lastUpdate) {
         if (eventsListLiveData == null) {
-            fetchEventsLocation(latlong,radius, unit,locale, pageSize, lastUpdate);
+            fetchEventsLocation(latlong,radius, unit,locale, lastUpdate);
         }
         return eventsListLiveData;
     }
@@ -50,8 +50,8 @@ public class EventViewModel extends ViewModel {
         eventRepository.updateEvent(event);
     }
 
-    private void fetchEventsLocation(String latlong, int radius, String unit, String locale, int pageSize, long lastUpdate) {
-        eventsListLiveData = eventRepository.fetchEventsLocation(latlong,radius, unit,locale, pageSize, lastUpdate);
+    private void fetchEventsLocation(String latlong, int radius, String unit, String locale, long lastUpdate) {
+        eventsListLiveData = eventRepository.fetchEventsLocation(latlong,radius, unit,locale, lastUpdate);
     }
 
     /*private void fetchEvents(String country, String city, String keyword, int page, long lastUpdate) {

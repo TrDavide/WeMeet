@@ -101,7 +101,7 @@ public class PreferedFragment extends Fragment {
             List<Event> saved = EventRoomDatabase
                     .getDatabase(requireContext())
                     .eventsDao()
-                    .getAllSavedEvents();
+                    .getSaved();
 
             Log.d("DB_TEST", "Eventi salvati trovati: " + saved.size());
 

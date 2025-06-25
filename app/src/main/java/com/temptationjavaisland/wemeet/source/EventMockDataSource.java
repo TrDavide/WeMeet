@@ -32,7 +32,7 @@ public class EventMockDataSource extends BaseEventRemoteDataSource {
     }*/
 
     @Override
-    public void getEventsLocation(String latlong, int radius, String unit, String locale, int pageSize, long lastUpdate) {
+    public void getEventsLocation(String latlong, int radius, String unit, String locale, long lastUpdate) {
         EventAPIResponse eventApiResponse = null;
 
         try {

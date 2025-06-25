@@ -1,25 +1,16 @@
 package com.temptationjavaisland.wemeet.model;
-import androidx.room.DatabaseView;
-import androidx.room.Embedded;
-import androidx.room.Entity;
 
-import java.util.ArrayList;
+import com.google.gson.annotations.SerializedName;
 import java.util.List;
 
-@Entity
 public class EventAPIResponse {
-    private List<Event> eventList;
 
+    @SerializedName("_embedded")
     @androidx.room.Embedded(prefix = "_embedded_")
     private Embedded _embedded;
 
-    public EventAPIResponse(List<Event> eventList) {
-        this.eventList = eventList;
-    }
-    public EventAPIResponse() {
-    }
+    public EventAPIResponse() {}
 
-    // Getter e Setter
     public Embedded getEmbedded() {
         return _embedded;
     }
@@ -29,9 +20,10 @@ public class EventAPIResponse {
     }
 
     public static class Embedded {
+
+        @SerializedName("events")
         private List<Event> events;
 
-        // Getter e Setter
         public List<Event> getEvents() {
             return events;
         }
@@ -39,7 +31,5 @@ public class EventAPIResponse {
         public void setEvents(List<Event> events) {
             this.events = events;
         }
-
     }
-
 }
