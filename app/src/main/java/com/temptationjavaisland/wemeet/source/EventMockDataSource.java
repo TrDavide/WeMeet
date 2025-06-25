@@ -42,9 +42,9 @@ public class EventMockDataSource extends BaseEventRemoteDataSource {
         }
 
         if (eventApiResponse != null) {
-            eventCallback.onSuccessFromRemote(eventApiResponse, System.currentTimeMillis());
+            eventResponseCallback.onSuccessFromRemote(eventApiResponse, System.currentTimeMillis());
         } else {
-            eventCallback.onFailureFromRemote(new Exception("Errore nel parsing del file JSON"));
+            eventResponseCallback.onFailureFromRemote(new Exception("Errore nel parsing del file JSON"));
         }
     }
 }

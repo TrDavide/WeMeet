@@ -1,9 +1,7 @@
 package com.temptationjavaisland.wemeet.ui.welcome.fragments;
 
-import android.app.Application;
 import android.location.Address;
 import android.location.Geocoder;
-import android.os.AsyncTask;
 import android.os.Bundle;
 
 import androidx.annotation.NonNull;
@@ -11,8 +9,6 @@ import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
 import androidx.fragment.app.FragmentTransaction;
 import androidx.lifecycle.ViewModelProvider;
-import androidx.navigation.Navigation;
-import androidx.navigation.NavController;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
@@ -32,13 +28,10 @@ import com.google.android.material.snackbar.Snackbar;
 import com.temptationjavaisland.wemeet.R;
 import com.temptationjavaisland.wemeet.adapter.EventRecyclerAdapter;
 import com.temptationjavaisland.wemeet.model.Event;
-import com.temptationjavaisland.wemeet.repository.EventAPIRepository;
 import com.temptationjavaisland.wemeet.repository.EventRepository;
-import com.temptationjavaisland.wemeet.repository.IEventRepository;
 import com.temptationjavaisland.wemeet.ui.welcome.viewmodel.EventViewModel;
 import com.temptationjavaisland.wemeet.ui.welcome.viewmodel.EventViewModelFactory;
 import com.temptationjavaisland.wemeet.util.NetworkUtil;
-import com.temptationjavaisland.wemeet.util.ResponseCallBack;
 import com.temptationjavaisland.wemeet.util.ServiceLocator;
 import com.temptationjavaisland.wemeet.model.Result;
 import java.util.ArrayList;
@@ -47,7 +40,6 @@ import java.util.Locale;
 import java.util.concurrent.ExecutorService;
 import java.util.concurrent.Executors;
 
-import android.location.Geocoder;
 import android.widget.LinearLayout;
 
 

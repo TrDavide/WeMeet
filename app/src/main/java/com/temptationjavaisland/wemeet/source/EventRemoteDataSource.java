@@ -7,7 +7,6 @@ import androidx.annotation.NonNull;
 
 import com.temptationjavaisland.wemeet.model.EventAPIResponse;
 import com.temptationjavaisland.wemeet.service.EventAPIService;
-import com.temptationjavaisland.wemeet.service.ServiceLocator;
 
 import retrofit2.Call;
 import retrofit2.Callback;
@@ -57,15 +56,15 @@ public class EventRemoteDataSource extends BaseEventRemoteDataSource {
                                    @NonNull Response<EventAPIResponse> response) {
 
                 if (response.body() != null && response.isSuccessful()) {
-                    eventCallback.onSuccessFromRemote(response.body(), System.currentTimeMillis());
+                    eventResponseCallback.onSuccessFromRemote(response.body(), System.currentTimeMillis());
                 } else {
-                    eventCallback.onFailureFromRemote(new Exception(API_KEY_ERROR));
+                    eventResponseCallback.onFailureFromRemote(new Exception(API_KEY_ERROR));
                 }
             }
 
             @Override
             public void onFailure(@NonNull Call<EventAPIResponse> call, @NonNull Throwable t) {
-                eventCallback.onFailureFromRemote(new Exception(RETROFIT_ERROR));
+                eventResponseCallback.onFailureFromRemote(new Exception(RETROFIT_ERROR));
             }
         });
     }

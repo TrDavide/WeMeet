@@ -1,13 +1,15 @@
 package com.temptationjavaisland.wemeet.source;
 
+import com.temptationjavaisland.wemeet.repository.EventResponseCallback;
+
 /**
 
  Base class to get events from a remote source.*/
 public abstract class BaseEventRemoteDataSource {
-    protected EventCallback eventCallback;
+    protected EventResponseCallback eventResponseCallback;
 
-    public void setEventCallback(EventCallback eventCallback) {
-        this.eventCallback = eventCallback;
+    public void setEventCallback(EventResponseCallback eventResponseCallback) {
+        this.eventResponseCallback = eventResponseCallback;
     }
 
     //public abstract void getEvents(String country, String city, String keyword, int page, long lastUpdate);

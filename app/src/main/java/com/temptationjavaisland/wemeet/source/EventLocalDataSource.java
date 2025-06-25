@@ -18,7 +18,7 @@ public class EventLocalDataSource extends BaseEventLocalDataSource {
     @Override
     public void getEvents() {
         EventRoomDatabase.databaseWriteExecutor.execute(() -> {
-            eventCallback.onSuccessFromLocal(eventDAO.getAll());
+            eventResponseCallback.onSuccessFromLocal(eventDAO.getAll());
         });
     }
 
@@ -26,7 +26,7 @@ public class EventLocalDataSource extends BaseEventLocalDataSource {
     public void getFavoriteEvents() {
         EventRoomDatabase.databaseWriteExecutor.execute(() -> {
             List<Event> favoriteEvents = eventDAO.getAllSavedEvents();
-            eventCallback.onFavoriteStatusChanged(favoriteEvents);
+            eventResponseCallback.onFavoriteStatusChanged(favoriteEvents);
         });
     }
 
@@ -36,9 +36,9 @@ public class EventLocalDataSource extends BaseEventLocalDataSource {
             int rowUpdated = eventDAO.updateEvent(event);
             if (rowUpdated == 1) {
                 Event updatedEvent = eventDAO.getEvent(event.getUid());
-                eventCallback.onFavoriteStatusChanged(updatedEvent, eventDAO.isSaved());
+                eventResponseCallback.onFavoriteStatusChanged(updatedEvent, eventDAO.isSaved());
             } else {
-                eventCallback.onFailureFromLocal(new Exception("Unexpected error during update."));
+                eventResponseCallback.onFailureFromLocal(new Exception("Unexpected error during update."));
             }
         });
     }
@@ -52,9 +52,9 @@ public class EventLocalDataSource extends BaseEventLocalDataSource {
             }
             int updated = eventDAO.updateEventList(favoriteEvents);
             if (updated == favoriteEvents.size()) {
-                eventCallback.onDeleteFavoriteSuccess(favoriteEvents);
+                eventResponseCallback.onDeleteFavoriteSuccess(favoriteEvents);
             } else {
-                eventCallback.onFailureFromLocal(new Exception("Error deleting favorite events."));
+                eventResponseCallback.onFailureFromLocal(new Exception("Error deleting favorite events."));
             }
         });
     }
@@ -74,7 +74,7 @@ public class EventLocalDataSource extends BaseEventLocalDataSource {
                 for (int i = 0; i < eventList.size(); i++) {
                     eventList.get(i).setUid(insertedIds.get(i).intValue());
                 }
-                eventCallback.onSuccessFromLocal(eventList);
+                eventResponseCallback.onSuccessFromLocal(eventList);
             }
         });
     }

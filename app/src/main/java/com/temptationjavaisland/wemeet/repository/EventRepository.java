@@ -6,7 +6,6 @@ import androidx.lifecycle.MutableLiveData;
 import com.temptationjavaisland.wemeet.model.Event;
 import com.temptationjavaisland.wemeet.model.EventAPIResponse;
 import com.temptationjavaisland.wemeet.model.Result;
-import com.temptationjavaisland.wemeet.source.EventCallback;
 import com.temptationjavaisland.wemeet.source.BaseEventLocalDataSource;
 import com.temptationjavaisland.wemeet.source.BaseEventRemoteDataSource;
 
@@ -16,7 +15,7 @@ import java.util.List;
 /**
  * Repository class to get the news from local or from a remote source.
  */
-public class EventRepository implements EventCallback {
+public class EventRepository implements EventResponseCallback {
 
     private static final String TAG = EventRepository.class.getSimpleName();
 

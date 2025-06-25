@@ -1,15 +1,15 @@
 package com.temptationjavaisland.wemeet.source;
 
 import com.temptationjavaisland.wemeet.model.Event;
-import com.temptationjavaisland.wemeet.source.EventCallback;
+import com.temptationjavaisland.wemeet.repository.EventResponseCallback;
 
 import java.util.List;
 
 public abstract class BaseEventLocalDataSource {
-    protected EventCallback eventCallback;
+    protected EventResponseCallback eventResponseCallback;
 
-    public void setEventCallback(EventCallback eventCallback) {
-        this.eventCallback = eventCallback;
+    public void setEventCallback(EventResponseCallback eventResponseCallback) {
+        this.eventResponseCallback = eventResponseCallback;
     }
 
     public abstract void getEvents();
