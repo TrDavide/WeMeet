@@ -28,7 +28,9 @@ import com.temptationjavaisland.wemeet.ui.welcome.viewmodel.EventViewModelFactor
 import com.temptationjavaisland.wemeet.util.ServiceLocator;
 
 import java.util.ArrayList;
+import java.util.HashSet;
 import java.util.List;
+import java.util.Set;
 
 public class LocationFragment extends Fragment {
 
@@ -107,6 +109,23 @@ public class LocationFragment extends Fragment {
             }
         });
 
+        eventViewModel.getPreferedEventsLiveData().observe(getViewLifecycleOwner(), result -> {
+            if (result instanceof Result.EventSuccess) {
+                List<Event> savedEvents = ((Result.EventSuccess) result).getData().getEmbedded().getEvents();
+                Set<String> savedIds = new HashSet<>();
+                for (Event e : savedEvents) {
+                    savedIds.add(e.getId());
+                }
+
+                for (Event event : eventList) {
+                    event.setSaved(savedIds.contains(event.getId()));
+                }
+
+                adapter.notifyDataSetChanged();
+            }
+        });
+
+
         recyclerView.setAdapter(adapter);
         recyclerView.setVisibility(View.GONE);
         layoutEmptyState.setVisibility(View.VISIBLE);
@@ -151,8 +170,6 @@ public class LocationFragment extends Fragment {
     }
 
     private void searchEvents(String keyword) {
-        // Chiamo il ViewModel con solo keyword e locale
-
         eventViewModel.searchEvents(keyword)
                 .observe(getViewLifecycleOwner(), result -> {
                     if (result.isSuccess()) {
@@ -161,6 +178,21 @@ public class LocationFragment extends Fragment {
                             List<Event> events = response.getEmbedded().getEvents();
                             eventList.clear();
                             eventList.addAll(events);
+
+                            // ⬇️ Verifica quali eventi sono salvati confrontando gli ID
+                            Result preferedResult = eventViewModel.getPreferedEventsLiveData().getValue();
+                            if (preferedResult instanceof Result.EventSuccess) {
+                                List<Event> savedEvents = ((Result.EventSuccess) preferedResult).getData().getEmbedded().getEvents();
+                                Set<String> savedIds = new HashSet<>();
+                                for (Event e : savedEvents) {
+                                    savedIds.add(e.getId());
+                                }
+
+                                for (Event e : eventList) {
+                                    e.setSaved(savedIds.contains(e.getId()));
+                                }
+                            }
+
                             adapter.updateData(eventList);
                             recyclerView.setVisibility(View.VISIBLE);
                             layoutEmptyState.setVisibility(View.GONE);
@@ -178,4 +210,5 @@ public class LocationFragment extends Fragment {
                     }
                 });
     }
+
 }

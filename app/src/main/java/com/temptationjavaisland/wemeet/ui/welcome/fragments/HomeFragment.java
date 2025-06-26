@@ -45,8 +45,10 @@ import com.temptationjavaisland.wemeet.util.ServiceLocator;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Locale;
+import java.util.Set;
 import java.util.concurrent.ExecutorService;
 import java.util.concurrent.Executors;
+import java.util.stream.Collectors;
 
 import android.location.Location;
 
@@ -101,6 +103,9 @@ public class HomeFragment extends Fragment {
         }
     }
 
+
+
+
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         View view = inflater.inflate(R.layout.fragment_home, container, false);
@@ -123,17 +128,39 @@ public class HomeFragment extends Fragment {
                 navController.navigate(R.id.eventPageFragment, bundle);
             }
 
+
+
             @Override
             public void onFavoriteButtonPressed(int position) {
                 eventList.get(position).setSaved(!eventList.get(position).isSaved());
                 eventViewModel.updateEvent(eventList.get(position));
+
             }
         });
+
+        eventViewModel.getPreferedEventsLiveData().observe(getViewLifecycleOwner(), result -> {
+            if (result instanceof Result.EventSuccess) {
+                Set<String> savedIds = ((Result.EventSuccess) result)
+                        .getData()
+                        .getEmbedded()
+                        .getEvents()
+                        .stream()
+                        .map(Event::getId)
+                        .collect(Collectors.toSet());
+
+                for (Event event : eventList) {
+                    event.setSaved(savedIds.contains(event.getId()));
+                }
+                adapter.notifyDataSetChanged();
+            }
+        });
+
 
         recyclerView.setAdapter(adapter);
         recyclerView.setVisibility(View.GONE);
         noInternetView.setVisibility(View.GONE);
         circularProgressIndicator.setVisibility(View.VISIBLE);
+
 
         if (!NetworkUtil.isInternetAvailable(getContext())) {
             noInternetView.setVisibility(View.VISIBLE);
@@ -141,8 +168,10 @@ public class HomeFragment extends Fragment {
             return view;
         }
 
+
         // Check permessi posizione e poi ottieni location
         checkLocationPermissionAndFetch();
+
 
         return view;
     }

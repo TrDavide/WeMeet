@@ -10,6 +10,8 @@ import com.temptationjavaisland.wemeet.model.Event;
 import com.temptationjavaisland.wemeet.model.Result;
 import com.temptationjavaisland.wemeet.repository.EventRepository;
 
+import java.util.List;
+
 
 public class EventViewModel extends ViewModel {
 
@@ -24,6 +26,7 @@ public class EventViewModel extends ViewModel {
         this.eventRepository = eventRepository;
         this.page = 1;
     }
+
 
     /*public MutableLiveData<Result> getEvents(String country, String city, String keyword, int page, long lastUpdate) {
         if (eventsListLiveData == null) {
@@ -44,11 +47,10 @@ public class EventViewModel extends ViewModel {
     }
 
     public MutableLiveData<Result> getPreferedEventsLiveData() {
-        if (preferedEventsListLiveData == null) {
-            getPreferedEvents();
-        }
+        preferedEventsListLiveData = eventRepository.getPreferedEvents();
         return preferedEventsListLiveData;
     }
+
 
 
     public void updateEvent(Event event) {
@@ -74,4 +76,11 @@ public class EventViewModel extends ViewModel {
     public void deleteAllFavoriteEvents() {
         eventRepository.deleteFavoriteEvents();
     }
+
+    public void refreshPreferedEvents() {
+        eventRepository.refreshPreferedEvents();
+    }
+
+
+
 }

@@ -88,6 +88,7 @@ public class EventRepository implements EventResponseCallback {
     }
 
     public void updateEvent(Event Event) {
+
         eventLocalDataSource.updateEvent(Event);
     }
 
@@ -160,4 +161,9 @@ public class EventRepository implements EventResponseCallback {
         response.setEmbedded(embedded);
         return response;
     }
+
+    public void refreshPreferedEvents() {
+        eventLocalDataSource.getPreferedEvents();
+    }
+
 }
