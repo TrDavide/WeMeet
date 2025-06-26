@@ -144,34 +144,43 @@ public class HomeFragment extends Fragment {
     }
 
     private void fetchLocationAndEvents() {
-        fusedLocationClient.getLastLocation()
-                .addOnSuccessListener(requireActivity(), location -> {
-                    if (location != null) {
-                        double lat = location.getLatitude();
-                        double lon = location.getLongitude();
-                        Log.d(TAG, "Posizione GPS: " + lat + ", " + lon);
-                        latlong = lat + "," + lon;
-                        getCityNameAsync(lat, lon, getView());
-                        fetchEvents();
-                    } else {
-                        Log.w(TAG, "Posizione GPS nulla, uso Milano di default");
+        if (ContextCompat.checkSelfPermission(requireContext(), Manifest.permission.ACCESS_FINE_LOCATION) == PackageManager.PERMISSION_GRANTED) {
+            fusedLocationClient.getLastLocation()
+                    .addOnSuccessListener(requireActivity(), location -> {
+                        if (location != null) {
+                            double lat = location.getLatitude();
+                            double lon = location.getLongitude();
+                            Log.d(TAG, "Posizione GPS: " + lat + ", " + lon);
+                            latlong = lat + "," + lon;
+                            getCityNameAsync(lat, lon, getView());
+                            fetchEvents();
+                        } else {
+                            Log.w(TAG, "Posizione GPS nulla, uso Milano di default");
+                            double lat = 45.464098;
+                            double lon = 9.191926;
+                            latlong = lat + "," + lon;
+                            getCityNameAsync(lat, lon, getView());
+                            fetchEvents();
+                        }
+                    })
+                    .addOnFailureListener(e -> {
+                        Log.e(TAG, "Errore nel prendere posizione GPS", e);
                         double lat = 45.464098;
                         double lon = 9.191926;
                         latlong = lat + "," + lon;
                         getCityNameAsync(lat, lon, getView());
                         fetchEvents();
-                    }
-                })
-                .addOnFailureListener(e -> {
-                    Log.e(TAG, "Errore nel prendere posizione GPS", e);
-                    // fallback coordinate fisse
-                    double lat = 45.464098;
-                    double lon = 9.191926;
-                    latlong = lat + "," + lon;
-                    getCityNameAsync(lat, lon, getView());
-                    fetchEvents();
-                });
+                    });
+        } else {
+            Log.w(TAG, "Permesso posizione non concesso, uso coordinate fisse");
+            double lat = 45.464098;
+            double lon = 9.191926;
+            latlong = lat + "," + lon;
+            getCityNameAsync(lat, lon, getView());
+            fetchEvents();
+        }
     }
+
 
     private void fetchEvents() {
         lastUpdate = 0L; // Forza chiamata rete

@@ -32,6 +32,7 @@ public abstract class EventRoomDatabase extends RoomDatabase {
                 if (INSTANCE == null) {
                     INSTANCE = Room.databaseBuilder(context.getApplicationContext(),
                                     EventRoomDatabase.class, Constants.SAVED_ARTICLES_DATABASE)
+                            .fallbackToDestructiveMigration()
                             .allowMainThreadQueries().build();
                 }
             }
