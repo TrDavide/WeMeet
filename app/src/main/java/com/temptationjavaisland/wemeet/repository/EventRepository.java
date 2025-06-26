@@ -47,6 +47,41 @@ public class EventRepository implements EventResponseCallback {
         return allEventsMutableLiveData;
     }
 
+    public MutableLiveData<Result> searchEvents(String keyword) {
+        MutableLiveData<Result> searchResult = new MutableLiveData<>();
+
+        // Qui NON puoi passare un callback anonimo, perché la firma del metodo non lo prevede.
+        // Perciò devi usare il callback già settato in eventRemoteDataSource (eventResponseCallback)
+
+        // Setta un callback temporaneo per intercettare la risposta della ricerca
+        EventResponseCallback tempCallback = new EventResponseCallback() {
+            @Override
+            public void onSuccessFromRemote(EventAPIResponse response, long lastUpdate) {
+                searchResult.postValue(new Result.EventSuccess(response));
+            }
+
+            @Override
+            public void onFailureFromRemote(Exception exception) {
+                searchResult.postValue(new Result.Error(exception.getMessage()));
+            }
+
+            // Implementazioni vuote per il resto
+            @Override public void onSuccessFromLocal(List<Event> eventList) {}
+            @Override public void onFailureFromLocal(Exception exception) {}
+            @Override public void onFavoriteStatusChanged(Event event, List<Event> favoriteEvents) {}
+            @Override public void onFavoriteStatusChanged(List<Event> favoriteEvents) {}
+            @Override public void onDeleteFavoriteSuccess(List<Event> favoriteEvents) {}
+        };
+
+        // Temporaneamente imposta questo callback sul remote data source
+        eventRemoteDataSource.setEventCallback(tempCallback);
+
+        // Avvia la ricerca
+        eventRemoteDataSource.searchEvents(keyword);
+
+        return searchResult;
+    }
+
     public MutableLiveData<Result> getPreferedEvents() {
         eventLocalDataSource.getPreferedEvents();
         return preferedEventsMutableLiveData;

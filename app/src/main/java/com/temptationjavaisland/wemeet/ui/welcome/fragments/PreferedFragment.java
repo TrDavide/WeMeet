@@ -77,12 +77,8 @@ public class PreferedFragment extends Fragment {
                         bundle.putParcelable("event_data", event);
                         eventPageFragment.setArguments(bundle);
 
-                        FragmentTransaction transaction = requireActivity()
-                                .getSupportFragmentManager()
-                                .beginTransaction();
-                        transaction.replace(R.id.fragmentContainerView, eventPageFragment);
-                        transaction.addToBackStack(null); // permette di tornare indietro correttamente
-                        transaction.commit();
+                        NavController navController = Navigation.findNavController(requireActivity(), R.id.fragmentContainerView);
+                        navController.navigate(R.id.eventPageFragment, bundle);
                     }
                     @Override
                     public void onFavoriteButtonPressed(int position) {

@@ -35,4 +35,11 @@ public interface EventAPIService {
             @Query(TOP_HEADLINES_LOCALE_PARAMETER) String locale,
             @Query(TOP_HEADLINES_PAGE_SIZE_PARAMETER) int pageSize,
             @Query("apikey") String apiKey);
+
+
+    @GET("events.json")
+    Call<EventAPIResponse> searchEvents(
+            @Query("keyword") String keyword,
+            @Query("apikey") String apiKey
+    );
 }

@@ -1,6 +1,7 @@
 package com.temptationjavaisland.wemeet.ui.welcome.viewmodel;
 
 
+import androidx.lifecycle.LiveData;
 import androidx.lifecycle.MutableLiveData;
 import androidx.lifecycle.ViewModel;
 
@@ -36,6 +37,10 @@ public class EventViewModel extends ViewModel {
             fetchEventsLocation(latlong,radius, unit,locale, lastUpdate);
         }
         return eventsListLiveData;
+    }
+
+    public LiveData<Result> searchEvents(String keyword) {
+        return eventRepository.searchEvents(keyword);
     }
 
     public MutableLiveData<Result> getPreferedEventsLiveData() {

@@ -82,5 +82,26 @@ public class EventRemoteDataSource extends BaseEventRemoteDataSource {
         });
     }
 
+    @Override
+    public void searchEvents(String keyword) {
+        Call<EventAPIResponse> call = eventAPIService.searchEvents(keyword, apiKey);
+
+        call.enqueue(new Callback<EventAPIResponse>() {
+            @Override
+            public void onResponse(Call<EventAPIResponse> call, Response<EventAPIResponse> response) {
+                if (response.isSuccessful() && response.body() != null) {
+                    eventCallback.onSuccessFromRemote(response.body(), System.currentTimeMillis());
+                } else {
+                    eventCallback.onFailureFromRemote(new Exception("Errore risposta API"));
+                }
+            }
+
+            @Override
+            public void onFailure(Call<EventAPIResponse> call, Throwable t) {
+                eventCallback.onFailureFromRemote(new Exception(t));
+            }
+        });
+    }
+
 
 }

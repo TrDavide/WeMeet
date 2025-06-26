@@ -47,4 +47,9 @@ public class EventMockDataSource extends BaseEventRemoteDataSource {
             eventCallback.onFailureFromRemote(new Exception("Errore nel parsing del file JSON"));
         }
     }
+
+    @Override
+    public void searchEvents(String keyword) {
+    }
+
 }
