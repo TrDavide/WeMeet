@@ -1,19 +1,25 @@
 package com.temptationjavaisland.wemeet.ui.welcome.fragments;
 
+import android.Manifest;
+import android.content.pm.PackageManager;
 import android.location.Address;
 import android.location.Geocoder;
 import android.os.Bundle;
 
 import androidx.annotation.NonNull;
-import androidx.annotation.Nullable;
+import androidx.core.content.ContextCompat;
 import androidx.fragment.app.Fragment;
-import androidx.fragment.app.FragmentTransaction;
 import androidx.lifecycle.ViewModelProvider;
 import androidx.navigation.NavController;
 import androidx.navigation.Navigation;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
+
+import com.google.android.gms.location.FusedLocationProviderClient;
+import com.google.android.gms.location.LocationServices;
+import com.google.android.gms.tasks.OnSuccessListener;
 import com.google.gson.Gson;
+
 import android.os.Handler;
 import android.os.Looper;
 import android.util.Log;
@@ -21,17 +27,12 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.FrameLayout;
-import android.widget.LinearLayout;
 import android.widget.TextView;
 
-import com.google.android.material.bottomnavigation.BottomNavigationView;
 import com.google.android.material.progressindicator.CircularProgressIndicator;
-import com.google.android.material.search.SearchBar;
-import com.google.android.material.snackbar.Snackbar;
 import com.temptationjavaisland.wemeet.R;
 import com.temptationjavaisland.wemeet.adapter.EventRecyclerAdapter;
 import com.temptationjavaisland.wemeet.model.Event;
-import com.temptationjavaisland.wemeet.model.EventAPIResponse;
 import com.temptationjavaisland.wemeet.model.Result;
 import com.temptationjavaisland.wemeet.repository.EventRepository;
 import com.temptationjavaisland.wemeet.ui.welcome.viewmodel.EventViewModel;
@@ -45,9 +46,12 @@ import java.util.Locale;
 import java.util.concurrent.ExecutorService;
 import java.util.concurrent.Executors;
 
+import android.location.Location;
+
 public class HomeFragment extends Fragment {
 
     private static final String TAG = HomeFragment.class.getName();
+    private static final int LOCATION_PERMISSION_REQUEST_CODE = 1001;
 
     private CircularProgressIndicator circularProgressIndicator;
     private List<Event> eventList;
@@ -55,36 +59,38 @@ public class HomeFragment extends Fragment {
     private EventRecyclerAdapter adapter;
     private EventViewModel eventViewModel;
     private FrameLayout noInternetView;
-    private static final int radius = 1;
+    private int radius = 20;
     private String latlong;
     private Long lastUpdate;
 
-    public HomeFragment() {}
+    private FusedLocationProviderClient fusedLocationClient;
 
-    public static HomeFragment newInstance() {
-        return new HomeFragment();
-    }
+    private final ExecutorService executor = Executors.newSingleThreadExecutor();
+    private final Handler mainHandler = new Handler(Looper.getMainLooper());
+
+    public HomeFragment() {}
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
 
-        EventRepository eventRepository =
-                ServiceLocator.getInstance().getEventRepository(
-                        requireActivity().getApplication(),
-                        requireActivity().getApplication().getResources().getBoolean(R.bool.debug_mode)
-                );
+        EventRepository eventRepository = ServiceLocator.getInstance().getEventRepository(
+                requireActivity().getApplication(),
+                requireActivity().getApplication().getResources().getBoolean(R.bool.debug_mode)
+        );
 
         eventViewModel = new ViewModelProvider(
                 requireActivity(),
-                new EventViewModelFactory(eventRepository)).get(EventViewModel.class);
+                new EventViewModelFactory(eventRepository)
+        ).get(EventViewModel.class);
 
         eventList = new ArrayList<>();
+
+        fusedLocationClient = LocationServices.getFusedLocationProviderClient(requireActivity());
     }
 
     @Override
-    public View onCreateView(LayoutInflater inflater, ViewGroup container,
-                             Bundle savedInstanceState) {
+    public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         View view = inflater.inflate(R.layout.fragment_home, container, false);
 
         noInternetView = view.findViewById(R.id.noInternetMessage);
@@ -93,39 +99,24 @@ public class HomeFragment extends Fragment {
 
         recyclerView.setLayoutManager(new LinearLayoutManager(view.getContext()));
 
-        Bundle args = getArguments();
-        if (args != null) {
-            double lat = args.getDouble("lat", 45.4642);  //45.4642;
-            double lon = args.getDouble("lon", 9.1900);  //9.1900;
-            getCityNameAsync(lat, lon, view);
-            latlong = lat + "," + lon;
-        }
+        adapter = new EventRecyclerAdapter(R.layout.event_card, eventList, new EventRecyclerAdapter.OnItemClickListener() {
+            @Override
+            public void onEventItemClick(Event event) {
+                EventPageFragment eventPageFragment = new EventPageFragment();
+                Bundle bundle = new Bundle();
+                bundle.putParcelable("event_data", event);
+                eventPageFragment.setArguments(bundle);
 
-        adapter = new EventRecyclerAdapter(R.layout.event_card, eventList,
-                new EventRecyclerAdapter.OnItemClickListener() {
-                    @Override
-                    public void onEventItemClick(Event event) {
-                        EventPageFragment eventPageFragment = new EventPageFragment();
-                        Bundle bundle = new Bundle();
-                        bundle.putParcelable("event_data", event);
-                        eventPageFragment.setArguments(bundle);
+                NavController navController = Navigation.findNavController(requireActivity(), R.id.fragmentContainerView);
+                navController.navigate(R.id.eventPageFragment, bundle);
+            }
 
-                        NavController navController = Navigation.findNavController(requireActivity(), R.id.fragmentContainerView);
-                        navController.navigate(R.id.eventPageFragment, bundle);
-                    }
-
-                    @Override
-                    public void onFavoriteButtonPressed(int position) {
-                        eventList.get(position).setSaved(!eventList.get(position).isSaved());
-                        eventViewModel.updateEvent(eventList.get(position));
-                    }
-                });
-
-        lastUpdate = System.currentTimeMillis();
-
-         /*else {
-            latlong = "0,0"; // fallback
-        }*/
+            @Override
+            public void onFavoriteButtonPressed(int position) {
+                eventList.get(position).setSaved(!eventList.get(position).isSaved());
+                eventViewModel.updateEvent(eventList.get(position));
+            }
+        });
 
         recyclerView.setAdapter(adapter);
         recyclerView.setVisibility(View.GONE);
@@ -135,12 +126,58 @@ public class HomeFragment extends Fragment {
         if (!NetworkUtil.isInternetAvailable(getContext())) {
             noInternetView.setVisibility(View.VISIBLE);
             circularProgressIndicator.setVisibility(View.GONE);
-            lastUpdate = System.currentTimeMillis() + 100; // evita chiamata API
+            return view;
         }
 
-        Gson gson = new Gson();
+        // Check permessi posizione e poi ottieni location
+        checkLocationPermissionAndFetch();
 
-        eventViewModel.getEventsLocation(latlong, 20, "km", "it-it", 0L)
+        return view;
+    }
+
+    private void checkLocationPermissionAndFetch() {
+        if (ContextCompat.checkSelfPermission(requireContext(), Manifest.permission.ACCESS_FINE_LOCATION) == PackageManager.PERMISSION_GRANTED) {
+            fetchLocationAndEvents();
+        } else {
+            requestPermissions(new String[]{Manifest.permission.ACCESS_FINE_LOCATION}, LOCATION_PERMISSION_REQUEST_CODE);
+        }
+    }
+
+    private void fetchLocationAndEvents() {
+        fusedLocationClient.getLastLocation()
+                .addOnSuccessListener(requireActivity(), location -> {
+                    if (location != null) {
+                        double lat = location.getLatitude();
+                        double lon = location.getLongitude();
+                        Log.d(TAG, "Posizione GPS: " + lat + ", " + lon);
+                        latlong = lat + "," + lon;
+                        getCityNameAsync(lat, lon, getView());
+                        fetchEvents();
+                    } else {
+                        Log.w(TAG, "Posizione GPS nulla, uso Milano di default");
+                        double lat = 45.464098;
+                        double lon = 9.191926;
+                        latlong = lat + "," + lon;
+                        getCityNameAsync(lat, lon, getView());
+                        fetchEvents();
+                    }
+                })
+                .addOnFailureListener(e -> {
+                    Log.e(TAG, "Errore nel prendere posizione GPS", e);
+                    // fallback coordinate fisse
+                    double lat = 45.464098;
+                    double lon = 9.191926;
+                    latlong = lat + "," + lon;
+                    getCityNameAsync(lat, lon, getView());
+                    fetchEvents();
+                });
+    }
+
+    private void fetchEvents() {
+        lastUpdate = 0L; // Forza chiamata rete
+
+        Gson gson = new Gson();
+        eventViewModel.getEventsLocation(latlong, radius, "km", "it-it", lastUpdate)
                 .observe(getViewLifecycleOwner(), result -> {
                     if (result.isSuccess()) {
                         List<Event> events = ((Result.EventSuccess) result).getData().getEmbedded().getEvents();
@@ -155,16 +192,34 @@ public class HomeFragment extends Fragment {
                         circularProgressIndicator.setVisibility(View.GONE);
                     } else {
                         Log.e(TAG, "Errore fetch eventi: " + ((Result.Error) result));
+                        circularProgressIndicator.setVisibility(View.GONE);
                     }
                 });
-
-        return view;
     }
 
-    private final ExecutorService executor = Executors.newSingleThreadExecutor();
-    private final Handler mainHandler = new Handler(Looper.getMainLooper());
+    @Override
+    public void onRequestPermissionsResult(int requestCode, @NonNull String[] permissions, @NonNull int[] grantResults) {
+        if (requestCode == LOCATION_PERMISSION_REQUEST_CODE) {
+            if (grantResults.length > 0
+                    && grantResults[0] == PackageManager.PERMISSION_GRANTED) {
+                fetchLocationAndEvents();
+            } else {
+                Log.w(TAG, "Permesso posizione negato, uso coordinate fisse");
+                // fallback coordinate fisse
+                double lat = 45.464098;
+                double lon = 9.191926;
+                latlong = lat + "," + lon;
+                getCityNameAsync(lat, lon, getView());
+                fetchEvents();
+            }
+        } else {
+            super.onRequestPermissionsResult(requestCode, permissions, grantResults);
+        }
+    }
 
     private void getCityNameAsync(double lat, double lon, View rootView) {
+        if (rootView == null) return; // safety check
+
         TextView cityTextView = rootView.findViewById(R.id.cityTextView);
 
         executor.execute(() -> {
@@ -183,6 +238,7 @@ public class HomeFragment extends Fragment {
                 e.printStackTrace();
             }
             String finalCity = city;
+            Log.d(TAG, "Città: " + finalCity);
             mainHandler.post(() -> cityTextView.setText(finalCity));
         });
     }
