@@ -20,21 +20,35 @@
         app:layout_constraintTop_toTopOf="parent"
         app:layout_constraintStart_toStartOf="parent" />
 
+    <TextView
+        android:id="@+id/titleText"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="@dimen/margin_default"
+        android:fontFamily="@font/open_sans_bold"
+        android:text="@string/impostazioni"
+        android:textColor="@color/black"
+        android:textSize="30sp" />
 
     <androidx.cardview.widget.CardView
         android:id="@+id/profileImageView"
         android:layout_width="160dp"
         android:layout_height="160dp"
+        android:layout_marginTop="20dp"
         app:cardCornerRadius="80dp"
         android:layout_gravity="center"
         app:cardElevation="12dp">
 
         <ImageView
+            android:id="@+id/image_profile"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
             android:scaleType="centerCrop"
             android:src="@mipmap/profile_default"
-            android:contentDescription="@string/username"/>
+            android:contentDescription="@string/username"
+            android:clickable="true"
+            android:focusable="true"/>
+
     </androidx.cardview.widget.CardView>
 
     <TextView
@@ -48,44 +62,23 @@
         android:layout_marginTop="16dp"
         android:layout_gravity="center"/>
 
-    <TextView
-        android:id="@+id/username"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_gravity="center"
-        android:text="@string/username"
-        android:textSize="18sp"
-        android:textColor="@color/text_subtitle_event"
-        android:fontFamily="@font/open_sans_medium"
-        android:layout_marginTop="4dp"/>
-
-    <TextView
-        android:id="@+id/bio"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_gravity="center"
-        android:text="@string/frase_bio"
-        android:textSize="16sp"
-        android:fontFamily="@font/open_sans"
-        android:textAlignment="center"
-        android:layout_marginTop="20dp"/>
-
     <com.google.android.material.button.MaterialButton
-        android:id="@+id/elimina_preferiti"
+        android:id="@+id/bottone_tema"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_marginStart="70dp"
         android:layout_marginEnd="70dp"
-        android:text="@string/elimina_preferiti"
-        android:textColor="@android:color/white"
+        android:text="Tema: Giorno"
+        android:textColor="@color/white"
         android:textSize="18sp"
-        android:fontFamily="@font/open_sans_semibold"
-        android:layout_marginTop="30dp"
+        android:fontFamily="@font/open_sans_bold"
+        android:layout_marginTop="16dp"
         app:cornerRadius="28dp"
-        app:icon="@drawable/delete_save"
-        app:iconTint="@android:color/white"
-        android:backgroundTint="@android:color/background_dark"
-        android:strokeColor="@android:color/white"/>
+        app:icon="@drawable/moon"
+        app:iconTint="@color/white"
+        android:backgroundTint="@color/black" />
+
+
 
     <com.google.android.material.button.MaterialButton
         android:id="@+id/bottone_logout"
