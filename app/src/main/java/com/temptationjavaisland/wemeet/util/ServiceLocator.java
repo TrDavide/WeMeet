@@ -4,13 +4,13 @@ import android.app.Application;
 
 import com.temptationjavaisland.wemeet.R;
 import com.temptationjavaisland.wemeet.database.EventRoomDatabase;
-import com.temptationjavaisland.wemeet.repository.EventRepository;
+import com.temptationjavaisland.wemeet.repository.Event.EventRepository;
 import com.temptationjavaisland.wemeet.service.EventAPIService;
-import com.temptationjavaisland.wemeet.source.BaseEventLocalDataSource;
-import com.temptationjavaisland.wemeet.source.BaseEventRemoteDataSource;
-import com.temptationjavaisland.wemeet.source.EventLocalDataSource;
-import com.temptationjavaisland.wemeet.source.EventMockDataSource;
-import com.temptationjavaisland.wemeet.source.EventRemoteDataSource;
+import com.temptationjavaisland.wemeet.source.Event.BaseEventLocalDataSource;
+import com.temptationjavaisland.wemeet.source.Event.BaseEventRemoteDataSource;
+import com.temptationjavaisland.wemeet.source.Event.EventLocalDataSource;
+import com.temptationjavaisland.wemeet.source.Event.EventMockDataSource;
+import com.temptationjavaisland.wemeet.source.Event.EventRemoteDataSource;
 
 import okhttp3.OkHttpClient;
 import okhttp3.Request;

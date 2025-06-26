@@ -68,5 +68,11 @@ dependencies {
     implementation (libs.glide)
     implementation(platform(libs.firebase.bom))
     implementation(libs.firebase.auth)
+    implementation(libs.credentials.v130)
+    implementation(libs.credentials.play.services.auth.v130)
+    implementation(libs.googleid)
+    implementation(libs.firebase.database)
+    implementation (libs.play.services.auth)
+
 
 }

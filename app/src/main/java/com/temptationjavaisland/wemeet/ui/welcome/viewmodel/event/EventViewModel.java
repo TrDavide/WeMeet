@@ -1,4 +1,4 @@
-package com.temptationjavaisland.wemeet.ui.welcome.viewmodel;
+package com.temptationjavaisland.wemeet.ui.welcome.viewmodel.event;
 
 
 import androidx.lifecycle.LiveData;
@@ -8,7 +8,7 @@ import androidx.lifecycle.ViewModel;
 
 import com.temptationjavaisland.wemeet.model.Event;
 import com.temptationjavaisland.wemeet.model.Result;
-import com.temptationjavaisland.wemeet.repository.EventRepository;
+import com.temptationjavaisland.wemeet.repository.Event.EventRepository;
 
 
 public class EventViewModel extends ViewModel {

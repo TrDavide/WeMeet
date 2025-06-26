@@ -18,6 +18,9 @@ import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.Toast;
 
+import com.google.android.gms.auth.api.identity.BeginSignInRequest;
+import com.google.android.gms.auth.api.identity.Identity;
+import com.google.android.gms.auth.api.identity.SignInClient;
 import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.Task;
 import com.google.android.material.snackbar.Snackbar;
@@ -25,6 +28,7 @@ import com.google.android.material.textfield.TextInputEditText;
 import com.google.firebase.auth.AuthResult;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
+
 import com.temptationjavaisland.wemeet.R;
 
 import org.apache.commons.validator.routines.EmailValidator;
@@ -33,6 +37,8 @@ public class SignUpFragment extends Fragment {
 
     public static final String TAG = SignUpFragment.class.getSimpleName();
     private TextInputEditText editTextNome, editTextCognome, editTextEmail, editTextConfermaPassword, editTextPassword;
+    private SignInClient oneTapClient;
+    private BeginSignInRequest signInRequest;
 
     public SignUpFragment() {
         // Required empty public constructor
@@ -47,6 +53,23 @@ public class SignUpFragment extends Fragment {
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+
+        oneTapClient = Identity.getSignInClient(requireActivity());
+        signInRequest = BeginSignInRequest.builder()
+                .setPasswordRequestOptions(BeginSignInRequest.PasswordRequestOptions.builder()
+                        .setSupported(true)
+                        .build())
+                .setGoogleIdTokenRequestOptions(BeginSignInRequest.GoogleIdTokenRequestOptions.builder()
+                        .setSupported(true)
+                        // Your server's client ID, not your Android client ID.
+                        .setServerClientId(getString(R.string.default_web_client_id))
+                        // Only show accounts previously used to sign in.
+                        .setFilterByAuthorizedAccounts(false)
+                        .build())
+                // Automatically sign in when exactly one credential is retrieved.
+                .setAutoSelectEnabled(true)
+                .build();
+
     }
 
     @Override
@@ -59,6 +82,10 @@ public class SignUpFragment extends Fragment {
     @Override
     public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
+
+        FirebaseAuth mAuth = FirebaseAuth.getInstance();
+        FirebaseUser user = mAuth.getCurrentUser();
+        Log.i(TAG, user + "");
 
         editTextNome = view.findViewById(R.id.inputTextNome);
         editTextCognome = view.findViewById(R.id.inputTextCognome);
@@ -108,9 +135,7 @@ public class SignUpFragment extends Fragment {
                 Snackbar.make(view, "Inserisci il nome", Snackbar.LENGTH_SHORT)
                         .show();
             }
-            FirebaseAuth mAuth = FirebaseAuth.getInstance();
-            FirebaseUser user = mAuth.getCurrentUser();
-            Log.i(TAG, user + "");
+
 
             mAuth.createUserWithEmailAndPassword(editTextEmail.getText().toString(), editTextPassword.getText().toString())
                     .addOnCompleteListener(new OnCompleteListener<AuthResult>() {
@@ -130,13 +155,9 @@ public class SignUpFragment extends Fragment {
                                 //updateUI(null);
                             }
                         }
-
                     });
+
         });
-
-
-
-
 
     }//fine metodo onViewCreated
 
