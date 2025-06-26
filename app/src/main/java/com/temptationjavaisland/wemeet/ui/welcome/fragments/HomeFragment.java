@@ -9,6 +9,8 @@ import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
 import androidx.fragment.app.FragmentTransaction;
 import androidx.lifecycle.ViewModelProvider;
+import androidx.navigation.NavController;
+import androidx.navigation.Navigation;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 import com.google.gson.Gson;
@@ -91,6 +93,14 @@ public class HomeFragment extends Fragment {
 
         recyclerView.setLayoutManager(new LinearLayoutManager(view.getContext()));
 
+        Bundle args = getArguments();
+        if (args != null) {
+            double lat = args.getDouble("lat", 45.4642);  //45.4642;
+            double lon = args.getDouble("lon", 9.1900);  //9.1900;
+            getCityNameAsync(lat, lon, view);
+            latlong = lat + "," + lon;
+        }
+
         adapter = new EventRecyclerAdapter(R.layout.event_card, eventList,
                 new EventRecyclerAdapter.OnItemClickListener() {
                     @Override
@@ -100,12 +110,8 @@ public class HomeFragment extends Fragment {
                         bundle.putParcelable("event_data", event);
                         eventPageFragment.setArguments(bundle);
 
-                        FragmentTransaction transaction = requireActivity()
-                                .getSupportFragmentManager()
-                                .beginTransaction();
-                        transaction.replace(R.id.fragmentContainerView, eventPageFragment);
-                        transaction.addToBackStack(null);
-                        transaction.commit();
+                        NavController navController = Navigation.findNavController(requireActivity(), R.id.fragmentContainerView);
+                        navController.navigate(R.id.eventPageFragment, bundle);
                     }
 
                     @Override
@@ -117,13 +123,7 @@ public class HomeFragment extends Fragment {
 
         lastUpdate = System.currentTimeMillis();
 
-        Bundle args = getArguments();
-        if (args != null) {
-            double lat = 45.4642; //args.getDouble("lat", 45.4642);
-            double lon = 9.1900; //args.getDouble("lon", 9.1900);
-            getCityNameAsync(lat, lon, view);
-            latlong = lat + "," + lon;
-        } /*else {
+         /*else {
             latlong = "0,0"; // fallback
         }*/
 

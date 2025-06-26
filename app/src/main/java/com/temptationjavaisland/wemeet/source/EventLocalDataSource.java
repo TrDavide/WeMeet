@@ -62,18 +62,26 @@ public class EventLocalDataSource extends BaseEventLocalDataSource {
     @Override
     public void insertEvents(List<Event> eventList) {
         EventRoomDatabase.databaseWriteExecutor.execute(() -> {
-            List<Event> allEvents = eventDAO.getAll();
-
             if (eventList != null) {
-                for (Event event : allEvents) {
-                    if (eventList.contains(event)) {
-                        eventList.set(eventList.indexOf(event), event);
+                for (int i = 0; i < eventList.size(); i++) {
+                    Event newEvent = eventList.get(i);
+
+                    // Cerca se un evento con stesso ID remoto esiste già
+                    Event existingEvent = eventDAO.findByRemoteId(newEvent.getId());
+
+                    if (existingEvent != null) {
+                        // Esiste già → aggiorna usando lo stesso UID
+                        newEvent.setUid(existingEvent.getUid());
+                        eventDAO.updateEvent(newEvent);
+                        eventList.set(i, newEvent);
+                    } else {
+                        // Non esiste → inserisce
+                        long insertedId = eventDAO.insertEvent(newEvent);
+                        newEvent.setUid((int) insertedId);
+                        eventList.set(i, newEvent);
                     }
                 }
-                List<Long> insertedEventsIds = eventDAO.insertEventsList(eventList);
-                for (int i = 0; i < eventList.size(); i++) {
-                    eventList.get(i).setUid(insertedEventsIds.get(i).intValue());
-                }
+
                 eventCallback.onSuccessFromLocal(eventList);
             }
         });

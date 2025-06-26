@@ -31,6 +31,12 @@ public interface EventDAO {
     @Insert(onConflict = OnConflictStrategy.REPLACE)
     List<Long> insertEventsList(List<Event> newsList);
 
+    @Query("SELECT * FROM Event WHERE id = :remoteId LIMIT 1")
+    Event findByRemoteId(String remoteId);
+
+    @Insert(onConflict = OnConflictStrategy.REPLACE)
+    long insertEvent(Event event);
+
     @Delete
     void delete(Event user);
 
@@ -51,4 +57,6 @@ public interface EventDAO {
 
     @Query("SELECT * FROM Event WHERE saved = 1")
     List<Event> isSaved();
+
+
 }
