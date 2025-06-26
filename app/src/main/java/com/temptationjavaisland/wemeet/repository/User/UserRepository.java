@@ -31,10 +31,10 @@ public class UserRepository implements IUserRepository, UserResponseCallback, Ev
 
     public UserRepository(BaseUserAuthenticationRemoteDataSource userRemoteDataSource,
                           BaseUserDataRemoteDataSource userDataRemoteDataSource,
-                          BaseEventLocalDataSource newsLocalDataSource) {
+                          BaseEventLocalDataSource eventsLocalDataSource) {
         this.userRemoteDataSource = userRemoteDataSource;
         this.userDataRemoteDataSource = userDataRemoteDataSource;
-        this.articleLocalDataSource = newsLocalDataSource;
+        this.articleLocalDataSource = eventsLocalDataSource;
         this.userMutableLiveData = new MutableLiveData<>();
         this.userPreferencesMutableLiveData = new MutableLiveData<>();
         this.userFavoriteNewsMutableLiveData = new MutableLiveData<>();
