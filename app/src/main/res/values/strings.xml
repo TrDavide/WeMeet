@@ -76,5 +76,6 @@
     <string name="salva_modifiche">Salva modifiche</string>
     <string name="partecipanti">Partecipanti</string>
     <string name="popolari">I più popolari</string>
+    <string name="no_internet">Nessuna connessione Internet</string>
 
 </resources>

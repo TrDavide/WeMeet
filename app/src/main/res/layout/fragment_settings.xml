@@ -55,7 +55,7 @@
         android:layout_gravity="center"
         android:text="@string/username"
         android:textSize="18sp"
-        android:textColor="#A0A0A0"
+        android:textColor="@color/text_subtitle_event"
         android:fontFamily="@font/open_sans_medium"
         android:layout_marginTop="4dp"/>
 
@@ -101,13 +101,6 @@
         app:cornerRadius="28dp"
         app:icon="@drawable/esci"
         app:iconTint="@android:color/white"
-        android:backgroundTint="#B33A3A"/>
-
-
-
-
-
-
-
+        android:backgroundTint="@color/red_button_esci"/>
 
 </LinearLayout>

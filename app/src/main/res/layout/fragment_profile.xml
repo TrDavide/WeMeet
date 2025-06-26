@@ -81,7 +81,7 @@
         android:layout_centerHorizontal="true"
         android:fontFamily="@font/open_sans_medium"
         android:text="@string/username"
-        android:textColor="#A0A0A0"
+        android:textColor="@color/text_subtitle_event"
         android:textSize="20sp" />
     <View
         android:id="@+id/spazio"

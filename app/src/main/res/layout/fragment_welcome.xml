@@ -30,7 +30,7 @@
             android:fontFamily="@font/open_sans_bold"
             android:text="@string/benvenuto"
             android:textColor="@color/md_theme_onPrimary"
-            android:textSize="36dp"
+            android:textSize="36sp"
             android:textStyle="bold" />
 
         <TextView
@@ -50,7 +50,6 @@
             android:layout_width="320dp"
             android:layout_marginTop="5dp"
             android:layout_height="wrap_content"
-            android:layout_below="@id/FraseBenvenuto"
             android:layout_marginStart="@dimen/margin_default"
             android:fontFamily="@font/open_sans"
             android:text="@string/frase_benvenuto2"

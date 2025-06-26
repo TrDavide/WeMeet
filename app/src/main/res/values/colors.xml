@@ -7,6 +7,7 @@
     <color name="normal_red">#FF0000</color>
     <color name="red_primary">#B3261E</color>
     <color name="red_primary1">#EC221F</color>
+    <color name="red_button_event_page">#E53935</color>
     <color name="md_theme_bianchino">#F9FAEF</color>
     <color name="md_theme_primary">#8F4C38</color>
     <color name="md_theme_onPrimary">#FFFFFF</color>
@@ -150,4 +151,8 @@
     <color name="md_theme_surfaceContainerHigh_highContrast">#F7E4E0</color>
     <color name="md_theme_surfaceContainerHighest_highContrast">#F1DFDA</color>
     <color name="marrone_rosso">#3F0700</color>
+    <color name="white_arrow_back_event_page">#CCFFFFFF</color>
+    <color name="text_subtitle_event">#777777</color>
+    <color name="red_fire_home">#cd362f</color>
+    <color name="red_button_esci">#B33A3A</color>
 </resources>

@@ -88,8 +88,6 @@
         android:layout_below="@id/testo_eventi"
         android:layout_marginBottom="110sp">
 
-
-
     </androidx.recyclerview.widget.RecyclerView>
 
 </RelativeLayout>

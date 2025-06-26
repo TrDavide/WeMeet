@@ -113,7 +113,7 @@
             android:paddingTop="14dp"
             android:paddingBottom="14dp"
             android:text="@string/salva_modifiche"
-            android:textColor="#FFFFFF"
+            android:textColor="@color/white"
             android:textSize="18sp"
             app:backgroundTint="@color/red_primary1" />
     </LinearLayout>

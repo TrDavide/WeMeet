@@ -79,7 +79,7 @@
             android:layout_height="24dp"
             android:layout_marginStart="8dp"
             android:src="@drawable/fire"
-            app:tint="#cd362f" />
+            app:tint="@color/red_fire_home" />
     </LinearLayout>
 
     <FrameLayout
@@ -92,7 +92,7 @@
         <TextView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="Nessuna connessione Internet"
+            android:text="@string/no_internet"
             android:textColor="@color/black" />
 
     </FrameLayout>

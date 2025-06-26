@@ -41,7 +41,7 @@
                 android:layout_marginBottom="12dp"
                 app:cardCornerRadius="16dp"
                 app:cardElevation="4dp"
-                app:cardBackgroundColor="#FFFFFF">
+                app:cardBackgroundColor="@color/white">
 
                 <LinearLayout
                     android:layout_width="match_parent"
@@ -74,7 +74,7 @@
                             android:layout_marginEnd="@dimen/margin_default2"
                             android:fontFamily="@font/open_sans"
                             android:text="15 Dicembre 2024"
-                            android:textColor="#777777" />
+                            android:textColor="@color/text_subtitle_event" />
 
                         <TextView
                             android:id="@+id/eventLocationTextView"
@@ -83,7 +83,7 @@
                             android:layout_marginTop="2dp"
                             android:fontFamily="@font/open_sans"
                             android:text="Milano"
-                            android:textColor="#777777" />
+                            android:textColor="@color/text_subtitle_event" />
                     </LinearLayout>
 
                 </LinearLayout>
@@ -95,7 +95,7 @@
                 android:layout_marginBottom="100dp"
                 app:cardCornerRadius="16dp"
                 app:cardElevation="4dp"
-                app:cardBackgroundColor="#FFFFFF">
+                app:cardBackgroundColor="@color/white">
 
                 <LinearLayout
                     android:layout_width="match_parent"
@@ -121,7 +121,7 @@
                         android:layout_marginTop="4dp"
                         android:fontFamily="@font/open_sans_medium"
                         android:text="@string/Informazioni_evento_default"
-                        android:textColor="#777777"
+                        android:textColor="@color/text_subtitle_event"
                         android:textSize="14sp" />
 
                     <com.google.android.material.button.MaterialButton
@@ -138,7 +138,7 @@
                         android:text="@string/vedi_partecipanti"
                         android:textColor="@color/white"
                         android:textSize="18sp"
-                        app:backgroundTint="#E53935" />
+                        app:backgroundTint="@color/red_button_event_page" />
 
                     <LinearLayout
                         android:layout_width="wrap_content"
@@ -194,7 +194,7 @@
                         android:textSize="18sp"
                         android:paddingTop="14dp"
                         android:paddingBottom="14dp"
-                        app:backgroundTint="#E53935" />
+                        app:backgroundTint="@color/red_button_event_page" />
                 </LinearLayout>
             </com.google.android.material.card.MaterialCardView>
 
@@ -212,13 +212,11 @@
         android:insetTop="0dp"
         android:insetRight="0dp"
         android:insetBottom="0dp"
-        app:backgroundTint="#CCFFFFFF"
+        app:backgroundTint="@color/white_arrow_back_event_page"
         app:cornerRadius="12dp"
         app:icon="@drawable/arrow_left"
         app:iconGravity="textStart"
         app:iconSize="24dp"
         app:iconTint="@color/black" />
-
-
 
 </FrameLayout>
