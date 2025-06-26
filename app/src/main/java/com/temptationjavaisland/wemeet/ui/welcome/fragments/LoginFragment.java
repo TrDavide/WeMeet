@@ -8,6 +8,7 @@ import androidx.fragment.app.Fragment;
 import androidx.navigation.Navigation;
 
 import android.text.InputFilter;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -15,13 +16,17 @@ import android.widget.Button;
 
 import com.google.android.material.snackbar.Snackbar;
 import com.google.android.material.textfield.TextInputEditText;
+import com.google.firebase.auth.FirebaseAuth;
+import com.google.firebase.auth.FirebaseUser;
 import com.temptationjavaisland.wemeet.R;
 
 import org.apache.commons.validator.routines.EmailValidator;
 
 public class LoginFragment extends Fragment {
 
+    public static final String TAG = LoginFragment.class.getSimpleName();
     private TextInputEditText editTextEmail, editTextPassword;
+
 
     public LoginFragment() {}
 
@@ -82,6 +87,9 @@ public class LoginFragment extends Fragment {
                         .show(); // content: restituisce il primo elemento del layout, quindi in questo caso LinearLayout (gli viene assegnato un id)
             }
         });
+
+
+
     }
 
     private boolean isEmailOk(String email){

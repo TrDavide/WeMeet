@@ -11,19 +11,27 @@ import androidx.fragment.app.Fragment;
 import androidx.navigation.Navigation;
 
 import android.text.InputFilter;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
+import android.widget.Toast;
 
+import com.google.android.gms.tasks.OnCompleteListener;
+import com.google.android.gms.tasks.Task;
 import com.google.android.material.snackbar.Snackbar;
 import com.google.android.material.textfield.TextInputEditText;
+import com.google.firebase.auth.AuthResult;
+import com.google.firebase.auth.FirebaseAuth;
+import com.google.firebase.auth.FirebaseUser;
 import com.temptationjavaisland.wemeet.R;
 
 import org.apache.commons.validator.routines.EmailValidator;
 
 public class SignUpFragment extends Fragment {
 
+    public static final String TAG = SignUpFragment.class.getSimpleName();
     private TextInputEditText editTextNome, editTextCognome, editTextEmail, editTextConfermaPassword, editTextPassword;
 
     public SignUpFragment() {
@@ -100,7 +108,33 @@ public class SignUpFragment extends Fragment {
                 Snackbar.make(view, "Inserisci il nome", Snackbar.LENGTH_SHORT)
                         .show();
             }
+            FirebaseAuth mAuth = FirebaseAuth.getInstance();
+            FirebaseUser user = mAuth.getCurrentUser();
+            Log.i(TAG, user + "");
+
+            mAuth.createUserWithEmailAndPassword(editTextEmail.getText().toString(), editTextPassword.getText().toString())
+                    .addOnCompleteListener(new OnCompleteListener<AuthResult>() {
+                        @Override
+                        public void onComplete(@NonNull Task<AuthResult> task) {
+                            if (task.isSuccessful()) {
+                                // Sign in success, update UI with the signed-in user's information
+                                Log.d(TAG, "createUserWithEmail:success");
+                                FirebaseUser user = mAuth.getCurrentUser();
+                                //Navigation.findNavController(v).navigate(R.id.action_signUpFragment_to_homePageActivity);
+                                //updateUI(user);
+                            } else {
+                                // If sign in fails, display a message to the user.
+                                Log.w(TAG, "createUserWithEmail:failure", task.getException());
+                                //Toast.makeText(EmailPasswordActivity.this, "Authentication failed.",
+                                //Toast.LENGTH_SHORT).show();
+                                //updateUI(null);
+                            }
+                        }
+
+                    });
         });
+
+
 
 
 
