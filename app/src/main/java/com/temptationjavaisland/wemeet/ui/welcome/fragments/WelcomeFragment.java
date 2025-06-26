@@ -15,9 +15,11 @@ import android.view.ViewGroup;
 import android.widget.Button;
 
 import com.temptationjavaisland.wemeet.R;
+import com.temptationjavaisland.wemeet.ui.welcome.viewmodel.user.UserViewModel;
 
 
 public class WelcomeFragment extends Fragment {
+
 
     public WelcomeFragment() {
         // Required empty public constructor

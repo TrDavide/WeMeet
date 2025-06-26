@@ -147,6 +147,10 @@ public class LoginFragment extends Fragment {
     public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
 
+        if (userViewModel.getLoggedUser() != null) {
+            Navigation.findNavController(view).navigate(R.id.action_loginFragment_to_homePageActivity);
+        }
+
         editTextEmail = view.findViewById(R.id.textInputEmail);
         editTextPassword = view.findViewById(R.id.textInputPassword);
 

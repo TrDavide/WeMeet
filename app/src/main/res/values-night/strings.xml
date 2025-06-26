@@ -63,5 +63,6 @@
     <string name="partecipanti">Partecipanti</string>
     <string name="popolari">I più popolari</string>
     <string name="error_unexpected">Unexpected error</string>
+    <string name="error_collision_user">This email is already registered</string>
 
 </resources>
