@@ -1,6 +1,6 @@
-package com.temptationjavaisland.wemeet.source;
+package com.temptationjavaisland.wemeet.source.Event;
 
-import com.temptationjavaisland.wemeet.repository.EventResponseCallback;
+import com.temptationjavaisland.wemeet.repository.Event.EventResponseCallback;
 
 /**
 

@@ -2,6 +2,7 @@ import com.android.build.gradle.internal.cxx.configure.gradleLocalProperties
 
 plugins {
     alias(libs.plugins.android.application)
+    id("com.google.gms.google-services")
 }
 
 android {
@@ -65,6 +66,13 @@ dependencies {
     implementation (libs.converter.gson.v290)
     implementation (libs.glide)
     implementation (libs.glide)
+    implementation(platform(libs.firebase.bom))
+    implementation(libs.firebase.auth)
+    implementation(libs.credentials.v130)
+    implementation(libs.credentials.play.services.auth.v130)
+    implementation(libs.googleid)
+    implementation(libs.firebase.database)
+    implementation (libs.play.services.auth)
 
 
 }

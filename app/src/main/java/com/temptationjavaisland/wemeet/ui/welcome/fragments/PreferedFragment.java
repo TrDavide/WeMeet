@@ -19,10 +19,10 @@ import com.google.android.material.bottomnavigation.BottomNavigationView;
 import com.temptationjavaisland.wemeet.R;
 import com.temptationjavaisland.wemeet.adapter.EventRecyclerAdapter;
 import com.temptationjavaisland.wemeet.model.Event;
+import com.temptationjavaisland.wemeet.repository.Event.EventRepository;
+import com.temptationjavaisland.wemeet.ui.welcome.viewmodel.event.EventViewModel;
+import com.temptationjavaisland.wemeet.ui.welcome.viewmodel.event.EventViewModelFactory;
 import com.temptationjavaisland.wemeet.model.Result;
-import com.temptationjavaisland.wemeet.repository.EventRepository;
-import com.temptationjavaisland.wemeet.ui.welcome.viewmodel.EventViewModel;
-import com.temptationjavaisland.wemeet.ui.welcome.viewmodel.EventViewModelFactory;
 import com.temptationjavaisland.wemeet.util.ServiceLocator;
 
 import java.util.ArrayList;

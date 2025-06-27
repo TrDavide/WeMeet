@@ -1,9 +1,9 @@
-package com.temptationjavaisland.wemeet.ui.welcome.viewmodel;
+package com.temptationjavaisland.wemeet.ui.welcome.viewmodel.event;
 
 import androidx.annotation.NonNull;
 import androidx.lifecycle.ViewModel;
 import androidx.lifecycle.ViewModelProvider;
-import com.temptationjavaisland.wemeet.repository.EventRepository;
+import com.temptationjavaisland.wemeet.repository.Event.EventRepository;
 
 /**
  * Custom ViewModelProvider to be able to have a custom constructor

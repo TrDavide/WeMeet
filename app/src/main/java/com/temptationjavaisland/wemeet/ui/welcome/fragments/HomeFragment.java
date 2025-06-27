@@ -18,7 +18,6 @@ import androidx.recyclerview.widget.RecyclerView;
 
 import com.google.android.gms.location.FusedLocationProviderClient;
 import com.google.android.gms.location.LocationServices;
-import com.google.android.gms.tasks.OnSuccessListener;
 import com.google.android.material.bottomnavigation.BottomNavigationView;
 import com.google.gson.Gson;
 
@@ -36,9 +35,9 @@ import com.temptationjavaisland.wemeet.R;
 import com.temptationjavaisland.wemeet.adapter.EventRecyclerAdapter;
 import com.temptationjavaisland.wemeet.model.Event;
 import com.temptationjavaisland.wemeet.model.Result;
-import com.temptationjavaisland.wemeet.repository.EventRepository;
-import com.temptationjavaisland.wemeet.ui.welcome.viewmodel.EventViewModel;
-import com.temptationjavaisland.wemeet.ui.welcome.viewmodel.EventViewModelFactory;
+import com.temptationjavaisland.wemeet.repository.Event.EventRepository;
+import com.temptationjavaisland.wemeet.ui.welcome.viewmodel.event.EventViewModel;
+import com.temptationjavaisland.wemeet.ui.welcome.viewmodel.event.EventViewModelFactory;
 import com.temptationjavaisland.wemeet.util.NetworkUtil;
 import com.temptationjavaisland.wemeet.util.ServiceLocator;
 
@@ -49,8 +48,6 @@ import java.util.Set;
 import java.util.concurrent.ExecutorService;
 import java.util.concurrent.Executors;
 import java.util.stream.Collectors;
-
-import android.location.Location;
 
 public class HomeFragment extends Fragment {
 

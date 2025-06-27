@@ -1,4 +1,4 @@
-package com.temptationjavaisland.wemeet.repository;
+package com.temptationjavaisland.wemeet.repository.Event;
 import com.temptationjavaisland.wemeet.model.Event;
 import com.temptationjavaisland.wemeet.model.EventAPIResponse;
 

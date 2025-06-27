@@ -1,4 +1,4 @@
-package com.temptationjavaisland.wemeet.source;
+package com.temptationjavaisland.wemeet.source.Event;
 
 import static com.temptationjavaisland.wemeet.util.Constants.API_KEY_ERROR;
 import static com.temptationjavaisland.wemeet.util.Constants.RETROFIT_ERROR;

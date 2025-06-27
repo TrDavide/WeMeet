@@ -1,4 +1,4 @@
-package com.temptationjavaisland.wemeet.repository;
+package com.temptationjavaisland.wemeet.repository.Event;
 
 import static com.temptationjavaisland.wemeet.util.Constants.FRESH_TIMEOUT;
 
@@ -7,8 +7,8 @@ import androidx.lifecycle.MutableLiveData;
 import com.temptationjavaisland.wemeet.model.Event;
 import com.temptationjavaisland.wemeet.model.EventAPIResponse;
 import com.temptationjavaisland.wemeet.model.Result;
-import com.temptationjavaisland.wemeet.source.BaseEventLocalDataSource;
-import com.temptationjavaisland.wemeet.source.BaseEventRemoteDataSource;
+import com.temptationjavaisland.wemeet.source.Event.BaseEventLocalDataSource;
+import com.temptationjavaisland.wemeet.source.Event.BaseEventRemoteDataSource;
 
 import java.util.List;
 

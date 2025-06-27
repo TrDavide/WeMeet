@@ -80,5 +80,7 @@
     <string name="change_foto">Tocca l\'immagine per cambiarla</string>
     <string name="tema_giorno">Tema: Giorno</string>
     <string name="modifica_biografia">Scrivi la tua biografia...</string>
+    <string name="error_unexpected">Unexpected error</string>
+    <string name="error_collision_user">This email is already registered</string>
 
 </resources>

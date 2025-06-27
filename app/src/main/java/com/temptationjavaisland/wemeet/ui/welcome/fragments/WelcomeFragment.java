@@ -15,9 +15,11 @@ import android.view.ViewGroup;
 import android.widget.Button;
 
 import com.temptationjavaisland.wemeet.R;
+import com.temptationjavaisland.wemeet.ui.welcome.viewmodel.user.UserViewModel;
 
 
 public class WelcomeFragment extends Fragment {
+
 
     public WelcomeFragment() {
         // Required empty public constructor
@@ -44,6 +46,11 @@ public class WelcomeFragment extends Fragment {
     @Override
     public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
+
+        if (com.google.firebase.auth.FirebaseAuth.getInstance().getCurrentUser() != null) {
+            Navigation.findNavController(view).navigate(R.id.action_welcomeFragment_to_homePageActivity);
+            return; // Esci subito per evitare che vengano mostrati i pulsanti
+        }
 
         Button loginButton = view.findViewById(R.id.accediButton);
         Button signUpButton = view.findViewById(R.id.RegistratiButton);

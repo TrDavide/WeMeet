@@ -1,4 +1,4 @@
-package com.temptationjavaisland.wemeet.source;
+package com.temptationjavaisland.wemeet.source.Event;
 
 import com.temptationjavaisland.wemeet.model.EventAPIResponse;
 import com.temptationjavaisland.wemeet.util.JSONParserUtils;
