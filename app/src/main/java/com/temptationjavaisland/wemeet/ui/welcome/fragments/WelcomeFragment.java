@@ -47,6 +47,11 @@ public class WelcomeFragment extends Fragment {
     public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
 
+        if (com.google.firebase.auth.FirebaseAuth.getInstance().getCurrentUser() != null) {
+            Navigation.findNavController(view).navigate(R.id.action_welcomeFragment_to_homePageActivity);
+            return; // Esci subito per evitare che vengano mostrati i pulsanti
+        }
+
         Button loginButton = view.findViewById(R.id.accediButton);
         Button signUpButton = view.findViewById(R.id.RegistratiButton);
 
