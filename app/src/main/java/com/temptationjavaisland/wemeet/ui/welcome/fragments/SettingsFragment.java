@@ -100,16 +100,21 @@ public class SettingsFragment extends Fragment {
         });
 
         MaterialButton temaButton = view.findViewById(R.id.bottone_tema);
-        int currentNightMode = getResources().getConfiguration().uiMode & android.content.res.Configuration.UI_MODE_NIGHT_MASK;
-        temaButton.setText(currentNightMode == android.content.res.Configuration.UI_MODE_NIGHT_YES ? "Tema: Notte" : "Tema: Giorno");
+        boolean isNightMode = (AppCompatDelegate.getDefaultNightMode() == AppCompatDelegate.MODE_NIGHT_YES) ||
+                ((AppCompatDelegate.getDefaultNightMode() == AppCompatDelegate.MODE_NIGHT_FOLLOW_SYSTEM)
+                        && (getResources().getConfiguration().uiMode & android.content.res.Configuration.UI_MODE_NIGHT_MASK) == android.content.res.Configuration.UI_MODE_NIGHT_YES);
+
+        temaButton.setText(isNightMode ? "Tema: Notte" : "Tema: Giorno");
 
         temaButton.setOnClickListener(v -> {
-            int mode = getResources().getConfiguration().uiMode & android.content.res.Configuration.UI_MODE_NIGHT_MASK;
-            AppCompatDelegate.setDefaultNightMode(mode == AppCompatDelegate.MODE_NIGHT_YES
-                    ? AppCompatDelegate.MODE_NIGHT_NO
-                    : AppCompatDelegate.MODE_NIGHT_YES);
+            if (isNightMode) {
+                AppCompatDelegate.setDefaultNightMode(AppCompatDelegate.MODE_NIGHT_NO);
+            } else {
+                AppCompatDelegate.setDefaultNightMode(AppCompatDelegate.MODE_NIGHT_YES);
+            }
             requireActivity().recreate();
         });
+
 
         imageProfile = view.findViewById(R.id.image_profile);
         preferences = PreferenceManager.getDefaultSharedPreferences(requireContext());
