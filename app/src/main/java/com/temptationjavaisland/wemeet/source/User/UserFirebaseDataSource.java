@@ -74,8 +74,9 @@ public class UserFirebaseDataSource extends BaseUserDataRemoteDataSource {
 
     @Override
     public void getUserPreferedEvents(String idToken) {
+        //databaseReference = firebaseDatabase.getReference().getRef();
         databaseReference.child(FIREBASE_USERS_COLLECTION).child(idToken).
-                child(FIREBASE_FAVORITE_NEWS_COLLECTION).get().addOnCompleteListener(task -> {
+                child(FIREBASE_FAVORITE_EVENTS_COLLECTION).get().addOnCompleteListener(task -> {
                     if (!task.isSuccessful()) {
                         Log.d(TAG, "Error getting data", task.getException());
                         userResponseCallback.onFailureFromRemoteDatabase(task.getException().getLocalizedMessage());
@@ -93,4 +94,39 @@ public class UserFirebaseDataSource extends BaseUserDataRemoteDataSource {
                     }
                 });
     }
+
+    @Override
+    public void saveUserPreferedEvent(String idToken, Event event) {
+        databaseReference.child(FIREBASE_USERS_COLLECTION)
+                .child(idToken)
+                .child(FIREBASE_FAVORITE_EVENTS_COLLECTION)
+                .child(event.getId()) // usa un ID univoco per evitare duplicati
+                .setValue(event);
+                /*.addOnSuccessListener(aVoid -> {
+                    Log.d(TAG, "Evento preferito salvato con successo.");
+                    //userResponseCallback.onSuccessFromRemoteDatabase(event);
+                })
+                .addOnFailureListener(e -> {
+                    Log.e(TAG, "Errore salvataggio evento preferito", e);
+                    userResponseCallback.onFailureFromRemoteDatabase(e.getLocalizedMessage());
+                });*/
+    }
+
+    @Override
+    public void removeUserPreferedEvent(String idToken, String eventId) {
+        databaseReference.child(FIREBASE_USERS_COLLECTION)
+                .child(idToken)
+                .child(FIREBASE_FAVORITE_EVENTS_COLLECTION)
+                .child(eventId)
+                .removeValue()
+                .addOnSuccessListener(aVoid -> {
+                    //userResponseCallback.onSuccessRemoveFavoriteEvent();
+                })
+                .addOnFailureListener(e -> {
+                    userResponseCallback.onFailureFromRemoteDatabase(e.getLocalizedMessage());
+                });
+    }
+
+
+
 }

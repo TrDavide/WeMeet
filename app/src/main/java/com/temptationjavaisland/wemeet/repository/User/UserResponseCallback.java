@@ -11,5 +11,7 @@ public interface UserResponseCallback {
     void onSuccessFromRemoteDatabase(User user);
     void onSuccessFromRemoteDatabase(List<Event> eventsList);
     void onFailureFromRemoteDatabase(String message);
+    void onSuccessRemoveFavoriteEvent();
+    void onFailureRemoveFavoriteEvent(String error);
     void onSuccessLogout();
 }

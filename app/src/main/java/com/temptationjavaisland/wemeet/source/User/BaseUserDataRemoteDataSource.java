@@ -2,6 +2,7 @@ package com.temptationjavaisland.wemeet.source.User;
 
 
 
+import com.temptationjavaisland.wemeet.model.Event;
 import com.temptationjavaisland.wemeet.model.User;
 import com.temptationjavaisland.wemeet.repository.User.UserResponseCallback;
 
@@ -17,6 +18,12 @@ public abstract class BaseUserDataRemoteDataSource {
     public abstract void saveUserData(User user);
 
     public abstract void getUserPreferedEvents(String idToken);
+
+    public abstract void saveUserPreferedEvent(String idToken, Event event);
+
+    public abstract void removeUserPreferedEvent(String idToken, String eventId);
+
+
 
 }
 

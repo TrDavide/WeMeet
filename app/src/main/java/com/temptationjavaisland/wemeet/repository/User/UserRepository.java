@@ -1,5 +1,7 @@
 package com.temptationjavaisland.wemeet.repository.User;
 
+import android.util.Log;
+
 import androidx.lifecycle.MutableLiveData;
 
 import com.temptationjavaisland.wemeet.repository.Event.EventResponseCallback;
@@ -64,6 +66,18 @@ public class UserRepository implements IUserRepository, UserResponseCallback, Ev
         userDataRemoteDataSource.getUserPreferedEvents(idToken);
         return userFavoriteNewsMutableLiveData;
     }
+
+    @Override
+    public void saveUserPreferedEvent(String idToken, Event event) {
+        userDataRemoteDataSource.saveUserPreferedEvent(idToken, event);
+    }
+
+    @Override
+    public void removeUserPreferedEvent(String idToken, String eventId) {
+        userDataRemoteDataSource.removeUserPreferedEvent(idToken, eventId);
+    }
+
+
 
     @Override
     public User getLoggedUser() {
@@ -175,4 +189,20 @@ public class UserRepository implements IUserRepository, UserResponseCallback, Ev
     public void onFailureFromCloud(Exception exception) {
 
     }
+
+    @Override
+    public void onSuccessRemoveFavoriteEvent() {
+        // Qui puoi notificare al LiveData o fare altre operazioni di successo
+        Log.d(TAG, "Evento preferito rimosso con successo");
+        // Esempio: userFavoriteNewsMutableLiveData.postValue(...);
+    }
+
+    @Override
+    public void onFailureRemoveFavoriteEvent(String error) {
+        Log.e(TAG, "Errore rimozione evento preferito: " + error);
+        // Puoi notificare errore al LiveData o altro
+    }
+
+
+
 }

@@ -2,6 +2,7 @@ package com.temptationjavaisland.wemeet.repository.User;
 
 import androidx.lifecycle.MutableLiveData;
 
+import com.temptationjavaisland.wemeet.model.Event;
 import com.temptationjavaisland.wemeet.model.Result;
 import com.temptationjavaisland.wemeet.model.User;
 
@@ -16,4 +17,6 @@ public interface IUserRepository {
     void signUp(String email, String password);
     void signIn(String email, String password);
     void signInWithGoogle(String token);
+    void saveUserPreferedEvent(String idToken, Event event);
+    void removeUserPreferedEvent(String idToken, String eventId);
 }

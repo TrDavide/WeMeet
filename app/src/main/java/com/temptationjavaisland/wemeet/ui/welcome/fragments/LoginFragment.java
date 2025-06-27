@@ -177,6 +177,7 @@ public class LoginFragment extends Fragment {
                         if (task.isSuccessful()) {
                             FirebaseUser firebaseUser = FirebaseAuth.getInstance().getCurrentUser();
                             if (firebaseUser != null) {
+                                Log.d("FirebaseTest", "Utente corrente: " + FirebaseAuth.getInstance().getCurrentUser());
                                 Navigation.findNavController(v).navigate(R.id.action_loginFragment_to_homePageActivity);
                             }
                         } else {

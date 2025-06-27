@@ -36,8 +36,11 @@ import com.temptationjavaisland.wemeet.adapter.EventRecyclerAdapter;
 import com.temptationjavaisland.wemeet.model.Event;
 import com.temptationjavaisland.wemeet.model.Result;
 import com.temptationjavaisland.wemeet.repository.Event.EventRepository;
+import com.temptationjavaisland.wemeet.repository.User.IUserRepository;
 import com.temptationjavaisland.wemeet.ui.welcome.viewmodel.event.EventViewModel;
 import com.temptationjavaisland.wemeet.ui.welcome.viewmodel.event.EventViewModelFactory;
+import com.temptationjavaisland.wemeet.ui.welcome.viewmodel.user.UserViewModel;
+import com.temptationjavaisland.wemeet.ui.welcome.viewmodel.user.UserViewModelFactory;
 import com.temptationjavaisland.wemeet.util.NetworkUtil;
 import com.temptationjavaisland.wemeet.util.ServiceLocator;
 
@@ -59,6 +62,7 @@ public class HomeFragment extends Fragment {
     private RecyclerView recyclerView;
     private EventRecyclerAdapter adapter;
     private EventViewModel eventViewModel;
+    private UserViewModel userViewModel;
     private FrameLayout noInternetView;
     private int radius = 20;
     private String latlong;
@@ -84,6 +88,9 @@ public class HomeFragment extends Fragment {
                 requireActivity(),
                 new EventViewModelFactory(eventRepository)
         ).get(EventViewModel.class);
+
+        IUserRepository userRepository = ServiceLocator.getInstance().getUserRepository(requireActivity().getApplication());
+        userViewModel = new ViewModelProvider(requireActivity(), new UserViewModelFactory(userRepository)).get(UserViewModel.class);
 
         eventList = new ArrayList<>();
 
@@ -125,12 +132,11 @@ public class HomeFragment extends Fragment {
                 navController.navigate(R.id.eventPageFragment, bundle);
             }
 
-
-
             @Override
             public void onFavoriteButtonPressed(int position) {
                 eventList.get(position).setSaved(!eventList.get(position).isSaved());
                 eventViewModel.updateEvent(eventList.get(position));
+                userViewModel.saveUserPreferedEvent(userViewModel.getLoggedUser().getIdToken(), eventList.get(position));
 
             }
         });

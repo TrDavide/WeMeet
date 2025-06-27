@@ -73,6 +73,7 @@ dependencies {
     implementation(libs.googleid)
     implementation(libs.firebase.database)
     implementation (libs.play.services.auth)
+    implementation (libs.google.services)
 
 
 }

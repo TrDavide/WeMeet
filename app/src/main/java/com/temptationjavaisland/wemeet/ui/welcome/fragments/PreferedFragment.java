@@ -20,9 +20,12 @@ import com.temptationjavaisland.wemeet.R;
 import com.temptationjavaisland.wemeet.adapter.EventRecyclerAdapter;
 import com.temptationjavaisland.wemeet.model.Event;
 import com.temptationjavaisland.wemeet.repository.Event.EventRepository;
+import com.temptationjavaisland.wemeet.repository.User.IUserRepository;
 import com.temptationjavaisland.wemeet.ui.welcome.viewmodel.event.EventViewModel;
 import com.temptationjavaisland.wemeet.ui.welcome.viewmodel.event.EventViewModelFactory;
 import com.temptationjavaisland.wemeet.model.Result;
+import com.temptationjavaisland.wemeet.ui.welcome.viewmodel.user.UserViewModel;
+import com.temptationjavaisland.wemeet.ui.welcome.viewmodel.user.UserViewModelFactory;
 import com.temptationjavaisland.wemeet.util.ServiceLocator;
 
 import java.util.ArrayList;
@@ -34,6 +37,7 @@ public class PreferedFragment extends Fragment {
     private List<Event> eventList;
     private EventRecyclerAdapter adapter;
     private EventViewModel eventViewModel;
+    private UserViewModel userViewModel;
 
     public PreferedFragment() {}
 
@@ -53,6 +57,12 @@ public class PreferedFragment extends Fragment {
         eventViewModel = new ViewModelProvider(
                 requireActivity(),
                 new EventViewModelFactory(eventRepository)).get(EventViewModel.class);
+
+        IUserRepository userRepository = ServiceLocator.getInstance().getUserRepository(requireActivity().getApplication());
+        userViewModel = new ViewModelProvider(
+                requireActivity(),
+                new UserViewModelFactory(ServiceLocator.getInstance().getUserRepository(requireActivity().getApplication()))
+        ).get(UserViewModel.class);
 
         eventList = new ArrayList<>();
     }
@@ -98,7 +108,7 @@ public class PreferedFragment extends Fragment {
             bottomNav.setVisibility(View.VISIBLE);
         }
 
-        // ✅ Osserva i preferiti tramite LiveData
+        //userViewModel.getUserPreferedEventsMutableLiveData(userViewModel.getLoggedUser().getIdToken());
         eventViewModel.getPreferedEventsLiveData().observe(getViewLifecycleOwner(), result -> {
             if (result instanceof Result.EventSuccess) {
                 List<Event> savedEvents = ((Result.EventSuccess) result).getData().getEmbedded().getEvents();
