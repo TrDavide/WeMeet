@@ -79,5 +79,6 @@
     <string name="no_internet">Nessuna connessione Internet</string>
     <string name="change_foto">Tocca l\'immagine per cambiarla</string>
     <string name="tema_giorno">Tema: Giorno</string>
+    <string name="modifica_biografia">Scrivi la tua biografia...</string>
 
 </resources>

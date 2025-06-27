@@ -62,6 +62,22 @@
         android:layout_marginTop="16dp"
         android:layout_gravity="center"/>
 
+    <EditText
+        android:id="@+id/edit_bio"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="32dp"
+        android:layout_marginEnd="32dp"
+        android:layout_marginTop="30dp"
+        android:hint="@string/modifica_biografia"
+        android:backgroundTint="@color/black"
+        android:textColor="@color/black"
+        android:textColorHint="@color/text_subtitle_event"
+        android:fontFamily="@font/open_sans"
+        android:maxLength="100"
+        android:singleLine="true"/>
+
+
     <com.google.android.material.button.MaterialButton
         android:id="@+id/bottone_tema"
         android:layout_width="match_parent"

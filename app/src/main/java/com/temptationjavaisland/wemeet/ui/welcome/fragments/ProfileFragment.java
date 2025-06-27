@@ -9,6 +9,7 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.ImageView;
+import android.widget.TextView;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
@@ -22,6 +23,7 @@ public class ProfileFragment extends Fragment {
 
     BottomNavigationView bottomNavigationView;
     private ImageView profileImageView;
+    private TextView bioTextView;
 
     public ProfileFragment() {}
 
@@ -42,6 +44,8 @@ public class ProfileFragment extends Fragment {
     public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
 
+        bioTextView = view.findViewById(R.id.bio);
+
         BottomNavigationView bottomNav = requireActivity().findViewById(R.id.bottom_navigation);
         if (bottomNav != null) {
             bottomNav.setVisibility(View.VISIBLE);
@@ -53,17 +57,25 @@ public class ProfileFragment extends Fragment {
         );
 
         // Riferimento all'immagine profilo
-        profileImageView = view.findViewById(R.id.profileImageView).findViewById(R.id.imageView);  // Se usi ImageView dentro CardView
+        profileImageView = view.findViewById(R.id.profileImageView).findViewById(R.id.imageView);
 
-        // Carica subito la foto
         loadProfileImage();
+        loadUserBio();
     }
 
     @Override
     public void onResume() {
         super.onResume();
-        // Ricarica immagine ogni volta che torni al fragment
         loadProfileImage();
+        loadUserBio();
+    }
+
+    private void loadUserBio() {
+        SharedPreferences preferences = PreferenceManager.getDefaultSharedPreferences(requireContext());
+        String userBio = preferences.getString("user_bio", getString(R.string.frase_bio));
+        if (bioTextView != null) {
+            bioTextView.setText(userBio);
+        }
     }
 
     private void loadProfileImage() {
@@ -75,7 +87,7 @@ public class ProfileFragment extends Fragment {
         if (imagePath != null) {
             profileImageView.setImageURI(Uri.parse(imagePath));
         } else {
-            profileImageView.setImageResource(R.mipmap.profile_default); // immagine di default
+            profileImageView.setImageResource(R.mipmap.profile_default);
         }
     }
 }

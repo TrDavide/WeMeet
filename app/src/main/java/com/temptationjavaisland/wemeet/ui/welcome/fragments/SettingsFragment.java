@@ -34,6 +34,7 @@ import android.widget.PopupMenu;
 import android.widget.Toast;
 
 import androidx.appcompat.app.AppCompatDelegate;
+import android.widget.EditText;
 
 public class SettingsFragment extends Fragment {
 
@@ -137,6 +138,21 @@ public class SettingsFragment extends Fragment {
             });
 
             popupMenu.show();
+        });
+
+        EditText editBio = view.findViewById(R.id.edit_bio);
+        preferences = PreferenceManager.getDefaultSharedPreferences(requireContext());
+
+        // Carica la biografia salvata, se esiste
+        String savedBio = preferences.getString("user_bio", "");
+        editBio.setText(savedBio);
+
+        // Salva la biografia ogni volta che viene modificata
+        editBio.setOnFocusChangeListener((v, hasFocus) -> {
+            if (!hasFocus) {
+                String newBio = editBio.getText().toString().trim();
+                preferences.edit().putString("user_bio", newBio).apply();
+            }
         });
     }
 
