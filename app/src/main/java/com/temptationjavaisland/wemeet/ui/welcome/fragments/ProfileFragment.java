@@ -1,17 +1,19 @@
 package com.temptationjavaisland.wemeet.ui.welcome.fragments;
 
+import android.content.SharedPreferences;
+import android.net.Uri;
 import android.os.Bundle;
-
-import androidx.annotation.NonNull;
-import androidx.annotation.Nullable;
-import androidx.fragment.app.Fragment;
-import androidx.fragment.app.FragmentTransaction;
-import androidx.navigation.Navigation;
-
+import android.preference.PreferenceManager;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
+import android.widget.ImageView;
+
+import androidx.annotation.NonNull;
+import androidx.annotation.Nullable;
+import androidx.fragment.app.Fragment;
+import androidx.navigation.Navigation;
 
 import com.google.android.material.bottomnavigation.BottomNavigationView;
 import com.temptationjavaisland.wemeet.R;
@@ -19,6 +21,7 @@ import com.temptationjavaisland.wemeet.R;
 public class ProfileFragment extends Fragment {
 
     BottomNavigationView bottomNavigationView;
+    private ImageView profileImageView;
 
     public ProfileFragment() {}
 
@@ -30,14 +33,8 @@ public class ProfileFragment extends Fragment {
     }
 
     @Override
-    public void onCreate(Bundle savedInstanceState) {
-        super.onCreate(savedInstanceState);
-    }
-
-    @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
-        // Inflate il layout del fragment
         return inflater.inflate(R.layout.fragment_profile, container, false);
     }
 
@@ -51,10 +48,34 @@ public class ProfileFragment extends Fragment {
         }
 
         Button btnSettings = view.findViewById(R.id.button_settings);
+        btnSettings.setOnClickListener(v ->
+                Navigation.findNavController(v).navigate(R.id.action_profileFragment_to_settingsFragment)
+        );
 
-        // Usa NavController per la navigazione
-        btnSettings.setOnClickListener(v -> {
-            Navigation.findNavController(v).navigate(R.id.action_profileFragment_to_settingsFragment);
-        });
+        // Riferimento all'immagine profilo
+        profileImageView = view.findViewById(R.id.profileImageView).findViewById(R.id.imageView);  // Se usi ImageView dentro CardView
+
+        // Carica subito la foto
+        loadProfileImage();
+    }
+
+    @Override
+    public void onResume() {
+        super.onResume();
+        // Ricarica immagine ogni volta che torni al fragment
+        loadProfileImage();
+    }
+
+    private void loadProfileImage() {
+        if (profileImageView == null) return;
+
+        SharedPreferences preferences = PreferenceManager.getDefaultSharedPreferences(requireContext());
+        String imagePath = preferences.getString("profile_image_path", null);
+
+        if (imagePath != null) {
+            profileImageView.setImageURI(Uri.parse(imagePath));
+        } else {
+            profileImageView.setImageResource(R.mipmap.profile_default); // immagine di default
+        }
     }
 }

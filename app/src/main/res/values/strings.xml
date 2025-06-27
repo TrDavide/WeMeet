@@ -77,5 +77,7 @@
     <string name="partecipanti">Partecipanti</string>
     <string name="popolari">I più popolari</string>
     <string name="no_internet">Nessuna connessione Internet</string>
+    <string name="change_foto">Tocca l\'immagine per cambiarla</string>
+    <string name="tema_giorno">Tema: Giorno</string>
 
 </resources>

@@ -49,23 +49,26 @@
         android:layout_height="160dp"
         android:layout_marginTop="85dp"
         android:layout_centerHorizontal="true"
-        android:layout_alignParentTop="true"
-        app:cardBackgroundColor="@android:color/white"
-        app:cardPreventCornerOverlap="true"
-        app:cardUseCompatPadding="true">
+        app:cardBackgroundColor="@color/white"
+        app:cardCornerRadius="80dp"
+        app:cardElevation="12dp">
+
 
         <ImageView
-            android:layout_width="150dp"
-            android:layout_height="150dp"
+            android:id="@+id/imageView"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
             android:scaleType="centerCrop"
             android:src="@mipmap/profile_default"/>
     </androidx.cardview.widget.CardView>
+
 
 
     <TextView
         android:id="@+id/textprofile"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
+        android:layout_marginTop="15dp"
         android:layout_below="@id/profileImageView"
         android:layout_centerHorizontal="true"
         android:fontFamily="@font/open_sans_bold"
@@ -73,21 +76,12 @@
         android:textSize="28sp"
         android:textStyle="bold" />
 
-    <TextView
-        android:id="@+id/username"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_below="@id/textprofile"
-        android:layout_centerHorizontal="true"
-        android:fontFamily="@font/open_sans_medium"
-        android:text="@string/username"
-        android:textColor="@color/text_subtitle_event"
-        android:textSize="20sp" />
+
     <View
         android:id="@+id/spazio"
         android:layout_width="wrap_content"
         android:layout_height="20sp"
-        android:layout_below="@id/username"/>
+        android:layout_below="@id/textprofile"/>
 
 
     <TextView
