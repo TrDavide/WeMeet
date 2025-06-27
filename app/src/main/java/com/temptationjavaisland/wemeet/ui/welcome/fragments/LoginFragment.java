@@ -32,8 +32,10 @@ import com.google.android.gms.tasks.OnFailureListener;
 import com.google.android.gms.tasks.OnSuccessListener;
 import com.google.android.material.snackbar.Snackbar;
 import com.google.android.material.textfield.TextInputEditText;
+import com.google.firebase.auth.AuthCredential;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
+import com.google.firebase.auth.GoogleAuthProvider;
 import com.temptationjavaisland.wemeet.R;
 import com.temptationjavaisland.wemeet.model.Result;
 import com.temptationjavaisland.wemeet.model.User;
@@ -60,11 +62,6 @@ public class LoginFragment extends Fragment {
         LoginFragment fragment = new LoginFragment();
         return fragment;
     }
-
-    /*@Override
-    public void onCreate(Bundle savedInstanceState) {
-        super.onCreate(savedInstanceState);
-    }*/
 
     @Override
     public void onCreate(@Nullable Bundle savedInstanceState) {
@@ -100,20 +97,26 @@ public class LoginFragment extends Fragment {
                     SignInCredential credential = oneTapClient.getSignInCredentialFromIntent(activityResult.getData());
                     String idToken = credential.getGoogleIdToken();
                     if (idToken !=  null) {
-                        // Got an ID token from Google. Use it to authenticate with Firebase.
-                        userViewModel.getGoogleUserMutableLiveData(idToken).observe(getViewLifecycleOwner(), authenticationResult -> {
-                            if (authenticationResult.isSuccess()) {
-                                User user = ((Result.UserSuccess) authenticationResult).getData();
-                                //saveLoginData(user.getEmail(), null, user.getIdToken());
-                                Log.i(TAG, "Logged as: " + user.getEmail());
-                                userViewModel.setAuthenticationError(false);
-                            } else {
-                                userViewModel.setAuthenticationError(true);
-                                Snackbar.make(requireActivity().findViewById(android.R.id.content),
-                                        getErrorMessage(((Result.Error) authenticationResult).getMessage()),
-                                        Snackbar.LENGTH_SHORT).show();
-                            }
-                        });
+                        FirebaseAuth auth = FirebaseAuth.getInstance();
+                        AuthCredential firebaseCredential = GoogleAuthProvider.getCredential(idToken, null);
+
+                        auth.signInWithCredential(firebaseCredential)
+                                .addOnCompleteListener(requireActivity(), task -> {
+                                    if (task.isSuccessful()) {
+                                        // Login avvenuto con successo, utente registrato in Firebase
+                                        FirebaseUser firebaseUser = auth.getCurrentUser();
+                                        Log.i(TAG, "Google sign-in success: " + firebaseUser.getEmail());
+
+                                        // Qui puoi eventualmente creare un tuo User e salvarlo nel database
+                                        // oppure navigare alla Home direttamente:
+                                        Navigation.findNavController(requireView())
+                                                .navigate(R.id.action_loginFragment_to_homePageActivity);
+
+                                    } else {
+                                        Log.w(TAG, "Google sign-in failed", task.getException());
+                                        Snackbar.make(requireView(), "Login con Google fallito", Snackbar.LENGTH_SHORT).show();
+                                    }
+                                });
                     }
                 } catch (ApiException e) {
                     Snackbar.make(requireActivity().findViewById(android.R.id.content),
