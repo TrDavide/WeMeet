@@ -72,7 +72,11 @@ public class SettingsFragment extends Fragment {
          */
 
         logoutButton.setOnClickListener(v -> {
+            com.google.firebase.auth.FirebaseAuth.getInstance().signOut();
+
+            // Torna alla WelcomeActivity e cancella lo stack
             Intent intent = new Intent(requireContext(), WelcomeActivity.class);
+            intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TASK);
             startActivity(intent);
         });
 
