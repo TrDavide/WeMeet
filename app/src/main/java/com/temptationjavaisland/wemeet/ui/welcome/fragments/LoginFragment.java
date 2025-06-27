@@ -177,10 +177,6 @@ public class LoginFragment extends Fragment {
                         if (task.isSuccessful()) {
                             FirebaseUser firebaseUser = FirebaseAuth.getInstance().getCurrentUser();
                             if (firebaseUser != null) {
-                                // (Opzionale) Se vuoi anche leggere l’utente dal Realtime Database:
-                                // DatabaseReference database = FirebaseDatabase.getInstance().getReference("utenti");
-                                // database.child(firebaseUser.getUid()).addListenerForSingleValueEvent(...)
-
                                 Navigation.findNavController(v).navigate(R.id.action_loginFragment_to_homePageActivity);
                             }
                         } else {
