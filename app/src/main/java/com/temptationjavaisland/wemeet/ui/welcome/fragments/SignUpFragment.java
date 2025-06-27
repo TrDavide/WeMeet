@@ -46,7 +46,7 @@ import org.apache.commons.validator.routines.EmailValidator;
 public class SignUpFragment extends Fragment {
 
     public static final String TAG = SignUpFragment.class.getSimpleName();
-    private TextInputEditText editTextNome, editTextCognome, editTextEmail, editTextConfermaPassword, editTextPassword;
+    private TextInputEditText editTextEmail, editTextConfermaPassword, editTextPassword;
     private SignInClient oneTapClient;
     private BeginSignInRequest signInRequest;
     private UserViewModel userViewModel;
@@ -94,14 +94,10 @@ public class SignUpFragment extends Fragment {
         // Inflate the layout for this fragment
         View view = inflater.inflate(R.layout.fragment_sign_up, container, false);
 
-        editTextNome = view.findViewById(R.id.inputTextNome);
-        editTextCognome = view.findViewById(R.id.inputTextCognome);
         editTextEmail = view.findViewById(R.id.inputTextEmail);
         editTextPassword = view.findViewById(R.id.inputTextPassword);
         editTextConfermaPassword = view.findViewById(R.id.inputTextConfermaPassword);
 
-        editTextNome.setFilters(new InputFilter[] { new InputFilter.LengthFilter(25) });
-        editTextCognome.setFilters(new InputFilter[] { new InputFilter.LengthFilter(25) });
         editTextEmail.setFilters(new InputFilter[] { new InputFilter.LengthFilter(40) });
         editTextPassword.setFilters(new InputFilter[] { new InputFilter.LengthFilter(20) });
         editTextConfermaPassword.setFilters(new InputFilter[] { new InputFilter.LengthFilter(20) });
@@ -114,63 +110,49 @@ public class SignUpFragment extends Fragment {
         });
 
         registerButton.setOnClickListener(v -> {
-            String nome = editTextNome.getText().toString().trim();
-            String cognome = editTextCognome.getText().toString().trim();
             String email = editTextEmail.getText().toString().trim();
             String password = editTextPassword.getText().toString().trim();
             String confermaPassword = editTextConfermaPassword.getText().toString().trim();
 
-            if(editTextNome.getText() != null){
-                if(editTextCognome.getText() != null){
-                    if(isEmailOk(editTextEmail.getText().toString()) && editTextEmail.getText() != null){
-                        if(editTextPassword.getText() != null && isPasswordOk(editTextPassword.getText().toString())){
-                            if(checkPasswords()/*editTextPassword.getText().toString() == editTextConfermaPassword.getText().toString()*/){
+            if(isEmailOk(editTextEmail.getText().toString()) && editTextEmail.getText() != null){
+                if(editTextPassword.getText() != null && isPasswordOk(editTextPassword.getText().toString())){
+                    if(checkPasswords()/*editTextPassword.getText().toString() == editTextConfermaPassword.getText().toString()*/){
 
-                                if (!userViewModel.isAuthenticationError()) {
-                                    userViewModel.getUserMutableLiveData(email, password, false).observe(
-                                            getViewLifecycleOwner(), result -> {
-                                                if (result.isSuccess()) {
-                                                    User user = ((Result.UserSuccess) result).getData();
-                                                    //saveLoginData(email, password, user.getIdToken());
-                                                    userViewModel.setAuthenticationError(false);
-                                                    Navigation.findNavController(view).navigate(
-                                                            R.id.action_signUpFragment_to_homePageActivity);
-                                                } else {
-                                                    userViewModel.setAuthenticationError(true);
-                                                    Snackbar.make(requireActivity().findViewById(android.R.id.content),
-                                                            getErrorMessage(((Result.Error) result).getMessage()),
-                                                            Snackbar.LENGTH_SHORT).show();
-                                                }
-                                            });
-                                } else {
-                                    userViewModel.getUser(email, password, false);
-                                }
-
-                                Navigation.findNavController(v).navigate(R.id.action_signUpFragment_to_homePageActivity);
-                            }else{
-                                editTextConfermaPassword.setError("Le password non corrispondono");
-                                userViewModel.setAuthenticationError(true);
-                                Snackbar.make(view, "Reinserisci la password", Snackbar.LENGTH_SHORT)
-                                        .show();
-                            }
-                        }else{
-                            userViewModel.setAuthenticationError(true);
-                            Snackbar.make(view, "Inserisci una password corretta", Snackbar.LENGTH_SHORT)
-                                    .show();
+                        if (!userViewModel.isAuthenticationError()) {
+                            userViewModel.getUserMutableLiveData(email, password, false).observe(
+                                    getViewLifecycleOwner(), result -> {
+                                        if (result.isSuccess()) {
+                                            User user = ((Result.UserSuccess) result).getData();
+                                            //saveLoginData(email, password, user.getIdToken());
+                                            userViewModel.setAuthenticationError(false);
+                                            Navigation.findNavController(view).navigate(
+                                                    R.id.action_signUpFragment_to_homePageActivity);
+                                        } else {
+                                            userViewModel.setAuthenticationError(true);
+                                            Snackbar.make(requireActivity().findViewById(android.R.id.content),
+                                                    getErrorMessage(((Result.Error) result).getMessage()),
+                                                    Snackbar.LENGTH_SHORT).show();
+                                        }
+                                    });
+                        } else {
+                            userViewModel.getUser(email, password, false);
                         }
+
+                        Navigation.findNavController(v).navigate(R.id.action_signUpFragment_to_homePageActivity);
                     }else{
+                        editTextConfermaPassword.setError("Le password non corrispondono");
                         userViewModel.setAuthenticationError(true);
-                        Snackbar.make(view, "Inserisci una mail corretta", Snackbar.LENGTH_SHORT)
+                        Snackbar.make(view, "Reinserisci la password", Snackbar.LENGTH_SHORT)
                                 .show();
                     }
                 }else{
                     userViewModel.setAuthenticationError(true);
-                    Snackbar.make(view, "Inserisci il cognome", Snackbar.LENGTH_SHORT)
+                    Snackbar.make(view, "Inserisci una password corretta", Snackbar.LENGTH_SHORT)
                             .show();
                 }
             }else{
                 userViewModel.setAuthenticationError(true);
-                Snackbar.make(view, "Inserisci il nome", Snackbar.LENGTH_SHORT)
+                Snackbar.make(view, "Inserisci una mail corretta", Snackbar.LENGTH_SHORT)
                         .show();
             }
         });

@@ -50,61 +50,13 @@
         android:backgroundTint="@color/white"
         android:background="@drawable/border">
 
-        <TextView
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_marginStart="@dimen/margin_default2"
-            android:layout_marginTop="15dp"
-            android:fontFamily="@font/open_sans_bold"
-            android:text="@string/nome"
-            android:textStyle="bold" />
 
-        <com.google.android.material.textfield.TextInputLayout
-            style="?attr/textInputOutlinedStyle"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_marginStart="@dimen/margin_default2"
-            android:layout_marginEnd="@dimen/margin_default2"
-            android:hint="@string/mario">
-
-            <com.google.android.material.textfield.TextInputEditText
-                android:id="@+id/inputTextNome"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:singleLine="true"/>
-
-        </com.google.android.material.textfield.TextInputLayout>
 
         <TextView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginStart="@dimen/margin_default2"
-            android:layout_marginTop="15dp"
-            android:fontFamily="@font/open_sans_bold"
-            android:text="@string/cognome"
-            android:textStyle="bold" />
-
-        <com.google.android.material.textfield.TextInputLayout
-            style="?attr/textInputOutlinedStyle"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_marginStart="@dimen/margin_default2"
-            android:layout_marginEnd="@dimen/margin_default2"
-            android:hint="@string/rossi">
-
-            <com.google.android.material.textfield.TextInputEditText
-                android:id="@+id/inputTextCognome"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:singleLine="true"/>
-
-        </com.google.android.material.textfield.TextInputLayout>
-
-        <TextView
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_marginStart="@dimen/margin_default2"
-            android:layout_marginTop="15dp"
+            android:layout_marginTop="25dp"
             android:fontFamily="@font/open_sans_bold"
             android:text="@string/email"
             android:textStyle="bold" />
@@ -130,7 +82,7 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginStart="@dimen/margin_default2"
-            android:layout_marginTop="15dp"
+            android:layout_marginTop="25dp"
             android:fontFamily="@font/open_sans_bold"
             android:text="@string/password"
             android:textStyle="bold" />
@@ -157,7 +109,7 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginStart="@dimen/margin_default2"
-            android:layout_marginTop="15dp"
+            android:layout_marginTop="25dp"
             android:fontFamily="@font/open_sans_bold"
             android:text="@string/confermapassword"
             android:textStyle="bold" />
@@ -186,7 +138,7 @@
             android:layout_height="wrap_content"
             android:layout_gravity="center"
             android:layout_marginStart="40dp"
-            android:layout_marginTop="10dp"
+            android:layout_marginTop="50dp"
             android:layout_marginEnd="40dp"
             android:fontFamily="@font/open_sans_bold"
             android:padding="15dp"
