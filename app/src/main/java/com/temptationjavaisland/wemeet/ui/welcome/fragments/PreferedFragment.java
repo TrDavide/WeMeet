@@ -91,6 +91,7 @@ public class PreferedFragment extends Fragment {
                         Event event = eventList.get(position);
                         event.setSaved(!event.isSaved());
                         eventViewModel.updateEvent(event);
+                        userViewModel.removeUserPreferedEvent(userViewModel.getLoggedUser().getIdToken(), eventList.get(position).getId());
                     }
                 });
 
