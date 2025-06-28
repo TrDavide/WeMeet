@@ -4,6 +4,7 @@ import androidx.lifecycle.MutableLiveData;
 import androidx.lifecycle.ViewModel;
 
 import com.temptationjavaisland.wemeet.model.Event;
+import com.temptationjavaisland.wemeet.model.EventAPIResponse;
 import com.temptationjavaisland.wemeet.model.Result;
 import com.temptationjavaisland.wemeet.model.User;
 import com.temptationjavaisland.wemeet.repository.User.IUserRepository;

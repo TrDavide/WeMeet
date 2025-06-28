@@ -19,4 +19,5 @@ public interface IUserRepository {
     void signInWithGoogle(String token);
     void saveUserPreferedEvent(String idToken, Event event);
     void removeUserPreferedEvent(String idToken, String eventId);
+
 }

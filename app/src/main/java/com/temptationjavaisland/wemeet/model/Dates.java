@@ -204,6 +204,9 @@ public class Dates implements Parcelable {
             this.code = code;
         }
 
+        public Status() {
+        }
+
         // Getter e Setter
         public String getCode() {
             return code;
