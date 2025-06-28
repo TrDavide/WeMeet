@@ -28,8 +28,7 @@ public class UserRepository implements IUserRepository, UserResponseCallback, Ev
     private final BaseUserDataRemoteDataSource userDataRemoteDataSource;
     private final BaseEventLocalDataSource articleLocalDataSource;
     private final MutableLiveData<Result> userMutableLiveData;
-    private final MutableLiveData<Result> userFavoriteNewsMutableLiveData;
-    private final MutableLiveData<Result> userPreferencesMutableLiveData;
+    private final MutableLiveData<Result> userPreferedEventsMutableLiveData;
 
     public UserRepository(BaseUserAuthenticationRemoteDataSource userRemoteDataSource,
                           BaseUserDataRemoteDataSource userDataRemoteDataSource,
@@ -38,8 +37,7 @@ public class UserRepository implements IUserRepository, UserResponseCallback, Ev
         this.userDataRemoteDataSource = userDataRemoteDataSource;
         this.articleLocalDataSource = eventsLocalDataSource;
         this.userMutableLiveData = new MutableLiveData<>();
-        this.userPreferencesMutableLiveData = new MutableLiveData<>();
-        this.userFavoriteNewsMutableLiveData = new MutableLiveData<>();
+        this.userPreferedEventsMutableLiveData = new MutableLiveData<>();
         this.userRemoteDataSource.setUserResponseCallback(this);
         this.userDataRemoteDataSource.setUserResponseCallback(this);
         this.articleLocalDataSource.setEventCallback(this);
@@ -64,7 +62,7 @@ public class UserRepository implements IUserRepository, UserResponseCallback, Ev
     @Override
     public MutableLiveData<Result> getUserPreferedEvents(String idToken) {
         userDataRemoteDataSource.getUserPreferedEvents(idToken);
-        return userFavoriteNewsMutableLiveData;
+        return userPreferedEventsMutableLiveData;
     }
 
     @Override
