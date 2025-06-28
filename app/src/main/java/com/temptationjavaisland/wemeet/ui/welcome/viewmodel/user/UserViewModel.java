@@ -3,6 +3,8 @@ package com.temptationjavaisland.wemeet.ui.welcome.viewmodel.user;
 import androidx.lifecycle.MutableLiveData;
 import androidx.lifecycle.ViewModel;
 
+import com.temptationjavaisland.wemeet.model.Event;
+import com.temptationjavaisland.wemeet.model.EventAPIResponse;
 import com.temptationjavaisland.wemeet.model.Result;
 import com.temptationjavaisland.wemeet.model.User;
 import com.temptationjavaisland.wemeet.repository.User.IUserRepository;
@@ -61,6 +63,14 @@ public class UserViewModel extends ViewModel {
 
     private void getUserPreferedEvents(String idToken) {
         userPreferedEventsMutableLiveData = userRepository.getUserPreferedEvents(idToken);
+    }
+
+    public void saveUserPreferedEvent(String idToken, Event event) {
+        userRepository.saveUserPreferedEvent(idToken, event);
+    }
+
+    public void removeUserPreferedEvent(String idToken, String eventId){
+        userRepository.removeUserPreferedEvent(idToken, eventId);
     }
 
     public void getUser(String email, String password, boolean isUserRegistered) {

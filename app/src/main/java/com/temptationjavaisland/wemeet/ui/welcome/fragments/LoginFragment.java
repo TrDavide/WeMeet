@@ -170,13 +170,21 @@ public class LoginFragment extends Fragment {
         loginButton.setOnClickListener(v -> {
             if(isEmailOk(editTextEmail.getText().toString()) && editTextEmail.getText() != null/*editTextEmail.getText() != null && isEmailOk(editTextEmail.getText().toString())*/){
                 if(editTextPassword.getText() != null && isPasswordOk(editTextPassword.getText().toString())){
-                    /*Intent intent = new Intent(getActivity(), HomePageActivity.class);
-                    try {
-                        startActivity(intent);
-                    }catch (ActivityNotFoundException e){
+                    FirebaseAuth.getInstance().signInWithEmailAndPassword(
+                            editTextEmail.getText().toString().trim(),
+                            editTextPassword.getText().toString().trim()
+                    ).addOnCompleteListener(task -> {
+                        if (task.isSuccessful()) {
+                            FirebaseUser firebaseUser = FirebaseAuth.getInstance().getCurrentUser();
+                            if (firebaseUser != null) {
+                                Log.d("FirebaseTest", "Utente corrente: " + FirebaseAuth.getInstance().getCurrentUser());
+                                Navigation.findNavController(v).navigate(R.id.action_loginFragment_to_homePageActivity);
+                            }
+                        } else {
+                            Snackbar.make(view, "Credenziali errate o utente non registrato", Snackbar.LENGTH_SHORT).show();
+                        }
+                    });
 
-                    }*/
-                    Navigation.findNavController(v).navigate(R.id.action_loginFragment_to_homePageActivity); //cambio pagina con navigation
                 } else{
                     //editTextPassword.setError("The password must have at least 8 chars");
                     Snackbar.make(view, "Inserisci una password corretta", Snackbar.LENGTH_SHORT)

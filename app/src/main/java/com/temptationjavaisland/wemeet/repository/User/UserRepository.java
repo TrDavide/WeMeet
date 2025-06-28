@@ -1,5 +1,7 @@
 package com.temptationjavaisland.wemeet.repository.User;
 
+import android.util.Log;
+
 import androidx.lifecycle.MutableLiveData;
 
 import com.temptationjavaisland.wemeet.repository.Event.EventResponseCallback;
@@ -26,8 +28,7 @@ public class UserRepository implements IUserRepository, UserResponseCallback, Ev
     private final BaseUserDataRemoteDataSource userDataRemoteDataSource;
     private final BaseEventLocalDataSource articleLocalDataSource;
     private final MutableLiveData<Result> userMutableLiveData;
-    private final MutableLiveData<Result> userFavoriteNewsMutableLiveData;
-    private final MutableLiveData<Result> userPreferencesMutableLiveData;
+    private final MutableLiveData<Result> userPreferedEventsMutableLiveData;
 
     public UserRepository(BaseUserAuthenticationRemoteDataSource userRemoteDataSource,
                           BaseUserDataRemoteDataSource userDataRemoteDataSource,
@@ -36,8 +37,7 @@ public class UserRepository implements IUserRepository, UserResponseCallback, Ev
         this.userDataRemoteDataSource = userDataRemoteDataSource;
         this.articleLocalDataSource = eventsLocalDataSource;
         this.userMutableLiveData = new MutableLiveData<>();
-        this.userPreferencesMutableLiveData = new MutableLiveData<>();
-        this.userFavoriteNewsMutableLiveData = new MutableLiveData<>();
+        this.userPreferedEventsMutableLiveData = new MutableLiveData<>();
         this.userRemoteDataSource.setUserResponseCallback(this);
         this.userDataRemoteDataSource.setUserResponseCallback(this);
         this.articleLocalDataSource.setEventCallback(this);
@@ -62,8 +62,20 @@ public class UserRepository implements IUserRepository, UserResponseCallback, Ev
     @Override
     public MutableLiveData<Result> getUserPreferedEvents(String idToken) {
         userDataRemoteDataSource.getUserPreferedEvents(idToken);
-        return userFavoriteNewsMutableLiveData;
+        return userPreferedEventsMutableLiveData;
     }
+
+    @Override
+    public void saveUserPreferedEvent(String idToken, Event event) {
+        userDataRemoteDataSource.saveUserPreferedEvent(idToken, event);
+    }
+
+    @Override
+    public void removeUserPreferedEvent(String idToken, String eventId) {
+        userDataRemoteDataSource.removeUserPreferedEvent(idToken, eventId);
+    }
+
+
 
     @Override
     public User getLoggedUser() {
@@ -175,4 +187,20 @@ public class UserRepository implements IUserRepository, UserResponseCallback, Ev
     public void onFailureFromCloud(Exception exception) {
 
     }
+
+    @Override
+    public void onSuccessRemoveFavoriteEvent() {
+        // Qui puoi notificare al LiveData o fare altre operazioni di successo
+        Log.d(TAG, "Evento preferito rimosso con successo");
+        // Esempio: userFavoriteNewsMutableLiveData.postValue(...);
+    }
+
+    @Override
+    public void onFailureRemoveFavoriteEvent(String error) {
+        Log.e(TAG, "Errore rimozione evento preferito: " + error);
+        // Puoi notificare errore al LiveData o altro
+    }
+
+
+
 }

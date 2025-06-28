@@ -11,6 +11,7 @@ firebaseBom = "33.15.0"
 glide = "4.16.0"
 googleid = "1.1.1"
 googleMaterial = "1.11.0"
+googleServices = "4.4.3"
 gson = "2.13.0"
 junit = "4.13.2"
 junitVersion = "1.1.5"
@@ -47,6 +48,7 @@ credentials-v130 = { module = "androidx.credentials:credentials", version.ref = 
 firebase-auth = { module = "com.google.firebase:firebase-auth" }
 firebase-bom = { module = "com.google.firebase:firebase-bom", version.ref = "firebaseBom" }
 glide = { module = "com.github.bumptech.glide:glide", version.ref = "glide" }
+google-services = { module = "com.google.gms:google-services", version.ref = "googleServices" }
 googleid = { module = "com.google.android.libraries.identity.googleid:googleid", version.ref = "googleid" }
 gson = { module = "com.google.code.gson:gson", version.ref = "gson" }
 junit = { group = "junit", name = "junit", version.ref = "junit" }
