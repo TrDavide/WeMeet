@@ -35,6 +35,14 @@ public class EventRepository implements EventResponseCallback {
         this.eventLocalDataSource.setEventCallback(this);
     }
 
+    public void clearLocalEvents() {
+        eventLocalDataSource.clearAllEvents();
+    }
+
+    public List <Event> ottineiEventiSalvatiLocal() {
+        return eventLocalDataSource.ottieniEventisalvati();
+    }
+
     public MutableLiveData<Result> fetchEventsLocation(String latlong, int radius, String unit, String locale, long lastUpdate) {
         long currentTime = System.currentTimeMillis();
 
@@ -166,4 +174,8 @@ public class EventRepository implements EventResponseCallback {
         eventLocalDataSource.getPreferedEvents();
     }
 
+
+    public void insertEvents(List<Event> events) {
+        eventLocalDataSource.insertEvents(events);
+    }
 }

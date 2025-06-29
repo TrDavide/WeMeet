@@ -14,6 +14,7 @@ import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.core.content.ContextCompat;
 import androidx.fragment.app.Fragment;
+import androidx.lifecycle.ViewModelProvider;
 import androidx.navigation.NavController;
 import androidx.navigation.Navigation;
 
@@ -26,7 +27,15 @@ import android.widget.Button;
 import com.google.android.material.bottomnavigation.BottomNavigationView;
 import com.google.android.material.button.MaterialButton;
 import com.temptationjavaisland.wemeet.R;
+import com.temptationjavaisland.wemeet.model.Result;
+import com.temptationjavaisland.wemeet.repository.User.IUserRepository;
+import com.temptationjavaisland.wemeet.ui.welcome.LoginActivity;
 import com.temptationjavaisland.wemeet.ui.welcome.WelcomeActivity;
+import com.temptationjavaisland.wemeet.ui.welcome.viewmodel.event.EventViewModel;
+import com.temptationjavaisland.wemeet.ui.welcome.viewmodel.user.UserViewModel;
+import com.temptationjavaisland.wemeet.ui.welcome.viewmodel.user.UserViewModelFactory;
+import com.temptationjavaisland.wemeet.util.ServiceLocator;
+
 import android.content.SharedPreferences;
 import android.preference.PreferenceManager;
 import android.widget.ImageView;
@@ -42,6 +51,8 @@ public class SettingsFragment extends Fragment {
     private SharedPreferences preferences;
     private ActivityResultLauncher<Intent> pickImageLauncher;
     private ActivityResultLauncher<String> requestPermissionLauncher;
+    private UserViewModel userViewModel;
+    private EventViewModel eventViewModel;
 
     public SettingsFragment() {}
 
@@ -74,6 +85,20 @@ public class SettingsFragment extends Fragment {
                         Toast.makeText(requireContext(), "Permesso negato, impossibile aprire la galleria", Toast.LENGTH_SHORT).show();
                     }
                 });
+
+        IUserRepository userRepository = ServiceLocator.getInstance().getUserRepository(requireActivity().getApplication());
+        userViewModel = new ViewModelProvider(requireActivity(), new UserViewModelFactory(userRepository)).get(UserViewModel.class);
+
+        eventViewModel = new ViewModelProvider(
+                requireActivity(),
+                new com.temptationjavaisland.wemeet.ui.welcome.viewmodel.event.EventViewModelFactory(
+                        ServiceLocator.getInstance().getEventRepository(
+                                requireActivity().getApplication(),
+                                requireActivity().getResources().getBoolean(R.bool.debug_mode)
+                        )
+                )
+        ).get(EventViewModel.class);
+
     }
 
     @Override
@@ -94,7 +119,10 @@ public class SettingsFragment extends Fragment {
         NavController navController = Navigation.findNavController(view);
 
         MaterialButton logoutButton = view.findViewById(R.id.bottone_logout);
+
+
         logoutButton.setOnClickListener(v -> {
+            eventViewModel.clearLocalEvents();
             com.google.firebase.auth.FirebaseAuth.getInstance().signOut();
 
             // Torna alla WelcomeActivity e cancella lo stack
@@ -102,6 +130,7 @@ public class SettingsFragment extends Fragment {
             intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TASK);
             startActivity(intent);
         });
+        //logoutButton.setOnClickListener(v -> userViewModel.logout());
 
         MaterialButton temaButton = view.findViewById(R.id.bottone_tema);
         boolean isNightMode = (AppCompatDelegate.getDefaultNightMode() == AppCompatDelegate.MODE_NIGHT_YES) ||

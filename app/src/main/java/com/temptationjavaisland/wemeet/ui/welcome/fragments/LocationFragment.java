@@ -23,8 +23,11 @@ import com.temptationjavaisland.wemeet.model.Event;
 import com.temptationjavaisland.wemeet.model.EventAPIResponse;
 import com.temptationjavaisland.wemeet.model.Result;
 import com.temptationjavaisland.wemeet.repository.Event.EventRepository;
+import com.temptationjavaisland.wemeet.repository.User.IUserRepository;
 import com.temptationjavaisland.wemeet.ui.welcome.viewmodel.event.EventViewModel;
 import com.temptationjavaisland.wemeet.ui.welcome.viewmodel.event.EventViewModelFactory;
+import com.temptationjavaisland.wemeet.ui.welcome.viewmodel.user.UserViewModel;
+import com.temptationjavaisland.wemeet.ui.welcome.viewmodel.user.UserViewModelFactory;
 import com.temptationjavaisland.wemeet.util.ServiceLocator;
 
 import java.util.ArrayList;
@@ -40,6 +43,7 @@ public class LocationFragment extends Fragment {
     private LinearLayout layoutEmptyState;
     private List<Event> eventList;
     private EventViewModel eventViewModel;
+    private UserViewModel userViewModel;
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
@@ -54,6 +58,10 @@ public class LocationFragment extends Fragment {
         eventViewModel = new ViewModelProvider(
                 requireActivity(),
                 new EventViewModelFactory(eventRepository)).get(EventViewModel.class);
+
+        IUserRepository userRepository = ServiceLocator.getInstance().getUserRepository(requireActivity().getApplication());
+        userViewModel = new ViewModelProvider(requireActivity(), new UserViewModelFactory(userRepository)).get(UserViewModel.class);
+
 
         eventList = new ArrayList<>();
     }
@@ -91,21 +99,10 @@ public class LocationFragment extends Fragment {
                 Event event = eventList.get(position);
                 event.setSaved(!event.isSaved());
 
-                if (event.getUid() == 0) {
-                    EventRoomDatabase.databaseWriteExecutor.execute(() -> {
-                        long newId = EventRoomDatabase.getDatabase(recyclerView.getContext())
-                                .eventsDao()
-                                .insertEventsList(List.of(event))
-                                .get(0);
-                        event.setUid((int) newId);
+                eventViewModel.updateEvent(event); // salva localmente
+                // salva nel Realtime Database
+                userViewModel.saveUserPreferedEvent(userViewModel.getLoggedUser().getIdToken(), event);
 
-                        EventRoomDatabase.getDatabase(recyclerView.getContext())
-                                .eventsDao()
-                                .updateEvent(event);
-                    });
-                } else {
-                    eventViewModel.updateEvent(event);
-                }
             }
         });
 

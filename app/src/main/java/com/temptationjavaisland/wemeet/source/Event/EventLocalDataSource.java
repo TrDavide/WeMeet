@@ -3,6 +3,8 @@ import com.temptationjavaisland.wemeet.database.EventDAO;
 import com.temptationjavaisland.wemeet.database.EventRoomDatabase;
 import com.temptationjavaisland.wemeet.model.Event;
 
+import org.apache.commons.digester.annotations.rules.SetTop;
+
 import java.util.List;
 
 /**
@@ -14,6 +16,19 @@ public class EventLocalDataSource extends BaseEventLocalDataSource {
 
     public EventLocalDataSource(EventRoomDatabase eventRoomDatabase) {
         this.eventDAO = eventRoomDatabase.eventsDao();
+    }
+
+    public void clearAllEvents() {
+        EventRoomDatabase.databaseWriteExecutor.execute(() -> {
+            eventDAO.deleteAll();
+        });
+    }
+
+    public List<Event> ottieniEventisalvati() {
+        /*EventRoomDatabase.databaseWriteExecutor.execute(() -> {
+            eventDAO.getSaved();
+        });*/
+        return eventDAO.getSaved();
     }
 
     @Override

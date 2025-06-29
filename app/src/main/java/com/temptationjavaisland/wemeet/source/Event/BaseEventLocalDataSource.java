@@ -14,6 +14,10 @@ public abstract class BaseEventLocalDataSource {
 
     public abstract void getEvents();
 
+    public abstract void clearAllEvents();
+
+    public abstract List<Event> ottieniEventisalvati();
+
     public abstract void getPreferedEvents();
 
     public abstract void updateEvent(Event event);
@@ -21,4 +25,5 @@ public abstract class BaseEventLocalDataSource {
     public abstract void deletePreferedEvents();
 
     public abstract void insertEvents(List<Event> eventList);
+
 }
