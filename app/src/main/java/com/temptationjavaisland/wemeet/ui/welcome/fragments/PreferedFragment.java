@@ -121,10 +121,6 @@ public class PreferedFragment extends Fragment {
                 eventList.clear();
                 eventList.addAll(localEvents);
                 adapter.notifyDataSetChanged();
-                for (Event event : localEvents) {
-                    eventViewModel.updateEvent(event);
-                }
-
             }
         });
 
@@ -134,7 +130,6 @@ public class PreferedFragment extends Fragment {
                 .observe(getViewLifecycleOwner(), result -> {
                     if (result instanceof Result.EventSuccess) {
                         List<Event> remoteEvents = ((Result.EventSuccess) result).getData().getEmbedded().getEvents();
-
                         // salva nel locale
                         eventViewModel.insertEvents(remoteEvents);
 

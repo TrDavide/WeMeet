@@ -61,7 +61,9 @@ public class EventViewModel extends ViewModel {
         return preferedEventsListLiveData;
     }
 
-
+    public void updateEvent2() {
+        eventRepository.getPreferedEvents();
+    }
 
     public void updateEvent(Event event) {
         eventRepository.updateEvent(event);

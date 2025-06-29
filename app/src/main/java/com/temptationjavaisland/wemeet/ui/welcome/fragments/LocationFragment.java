@@ -96,13 +96,10 @@ public class LocationFragment extends Fragment {
 
             @Override
             public void onFavoriteButtonPressed(int position) {
-                Event event = eventList.get(position);
-                event.setSaved(!event.isSaved());
+                eventList.get(position).setSaved(!eventList.get(position).isSaved());
+                eventViewModel.updateEvent(eventList.get(position));
 
-                eventViewModel.updateEvent(event); // salva localmente
-                // salva nel Realtime Database
-                userViewModel.saveUserPreferedEvent(userViewModel.getLoggedUser().getIdToken(), event);
-
+                userViewModel.saveUserPreferedEvent(userViewModel.getLoggedUser().getIdToken(), eventList.get(position));
             }
         });
 
