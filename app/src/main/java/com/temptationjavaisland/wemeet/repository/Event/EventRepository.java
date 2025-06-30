@@ -2,6 +2,7 @@ package com.temptationjavaisland.wemeet.repository.Event;
 
 import static com.temptationjavaisland.wemeet.util.Constants.FRESH_TIMEOUT;
 
+import androidx.lifecycle.LiveData;
 import androidx.lifecycle.MutableLiveData;
 
 import com.temptationjavaisland.wemeet.database.EventRoomDatabase;
@@ -39,6 +40,8 @@ public class EventRepository implements EventResponseCallback {
     public void clearLocalEvents() {
         eventLocalDataSource.clearAllEvents();
     }
+
+
 
     public List <Event> ottineiEventiSalvatiLocal() {
         return eventLocalDataSource.ottieniEventisalvati();
@@ -152,6 +155,10 @@ public class EventRepository implements EventResponseCallback {
 
     public void onFavoriteStatusChanged(List<Event> preferedEvents) {
         preferedEventsMutableLiveData.postValue(new Result.EventSuccess(buildResponseFromEvents(preferedEvents)));
+    }
+
+    public LiveData<List<Event>> getSavedEventsLiveData() {
+        return eventLocalDataSource.getSavedEventsLiveData();
     }
 
     public void onDeleteFavoriteSuccess(List<Event> preferedEvents) {

@@ -21,13 +21,19 @@ public class EventViewModel extends ViewModel {
     private final int page;
     private MutableLiveData<Result> eventsListLiveData;
     private MutableLiveData<Result> preferedEventsListLiveData;
+    private final LiveData<List<Event>> savedEventsLiveData;
 
     public EventViewModel(EventRepository eventRepository) {
         this.eventRepository = eventRepository;
+        this.savedEventsLiveData = eventRepository.getSavedEventsLiveData();
         this.page = 1;
     }
     public void clearLocalEvents() {
         eventRepository.clearLocalEvents();
+    }
+
+    public LiveData<List<Event>> getSavedEventsLiveData() {
+        return savedEventsLiveData;
     }
 
     public void insertEvents(List<Event> events) {
@@ -104,5 +110,7 @@ public class EventViewModel extends ViewModel {
     public void refreshPreferedEvents() {
         eventRepository.refreshPreferedEvents();
     }
+
+
 
 }

@@ -2,6 +2,7 @@ package com.temptationjavaisland.wemeet.ui.welcome.fragments;
 
 import static com.temptationjavaisland.wemeet.util.Constants.FIREBASE_REALTIME_DATABASE;
 
+import android.app.Activity;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.net.Uri;
@@ -14,10 +15,12 @@ import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.TextView;
 
+import androidx.activity.result.contract.ActivityResultContracts;
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatDelegate;
 import androidx.fragment.app.Fragment;
+import androidx.lifecycle.ViewModelProvider;
 import androidx.navigation.NavController;
 import androidx.navigation.Navigation;
 
@@ -26,6 +29,7 @@ import com.google.android.material.button.MaterialButton;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 import com.temptationjavaisland.wemeet.R;
+import com.temptationjavaisland.wemeet.repository.User.IUserRepository;
 import com.temptationjavaisland.wemeet.ui.welcome.WelcomeActivity;
 import com.temptationjavaisland.wemeet.ui.welcome.viewmodel.event.EventViewModel;
 import com.temptationjavaisland.wemeet.ui.welcome.viewmodel.user.UserViewModel;
@@ -33,6 +37,8 @@ import com.temptationjavaisland.wemeet.source.User.UserFirebaseDataSource;
 import com.google.android.material.dialog.MaterialAlertDialogBuilder;
 import com.google.firebase.auth.FirebaseUser;
 import com.google.firebase.auth.FirebaseAuth;
+import com.temptationjavaisland.wemeet.ui.welcome.viewmodel.user.UserViewModelFactory;
+import com.temptationjavaisland.wemeet.util.ServiceLocator;
 
 
 public class ProfileFragment extends Fragment {

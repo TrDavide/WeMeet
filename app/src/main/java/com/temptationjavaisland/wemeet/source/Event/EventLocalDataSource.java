@@ -1,4 +1,6 @@
 package com.temptationjavaisland.wemeet.source.Event;
+import androidx.lifecycle.LiveData;
+
 import com.temptationjavaisland.wemeet.database.EventDAO;
 import com.temptationjavaisland.wemeet.database.EventRoomDatabase;
 import com.temptationjavaisland.wemeet.model.Event;
@@ -29,6 +31,10 @@ public class EventLocalDataSource extends BaseEventLocalDataSource {
             eventDAO.getSaved();
         });*/
         return eventDAO.getSaved();
+    }
+
+    public LiveData<List<Event>> getSavedEventsLiveData() {
+        return eventDAO.getSavedEventsLiveData();
     }
 
     public void insertOrUpdateEvent(Event event) {
@@ -68,7 +74,7 @@ public class EventLocalDataSource extends BaseEventLocalDataSource {
     }
 
     @Override
-    public void updateEvent(Event event) { 
+    public void updateEvent(Event event) {
         EventRoomDatabase.databaseWriteExecutor.execute(() -> {
             int rowUpdatedCounter  = eventDAO.updateEvent(event);
             if (rowUpdatedCounter == 1) {
