@@ -71,7 +71,10 @@ public class UserViewModel extends ViewModel {
 
     public void removeUserPreferedEvent(String idToken, String eventId){
         userRepository.removeUserPreferedEvent(idToken, eventId);
+        getUserPreferedEvents(idToken);
     }
+
+
 
     public void getUser(String email, String password, boolean isUserRegistered) {
         userRepository.getUser(email, password, isUserRegistered);

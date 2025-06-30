@@ -44,7 +44,7 @@ public interface EventDAO {
     void deleteAll();
 
     @Query("DELETE FROM event WHERE uid = :eventId")
-    void deleteById(int eventId);
+    void deleteById(String eventId);
 
     @Query("DELETE FROM Event WHERE saved = 1") //Per elimina preferiti
     void deleteAllSavedEvents();
@@ -58,5 +58,7 @@ public interface EventDAO {
     @Query("SELECT * FROM Event WHERE saved = 1")
     List<Event> isSaved();
 
+    @Query("UPDATE Event SET saved = 0 WHERE id = :eventId")
+    void unsetFavorite(String eventId);
 
 }

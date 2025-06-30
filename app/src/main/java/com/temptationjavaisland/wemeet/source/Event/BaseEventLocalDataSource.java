@@ -16,6 +16,10 @@ public abstract class BaseEventLocalDataSource {
 
     public abstract void clearAllEvents();
 
+    public abstract void insertOrUpdateEvent(Event event);
+
+    public abstract void unsetFavorite(String eventId);
+
     public abstract List<Event> ottieniEventisalvati();
 
     public abstract void getPreferedEvents();

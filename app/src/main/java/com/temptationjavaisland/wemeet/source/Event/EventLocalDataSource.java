@@ -31,6 +31,23 @@ public class EventLocalDataSource extends BaseEventLocalDataSource {
         return eventDAO.getSaved();
     }
 
+    public void insertOrUpdateEvent(Event event) {
+        EventRoomDatabase.databaseWriteExecutor.execute(() -> {
+            if (event.getUid() == 0) {
+                long newId = eventDAO.insertEventsList(List.of(event)).get(0);
+                event.setUid((int) newId);
+            } else {
+                eventDAO.updateEvent(event);
+            }
+        });
+    }
+
+    public void unsetFavorite(String eventId) {
+        EventRoomDatabase.databaseWriteExecutor.execute(() -> {
+            eventDAO.unsetFavorite(eventId);
+        });
+    }
+
     @Override
     public void getEvents() {
         EventRoomDatabase.databaseWriteExecutor.execute(() -> {

@@ -62,7 +62,6 @@ public class LocationFragment extends Fragment {
         IUserRepository userRepository = ServiceLocator.getInstance().getUserRepository(requireActivity().getApplication());
         userViewModel = new ViewModelProvider(requireActivity(), new UserViewModelFactory(userRepository)).get(UserViewModel.class);
 
-
         eventList = new ArrayList<>();
     }
 
@@ -96,10 +95,19 @@ public class LocationFragment extends Fragment {
 
             @Override
             public void onFavoriteButtonPressed(int position) {
-                eventList.get(position).setSaved(!eventList.get(position).isSaved());
-                eventViewModel.updateEvent(eventList.get(position));
+                Event event = eventList.get(position);
+                boolean newSavedState = !event.isSaved();
+                event.setSaved(newSavedState);
 
-                userViewModel.saveUserPreferedEvent(userViewModel.getLoggedUser().getIdToken(), eventList.get(position));
+                if (newSavedState) {
+                    eventViewModel.insertEvent(event);
+                    userViewModel.saveUserPreferedEvent(userViewModel.getLoggedUser().getIdToken(), event);
+                } else {
+                    eventViewModel.unsetFavorite(event.getId()); //ora aggiorna anche nel DB locale
+                    userViewModel.removeUserPreferedEvent(userViewModel.getLoggedUser().getIdToken(), event.getId());
+                }
+
+                adapter.notifyItemChanged(position);
             }
         });
 

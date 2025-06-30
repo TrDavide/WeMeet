@@ -38,6 +38,14 @@ public class EventViewModel extends ViewModel {
         return eventRepository.ottineiEventiSalvatiLocal();
     }
 
+    public void insertEvent(Event event) {
+        eventRepository.insertEvent(event);
+    }
+
+    public void unsetFavorite(String eventId) {
+        eventRepository.unsetFavorite(eventId);
+    }
+
     /*public MutableLiveData<Result> getEvents(String country, String city, String keyword, int page, long lastUpdate) {
         if (eventsListLiveData == null) {
             fetchEvents(country,city, keyword,page, lastUpdate);

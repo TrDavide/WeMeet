@@ -30,6 +30,7 @@ import com.temptationjavaisland.wemeet.ui.welcome.viewmodel.user.UserViewModelFa
 import com.temptationjavaisland.wemeet.util.ServiceLocator;
 
 import java.util.ArrayList;
+import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
 import java.util.stream.Collectors;
@@ -64,6 +65,39 @@ public class PreferedFragment extends Fragment {
         IUserRepository userRepository = ServiceLocator.getInstance().getUserRepository(requireActivity().getApplication());
         userViewModel = new ViewModelProvider(requireActivity(), new UserViewModelFactory(userRepository)).get(UserViewModel.class);
         eventList = new ArrayList<>();
+    }
+
+    @Override
+    public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
+        super.onViewCreated(view, savedInstanceState);
+
+        BottomNavigationView bottomNav = requireActivity().findViewById(R.id.bottom_navigation);
+        if (bottomNav != null) bottomNav.setVisibility(View.VISIBLE);
+
+        // 1. Mostra subito i preferiti locali
+        eventViewModel.getPreferedEventsLiveData().observe(getViewLifecycleOwner(), result -> {
+            if (result instanceof Result.EventSuccess) {
+                List<Event> localEvents = ((Result.EventSuccess) result).getData().getEmbedded().getEvents();
+                eventList.clear();
+                eventList.addAll(localEvents);
+                adapter.notifyDataSetChanged();
+            }
+        });
+
+        // 2. Quando arrivano i preferiti remoti → sincronizza e aggiorna
+        userViewModel.getUserPreferedEventsMutableLiveData(userViewModel.getLoggedUser().getIdToken())
+                .observe(getViewLifecycleOwner(), result -> {
+                    if (result instanceof Result.EventSuccess) {
+                        List<Event> remoteEvents = ((Result.EventSuccess) result).getData().getEmbedded().getEvents();
+                        // salva nel locale
+                        eventViewModel.insertEvents(remoteEvents);
+
+                        // aggiorna lista visualizzata (solo se vuoi aggiornare subito)
+                        eventList.clear();
+                        eventList.addAll(remoteEvents);
+                        adapter.notifyDataSetChanged();
+                    }
+                });
     }
 
     @Override
@@ -107,38 +141,6 @@ public class PreferedFragment extends Fragment {
         return view;
     }
 
-    @Override
-    public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
-        super.onViewCreated(view, savedInstanceState);
 
-        BottomNavigationView bottomNav = requireActivity().findViewById(R.id.bottom_navigation);
-        if (bottomNav != null) bottomNav.setVisibility(View.VISIBLE);
-
-        // 1. Mostra subito i preferiti locali
-        eventViewModel.getPreferedEventsLiveData().observe(getViewLifecycleOwner(), result -> {
-            if (result instanceof Result.EventSuccess) {
-                List<Event> localEvents = ((Result.EventSuccess) result).getData().getEmbedded().getEvents();
-                eventList.clear();
-                eventList.addAll(localEvents);
-                adapter.notifyDataSetChanged();
-            }
-        });
-
-
-        // 2. Quando arrivano i preferiti remoti → sincronizza e aggiorna
-        userViewModel.getUserPreferedEventsMutableLiveData(userViewModel.getLoggedUser().getIdToken())
-                .observe(getViewLifecycleOwner(), result -> {
-                    if (result instanceof Result.EventSuccess) {
-                        List<Event> remoteEvents = ((Result.EventSuccess) result).getData().getEmbedded().getEvents();
-                        // salva nel locale
-                        eventViewModel.insertEvents(remoteEvents);
-
-                        // aggiorna lista visualizzata (solo se vuoi aggiornare subito)
-                        eventList.clear();
-                        eventList.addAll(remoteEvents);
-                        adapter.notifyDataSetChanged();
-                    }
-                });
-    }
 
 }

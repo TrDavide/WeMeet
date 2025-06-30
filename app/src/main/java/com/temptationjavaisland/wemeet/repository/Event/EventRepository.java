@@ -4,6 +4,7 @@ import static com.temptationjavaisland.wemeet.util.Constants.FRESH_TIMEOUT;
 
 import androidx.lifecycle.MutableLiveData;
 
+import com.temptationjavaisland.wemeet.database.EventRoomDatabase;
 import com.temptationjavaisland.wemeet.model.Event;
 import com.temptationjavaisland.wemeet.model.EventAPIResponse;
 import com.temptationjavaisland.wemeet.model.Result;
@@ -41,6 +42,14 @@ public class EventRepository implements EventResponseCallback {
 
     public List <Event> ottineiEventiSalvatiLocal() {
         return eventLocalDataSource.ottieniEventisalvati();
+    }
+
+    public void unsetFavorite(String eventId) {
+        eventLocalDataSource.unsetFavorite(eventId);
+    }
+
+    public void insertEvent(Event event) {
+        eventLocalDataSource.insertOrUpdateEvent(event);
     }
 
     public MutableLiveData<Result> fetchEventsLocation(String latlong, int radius, String unit, String locale, long lastUpdate) {
