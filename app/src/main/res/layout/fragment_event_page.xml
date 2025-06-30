@@ -124,25 +124,11 @@
                         android:textColor="@color/text_subtitle_event"
                         android:textSize="14sp" />
 
-                    <com.google.android.material.button.MaterialButton
-                        android:id="@+id/buttonVediPartecipanti"
-                        style="?attr/materialButtonOutlinedStyle"
-                        android:layout_width="match_parent"
-                        android:layout_height="wrap_content"
-                        android:layout_marginTop="12dp"
-                        android:layout_marginBottom="@dimen/margin_default"
-                        android:elevation="4dp"
-                        android:fontFamily="@font/open_sans_bold"
-                        android:paddingTop="14dp"
-                        android:paddingBottom="14dp"
-                        android:text="@string/vedi_partecipanti"
-                        android:textColor="@color/white"
-                        android:textSize="18sp"
-                        app:backgroundTint="@color/red_button_event_page" />
-
                     <LinearLayout
                         android:layout_width="wrap_content"
-                        android:layout_height="wrap_content">
+                        android:layout_height="wrap_content"
+                        android:layout_marginTop="10dp"
+                        android:orientation="horizontal">
 
                         <ImageView
                             android:layout_width="24dp"

@@ -94,7 +94,6 @@ public class EventPageFragment extends Fragment {
             }
         }
 
-
         mapView.onCreate(savedInstanceState);
         mapView.getMapAsync(googleMap -> {
             if (event != null && event.getEmbedded() != null && !event.getEmbedded().getVenues().isEmpty()) {
@@ -139,21 +138,5 @@ public class EventPageFragment extends Fragment {
             }
         });
 
-
-        Button vediPartecipantiButton = view.findViewById(R.id.buttonVediPartecipanti);
-
-        vediPartecipantiButton.setOnClickListener(v -> {
-            Bundle bundle = new Bundle();
-            bundle.putParcelable("event_data", event); // se ti serve
-
-            Navigation.findNavController(v).navigate(
-                    R.id.action_eventPageFragment_to_participantsFragment,
-                    bundle
-            );
-        });
-
     }
-
-
-
 }
