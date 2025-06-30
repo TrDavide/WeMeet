@@ -4,6 +4,7 @@ import static com.temptationjavaisland.wemeet.util.Constants.INVALID_CREDENTIALS
 import static com.temptationjavaisland.wemeet.util.Constants.INVALID_USER_ERROR;
 
 import android.app.Activity;
+import android.content.SharedPreferences;
 import android.os.Bundle;
 
 import androidx.activity.result.ActivityResultLauncher;
@@ -15,6 +16,7 @@ import androidx.fragment.app.Fragment;
 import androidx.lifecycle.ViewModelProvider;
 import androidx.navigation.Navigation;
 
+import android.preference.PreferenceManager;
 import android.text.InputFilter;
 import android.util.Log;
 import android.view.LayoutInflater;
@@ -105,6 +107,10 @@ public class LoginFragment extends Fragment {
                                     if (task.isSuccessful()) {
                                         // Login avvenuto con successo, utente registrato in Firebase
                                         FirebaseUser firebaseUser = auth.getCurrentUser();
+                                        SharedPreferences prefs = PreferenceManager.getDefaultSharedPreferences(requireContext());
+                                        prefs.edit().putString("user_password", editTextPassword.getText().toString().trim()).apply();
+                                        Log.i(TAG, "Password salvata: " + editTextPassword.getText().toString().trim());
+
                                         Log.i(TAG, "Google sign-in success: " + firebaseUser.getEmail());
 
                                         // Qui puoi eventualmente creare un tuo User e salvarlo nel database

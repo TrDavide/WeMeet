@@ -3,6 +3,7 @@ package com.temptationjavaisland.wemeet.ui.welcome.fragments;
 import static com.temptationjavaisland.wemeet.util.Constants.USER_COLLISION_ERROR;
 import static com.temptationjavaisland.wemeet.util.Constants.WEAK_PASSWORD_ERROR;
 
+import android.content.SharedPreferences;
 import android.os.Bundle;
 
 import androidx.annotation.NonNull;
@@ -14,6 +15,7 @@ import androidx.fragment.app.Fragment;
 import androidx.lifecycle.ViewModelProvider;
 import androidx.navigation.Navigation;
 
+import android.preference.PreferenceManager;
 import android.text.InputFilter;
 import android.util.Log;
 import android.view.LayoutInflater;
@@ -123,6 +125,8 @@ public class SignUpFragment extends Fragment {
                                     getViewLifecycleOwner(), result -> {
                                         if (result.isSuccess()) {
                                             User user = ((Result.UserSuccess) result).getData();
+                                            SharedPreferences prefs = PreferenceManager.getDefaultSharedPreferences(requireContext());
+                                            prefs.edit().putString("user_password", password).apply();
                                             //saveLoginData(email, password, user.getIdToken());
                                             userViewModel.setAuthenticationError(false);
                                             Navigation.findNavController(view).navigate(
