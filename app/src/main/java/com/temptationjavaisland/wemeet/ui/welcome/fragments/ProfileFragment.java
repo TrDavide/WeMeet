@@ -18,6 +18,7 @@ import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatDelegate;
 import androidx.fragment.app.Fragment;
+import androidx.navigation.NavController;
 import androidx.navigation.Navigation;
 
 import com.google.android.material.bottomnavigation.BottomNavigationView;
@@ -120,6 +121,7 @@ public class ProfileFragment extends Fragment {
                 aVoid -> {
                     user.delete().addOnCompleteListener(task -> {
                         if (task.isSuccessful()) {
+                            eventViewModel.clearLocalEvents();
                             FirebaseAuth.getInstance().signOut();
                             Intent intent = new Intent(requireContext(), WelcomeActivity.class);
                             intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TASK);

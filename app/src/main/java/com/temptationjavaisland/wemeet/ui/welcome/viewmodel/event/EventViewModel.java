@@ -105,10 +105,4 @@ public class EventViewModel extends ViewModel {
         eventRepository.refreshPreferedEvents();
     }
 
-    public void clearLocalEvents(){
-        eventRepository.clearLocalEvents();
-    }
-
-
-
 }
