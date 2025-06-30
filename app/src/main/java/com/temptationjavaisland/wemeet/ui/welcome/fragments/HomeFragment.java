@@ -134,9 +134,20 @@ public class HomeFragment extends Fragment {
 
             @Override
             public void onFavoriteButtonPressed(int position) {
-                eventList.get(position).setSaved(!eventList.get(position).isSaved());
-                eventViewModel.updateEvent(eventList.get(position));
-                userViewModel.saveUserPreferedEvent(userViewModel.getLoggedUser().getIdToken(), eventList.get(position));
+                Event event = eventList.get(position);
+                boolean isCurrentlySaved = event.isSaved();
+
+                event.setSaved(!isCurrentlySaved);
+                eventViewModel.updateEvent(event); // aggiorna localmente
+
+                if (!isCurrentlySaved) {
+                    // Se non era salvato prima → lo salvo (ora è diventato salvato)
+                    userViewModel.saveUserPreferedEvent(userViewModel.getLoggedUser().getIdToken(), event);
+                } else {
+                    // Se era già salvato → lo rimuovo da Firebase
+                    userViewModel.removeUserPreferedEvent(userViewModel.getLoggedUser().getIdToken(), event.getId());
+                }
+
 
             }
         });
