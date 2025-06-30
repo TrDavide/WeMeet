@@ -166,4 +166,8 @@ public class EventRepository implements EventResponseCallback {
         eventLocalDataSource.getPreferedEvents();
     }
 
+    public void clearLocalEvents(){
+        eventLocalDataSource.clearAllEvents();
+    }
+
 }

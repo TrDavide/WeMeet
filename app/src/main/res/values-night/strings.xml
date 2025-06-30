@@ -51,7 +51,7 @@
     <string name="location_senza_eguali">Una location senza eguali che vi lascerà senza parole...</string>
     <string name="info_evento">Informazioni sull’evento</string>
     <string name="gattopardo_milano">Gattopardo Milano</string>
-    <string name="impostazioni">Impostazioni</string>
+    <string name="impostazioni">Impostazioni Profilo</string>
     <string name="error_retrieving_events">There was an error retrieving events</string>
     <!-- Errors -->
     <string name="error_email_login">Check the email address</string>

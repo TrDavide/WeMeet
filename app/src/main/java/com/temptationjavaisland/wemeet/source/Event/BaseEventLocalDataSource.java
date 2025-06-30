@@ -21,4 +21,6 @@ public abstract class BaseEventLocalDataSource {
     public abstract void deletePreferedEvents();
 
     public abstract void insertEvents(List<Event> eventList);
+
+    public abstract void clearAllEvents();
 }

@@ -1,130 +1,56 @@
 <?xml version="1.0" encoding="utf-8"?>
-<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<LinearLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
-    xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="@color/main_red"
-    tools:context=".ui.welcome.fragments.ProfileFragment">
+    android:orientation="vertical"
+    android:fillViewport="true">
+
+    <TextView
+        android:id="@+id/titleText"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="40dp"
+        android:layout_marginStart="@dimen/margin_default"
+        android:fontFamily="@font/open_sans_bold"
+        android:text="@string/impostazioni"
+        android:textColor="@color/black"
+        android:textSize="30sp" />
+
 
     <com.google.android.material.button.MaterialButton
-        android:id="@+id/button_settings"
-        style="?attr/materialIconButtonStyle"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_alignParentTop="true"
-        android:layout_alignParentEnd="true"
-        android:layout_marginTop="@dimen/margin_default2"
-        android:layout_marginEnd="@dimen/margin_default"
-        app:icon="@drawable/settings"
-        app:iconSize="30dp"
-        app:iconTint="@color/white" />
-
-    <TextView
-        android:id="@+id/profile"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_below="@id/profileImageView"
-        android:layout_alignParentTop="true"
-        android:layout_marginStart="@dimen/margin_default"
-        android:layout_marginTop="@dimen/margin_default2"
-        android:fontFamily="@font/open_sans_bold"
-        android:text="@string/il_mio_account"
-        android:textColor="@color/md_theme_bianchino"
-        android:textSize="26sp"
-        android:textStyle="bold" />
-
-    <View
+        android:id="@+id/bottone_tema"
         android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:background="@drawable/border2"
-        android:layout_marginTop="80sp"
-        android:layout_below="@id/profile"
-        android:backgroundTint="@color/white"/>
-
-
-    <androidx.cardview.widget.CardView
-        android:id="@+id/profileImageView"
-        android:layout_width="160dp"
-        android:layout_height="160dp"
-        android:layout_marginTop="85dp"
-        android:layout_centerHorizontal="true"
-        app:cardBackgroundColor="@color/white"
-        app:cardCornerRadius="80dp"
-        app:cardElevation="12dp">
-
-
-        <ImageView
-            android:id="@+id/imageView"
-            android:layout_width="match_parent"
-            android:layout_height="match_parent"
-            android:scaleType="centerCrop"
-            android:src="@mipmap/profile_default"/>
-    </androidx.cardview.widget.CardView>
-
-
-
-    <TextView
-        android:id="@+id/textprofile"
-        android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginTop="15dp"
-        android:layout_below="@id/profileImageView"
-        android:layout_centerHorizontal="true"
+        android:layout_marginStart="70dp"
+        android:layout_marginEnd="70dp"
+        android:text="@string/tema_giorno"
+        android:textColor="@color/white"
+        android:textSize="18sp"
         android:fontFamily="@font/open_sans_bold"
-        android:text="@string/username"
-        android:textSize="28sp"
-        android:textStyle="bold" />
+        android:layout_marginTop="300dp"
+        app:cornerRadius="28dp"
+        app:icon="@drawable/moon"
+        app:iconTint="@color/white"
+        android:backgroundTint="@color/black" />
 
 
-    <View
-        android:id="@+id/spazio"
-        android:layout_width="wrap_content"
-        android:layout_height="20sp"
-        android:layout_below="@id/textprofile"/>
 
-
-    <TextView
-        android:id="@+id/bio"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginStart="50dp"
-        android:layout_marginEnd="50dp"
-        android:layout_below="@id/spazio"
-        android:layout_centerHorizontal="true"
-        android:fontFamily="@font/open_sans"
-        android:text="@string/frase_bio"
-        android:maxLines="3"
-        android:scrollbars="vertical"
-        android:textSize="15sp" />
-
-    <View
-        android:id="@+id/spazio2"
-        android:layout_width="wrap_content"
-        android:layout_height="35sp"
-        android:layout_below="@id/bio"/>
-
-    <TextView
-        android:id="@+id/testo_eventi"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_below="@id/bio"
-        android:layout_marginStart="@dimen/margin_default"
-        android:layout_marginTop="50sp"
-        android:fontFamily="@font/open_sans_bold"
-        android:text="@string/partecipazione_eventi2"
-        android:textSize="24sp"
-        android:textStyle="bold" />
-
-    <androidx.recyclerview.widget.RecyclerView
-        android:id="@+id/recyclerViewUserProfile"
+    <com.google.android.material.button.MaterialButton
+        android:id="@+id/bottone_logout"
         android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:layout_below="@id/testo_eventi"
-        android:layout_marginBottom="110sp"
-        android:layout_marginStart="@dimen/margin_default"
-        >
-    </androidx.recyclerview.widget.RecyclerView>
+        android:layout_height="wrap_content"
+        android:layout_marginStart="70dp"
+        android:layout_marginEnd="70dp"
+        android:text="@string/esciAccount"
+        android:textColor="@android:color/white"
+        android:textSize="18sp"
+        android:fontFamily="@font/open_sans_bold"
+        android:layout_marginTop="32dp"
+        app:cornerRadius="28dp"
+        app:icon="@drawable/esci"
+        app:iconTint="@android:color/white"
+        android:backgroundTint="@color/red_button_esci"/>
 
-
-</RelativeLayout>
+</LinearLayout>

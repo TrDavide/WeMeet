@@ -87,4 +87,10 @@ public class EventLocalDataSource extends BaseEventLocalDataSource {
             }
         });
     }
+
+    public void clearAllEvents() {
+        EventRoomDatabase.databaseWriteExecutor.execute(() -> {
+            eventDAO.deleteAll();
+        });
+    }
 }

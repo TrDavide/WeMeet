@@ -1,5 +1,6 @@
 package com.temptationjavaisland.wemeet.ui.welcome.fragments;
 
+import android.content.Intent;
 import android.content.SharedPreferences;
 import android.net.Uri;
 import android.os.Bundle;
@@ -13,17 +14,22 @@ import android.widget.TextView;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
+import androidx.appcompat.app.AppCompatDelegate;
 import androidx.fragment.app.Fragment;
 import androidx.navigation.Navigation;
 
 import com.google.android.material.bottomnavigation.BottomNavigationView;
+import com.google.android.material.button.MaterialButton;
 import com.temptationjavaisland.wemeet.R;
+import com.temptationjavaisland.wemeet.ui.welcome.WelcomeActivity;
+import com.temptationjavaisland.wemeet.ui.welcome.viewmodel.event.EventViewModel;
+import com.temptationjavaisland.wemeet.ui.welcome.viewmodel.user.UserViewModel;
 
 public class ProfileFragment extends Fragment {
 
     BottomNavigationView bottomNavigationView;
-    private ImageView profileImageView;
-    private TextView bioTextView;
+    private UserViewModel userViewModel;
+    private EventViewModel eventViewModel;
 
     public ProfileFragment() {}
 
@@ -44,50 +50,40 @@ public class ProfileFragment extends Fragment {
     public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
 
-        bioTextView = view.findViewById(R.id.bio);
+        MaterialButton logoutButton = view.findViewById(R.id.bottone_logout);
+        MaterialButton temaButton = view.findViewById(R.id.bottone_tema);
+
 
         BottomNavigationView bottomNav = requireActivity().findViewById(R.id.bottom_navigation);
         if (bottomNav != null) {
             bottomNav.setVisibility(View.VISIBLE);
         }
 
-        Button btnSettings = view.findViewById(R.id.button_settings);
-        btnSettings.setOnClickListener(v ->
-                Navigation.findNavController(v).navigate(R.id.action_profileFragment_to_settingsFragment)
-        );
+        logoutButton.setOnClickListener(v -> {
+            eventViewModel.clearLocalEvents();
+            com.google.firebase.auth.FirebaseAuth.getInstance().signOut();
 
-        // Riferimento all'immagine profilo
-        profileImageView = view.findViewById(R.id.profileImageView).findViewById(R.id.imageView);
+            // Torna alla WelcomeActivity e cancella lo stack
+            Intent intent = new Intent(requireContext(), WelcomeActivity.class);
+            intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TASK);
+            startActivity(intent);
+        });
 
-        loadProfileImage();
-        loadUserBio();
+        boolean isNightMode = (AppCompatDelegate.getDefaultNightMode() == AppCompatDelegate.MODE_NIGHT_YES) ||
+                ((AppCompatDelegate.getDefaultNightMode() == AppCompatDelegate.MODE_NIGHT_FOLLOW_SYSTEM)
+                        && (getResources().getConfiguration().uiMode & android.content.res.Configuration.UI_MODE_NIGHT_MASK) == android.content.res.Configuration.UI_MODE_NIGHT_YES);
+
+        temaButton.setText(isNightMode ? "Tema: Notte" : "Tema: Giorno");
+
+        temaButton.setOnClickListener(v -> {
+            if (isNightMode) {
+                AppCompatDelegate.setDefaultNightMode(AppCompatDelegate.MODE_NIGHT_NO);
+            } else {
+                AppCompatDelegate.setDefaultNightMode(AppCompatDelegate.MODE_NIGHT_YES);
+            }
+            requireActivity().recreate();
+        });
+
     }
 
-    @Override
-    public void onResume() {
-        super.onResume();
-        loadProfileImage();
-        loadUserBio();
-    }
-
-    private void loadUserBio() {
-        SharedPreferences preferences = PreferenceManager.getDefaultSharedPreferences(requireContext());
-        String userBio = preferences.getString("user_bio", getString(R.string.frase_bio));
-        if (bioTextView != null) {
-            bioTextView.setText(userBio);
-        }
-    }
-
-    private void loadProfileImage() {
-        if (profileImageView == null) return;
-
-        SharedPreferences preferences = PreferenceManager.getDefaultSharedPreferences(requireContext());
-        String imagePath = preferences.getString("profile_image_path", null);
-
-        if (imagePath != null) {
-            profileImageView.setImageURI(Uri.parse(imagePath));
-        } else {
-            profileImageView.setImageResource(R.mipmap.profile_default);
-        }
-    }
 }
