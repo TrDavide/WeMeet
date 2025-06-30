@@ -60,7 +60,7 @@ public class HomePageActivity extends AppCompatActivity {
         bottomNav.setLabelVisibilityMode(BottomNavigationView.LABEL_VISIBILITY_LABELED);
 
         NavigationUI.setupWithNavController(bottomNav, navController);
-       // NavigationUI.setupActionBarWithNavController(this, navController, appBarConfiguration);
+        // NavigationUI.setupActionBarWithNavController(this, navController, appBarConfiguration);
         //EventRoomDatabase.getDatabase(getApplicationContext()).eventsDao().deleteAll();
 
         fusedLocationClient = LocationServices.getFusedLocationProviderClient(this);

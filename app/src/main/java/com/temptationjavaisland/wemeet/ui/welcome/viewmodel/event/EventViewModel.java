@@ -26,7 +26,29 @@ public class EventViewModel extends ViewModel {
         this.eventRepository = eventRepository;
         this.page = 1;
     }
+    public void clearLocalEvents() {
+        eventRepository.clearLocalEvents();
+    }
 
+    public void insertEvents(List<Event> events) {
+        eventRepository.insertEvents(events);
+    }
+
+    public List<Event> ottineiEventiSalvatiLocal() {
+        return eventRepository.ottineiEventiSalvatiLocal();
+    }
+
+    public List<Event> getAll() {
+        return eventRepository.getAll();
+    }
+
+    public void insertEvent(Event event) {
+        eventRepository.insertEvent(event);
+    }
+
+    public void unsetFavorite(String eventId) {
+        eventRepository.unsetFavorite(eventId);
+    }
 
     /*public MutableLiveData<Result> getEvents(String country, String city, String keyword, int page, long lastUpdate) {
         if (eventsListLiveData == null) {
@@ -51,7 +73,9 @@ public class EventViewModel extends ViewModel {
         return preferedEventsListLiveData;
     }
 
-
+    public void updateEvent2() {
+        eventRepository.getPreferedEvents();
+    }
 
     public void updateEvent(Event event) {
         eventRepository.updateEvent(event);

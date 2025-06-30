@@ -18,6 +18,7 @@ import androidx.recyclerview.widget.RecyclerView;
 import com.google.android.material.bottomnavigation.BottomNavigationView;
 import com.temptationjavaisland.wemeet.R;
 import com.temptationjavaisland.wemeet.adapter.EventRecyclerAdapter;
+import com.temptationjavaisland.wemeet.database.EventRoomDatabase;
 import com.temptationjavaisland.wemeet.model.Event;
 import com.temptationjavaisland.wemeet.repository.Event.EventRepository;
 import com.temptationjavaisland.wemeet.repository.User.IUserRepository;
@@ -29,6 +30,7 @@ import com.temptationjavaisland.wemeet.ui.welcome.viewmodel.user.UserViewModelFa
 import com.temptationjavaisland.wemeet.util.ServiceLocator;
 
 import java.util.ArrayList;
+import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
 import java.util.stream.Collectors;
@@ -62,8 +64,40 @@ public class PreferedFragment extends Fragment {
 
         IUserRepository userRepository = ServiceLocator.getInstance().getUserRepository(requireActivity().getApplication());
         userViewModel = new ViewModelProvider(requireActivity(), new UserViewModelFactory(userRepository)).get(UserViewModel.class);
-
         eventList = new ArrayList<>();
+    }
+
+    @Override
+    public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
+        super.onViewCreated(view, savedInstanceState);
+
+        BottomNavigationView bottomNav = requireActivity().findViewById(R.id.bottom_navigation);
+        if (bottomNav != null) bottomNav.setVisibility(View.VISIBLE);
+
+        // 1. Mostra subito i preferiti locali
+        eventViewModel.getPreferedEventsLiveData().observe(getViewLifecycleOwner(), result -> {
+            if (result instanceof Result.EventSuccess) {
+                List<Event> localEvents = ((Result.EventSuccess) result).getData().getEmbedded().getEvents();
+                eventList.clear();
+                eventList.addAll(localEvents);
+                adapter.notifyDataSetChanged();
+            }
+        });
+
+        // 2. Quando arrivano i preferiti remoti → sincronizza e aggiorna
+        userViewModel.getUserPreferedEventsMutableLiveData(userViewModel.getLoggedUser().getIdToken())
+                .observe(getViewLifecycleOwner(), result -> {
+                    if (result instanceof Result.EventSuccess) {
+                        List<Event> remoteEvents = ((Result.EventSuccess) result).getData().getEmbedded().getEvents();
+                        // salva nel locale
+                        eventViewModel.insertEvents(remoteEvents);
+
+                        // aggiorna lista visualizzata (solo se vuoi aggiornare subito)
+                        eventList.clear();
+                        eventList.addAll(remoteEvents);
+                        adapter.notifyDataSetChanged();
+                    }
+                });
     }
 
     @Override
@@ -73,6 +107,14 @@ public class PreferedFragment extends Fragment {
         View view = inflater.inflate(R.layout.fragment_prefered, container, false);
         recyclerView = view.findViewById(R.id.recyclerViewPrefered);
         recyclerView.setLayoutManager(new LinearLayoutManager(view.getContext()));
+
+        List<Event> eventiLocali = eventViewModel.ottineiEventiSalvatiLocal(); // <-- questo metodo dovresti crearlo tu
+        eventList = new ArrayList<>(eventiLocali);
+        eventList.addAll(eventiLocali);
+
+        EventRoomDatabase.getDatabase(recyclerView.getContext())
+                .eventsDao()
+                .getSaved();
 
         adapter = new EventRecyclerAdapter(R.layout.event_card, eventList,
                 new EventRecyclerAdapter.OnItemClickListener() {
@@ -99,41 +141,6 @@ public class PreferedFragment extends Fragment {
         return view;
     }
 
-    @Override
-    public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
-        super.onViewCreated(view, savedInstanceState);
 
-
-        BottomNavigationView bottomNav = requireActivity().findViewById(R.id.bottom_navigation);
-        if (bottomNav != null) {
-            bottomNav.setVisibility(View.VISIBLE);
-        }
-
-        userViewModel.getUserPreferedEventsMutableLiveData(userViewModel.getLoggedUser().getIdToken()).observe(getViewLifecycleOwner(), result -> {
-            if (result instanceof Result.EventSuccess) {
-                List<Event> savedEvents = ((Result.EventSuccess) result).getData()
-                        .getEmbedded()
-                        .getEvents();
-
-                for (Event event : eventList) {
-                    event.setSaved(savedEvents.contains(event.getId()));
-                }
-                eventList.clear();
-                eventList.addAll(savedEvents);
-                adapter.notifyDataSetChanged();
-            }
-        });
-        eventViewModel.getPreferedEventsLiveData().observe(getViewLifecycleOwner(), result -> {
-            if (result instanceof Result.EventSuccess) {
-                List<Event> savedEvents = ((Result.EventSuccess) result).getData().getEmbedded().getEvents();
-                eventList.clear();
-                eventList.addAll(savedEvents);
-                adapter.notifyDataSetChanged();
-            } else if (result instanceof Result.Error) {
-                //Log.e("PreferedFragment", "Errore nel caricamento dei preferiti: " + ((Result.Error) result).getError());
-            }
-        });
-
-    }
 
 }
