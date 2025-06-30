@@ -48,6 +48,10 @@ public class EventRepository implements EventResponseCallback {
         eventLocalDataSource.unsetFavorite(eventId);
     }
 
+    public List<Event> getAll() {
+        return eventLocalDataSource.getAll();
+    }
+
     public void insertEvent(Event event) {
         eventLocalDataSource.insertOrUpdateEvent(event);
     }

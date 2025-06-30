@@ -42,6 +42,10 @@ public class EventLocalDataSource extends BaseEventLocalDataSource {
         });
     }
 
+    public List<Event> getAll() {
+        return eventDAO.getAll();
+    }
+
     public void unsetFavorite(String eventId) {
         EventRoomDatabase.databaseWriteExecutor.execute(() -> {
             eventDAO.unsetFavorite(eventId);

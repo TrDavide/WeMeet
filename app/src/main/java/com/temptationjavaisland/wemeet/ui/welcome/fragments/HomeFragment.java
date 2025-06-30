@@ -107,9 +107,6 @@ public class HomeFragment extends Fragment {
         }
     }
 
-
-
-
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         View view = inflater.inflate(R.layout.fragment_home, container, false);
@@ -169,23 +166,32 @@ public class HomeFragment extends Fragment {
             }
         });
 
-
         recyclerView.setAdapter(adapter);
         recyclerView.setVisibility(View.GONE);
         noInternetView.setVisibility(View.GONE);
         circularProgressIndicator.setVisibility(View.VISIBLE);
 
-
         if (!NetworkUtil.isInternetAvailable(getContext())) {
-            noInternetView.setVisibility(View.VISIBLE);
+            Log.d(TAG, "Sono dentro NetworkUtil");
+            List<Event> eventiLocali = eventViewModel.getAll();
+            if (!eventiLocali.isEmpty()) {
+                Log.d(TAG, "Sono dentro l'IF NetworkUtil");
+                eventList.clear();
+                eventList.addAll(eventiLocali);
+                adapter.notifyDataSetChanged();
+                recyclerView.setVisibility(View.VISIBLE);
+                noInternetView.setVisibility(View.VISIBLE);
+            } else {
+                Log.d(TAG, "Sono dentro l'ELSE NetworkUtil");
+                recyclerView.setVisibility(View.GONE);
+                noInternetView.setVisibility(View.VISIBLE);
+            }
             circularProgressIndicator.setVisibility(View.GONE);
             return view;
         }
 
-
-        // Check permessi posizione e poi ottieni location
+        //Check permessi posizione e poi ottieni location
         checkLocationPermissionAndFetch();
-
 
         return view;
     }
