@@ -1,5 +1,7 @@
 package com.temptationjavaisland.wemeet.ui.welcome.fragments;
 
+import android.content.Intent;
+import android.net.Uri;
 import android.os.Bundle;
 
 import androidx.annotation.NonNull;
@@ -15,6 +17,7 @@ import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.bumptech.glide.Glide;
 import com.google.android.gms.maps.CameraUpdateFactory;
@@ -137,6 +140,17 @@ public class EventPageFragment extends Fragment {
                 Navigation.findNavController(v).popBackStack();
             }
         });
+
+        MaterialButton buttonAcquista = view.findViewById(R.id.buttonAcquista);
+        buttonAcquista.setOnClickListener(v -> {
+            if (event != null && event.getUrl() != null && !event.getUrl().isEmpty()) {
+                Intent browserIntent = new Intent(Intent.ACTION_VIEW, Uri.parse(event.getUrl()));
+                startActivity(browserIntent);
+            } else {
+                Toast.makeText(requireContext(), "URL non disponibile per questo evento", Toast.LENGTH_SHORT).show();
+            }
+        });
+
 
     }
 }
