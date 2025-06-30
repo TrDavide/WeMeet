@@ -150,7 +150,5 @@ public class EventPageFragment extends Fragment {
                 Toast.makeText(requireContext(), "URL non disponibile per questo evento", Toast.LENGTH_SHORT).show();
             }
         });
-
-
     }
 }

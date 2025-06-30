@@ -1,5 +1,7 @@
 package com.temptationjavaisland.wemeet.ui.welcome.fragments;
 
+import static com.temptationjavaisland.wemeet.util.Constants.FIREBASE_REALTIME_DATABASE;
+
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.net.Uri;
@@ -20,10 +22,17 @@ import androidx.navigation.Navigation;
 
 import com.google.android.material.bottomnavigation.BottomNavigationView;
 import com.google.android.material.button.MaterialButton;
+import com.google.firebase.database.DatabaseReference;
+import com.google.firebase.database.FirebaseDatabase;
 import com.temptationjavaisland.wemeet.R;
 import com.temptationjavaisland.wemeet.ui.welcome.WelcomeActivity;
 import com.temptationjavaisland.wemeet.ui.welcome.viewmodel.event.EventViewModel;
 import com.temptationjavaisland.wemeet.ui.welcome.viewmodel.user.UserViewModel;
+import com.temptationjavaisland.wemeet.source.User.UserFirebaseDataSource;
+import com.google.android.material.dialog.MaterialAlertDialogBuilder;
+import com.google.firebase.auth.FirebaseUser;
+import com.google.firebase.auth.FirebaseAuth;
+
 
 public class ProfileFragment extends Fragment {
 
@@ -84,6 +93,53 @@ public class ProfileFragment extends Fragment {
             requireActivity().recreate();
         });
 
+        MaterialButton deleteProfileButton = view.findViewById(R.id.bottone_elimina_profilo);
+        deleteProfileButton.setOnClickListener(v -> showDeleteConfirmationDialog());
     }
+
+    private void showDeleteConfirmationDialog() {
+        new MaterialAlertDialogBuilder(requireContext())
+                .setTitle("Conferma eliminazione")
+                .setMessage("Sei sicuro di voler eliminare definitivamente il tuo profilo?")
+                .setNegativeButton("Annulla", (dialog, which) -> dialog.dismiss())
+                .setPositiveButton("Elimina", (dialog, which) -> deleteUserAccount())
+                .show();
+    }
+
+    private void deleteUserAccount() {
+        FirebaseUser user = FirebaseAuth.getInstance().getCurrentUser();
+        if (user == null) {
+            showError("Nessun utente autenticato.");
+            return;
+        }
+
+        String userId = user.getUid();
+        UserFirebaseDataSource userDataSource = new UserFirebaseDataSource();
+
+        userDataSource.deleteUserData(userId,
+                aVoid -> {
+                    user.delete().addOnCompleteListener(task -> {
+                        if (task.isSuccessful()) {
+                            FirebaseAuth.getInstance().signOut();
+                            Intent intent = new Intent(requireContext(), WelcomeActivity.class);
+                            intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TASK);
+                            startActivity(intent);
+                        } else {
+                            showError("Errore durante l'eliminazione dell'account Firebase.");
+                        }
+                    });
+                },
+                e -> showError("Errore durante l'eliminazione dei dati utente dal database.")
+        );
+    }
+
+    private void showError(String message) {
+        new MaterialAlertDialogBuilder(requireContext())
+                .setTitle("Errore")
+                .setMessage(message)
+                .setPositiveButton("OK", null)
+                .show();
+    }
+
 
 }

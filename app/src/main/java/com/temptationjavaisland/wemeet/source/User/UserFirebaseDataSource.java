@@ -127,6 +127,12 @@ public class UserFirebaseDataSource extends BaseUserDataRemoteDataSource {
                 });
     }
 
-
+    public void deleteUserData(String idToken, OnSuccessListener<Void> onSuccessListener, OnFailureListener onFailureListener) {
+        databaseReference.child(FIREBASE_USERS_COLLECTION)
+                .child(idToken)
+                .removeValue()
+                .addOnSuccessListener(onSuccessListener)
+                .addOnFailureListener(onFailureListener);
+    }
 
 }
