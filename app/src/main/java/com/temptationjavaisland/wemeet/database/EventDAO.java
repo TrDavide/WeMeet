@@ -1,5 +1,6 @@
 package com.temptationjavaisland.wemeet.database;
 
+import androidx.lifecycle.LiveData;
 import androidx.room.Dao;
 import androidx.room.Delete;
 import androidx.room.Insert;
@@ -60,5 +61,9 @@ public interface EventDAO {
 
     @Query("UPDATE Event SET saved = 0 WHERE id = :eventId")
     void unsetFavorite(String eventId);
+
+    @Query("SELECT * FROM Event WHERE saved = 1")
+    LiveData<List<Event>> getSavedEventsLiveData();
+
 
 }

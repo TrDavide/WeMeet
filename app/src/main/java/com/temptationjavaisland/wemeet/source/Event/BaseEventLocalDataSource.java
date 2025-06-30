@@ -1,5 +1,7 @@
 package com.temptationjavaisland.wemeet.source.Event;
 
+import androidx.lifecycle.LiveData;
+
 import com.temptationjavaisland.wemeet.model.Event;
 import com.temptationjavaisland.wemeet.repository.Event.EventResponseCallback;
 
@@ -15,6 +17,8 @@ public abstract class BaseEventLocalDataSource {
     public abstract void getEvents();
 
     public abstract void clearAllEvents();
+
+    public abstract LiveData<List<Event>> getSavedEventsLiveData();
 
     public abstract void insertOrUpdateEvent(Event event);
 
