@@ -14,6 +14,7 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.EditText;
+import android.widget.TextView;
 
 import androidx.activity.result.contract.ActivityResultContracts;
 import androidx.annotation.NonNull;
@@ -95,6 +96,14 @@ public class ProfileFragment extends Fragment {
         MaterialButton logoutButton = view.findViewById(R.id.bottone_logout);
         MaterialButton temaButton = view.findViewById(R.id.bottone_tema);
         MaterialButton deleteProfileButton = view.findViewById(R.id.bottone_elimina_profilo);
+        TextView emailTextView = view.findViewById(R.id.emailTextView);
+        FirebaseUser currentUser = FirebaseAuth.getInstance().getCurrentUser();
+
+
+        if (currentUser != null && currentUser.getEmail() != null) {
+            String userEmail = currentUser.getEmail();
+            emailTextView.setText("Sei loggato con:\n " + userEmail);
+        }
 
         BottomNavigationView bottomNav = requireActivity().findViewById(R.id.bottom_navigation);
         if (bottomNav != null) {
