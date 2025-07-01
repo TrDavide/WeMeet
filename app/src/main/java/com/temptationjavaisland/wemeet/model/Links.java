@@ -76,7 +76,7 @@ public class Links implements Parcelable {
         this.venues = venues;
     }
 
-    // Classe Link interna (oppure in un file separato se già esistente)
+    // Classe Link interna
     public static class Link implements Parcelable {
         private String href;
 

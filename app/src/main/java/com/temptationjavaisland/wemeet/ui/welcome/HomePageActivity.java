@@ -60,8 +60,6 @@ public class HomePageActivity extends AppCompatActivity {
         bottomNav.setLabelVisibilityMode(BottomNavigationView.LABEL_VISIBILITY_LABELED);
 
         NavigationUI.setupWithNavController(bottomNav, navController);
-        // NavigationUI.setupActionBarWithNavController(this, navController, appBarConfiguration);
-        //EventRoomDatabase.getDatabase(getApplicationContext()).eventsDao().deleteAll();
 
         fusedLocationClient = LocationServices.getFusedLocationProviderClient(this);
 
@@ -73,14 +71,14 @@ public class HomePageActivity extends AppCompatActivity {
         if (ContextCompat.checkSelfPermission(this, Manifest.permission.ACCESS_FINE_LOCATION)
                 != PackageManager.PERMISSION_GRANTED) {
 
-            // Permesso NON ancora concesso → lo richiediamo
+            // Permesso NON ancora concesso, lo richiediamo
             ActivityCompat.requestPermissions(
                     this,
                     new String[]{ Manifest.permission.ACCESS_FINE_LOCATION},
                     LOCATION_PERMISSION_REQUEST_CODE
             );
         } else {
-            // Permesso già concesso → ottieni la posizione
+            // Permesso già concesso, ottieni la posizione
             getUserLocation();
         }
     }
@@ -128,13 +126,6 @@ public class HomePageActivity extends AppCompatActivity {
             // Assumendo che HomeFragment sia quello caricato, ottieni la navController e navBackStackEntry
             navController.navigate(R.id.homeFragment, bundle);
             // In alternativa, puoi usare questo se vuoi sostituire il fragment con gli argomenti:
-        /*
-        HomeFragment homeFragment = new HomeFragment();
-        homeFragment.setArguments(bundle);
-        getSupportFragmentManager().beginTransaction()
-            .replace(R.id.fragmentContainerView, homeFragment)
-            .commit();
-        */
         }
     }
 
@@ -152,8 +143,4 @@ public class HomePageActivity extends AppCompatActivity {
             }
         }
     }
-
-
-
-
 }

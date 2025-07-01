@@ -181,7 +181,7 @@ public class LocationFragment extends Fragment {
                             eventList.clear();
                             eventList.addAll(events);
 
-                            // ⬇️ Verifica quali eventi sono salvati confrontando gli ID
+                            //Verifica quali eventi sono salvati confrontando gli ID
                             Result preferedResult = eventViewModel.getPreferedEventsLiveData().getValue();
                             if (preferedResult instanceof Result.EventSuccess) {
                                 List<Event> savedEvents = ((Result.EventSuccess) preferedResult).getData().getEmbedded().getEvents();

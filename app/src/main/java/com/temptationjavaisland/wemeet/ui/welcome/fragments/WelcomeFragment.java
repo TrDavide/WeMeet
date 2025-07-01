@@ -28,7 +28,6 @@ public class WelcomeFragment extends Fragment {
 
 
     public WelcomeFragment() {
-        // Required empty public constructor
     }
 
     public static WelcomeFragment newInstance() {
@@ -44,33 +43,14 @@ public class WelcomeFragment extends Fragment {
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
-        // Inflate the layout for this fragment
         return inflater.inflate(R.layout.fragment_welcome, container, false);
-        //qui definisco il layout
     }
 
     @Override
     public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
 
-        /*FirebaseDatabase database = FirebaseDatabase.getInstance();
-        DatabaseReference myRef = database.getReference("message");
-        myRef.setValue("Hello, World!")
-                .addOnSuccessListener(new OnSuccessListener<Void>() {
-                    @Override
-                    public void onSuccess(Void aVoid) {
-                        Log.d("FirebaseTest", "Dati scritti con successo!");
-                    }
-                })
-                .addOnFailureListener(new OnFailureListener() {
-                    @Override
-                    public void onFailure(@NonNull Exception e) {
-                        Log.e("FirebaseTest", "Errore scrittura dati", e);
-                    }
-                });*/
-
         if (com.google.firebase.auth.FirebaseAuth.getInstance().getCurrentUser() != null) {
-            // Write a message to the database
             Navigation.findNavController(view).navigate(R.id.action_welcomeFragment_to_homePageActivity);
             return; // Esci subito per evitare che vengano mostrati i pulsanti
         }
@@ -84,7 +64,5 @@ public class WelcomeFragment extends Fragment {
         signUpButton.setOnClickListener(v -> {
             Navigation.findNavController(v).navigate(R.id.action_welcomeFragment_to_signUpFragment);
         });
-
-
     }
 }

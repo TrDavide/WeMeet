@@ -69,5 +69,6 @@
     <string name="error_unexpected">Unexpected error</string>
     <string name="error_collision_user">This email is already registered</string>
     <string name="elimina_profilo">Elimina Profilo</string>
+    <string name="eventi_vicini_a_te">Eventi vicini a te</string>
 
 </resources>

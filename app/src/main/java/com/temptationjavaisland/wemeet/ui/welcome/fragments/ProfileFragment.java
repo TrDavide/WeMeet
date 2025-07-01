@@ -51,8 +51,6 @@ public class ProfileFragment extends Fragment {
     private static final int RC_GOOGLE_REAUTH = 123;
     private String passwordForReauth = null;
 
-
-
     public ProfileFragment() {}
 
     public static ProfileFragment newInstance(String param1, String param2) {
@@ -145,9 +143,6 @@ public class ProfileFragment extends Fragment {
                 .show();
     }
 
-
-
-
     private void deleteUserAccount(String password) {
         FirebaseUser user = FirebaseAuth.getInstance().getCurrentUser();
         if (user == null || user.getEmail() == null || password == null || password.isEmpty()) {
@@ -165,9 +160,6 @@ public class ProfileFragment extends Fragment {
             }
         });
     }
-
-
-
 
     private void startWelcomeActivity() {
         Intent intent = new Intent(requireContext(), WelcomeActivity.class);
@@ -257,7 +249,4 @@ public class ProfileFragment extends Fragment {
                 })
                 .show();
     }
-
-
-
 }

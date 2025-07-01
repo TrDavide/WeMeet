@@ -128,7 +128,7 @@ public class Classification implements Parcelable {
         this.family = family;
     }
 
-    // 🔽 Classi statiche Parcelable 🔽
+    //Classi statiche Parcelable
 
     public static class Segment implements Parcelable {
         private String id;

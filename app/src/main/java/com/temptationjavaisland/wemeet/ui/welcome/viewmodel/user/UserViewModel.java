@@ -74,8 +74,6 @@ public class UserViewModel extends ViewModel {
         getUserPreferedEvents(idToken);
     }
 
-
-
     public void getUser(String email, String password, boolean isUserRegistered) {
         userRepository.getUser(email, password, isUserRegistered);
     }

@@ -17,9 +17,6 @@ import com.google.firebase.auth.FirebaseUser;
 import com.google.firebase.auth.GoogleAuthProvider;
 import com.temptationjavaisland.wemeet.model.User;
 
-/**
- * Class that manages the user authentication using Firebase Authentication.
- */
 public class UserAuthenticationFirebaseDataSource extends BaseUserAuthenticationRemoteDataSource {
 
     private static final String TAG = UserAuthenticationFirebaseDataSource.class.getSimpleName();

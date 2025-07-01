@@ -167,7 +167,7 @@ public class Event implements Parcelable {
         this._embedded = _embedded;
     }
 
-    // Parcelable implementation
+    // Parcelable implementazione
     protected Event(Parcel in) {
         uid = in.readInt();
         name = in.readString();

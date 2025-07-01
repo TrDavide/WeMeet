@@ -5,10 +5,6 @@ import androidx.lifecycle.ViewModel;
 import androidx.lifecycle.ViewModelProvider;
 import com.temptationjavaisland.wemeet.repository.Event.EventRepository;
 
-/**
- * Custom ViewModelProvider to be able to have a custom constructor
- * for the NewsViewModel class.
- */
 public class EventViewModelFactory implements ViewModelProvider.Factory {
 
     private final EventRepository eventRepository;

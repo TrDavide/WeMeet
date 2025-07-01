@@ -16,10 +16,6 @@ import com.temptationjavaisland.wemeet.source.User.BaseUserDataRemoteDataSource;
 import java.util.List;
 import java.util.Set;
 
-
-/**
- * Repository class to get the user information.
- */
 public class UserRepository implements IUserRepository, UserResponseCallback, EventResponseCallback {
 
     private static final String TAG = UserRepository.class.getSimpleName();

@@ -6,11 +6,11 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.CheckBox;
-import android.widget.ImageView;  // aggiunto import
+import android.widget.ImageView;
 import android.widget.TextView;
 import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
-import com.bumptech.glide.Glide; // aggiunto import Glide
+import com.bumptech.glide.Glide;
 import com.temptationjavaisland.wemeet.R;
 import com.temptationjavaisland.wemeet.database.EventRoomDatabase;
 import com.temptationjavaisland.wemeet.model.Event;
@@ -63,7 +63,6 @@ public class EventRecyclerAdapter extends RecyclerView.Adapter<EventRecyclerAdap
             }else{
                 onItemClickListener.onEventItemClick(eventList.get(getAdapterPosition()));
             }
-
         }
     }
 
@@ -107,7 +106,6 @@ public class EventRecyclerAdapter extends RecyclerView.Adapter<EventRecyclerAdap
             String imageUrl = currentEvent.getImages().get(0).getUrl();
             Glide.with(viewHolder.itemView.getContext())
                     .load(imageUrl)
-                    //.placeholder(R.drawable.placeholder) // immagine temporanea
                     .into(viewHolder.getEventImageView());
         } else {
             viewHolder.getEventImageView().setImageResource(R.drawable.event_background); // fallback

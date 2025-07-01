@@ -4,9 +4,6 @@ package com.temptationjavaisland.wemeet.source.User;
 import com.temptationjavaisland.wemeet.model.User;
 import com.temptationjavaisland.wemeet.repository.User.UserResponseCallback;
 
-/**
- * Base class to manage the user authentication.
- */
 public abstract class BaseUserAuthenticationRemoteDataSource {
     protected UserResponseCallback userResponseCallback;
 

@@ -5,7 +5,6 @@ public class Constants{
     public static final String SAMPLE_JSON_FILENAME = "sample_api_response.json";
     public static final int DATABASE_VERSION = 4;
     public static final String SAVED_ARTICLES_DATABASE= "saved db";
-
     public static final String TICKETMASTER_API_BASE_URL = "https://app.ticketmaster.com/discovery/v2/";
     public static final String TOP_HEADLINES_ENDPOINT = "events.json";
     public static final String TOP_HEADLINES_COUNTRY_PARAMETER = "countryCode";
@@ -29,8 +28,4 @@ public class Constants{
     public static final String FIREBASE_REALTIME_DATABASE = "https://wemeet-5fc51-default-rtdb.europe-west1.firebasedatabase.app/";
     public static final String FIREBASE_USERS_COLLECTION = "users";
     public static final String FIREBASE_FAVORITE_EVENTS_COLLECTION = "prefered_events";
-
-
-
-
 }

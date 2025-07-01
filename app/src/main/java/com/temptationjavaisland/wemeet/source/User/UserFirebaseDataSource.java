@@ -23,10 +23,6 @@ import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
 
-
-/**
- * Class that gets the user information using Firebase Realtime Database.
- */
 public class UserFirebaseDataSource extends BaseUserDataRemoteDataSource {
 
     private static final String TAG = UserFirebaseDataSource.class.getSimpleName();
@@ -74,7 +70,6 @@ public class UserFirebaseDataSource extends BaseUserDataRemoteDataSource {
 
     @Override
     public void getUserPreferedEvents(String idToken) {
-        //databaseReference = firebaseDatabase.getReference().getRef();
         databaseReference.child(FIREBASE_USERS_COLLECTION).child(idToken).
                 child(FIREBASE_FAVORITE_EVENTS_COLLECTION).get().addOnCompleteListener(task -> {
                     if (!task.isSuccessful()) {
@@ -102,14 +97,6 @@ public class UserFirebaseDataSource extends BaseUserDataRemoteDataSource {
                 .child(FIREBASE_FAVORITE_EVENTS_COLLECTION)
                 .child(event.getId()) // usa un ID univoco per evitare duplicati
                 .setValue(event);
-                /*.addOnSuccessListener(aVoid -> {
-                    Log.d(TAG, "Evento preferito salvato con successo.");
-                    //userResponseCallback.onSuccessFromRemoteDatabase(event);
-                })
-                .addOnFailureListener(e -> {
-                    Log.e(TAG, "Errore salvataggio evento preferito", e);
-                    userResponseCallback.onFailureFromRemoteDatabase(e.getLocalizedMessage());
-                });*/
     }
 
     @Override
@@ -120,7 +107,6 @@ public class UserFirebaseDataSource extends BaseUserDataRemoteDataSource {
                 .child(eventId)
                 .removeValue()
                 .addOnSuccessListener(aVoid -> {
-                    //userResponseCallback.onSuccessRemoveFavoriteEvent();
                 })
                 .addOnFailureListener(e -> {
                     userResponseCallback.onFailureFromRemoteDatabase(e.getLocalizedMessage());

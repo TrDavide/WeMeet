@@ -64,14 +64,12 @@ public class Image implements Parcelable {
     protected Image(Parcel in) {
         id = in.readInt();
         eventId = in.readInt();
-        // Se volessi includere i campi commentati, qui andrebbero letti con in.readString(), in.readInt(), ecc.
     }
 
     @Override
     public void writeToParcel(Parcel dest, int flags) {
         dest.writeInt(id);
         dest.writeInt(eventId);
-        // Se volessi includere i campi commentati, qui andrebbero scritti con dest.writeString(), dest.writeInt(), ecc.
     }
 
     @Override
