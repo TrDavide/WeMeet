@@ -37,18 +37,6 @@ public class MapsFragment extends Fragment {
                              Bundle savedInstanceState) {
 
         View view = inflater.inflate(R.layout.fragment_maps, container, false);
-        /*
-        mapView = view.findViewById(R.id.mappaView);
-        mapView.onCreate(savedInstanceState);
-        mapView.getMapAsync(googleMap -> {
-            // Coordinate di Milano
-            LatLng milano = new LatLng(45.4642, 9.1900);
-            // Aggiungi un marker
-            googleMap.addMarker(new MarkerOptions().position(milano).title("Milano"));
-            // Sposta la camera sulla posizione del marker con un certo zoom
-            googleMap.moveCamera(CameraUpdateFactory.newLatLngZoom(milano, 12));
-        });*/
-
         return view;
     }
 

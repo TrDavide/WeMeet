@@ -14,9 +14,6 @@ import com.temptationjavaisland.wemeet.source.Event.BaseEventRemoteDataSource;
 
 import java.util.List;
 
-/**
- * Repository class to get the news from local or from a remote source.
- */
 public class EventRepository implements EventResponseCallback {
 
     private static final String TAG = EventRepository.class.getSimpleName();
@@ -74,10 +71,6 @@ public class EventRepository implements EventResponseCallback {
     public MutableLiveData<Result> searchEvents(String keyword) {
         MutableLiveData<Result> searchResult = new MutableLiveData<>();
 
-        // Qui NON puoi passare un callback anonimo, perché la firma del metodo non lo prevede.
-        // Perciò devi usare il callback già settato in eventRemoteDataSource (eventResponseCallback)
-
-        // Setta un callback temporaneo per intercettare la risposta della ricerca
         EventResponseCallback tempCallback = new EventResponseCallback() {
             @Override
             public void onSuccessFromRemote(EventAPIResponse response, long lastUpdate) {

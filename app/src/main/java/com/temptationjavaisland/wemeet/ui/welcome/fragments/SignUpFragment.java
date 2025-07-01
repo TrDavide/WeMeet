@@ -54,10 +54,8 @@ public class SignUpFragment extends Fragment {
     private UserViewModel userViewModel;
 
     public SignUpFragment() {
-        // Required empty public constructor
     }
 
-    // TODO: Rename and change types and number of parameters
     public static SignUpFragment newInstance() {
         SignUpFragment fragment = new SignUpFragment();
         return fragment;
@@ -79,12 +77,9 @@ public class SignUpFragment extends Fragment {
                         .build())
                 .setGoogleIdTokenRequestOptions(BeginSignInRequest.GoogleIdTokenRequestOptions.builder()
                         .setSupported(true)
-                        // Your server's client ID, not your Android client ID.
                         .setServerClientId(getString(R.string.default_web_client_id))
-                        // Only show accounts previously used to sign in.
                         .setFilterByAuthorizedAccounts(false)
                         .build())
-                // Automatically sign in when exactly one credential is retrieved.
                 .setAutoSelectEnabled(true)
                 .build();
 
@@ -93,7 +88,6 @@ public class SignUpFragment extends Fragment {
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
-        // Inflate the layout for this fragment
         View view = inflater.inflate(R.layout.fragment_sign_up, container, false);
 
         editTextEmail = view.findViewById(R.id.inputTextEmail);
@@ -118,16 +112,12 @@ public class SignUpFragment extends Fragment {
 
             if(isEmailOk(editTextEmail.getText().toString()) && editTextEmail.getText() != null){
                 if(editTextPassword.getText() != null && isPasswordOk(editTextPassword.getText().toString())){
-                    if(checkPasswords()/*editTextPassword.getText().toString() == editTextConfermaPassword.getText().toString()*/){
-
+                    if(checkPasswords()){
                         if (!userViewModel.isAuthenticationError()) {
                             userViewModel.getUserMutableLiveData(email, password, false).observe(
                                     getViewLifecycleOwner(), result -> {
                                         if (result.isSuccess()) {
                                             User user = ((Result.UserSuccess) result).getData();
-                                            SharedPreferences prefs = PreferenceManager.getDefaultSharedPreferences(requireContext());
-                                            prefs.edit().putString("user_password", password).apply();
-                                            //saveLoginData(email, password, user.getIdToken());
                                             userViewModel.setAuthenticationError(false);
                                             Navigation.findNavController(view).navigate(
                                                     R.id.action_signUpFragment_to_homePageActivity);

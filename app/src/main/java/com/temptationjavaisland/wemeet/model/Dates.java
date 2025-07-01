@@ -61,7 +61,6 @@ public class Dates implements Parcelable {
         start = in.readParcelable(Start.class.getClassLoader());
         timezone = in.readString();
         spanMultipleDays = in.readByte() != 0;
-        // status non implementato, rimane commentato
     }
 
     @Override
@@ -69,7 +68,6 @@ public class Dates implements Parcelable {
         dest.writeParcelable(start, flags);
         dest.writeString(timezone);
         dest.writeByte((byte) (spanMultipleDays ? 1 : 0));
-        // status non implementato, rimane commentato
     }
 
     @Override

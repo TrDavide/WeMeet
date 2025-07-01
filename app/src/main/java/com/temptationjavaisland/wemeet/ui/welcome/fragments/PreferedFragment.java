@@ -108,7 +108,7 @@ public class PreferedFragment extends Fragment {
         recyclerView = view.findViewById(R.id.recyclerViewPrefered);
         recyclerView.setLayoutManager(new LinearLayoutManager(view.getContext()));
 
-        List<Event> eventiLocali = eventViewModel.ottineiEventiSalvatiLocal(); // <-- questo metodo dovresti crearlo tu
+        List<Event> eventiLocali = eventViewModel.ottineiEventiSalvatiLocal();
         eventList = new ArrayList<>(eventiLocali);
         eventList.addAll(eventiLocali);
 
@@ -140,7 +140,4 @@ public class PreferedFragment extends Fragment {
 
         return view;
     }
-
-
-
 }

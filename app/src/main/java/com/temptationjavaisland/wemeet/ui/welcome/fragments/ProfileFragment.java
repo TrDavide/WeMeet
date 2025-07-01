@@ -22,6 +22,12 @@ import androidx.appcompat.app.AppCompatDelegate;
 import androidx.fragment.app.Fragment;
 import androidx.lifecycle.ViewModelProvider;
 
+import com.google.android.gms.auth.api.signin.GoogleSignIn;
+import com.google.android.gms.auth.api.signin.GoogleSignInAccount;
+import com.google.android.gms.auth.api.signin.GoogleSignInClient;
+import com.google.android.gms.auth.api.signin.GoogleSignInOptions;
+import com.google.android.gms.common.api.ApiException;
+import com.google.android.gms.tasks.Task;
 import com.google.android.material.bottomnavigation.BottomNavigationView;
 import com.google.android.material.button.MaterialButton;
 import com.google.android.material.dialog.MaterialAlertDialogBuilder;
@@ -29,6 +35,7 @@ import com.google.firebase.auth.AuthCredential;
 import com.google.firebase.auth.EmailAuthProvider;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
+import com.google.firebase.auth.GoogleAuthProvider;
 import com.temptationjavaisland.wemeet.R;
 import com.temptationjavaisland.wemeet.repository.User.IUserRepository;
 import com.temptationjavaisland.wemeet.source.User.UserFirebaseDataSource;
@@ -44,7 +51,8 @@ public class ProfileFragment extends Fragment {
     private UserViewModel userViewModel;
     private EventViewModel eventViewModel;
     public static final String TAG = ProfileFragment.class.getSimpleName();
-
+    private static final int RC_GOOGLE_REAUTH = 123;
+    private String passwordForReauth = null;
 
     public ProfileFragment() {}
 
@@ -114,27 +122,34 @@ public class ProfileFragment extends Fragment {
     }
 
     private void showDeleteConfirmationDialog() {
-        final EditText input = new EditText(requireContext());
-        input.setInputType(InputType.TYPE_CLASS_TEXT | InputType.TYPE_TEXT_VARIATION_PASSWORD);
-        input.setHint("Inserisci la password");
+        FirebaseUser user = FirebaseAuth.getInstance().getCurrentUser();
+        if (user == null) {
+            showError("Nessun utente autenticato.");
+            return;
+        }
+
+        String providerId = user.getProviderData().get(1).getProviderId();
 
         new MaterialAlertDialogBuilder(requireContext())
                 .setTitle("Conferma eliminazione")
-                .setMessage("Inserisci la tua password per confermare l'eliminazione del profilo:")
-                .setView(input)
+                .setMessage("Sei sicuro di voler eliminare il tuo profilo?")
                 .setNegativeButton("Annulla", (dialog, which) -> dialog.dismiss())
                 .setPositiveButton("Elimina", (dialog, which) -> {
-                    String password = input.getText().toString();
-                    deleteUserAccount(password);
+                    if ("google.com".equals(providerId)) {
+                        reauthenticateWithGoogle(); // Avvia la riautenticazione con Google
+                    } else if ("password".equals(providerId)) {
+                        showPasswordPrompt(); // Chiede la password
+                    } else {
+                        showError("Provider non supportato: " + providerId);
+                    }
                 })
                 .show();
     }
 
-
     private void deleteUserAccount(String password) {
         FirebaseUser user = FirebaseAuth.getInstance().getCurrentUser();
         if (user == null || user.getEmail() == null || password == null || password.isEmpty()) {
-            showError("Impossibile eliminare l'account: dati mancanti.");
+            showError("Dati utente mancanti.");
             return;
         }
 
@@ -142,29 +157,12 @@ public class ProfileFragment extends Fragment {
 
         user.reauthenticate(credential).addOnCompleteListener(reauthTask -> {
             if (reauthTask.isSuccessful()) {
-                String userId = user.getUid();
-
-                UserFirebaseDataSource userDataSource = new UserFirebaseDataSource();
-                userDataSource.deleteUserData(userId,
-                        aVoid -> {
-                            user.delete().addOnCompleteListener(deleteTask -> {
-                                if (deleteTask.isSuccessful()) {
-                                    if (eventViewModel != null) eventViewModel.clearLocalEvents();
-                                    FirebaseAuth.getInstance().signOut();
-                                    startWelcomeActivity();
-                                } else {
-                                    showError("Errore durante l'eliminazione dell'account Firebase.");
-                                }
-                            });
-                        },
-                        e -> showError("Errore durante l'eliminazione dei dati utente dal database.")
-                );
+                proceedToDeleteUserAccount(user);
             } else {
-                showError("Riautenticazione fallita. Effettua il login e riprova.");
+                showError("Password errata o riautenticazione fallita.");
             }
         });
     }
-
 
     private void startWelcomeActivity() {
         Intent intent = new Intent(requireContext(), WelcomeActivity.class);
@@ -177,6 +175,81 @@ public class ProfileFragment extends Fragment {
                 .setTitle("Errore")
                 .setMessage(message)
                 .setPositiveButton("OK", null)
+                .show();
+    }
+
+    private void reauthenticateWithGoogle() {
+        GoogleSignInOptions gso = new GoogleSignInOptions.Builder(GoogleSignInOptions.DEFAULT_SIGN_IN)
+                .requestIdToken(getString(R.string.default_web_client_id)) // <-- assicurati sia corretto!
+                .requestEmail()
+                .build();
+
+        GoogleSignInClient googleSignInClient = GoogleSignIn.getClient(requireContext(), gso);
+        Intent signInIntent = googleSignInClient.getSignInIntent();
+        startActivityForResult(signInIntent, RC_GOOGLE_REAUTH);
+    }
+
+    @Override
+    public void onActivityResult(int requestCode, int resultCode, @Nullable Intent data) {
+        super.onActivityResult(requestCode, resultCode, data);
+
+        if (requestCode == RC_GOOGLE_REAUTH) {
+            Task<GoogleSignInAccount> task = GoogleSignIn.getSignedInAccountFromIntent(data);
+            try {
+                GoogleSignInAccount account = task.getResult(ApiException.class);
+                if (account != null) {
+                    AuthCredential credential = GoogleAuthProvider.getCredential(account.getIdToken(), null);
+                    FirebaseUser user = FirebaseAuth.getInstance().getCurrentUser();
+                    if (user != null) {
+                        user.reauthenticate(credential).addOnCompleteListener(reauthTask -> {
+                            if (reauthTask.isSuccessful()) {
+                                proceedToDeleteUserAccount(user);
+                            } else {
+                                showError("Riautenticazione con Google fallita.");
+                            }
+                        });
+                    }
+                } else {
+                    showError("Accesso Google non riuscito.");
+                }
+            } catch (ApiException e) {
+                showError("Errore Google Sign-In: " + e.getMessage());
+            }
+        }
+    }
+
+    private void proceedToDeleteUserAccount(FirebaseUser user) {
+        String userId = user.getUid();
+        UserFirebaseDataSource userDataSource = new UserFirebaseDataSource();
+
+        userDataSource.deleteUserData(userId,
+                aVoid -> user.delete().addOnCompleteListener(deleteTask -> {
+                    if (deleteTask.isSuccessful()) {
+                        if (eventViewModel != null) eventViewModel.clearLocalEvents();
+                        FirebaseAuth.getInstance().signOut();
+                        startWelcomeActivity();
+                    } else {
+                        showError("Errore durante l'eliminazione dell'account.");
+                    }
+                }),
+                e -> showError("Errore durante l'eliminazione dei dati utente dal database.")
+        );
+    }
+
+    private void showPasswordPrompt() {
+        final EditText input = new EditText(requireContext());
+        input.setInputType(InputType.TYPE_CLASS_TEXT | InputType.TYPE_TEXT_VARIATION_PASSWORD);
+        input.setHint("Inserisci la password");
+
+        new MaterialAlertDialogBuilder(requireContext())
+                .setTitle("Conferma password")
+                .setMessage("Inserisci la tua password per confermare l'eliminazione:")
+                .setView(input)
+                .setNegativeButton("Annulla", (dialog, which) -> dialog.dismiss())
+                .setPositiveButton("Conferma", (dialog, which) -> {
+                    String password = input.getText().toString();
+                    deleteUserAccount(password);
+                })
                 .show();
     }
 }

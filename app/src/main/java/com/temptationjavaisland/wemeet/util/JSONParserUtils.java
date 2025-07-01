@@ -24,6 +24,4 @@ public class JSONParserUtils {
 
         return new Gson().fromJson(bufferedReader, EventAPIResponse.class);
     }
-
-
 }

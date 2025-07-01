@@ -35,13 +35,11 @@ public class EmbeddedEvent implements Parcelable {
 
     protected EmbeddedEvent(Parcel in) {
         venues = in.createTypedArrayList(Venue.CREATOR);
-        // attractions = in.createTypedArrayList(Attraction.CREATOR);
     }
 
     @Override
     public void writeToParcel(Parcel dest, int flags) {
         dest.writeTypedList(venues);
-        // dest.writeTypedList(attractions);
     }
 
     @Override

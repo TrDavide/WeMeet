@@ -53,7 +53,6 @@
     <string name="gattopardo_milano">Gattopardo Milano</string>
     <string name="impostazioni">Impostazioni Profilo</string>
     <string name="error_retrieving_events">There was an error retrieving events</string>
-    <!-- Errors -->
     <string name="error_email_login">Check the email address</string>
     <string name="error_password_login">The password must have at least 8 characters</string>
     <string name="error_no_internet">No internet connection</string>
@@ -65,9 +64,9 @@
     <string name="no_internet">Nessuna connessione Internet</string>
     <string name="change_foto">Tocca l\'immagine per cambiarla</string>
     <string name="tema_giorno">Tema: Giorno</string>
-    <string name="modifica_biografia">Scrivi la tua biografia...</string>
     <string name="error_unexpected">Unexpected error</string>
     <string name="error_collision_user">This email is already registered</string>
     <string name="elimina_profilo">Elimina Profilo</string>
+    <string name="eventi_vicini_a_te">Eventi vicini a te</string>
 
 </resources>

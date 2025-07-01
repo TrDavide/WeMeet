@@ -14,23 +14,6 @@ public class EventMockDataSource extends BaseEventRemoteDataSource {
         this.jsonParserUtils = jsonParserUtils;
     }
 
-   /* @Override
-    public void getEvents(String country, String city, String keyword, int page, long lastUpdate) {
-        EventAPIResponse eventApiResponse = null;
-
-        try {
-            eventApiResponse = jsonParserUtils.parserJSONFileWithGsson(Constants.SAMPLE_JSON_FILENAME);
-        } catch (IOException e) {
-            e.printStackTrace();
-        }
-
-        if (eventApiResponse != null) {
-            eventCallback.onSuccessFromRemote(eventApiResponse, System.currentTimeMillis());
-        } else {
-            eventCallback.onFailureFromRemote(new Exception("Errore nel parsing del file JSON"));
-        }
-    }*/
-
     @Override
     public void getEventsLocation(String latlong, int radius, String unit, String locale, long lastUpdate) {
         EventAPIResponse eventApiResponse = null;

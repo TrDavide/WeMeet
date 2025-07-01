@@ -9,9 +9,6 @@ import org.apache.commons.digester.annotations.rules.SetTop;
 
 import java.util.List;
 
-/**
- * Class to manage local data source for events using Room.
- */
 public class EventLocalDataSource extends BaseEventLocalDataSource {
 
     private final EventDAO eventDAO;
@@ -27,9 +24,6 @@ public class EventLocalDataSource extends BaseEventLocalDataSource {
     }
 
     public List<Event> ottieniEventisalvati() {
-        /*EventRoomDatabase.databaseWriteExecutor.execute(() -> {
-            eventDAO.getSaved();
-        });*/
         return eventDAO.getSaved();
     }
 

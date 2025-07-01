@@ -5,7 +5,8 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:orientation="vertical"
-    android:fillViewport="true">
+    android:fillViewport="true"
+    android:background="@color/white">
 
     <TextView
         android:id="@+id/titleText"
@@ -34,8 +35,6 @@
         app:icon="@drawable/moon"
         app:iconTint="@color/white"
         android:backgroundTint="@color/black" />
-
-
 
     <com.google.android.material.button.MaterialButton
         android:id="@+id/bottone_logout"

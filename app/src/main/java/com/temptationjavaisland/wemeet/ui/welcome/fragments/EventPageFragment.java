@@ -84,7 +84,7 @@ public class EventPageFragment extends Fragment {
                 positionTextView.setText("Posizione non disponibile");
             }
 
-            descriptionTextView.setText(event.getName()); // o event.getDescription() se ce l'hai
+            descriptionTextView.setText(event.getName());
 
             if (event.getImages() != null && !event.getImages().isEmpty() && eventImageView != null) {
                 String imageUrl = event.getImages().get(0).getUrl();

@@ -17,9 +17,6 @@ import retrofit2.Call;
 import retrofit2.Callback;
 import retrofit2.Response;
 
-/**
- * Class to get events from a remote source using Retrofit.
- */
 public class EventRemoteDataSource extends BaseEventRemoteDataSource {
 
     private final EventAPIService eventAPIService;
@@ -29,28 +26,6 @@ public class EventRemoteDataSource extends BaseEventRemoteDataSource {
         this.apiKey = apiKey;
         this.eventAPIService = ServiceLocator.getInstance().getEventAPIService();
     }
-
-    /*@Override
-    public void getEvents(String country, String city, String keyword, int pageSize, long lastUpdate) {
-        Call<EventAPIResponse> eventsCall = eventAPIService.getEvents(country,city, keyword,pageSize,apiKey);
-        eventsCall.enqueue(new Callback<EventAPIResponse>() {
-            @Override
-            public void onResponse(@NonNull Call<EventAPIResponse> call,
-                                   @NonNull Response<EventAPIResponse> response) {
-
-                if (response.body() != null && response.isSuccessful()) {
-                    eventCallback.onSuccessFromRemote(response.body(), System.currentTimeMillis());
-                } else {
-                    eventCallback.onFailureFromRemote(new Exception(API_KEY_ERROR));
-                }
-            }
-
-            @Override
-            public void onFailure(@NonNull Call<EventAPIResponse> call, @NonNull Throwable t) {
-                eventCallback.onFailureFromRemote(new Exception(RETROFIT_ERROR));
-            }
-        });
-    }*/
 
     @Override
     public void getEventsLocation(String latlong, int radius, String unit, String locale, long lastUpdate) {

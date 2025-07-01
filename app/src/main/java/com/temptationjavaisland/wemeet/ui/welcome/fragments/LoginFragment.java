@@ -81,12 +81,9 @@ public class LoginFragment extends Fragment {
                         .build())
                 .setGoogleIdTokenRequestOptions(BeginSignInRequest.GoogleIdTokenRequestOptions.builder()
                         .setSupported(true)
-                        // Your server's client ID, not your Android client ID.
                         .setServerClientId(getString(R.string.default_web_client_id))
-                        // Only show accounts previously used to sign in.
                         .setFilterByAuthorizedAccounts(false)
                         .build())
-                // Automatically sign in when exactly one credential is retrieved.
                 .setAutoSelectEnabled(true)
                 .build();
 
@@ -174,7 +171,7 @@ public class LoginFragment extends Fragment {
         });
 
         loginButton.setOnClickListener(v -> {
-            if(isEmailOk(editTextEmail.getText().toString()) && editTextEmail.getText() != null/*editTextEmail.getText() != null && isEmailOk(editTextEmail.getText().toString())*/){
+            if(isEmailOk(editTextEmail.getText().toString()) && editTextEmail.getText() != null){
                 if(editTextPassword.getText() != null && isPasswordOk(editTextPassword.getText().toString())){
                     FirebaseAuth.getInstance().signInWithEmailAndPassword(
                             editTextEmail.getText().toString().trim(),
@@ -192,14 +189,11 @@ public class LoginFragment extends Fragment {
                     });
 
                 } else{
-                    //editTextPassword.setError("The password must have at least 8 chars");
                     Snackbar.make(view, "Inserisci una password corretta", Snackbar.LENGTH_SHORT)
                             .show();
                 }
 
             } else{
-
-                //editTextEmail.setError("Check your email");
                 Snackbar.make(view, "Inserisci una mail corretta", Snackbar.LENGTH_SHORT)
                         .show(); // content: restituisce il primo elemento del layout, quindi in questo caso LinearLayout (gli viene assegnato un id)
             }

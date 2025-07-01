@@ -17,7 +17,6 @@ public class Attraction {
     private List<Image> images;
     @Ignore
     private List<Classification> classifications;
-    //private Venue.UpcomingEvents upcomingEvents;
     private Links _links;
 
     // Getter e Setter
@@ -92,14 +91,6 @@ public class Attraction {
     public void setClassifications(List<Classification> classifications) {
         this.classifications = classifications;
     }
-
-    /*public Venue.UpcomingEvents getUpcomingEvents() {
-        return upcomingEvents;
-    }
-
-    public void setUpcomingEvents(Venue.UpcomingEvents upcomingEvents) {
-        this.upcomingEvents = upcomingEvents;
-    }*/
 
     public Links getLinks() {
         return _links;

@@ -138,10 +138,10 @@ public class HomeFragment extends Fragment {
                 eventViewModel.updateEvent(event); // aggiorna localmente
 
                 if (!isCurrentlySaved) {
-                    // Se non era salvato prima → lo salvo (ora è diventato salvato)
+                    // Se non era salvato prima lo salvo (ora è diventato salvato)
                     userViewModel.saveUserPreferedEvent(userViewModel.getLoggedUser().getIdToken(), event);
                 } else {
-                    // Se era già salvato → lo rimuovo da Firebase
+                    // Se era già salvato lo rimuovo da Firebase
                     userViewModel.removeUserPreferedEvent(userViewModel.getLoggedUser().getIdToken(), event.getId());
                 }
 
