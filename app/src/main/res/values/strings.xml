@@ -82,5 +82,6 @@
     <string name="elimina_profilo">Elimina Profilo</string>
     <string name="eventi_vicini_a_te">Eventi vicini a te</string>
     <string name="sei_loggato_con">Sei loggato con:</string>
+    <string name="posizione_default">Non disponibile</string>
 
 </resources>

@@ -104,6 +104,7 @@ public class LocationFragment extends Fragment {
                     userViewModel.saveUserPreferedEvent(userViewModel.getLoggedUser().getIdToken(), event);
                 } else {
                     eventViewModel.unsetFavorite(event.getId()); //ora aggiorna anche nel DB locale
+                    eventViewModel.removeFromFavorite(event);
                     userViewModel.removeUserPreferedEvent(userViewModel.getLoggedUser().getIdToken(), event.getId());
                 }
 
