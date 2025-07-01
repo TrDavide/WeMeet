@@ -7,7 +7,7 @@
 * Alessandro Nappi - a.nappi7@campus.unimib.it
 * Marco Carpio Herreros - m.carpioherreros@campus.unimib.it
 
-### API utilizzata
+### API principale utilizzata
 Discovery API 2.0 (Ticketmaster) 
 
 Link: https://developer.ticketmaster.com/products-and-docs/apis/discovery-api/v2/
