@@ -125,8 +125,8 @@ public class SignUpFragment extends Fragment {
                                     getViewLifecycleOwner(), result -> {
                                         if (result.isSuccess()) {
                                             User user = ((Result.UserSuccess) result).getData();
-                                            SharedPreferences prefs = PreferenceManager.getDefaultSharedPreferences(requireContext());
-                                            prefs.edit().putString("user_password", password).apply();
+                                            //SharedPreferences prefs = PreferenceManager.getDefaultSharedPreferences(requireContext());
+                                            //prefs.edit().putString("user_password", password).apply();
                                             //saveLoginData(email, password, user.getIdToken());
                                             userViewModel.setAuthenticationError(false);
                                             Navigation.findNavController(view).navigate(
