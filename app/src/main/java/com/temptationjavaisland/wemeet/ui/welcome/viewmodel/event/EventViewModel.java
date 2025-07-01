@@ -40,10 +40,6 @@ public class EventViewModel extends ViewModel {
         eventRepository.insertEvents(events);
     }
 
-    public List<Event> ottineiEventiSalvatiLocal() {
-        return eventRepository.ottineiEventiSalvatiLocal();
-    }
-
     public List<Event> getAll() {
         return eventRepository.getAll();
     }

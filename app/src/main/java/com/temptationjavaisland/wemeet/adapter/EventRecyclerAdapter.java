@@ -6,11 +6,11 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.CheckBox;
-import android.widget.ImageView;
+import android.widget.ImageView;  // aggiunto import
 import android.widget.TextView;
 import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
-import com.bumptech.glide.Glide;
+import com.bumptech.glide.Glide; // aggiunto import Glide
 import com.temptationjavaisland.wemeet.R;
 import com.temptationjavaisland.wemeet.database.EventRoomDatabase;
 import com.temptationjavaisland.wemeet.model.Event;
@@ -58,12 +58,17 @@ public class EventRecyclerAdapter extends RecyclerView.Adapter<EventRecyclerAdap
 
         @Override
         public void onClick(View v){
+            //se il click proviene dal CheckBox "salva nei preferiti"
             if(v.getId() == R.id.favoriteButton){
+                //notifica al listener che il pulsante preferiti è stato premuto per l'elemento corrente
                 onItemClickListener.onFavoriteButtonPressed(getAdapterPosition());
-            }else{
+            } else {
+                //altrimenti, considera il click sull'intera card dell'evento
+                //e notifica il listener del click sull'evento specifico
                 onItemClickListener.onEventItemClick(eventList.get(getAdapterPosition()));
             }
         }
+
     }
 
     public EventRecyclerAdapter(int layout, List<Event> eventList, OnItemClickListener onItemClickListener) {
@@ -81,15 +86,20 @@ public class EventRecyclerAdapter extends RecyclerView.Adapter<EventRecyclerAdap
 
     @Override
     public void onBindViewHolder(ViewHolder viewHolder, final int position) {
+        //ottiene l'evento corrente dalla lista in base alla posizione
         Event currentEvent = eventList.get(position);
+
+        //Imposta il titolo dell'evento nella TextView corrispondente
         viewHolder.getTextViewTitle().setText(currentEvent.getName());
 
+        //Imposta la data dell'evento, se disponibile, altrimenti mostra un messaggio di fallback
         if (currentEvent.getDates() != null && currentEvent.getDates().getStart() != null) {
             viewHolder.getTextViewDate().setText(currentEvent.getDates().getStart().getLocalDate());
         } else {
             viewHolder.getTextViewDate().setText("Data non disponibile");
         }
 
+        //Imposta la location dell'evento se disponibile, altrimenti mostra un messaggio di fallback
         String locationText = "Luogo non disponibile";
         if (currentEvent.getEmbedded() != null &&
                 currentEvent.getEmbedded().getVenues() != null &&
@@ -98,22 +108,24 @@ public class EventRecyclerAdapter extends RecyclerView.Adapter<EventRecyclerAdap
                 currentEvent.getEmbedded().getVenues().get(0).getName() != null) {
             locationText = currentEvent.getEmbedded().getVenues().get(0).getName();
         }
-
         viewHolder.getTextViewLocation().setText(locationText);
 
-        // Carica immagine evento con Glide
+        //carica l'immagine dell'evento tramite Glide; se non disponibile, usa immagine di default
         if (currentEvent.getImages() != null && !currentEvent.getImages().isEmpty()) {
             String imageUrl = currentEvent.getImages().get(0).getUrl();
             Glide.with(viewHolder.itemView.getContext())
                     .load(imageUrl)
+                    //.placeholder(R.drawable.placeholder)
                     .into(viewHolder.getEventImageView());
         } else {
-            viewHolder.getEventImageView().setImageResource(R.drawable.event_background); // fallback
+            viewHolder.getEventImageView().setImageResource(R.drawable.event_background);
         }
 
+        //imposta lo stato del checkbox senza triggerare listener precedenti
         viewHolder.getCheckBoxSaved().setOnCheckedChangeListener(null);
         viewHolder.getCheckBoxSaved().setChecked(currentEvent.isSaved());
 
+        //Associa l'evento corrente al listener di click
         viewHolder.bind(currentEvent, onItemClickListener);
     }
 

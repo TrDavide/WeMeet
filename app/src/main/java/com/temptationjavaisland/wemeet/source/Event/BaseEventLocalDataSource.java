@@ -26,8 +26,6 @@ public abstract class BaseEventLocalDataSource {
 
     public abstract List<Event> getAll();
 
-    public abstract List<Event> ottieniEventisalvati();
-
     public abstract void getPreferedEvents();
 
     public abstract void updateEvent(Event event);

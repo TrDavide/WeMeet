@@ -1,7 +1,6 @@
 package com.temptationjavaisland.wemeet.repository.User;
 
 import android.util.Log;
-
 import androidx.lifecycle.MutableLiveData;
 
 import com.temptationjavaisland.wemeet.repository.Event.EventResponseCallback;
@@ -14,7 +13,6 @@ import com.temptationjavaisland.wemeet.source.User.BaseUserAuthenticationRemoteD
 import com.temptationjavaisland.wemeet.source.User.BaseUserDataRemoteDataSource;
 
 import java.util.List;
-import java.util.Set;
 
 public class UserRepository implements IUserRepository, UserResponseCallback, EventResponseCallback {
 
@@ -39,6 +37,7 @@ public class UserRepository implements IUserRepository, UserResponseCallback, Ev
         this.articleLocalDataSource.setEventCallback(this);
     }
 
+    //metodo per login o registrazione utente, ritorna LiveData per la UI
     @Override
     public MutableLiveData<Result> getUser(String email, String password, boolean isUserRegistered) {
         if (isUserRegistered) {
@@ -49,41 +48,46 @@ public class UserRepository implements IUserRepository, UserResponseCallback, Ev
         return userMutableLiveData;
     }
 
+    //login utente tramite token Google
     @Override
     public MutableLiveData<Result> getGoogleUser(String idToken) {
         signInWithGoogle(idToken);
         return userMutableLiveData;
     }
 
+    //recupera eventi preferiti dell'utente
     @Override
     public MutableLiveData<Result> getUserPreferedEvents(String idToken) {
         userDataRemoteDataSource.getUserPreferedEvents(idToken);
         return userPreferedEventsMutableLiveData;
     }
 
+    //salva evento preferito nel backend remoto
     @Override
     public void saveUserPreferedEvent(String idToken, Event event) {
         userDataRemoteDataSource.saveUserPreferedEvent(idToken, event);
     }
 
+    //rimuove evento preferito nel backend remoto
     @Override
     public void removeUserPreferedEvent(String idToken, String eventId) {
         userDataRemoteDataSource.removeUserPreferedEvent(idToken, eventId);
     }
 
-
-
+    //restituisce utente attualmente loggato
     @Override
     public User getLoggedUser() {
         return userRemoteDataSource.getLoggedUser();
     }
 
+    //effettua logout utente e notifica UI tramite LiveData
     @Override
     public MutableLiveData<Result> logout() {
         userRemoteDataSource.logout();
         return userMutableLiveData;
     }
 
+    //metodi per delegare autenticazione al data source remoto
     @Override
     public void signUp(String email, String password) {
         userRemoteDataSource.signUp(email, password);
@@ -99,6 +103,7 @@ public class UserRepository implements IUserRepository, UserResponseCallback, Ev
         userRemoteDataSource.signInWithGoogle(token);
     }
 
+    //callback invocato al successo dell'autenticazione: salva dati utente remoti
     @Override
     public void onSuccessFromAuthentication(User user) {
         if (user != null) {
@@ -106,97 +111,70 @@ public class UserRepository implements IUserRepository, UserResponseCallback, Ev
         }
     }
 
+    //callback invocato al fallimento dell'autenticazione: notifica errore alla UI
     @Override
     public void onFailureFromAuthentication(String message) {
         Result.Error result = new Result.Error(message);
         userMutableLiveData.postValue(result);
     }
 
+    //callback invocato al successo del recupero dati utente dal database remoto
     @Override
     public void onSuccessFromRemoteDatabase(User user) {
         Result.UserSuccess result = new Result.UserSuccess(user);
         userMutableLiveData.postValue(result);
     }
 
+    //callback invocato al successo del recupero lista eventi dal database remoto
     @Override
     public void onSuccessFromRemoteDatabase(List<Event> articleList) {
         articleLocalDataSource.insertEvents(articleList);
     }
 
+    //callback invocato al fallimento del recupero dati dal database remoto
     @Override
     public void onFailureFromRemoteDatabase(String message) {
         Result.Error result = new Result.Error(message);
         userMutableLiveData.postValue(result);
     }
 
+    // Metodo chiamato al successo logout (vuoto per ora)
     @Override
-    public void onSuccessLogout() {
+    public void onSuccessLogout() { }
 
-    }
-
+    //metodi vuoti delle callback per eventi (da implementare se necessario)
     @Override
-    public void onSuccessFromRemote(EventAPIResponse articleAPIResponse, long lastUpdate) {
-
-    }
+    public void onSuccessFromRemote(EventAPIResponse articleAPIResponse, long lastUpdate) { }
 
     @Override
-    public void onFailureFromRemote(Exception exception) {
-
-    }
+    public void onFailureFromRemote(Exception exception) { }
 
     @Override
-    public void onSuccessFromLocal(List<Event> articlesList) {
-
-    }
+    public void onSuccessFromLocal(List<Event> articlesList) { }
 
     @Override
-    public void onFailureFromLocal(Exception exception) {
-
-    }
+    public void onFailureFromLocal(Exception exception) { }
 
     @Override
-    public void onFavoriteStatusChanged(Event article, List<Event> preferedArticles) {
-
-    }
+    public void onFavoriteStatusChanged(Event article, List<Event> preferedArticles) { }
 
     @Override
-    public void onFavoriteStatusChanged(List<Event> news) {
-
-    }
+    public void onFavoriteStatusChanged(List<Event> news) { }
 
     @Override
-    public void onDeleteFavoriteSuccess(List<Event> favoriteNews) {
+    public void onDeleteFavoriteSuccess(List<Event> favoriteNews) { }
 
-    }
-
-    //@Override
-    public void onSuccessFromCloudReading(List<Event> eventsList) {
-
-    }
-
-    //@Override
-    public void onSuccessFromCloudWriting(Event event) {
-
-    }
-
-    //@Override
-    public void onFailureFromCloud(Exception exception) {
-
-    }
-
+    //callback invocato al successo rimozione evento preferito
     @Override
     public void onSuccessRemoveFavoriteEvent() {
-        // Qui puoi notificare al LiveData o fare altre operazioni di successo
         Log.d(TAG, "Evento preferito rimosso con successo");
-        // Esempio: userFavoriteNewsMutableLiveData.postValue(...);
+        // Possibile notifica LiveData qui
     }
 
+    //callback invocato al fallimento rimozione evento preferito
     @Override
     public void onFailureRemoveFavoriteEvent(String error) {
         Log.e(TAG, "Errore rimozione evento preferito: " + error);
-        // Puoi notificare errore al LiveData o altro
+        // Possibile notifica LiveData qui
     }
-
-
-
 }

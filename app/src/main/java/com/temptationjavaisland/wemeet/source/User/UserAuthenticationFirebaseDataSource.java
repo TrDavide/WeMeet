@@ -1,12 +1,8 @@
 package com.temptationjavaisland.wemeet.source.User;
 
-
 import static com.temptationjavaisland.wemeet.util.Constants.*;
-
 import android.util.Log;
-
 import androidx.annotation.NonNull;
-
 import com.google.firebase.auth.AuthCredential;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseAuthInvalidCredentialsException;
@@ -29,9 +25,10 @@ public class UserAuthenticationFirebaseDataSource extends BaseUserAuthentication
 
     @Override
     public User getLoggedUser() {
+        //recupera l'utente attualmente loggato da Firebase e lo converte nel modello User
         FirebaseUser firebaseUser = firebaseAuth.getCurrentUser();
         if (firebaseUser == null) {
-            return null;
+            return null; // Nessun utente loggato
         } else {
             return new User(firebaseUser.getDisplayName(), firebaseUser.getEmail(), firebaseUser.getUid());
         }
@@ -39,6 +36,7 @@ public class UserAuthenticationFirebaseDataSource extends BaseUserAuthentication
 
     @Override
     public void logout() {
+        //aggiunge un listener per notificare il logout e poi effettua il logout da Firebase
         FirebaseAuth.AuthStateListener authStateListener = new FirebaseAuth.AuthStateListener() {
             @Override
             public void onAuthStateChanged(@NonNull FirebaseAuth firebaseAuth) {
@@ -55,17 +53,21 @@ public class UserAuthenticationFirebaseDataSource extends BaseUserAuthentication
 
     @Override
     public void signUp(String email, String password) {
+        //registra un nuovo utente con email e password tramite Firebase Authentication
         firebaseAuth.createUserWithEmailAndPassword(email, password).addOnCompleteListener(task -> {
             if (task.isSuccessful()) {
+                //se registrazione ok, recupera l'utente e notifica successo
                 FirebaseUser firebaseUser = firebaseAuth.getCurrentUser();
                 if (firebaseUser != null) {
                     userResponseCallback.onSuccessFromAuthentication(
                             new User(firebaseUser.getDisplayName(), email, firebaseUser.getUid())
                     );
                 } else {
+                    //errore inatteso dopo registrazione
                     userResponseCallback.onFailureFromAuthentication(getErrorMessage(task.getException()));
                 }
             } else {
+                //errore nella registrazione (es. password debole, email già usata...)
                 userResponseCallback.onFailureFromAuthentication(getErrorMessage(task.getException()));
             }
         });
@@ -73,6 +75,7 @@ public class UserAuthenticationFirebaseDataSource extends BaseUserAuthentication
 
     @Override
     public void signIn(String email, String password) {
+        //effettua il login di un utente con email e password tramite Firebase Authentication
         firebaseAuth.signInWithEmailAndPassword(email, password).addOnCompleteListener(task -> {
             if (task.isSuccessful()) {
                 FirebaseUser firebaseUser = firebaseAuth.getCurrentUser();
@@ -81,9 +84,11 @@ public class UserAuthenticationFirebaseDataSource extends BaseUserAuthentication
                             new User(firebaseUser.getDisplayName(), email, firebaseUser.getUid())
                     );
                 } else {
+                    //errore inatteso dopo login
                     userResponseCallback.onFailureFromAuthentication(getErrorMessage(task.getException()));
                 }
             } else {
+                //errore nel login
                 userResponseCallback.onFailureFromAuthentication(getErrorMessage(task.getException()));
             }
         });
@@ -91,12 +96,12 @@ public class UserAuthenticationFirebaseDataSource extends BaseUserAuthentication
 
     @Override
     public void signInWithGoogle(String idToken) {
-        if (idToken !=  null) {
-            // Got an ID token from Google. Use it to authenticate with Firebase.
+        //gestisce l'accesso tramite token Google, crea le credenziali Firebase e fa il login
+        if (idToken != null) {
             AuthCredential firebaseCredential = GoogleAuthProvider.getCredential(idToken, null);
             firebaseAuth.signInWithCredential(firebaseCredential).addOnCompleteListener(task -> {
                 if (task.isSuccessful()) {
-                    // Sign in success, update UI with the signed-in user's information
+                    //login Google riuscito
                     Log.d(TAG, "signInWithCredential:success");
                     FirebaseUser firebaseUser = firebaseAuth.getCurrentUser();
                     if (firebaseUser != null) {
@@ -107,11 +112,10 @@ public class UserAuthenticationFirebaseDataSource extends BaseUserAuthentication
                                 )
                         );
                     } else {
-                        userResponseCallback.onFailureFromAuthentication(
-                                getErrorMessage(task.getException()));
+                        userResponseCallback.onFailureFromAuthentication(getErrorMessage(task.getException()));
                     }
                 } else {
-                    // If sign in fails, display a message to the user.
+                    //login Google fallito e notifica fallimento
                     Log.w(TAG, "signInWithCredential:failure", task.getException());
                     userResponseCallback.onFailureFromAuthentication(getErrorMessage(task.getException()));
                 }

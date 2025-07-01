@@ -108,10 +108,6 @@ public class PreferedFragment extends Fragment {
         recyclerView = view.findViewById(R.id.recyclerViewPrefered);
         recyclerView.setLayoutManager(new LinearLayoutManager(view.getContext()));
 
-        List<Event> eventiLocali = eventViewModel.ottineiEventiSalvatiLocal();
-        eventList = new ArrayList<>(eventiLocali);
-        eventList.addAll(eventiLocali);
-
         EventRoomDatabase.getDatabase(recyclerView.getContext())
                 .eventsDao()
                 .getSaved();

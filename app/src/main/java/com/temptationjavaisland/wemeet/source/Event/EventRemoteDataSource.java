@@ -22,11 +22,14 @@ public class EventRemoteDataSource extends BaseEventRemoteDataSource {
     private final EventAPIService eventAPIService;
     private final String apiKey;
 
+
     public EventRemoteDataSource(String apiKey) {
         this.apiKey = apiKey;
         this.eventAPIService = ServiceLocator.getInstance().getEventAPIService();
     }
 
+
+    //effettua una chiamata all’API remota per recuperare eventi basati sulla posizione e altri parametri
     @Override
     public void getEventsLocation(String latlong, int radius, String unit, String locale, long lastUpdate) {
         Call<EventAPIResponse> eventsResponseCall = eventAPIService.getEventsByLocation(
@@ -57,6 +60,8 @@ public class EventRemoteDataSource extends BaseEventRemoteDataSource {
         });
     }
 
+
+    //effettua una chiamata all’API remota per la ricerca di eventi in base a una parola chiave
     @Override
     public void searchEvents(String keyword) {
         Call<EventAPIResponse> call = eventAPIService.searchEvents(keyword, apiKey);
@@ -77,6 +82,4 @@ public class EventRemoteDataSource extends BaseEventRemoteDataSource {
             }
         });
     }
-
-
 }

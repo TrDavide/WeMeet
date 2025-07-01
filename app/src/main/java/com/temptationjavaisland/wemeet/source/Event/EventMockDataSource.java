@@ -14,11 +14,14 @@ public class EventMockDataSource extends BaseEventRemoteDataSource {
         this.jsonParserUtils = jsonParserUtils;
     }
 
+
+    //Simula il recupero degli eventi basati sulla posizione utilizza un file JSON di esempio per fornire dati predefiniti
     @Override
     public void getEventsLocation(String latlong, int radius, String unit, String locale, long lastUpdate) {
         EventAPIResponse eventApiResponse = null;
 
         try {
+            // Parsing del file JSON di esempio per simulare la risposta remota
             eventApiResponse = jsonParserUtils.parserJSONFileWithGsson(Constants.SAMPLE_JSON_FILENAME);
         } catch (IOException e) {
             e.printStackTrace();
@@ -32,7 +35,5 @@ public class EventMockDataSource extends BaseEventRemoteDataSource {
     }
 
     @Override
-    public void searchEvents(String keyword) {
-    }
-
+    public void searchEvents(String keyword) {}
 }

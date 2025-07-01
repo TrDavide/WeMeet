@@ -5,7 +5,6 @@ import android.content.pm.PackageManager;
 import android.location.Address;
 import android.location.Geocoder;
 import android.os.Bundle;
-
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.core.content.ContextCompat;
@@ -15,12 +14,10 @@ import androidx.navigation.NavController;
 import androidx.navigation.Navigation;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
-
 import com.google.android.gms.location.FusedLocationProviderClient;
 import com.google.android.gms.location.LocationServices;
 import com.google.android.material.bottomnavigation.BottomNavigationView;
 import com.google.gson.Gson;
-
 import android.os.Handler;
 import android.os.Looper;
 import android.util.Log;
@@ -29,7 +26,6 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.FrameLayout;
 import android.widget.TextView;
-
 import com.google.android.material.progressindicator.CircularProgressIndicator;
 import com.temptationjavaisland.wemeet.R;
 import com.temptationjavaisland.wemeet.adapter.EventRecyclerAdapter;
@@ -43,7 +39,6 @@ import com.temptationjavaisland.wemeet.ui.welcome.viewmodel.user.UserViewModel;
 import com.temptationjavaisland.wemeet.ui.welcome.viewmodel.user.UserViewModelFactory;
 import com.temptationjavaisland.wemeet.util.NetworkUtil;
 import com.temptationjavaisland.wemeet.util.ServiceLocator;
-
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Locale;
@@ -64,12 +59,10 @@ public class HomeFragment extends Fragment {
     private EventViewModel eventViewModel;
     private UserViewModel userViewModel;
     private FrameLayout noInternetView;
-    private int radius = 20;
-    private String latlong;
+    private int radius = 20; // raggio di ricerca eventi in km
+    private String latlong; // latitudine e longitudine in formato "lat,lon"
     private Long lastUpdate;
-
     private FusedLocationProviderClient fusedLocationClient;
-
     private final ExecutorService executor = Executors.newSingleThreadExecutor();
     private final Handler mainHandler = new Handler(Looper.getMainLooper());
 
@@ -89,12 +82,13 @@ public class HomeFragment extends Fragment {
                 new EventViewModelFactory(eventRepository)
         ).get(EventViewModel.class);
 
+        //repository e viewmodel per l'utente
         IUserRepository userRepository = ServiceLocator.getInstance().getUserRepository(requireActivity().getApplication());
         userViewModel = new ViewModelProvider(requireActivity(), new UserViewModelFactory(userRepository)).get(UserViewModel.class);
 
-        eventList = new ArrayList<>();
+        eventList = new ArrayList<>(); //inizializza lista eventi
 
-        fusedLocationClient = LocationServices.getFusedLocationProviderClient(requireActivity());
+        fusedLocationClient = LocationServices.getFusedLocationProviderClient(requireActivity()); // inizializza client posizione
     }
 
     @Override
@@ -117,9 +111,11 @@ public class HomeFragment extends Fragment {
 
         recyclerView.setLayoutManager(new LinearLayoutManager(view.getContext()));
 
+        //setup adapter con listener per click su eventi e preferiti
         adapter = new EventRecyclerAdapter(R.layout.event_card, eventList, new EventRecyclerAdapter.OnItemClickListener() {
             @Override
             public void onEventItemClick(Event event) {
+                //naviga alla pagina dettaglio evento con i dati dell'evento
                 EventPageFragment eventPageFragment = new EventPageFragment();
                 Bundle bundle = new Bundle();
                 bundle.putParcelable("event_data", event);
@@ -131,24 +127,24 @@ public class HomeFragment extends Fragment {
 
             @Override
             public void onFavoriteButtonPressed(int position) {
+                //gestione salvataggio/rimozione evento preferito
                 Event event = eventList.get(position);
                 boolean isCurrentlySaved = event.isSaved();
 
                 event.setSaved(!isCurrentlySaved);
-                eventViewModel.updateEvent(event); // aggiorna localmente
+                eventViewModel.updateEvent(event); //aggiorna stato localmente
 
                 if (!isCurrentlySaved) {
-                    // Se non era salvato prima lo salvo (ora è diventato salvato)
+                    //salva evento come preferito
                     userViewModel.saveUserPreferedEvent(userViewModel.getLoggedUser().getIdToken(), event);
                 } else {
-                    // Se era già salvato lo rimuovo da Firebase
+                    //rimuove evento dai preferiti
                     userViewModel.removeUserPreferedEvent(userViewModel.getLoggedUser().getIdToken(), event.getId());
                 }
-
-
             }
         });
 
+        //osserva la lista di eventi preferiti per aggiornarli nell'interfaccia
         eventViewModel.getPreferedEventsLiveData().observe(getViewLifecycleOwner(), result -> {
             if (result instanceof Result.EventSuccess) {
                 Set<String> savedIds = ((Result.EventSuccess) result)
@@ -159,6 +155,7 @@ public class HomeFragment extends Fragment {
                         .map(Event::getId)
                         .collect(Collectors.toSet());
 
+                //aggiorna campo "saved" sugli eventi caricati in lista
                 for (Event event : eventList) {
                     event.setSaved(savedIds.contains(event.getId()));
                 }
@@ -171,31 +168,32 @@ public class HomeFragment extends Fragment {
         noInternetView.setVisibility(View.GONE);
         circularProgressIndicator.setVisibility(View.VISIBLE);
 
+        //controlla se c'è internet, altrimenti usa dati locali
         if (!NetworkUtil.isInternetAvailable(getContext())) {
             Log.d(TAG, "Sono dentro NetworkUtil");
-            List<Event> eventiLocali = eventViewModel.getAll();
+            List<Event> eventiLocali = eventViewModel.getAll(); //carica eventi da DB locale
             if (!eventiLocali.isEmpty()) {
                 Log.d(TAG, "Sono dentro l'IF NetworkUtil");
                 eventList.clear();
                 eventList.addAll(eventiLocali);
                 adapter.notifyDataSetChanged();
                 recyclerView.setVisibility(View.VISIBLE);
-                noInternetView.setVisibility(View.VISIBLE);
+                noInternetView.setVisibility(View.VISIBLE); //mostra messaggio senza internet ma con dati
             } else {
                 Log.d(TAG, "Sono dentro l'ELSE NetworkUtil");
                 recyclerView.setVisibility(View.GONE);
-                noInternetView.setVisibility(View.VISIBLE);
+                noInternetView.setVisibility(View.VISIBLE); //mostra messaggio senza internet e senza dati
             }
             circularProgressIndicator.setVisibility(View.GONE);
             return view;
         }
-
-        //Check permessi posizione e poi ottieni location
+        //se internet disponibile, verifica permessi e ottiene posizione per caricare eventi
         checkLocationPermissionAndFetch();
 
         return view;
     }
 
+    //verifica permessi posizione e, se concessi, avvia il caricamento degli eventi
     private void checkLocationPermissionAndFetch() {
         if (ContextCompat.checkSelfPermission(requireContext(), Manifest.permission.ACCESS_FINE_LOCATION) == PackageManager.PERMISSION_GRANTED) {
             fetchLocationAndEvents();
@@ -204,6 +202,7 @@ public class HomeFragment extends Fragment {
         }
     }
 
+    //ottiene l'ultima posizione conosciuta e carica eventi basandosi su di essa
     private void fetchLocationAndEvents() {
         if (ContextCompat.checkSelfPermission(requireContext(), Manifest.permission.ACCESS_FINE_LOCATION) == PackageManager.PERMISSION_GRANTED) {
             fusedLocationClient.getLastLocation()
@@ -216,6 +215,7 @@ public class HomeFragment extends Fragment {
                             getCityNameAsync(lat, lon, getView());
                             fetchEvents();
                         } else {
+                            //se la posizione è null, usa Milano come fallback
                             Log.w(TAG, "Posizione GPS nulla, uso Milano di default");
                             double lat = 45.464098;
                             double lon = 9.191926;
@@ -225,6 +225,7 @@ public class HomeFragment extends Fragment {
                         }
                     })
                     .addOnFailureListener(e -> {
+                        //in caso di errore prende comunque Milano come fallback
                         Log.e(TAG, "Errore nel prendere posizione GPS", e);
                         double lat = 45.464098;
                         double lon = 9.191926;
@@ -233,6 +234,7 @@ public class HomeFragment extends Fragment {
                         fetchEvents();
                     });
         } else {
+            //se non ha permesso posizione, usa coordinate fisse di Milano
             Log.w(TAG, "Permesso posizione non concesso, uso coordinate fisse");
             double lat = 45.464098;
             double lon = 9.191926;
@@ -242,15 +244,16 @@ public class HomeFragment extends Fragment {
         }
     }
 
-
+    //effettua la chiamata per ottenere gli eventi più vicini basandosi su latlong e radius
     private void fetchEvents() {
-        lastUpdate = 0L; // Forza chiamata rete
+        lastUpdate = 0L;
 
         Gson gson = new Gson();
         eventViewModel.getEventsLocation(latlong, radius, "km", "it-it", lastUpdate)
                 .observe(getViewLifecycleOwner(), result -> {
                     if (result.isSuccess()) {
                         List<Event> events = ((Result.EventSuccess) result).getData().getEmbedded().getEvents();
+                        //logga in JSON ogni evento per debug
                         for (Event event : events) {
                             String eventJson = gson.toJson(event);
                             Log.d(TAG, "Evento completo JSON: " + eventJson);
@@ -272,10 +275,11 @@ public class HomeFragment extends Fragment {
         if (requestCode == LOCATION_PERMISSION_REQUEST_CODE) {
             if (grantResults.length > 0
                     && grantResults[0] == PackageManager.PERMISSION_GRANTED) {
+                //se permesso concesso, carica eventi con posizione attuale
                 fetchLocationAndEvents();
             } else {
+                //se permesso negato, usa coordinate fisse
                 Log.w(TAG, "Permesso posizione negato, uso coordinate fisse");
-                // fallback coordinate fisse
                 double lat = 45.464098;
                 double lon = 9.191926;
                 latlong = lat + "," + lon;
@@ -287,11 +291,10 @@ public class HomeFragment extends Fragment {
         }
     }
 
+    //ottiene il nome della città dalla latitudine e longitudine in background e aggiorna la UI
     private void getCityNameAsync(double lat, double lon, View rootView) {
-        if (rootView == null) return; // safety check
-
+        if (rootView == null) return;
         TextView cityTextView = rootView.findViewById(R.id.cityTextView);
-
         executor.execute(() -> {
             Geocoder geocoder = new Geocoder(getContext(), Locale.getDefault());
             String city = "N/A";
@@ -309,6 +312,7 @@ public class HomeFragment extends Fragment {
             }
             String finalCity = city;
             Log.d(TAG, "Città: " + finalCity);
+            //aggiorna TextView nel thread principale
             mainHandler.post(() -> cityTextView.setText(finalCity));
         });
     }

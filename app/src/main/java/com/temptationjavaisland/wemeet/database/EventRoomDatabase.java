@@ -26,6 +26,8 @@ public abstract class EventRoomDatabase extends RoomDatabase {
     public static final ExecutorService databaseWriteExecutor =
             Executors.newFixedThreadPool(Runtime.getRuntime().availableProcessors());
 
+    //Metodo statico che fornisce un'istanza singleton del database
+    //Crea il database Room usando il nome specificato nei Constants e permette query anche sul main thread
     public static EventRoomDatabase getDatabase(final Context context) {
         if (INSTANCE == null) {
             synchronized (EventRoomDatabase.class) {
@@ -33,10 +35,12 @@ public abstract class EventRoomDatabase extends RoomDatabase {
                     INSTANCE = Room.databaseBuilder(context.getApplicationContext(),
                                     EventRoomDatabase.class, Constants.SAVED_ARTICLES_DATABASE)
                             .fallbackToDestructiveMigration()
-                            .allowMainThreadQueries().build();
+                            .allowMainThreadQueries()
+                            .build();
                 }
             }
         }
         return INSTANCE;
     }
+
 }

@@ -42,13 +42,13 @@ public class EventPageFragment extends Fragment {
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         View view = inflater.inflate(R.layout.fragment_event_page, container, false);
 
-        // Recupera l'evento dal bundle
+        //recupera l'evento passato tramite bundle
         Bundle bundle = getArguments();
         if (bundle != null) {
             event = bundle.getParcelable("event_data");
         }
 
-        // Collega le view
+        //collega i widget del layout alle variabili
         eventImageView = view.findViewById(R.id.shapeableImageView);
         titleTextView = view.findViewById(R.id.eventTitleTextView);
         dateTextView = view.findViewById(R.id.eventDateTextView);
@@ -60,12 +60,14 @@ public class EventPageFragment extends Fragment {
         if (event != null) {
             titleTextView.setText(event.getName());
 
+            //controlla la presenza della data e la mostra
             if (event.getDates() != null && event.getDates().getStart() != null) {
                 dateTextView.setText(event.getDates().getStart().getLocalTime());
             } else {
                 dateTextView.setText("Data non disponibile");
             }
 
+            //controlla se il luogo è disponibile e lo setta
             if (event.getEmbedded() != null &&
                     event.getEmbedded().getVenues() != null &&
                     !event.getEmbedded().getVenues().isEmpty() &&
@@ -73,6 +75,7 @@ public class EventPageFragment extends Fragment {
 
                 locationTextView.setText(event.getEmbedded().getVenues().get(0).getName());
 
+                //controlla la città e la mostra
                 if (event.getEmbedded().getVenues().get(0).getCity() != null &&
                         event.getEmbedded().getVenues().get(0).getCity().getName() != null) {
                     positionTextView.setText(event.getEmbedded().getVenues().get(0).getCity().getName());
@@ -84,8 +87,10 @@ public class EventPageFragment extends Fragment {
                 positionTextView.setText("Posizione non disponibile");
             }
 
+            //mostra la descrizione
             descriptionTextView.setText(event.getName());
 
+            //carica immagine evento con Glide se disponibile, altrimenti immagine di default
             if (event.getImages() != null && !event.getImages().isEmpty() && eventImageView != null) {
                 String imageUrl = event.getImages().get(0).getUrl();
                 Glide.with(requireContext())
@@ -97,6 +102,7 @@ public class EventPageFragment extends Fragment {
             }
         }
 
+        //inizializza la MapView e aggiunge un marker sulla posizione evento
         mapView.onCreate(savedInstanceState);
         mapView.getMapAsync(googleMap -> {
             if (event != null && event.getEmbedded() != null && !event.getEmbedded().getVenues().isEmpty()) {
@@ -104,9 +110,9 @@ public class EventPageFragment extends Fragment {
                 double lng = Double.parseDouble(event.getEmbedded().getVenues().get(0).getLocation().getLongitude());
 
                 Log.d("MAP_DEBUG", "Latitudine: " + lat + ", Longitudine: " + lng);
-
                 LatLng location = new LatLng(lat, lng);
 
+                //aggiunge marker sulla mappa e posiziona la camera su di esso
                 googleMap.addMarker(new MarkerOptions().position(location).title(event.getName()));
                 googleMap.moveCamera(CameraUpdateFactory.newLatLngZoom(location, 14));
             } else {
@@ -121,26 +127,19 @@ public class EventPageFragment extends Fragment {
     public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
 
+        //nasconde la BottomNavigationView per questa pagina
         BottomNavigationView bottomNav = requireActivity().findViewById(R.id.bottom_navigation);
         if (bottomNav != null) {
             bottomNav.setVisibility(View.GONE);
         }
 
+        //bottone per tornare indietro nella navigazione
         Button backButton = view.findViewById(R.id.arrowBack);
-
         backButton.setOnClickListener(v -> {
-            // Se participantsFragment è nello stack, lo rimuovi
-            boolean popped = Navigation.findNavController(v).popBackStack(R.id.participantsFragment, true);
-
-            if (popped) {
-                // Poi torni ancora indietro, così salti sia participants che eventPage
-                Navigation.findNavController(v).popBackStack();
-            } else {
-                // Comportamento normale
-                Navigation.findNavController(v).popBackStack();
-            }
+            Navigation.findNavController(v).popBackStack();
         });
 
+        //bottone per aprire l'URL dell'evento nel browser
         MaterialButton buttonAcquista = view.findViewById(R.id.buttonAcquista);
         buttonAcquista.setOnClickListener(v -> {
             if (event != null && event.getUrl() != null && !event.getUrl().isEmpty()) {
