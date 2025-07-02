@@ -1,11 +1,9 @@
 package com.temptationjavaisland.wemeet.source.Event;
 
 import androidx.lifecycle.LiveData;
-
 import com.temptationjavaisland.wemeet.database.EventDAO;
 import com.temptationjavaisland.wemeet.database.EventRoomDatabase;
 import com.temptationjavaisland.wemeet.model.Event;
-
 import java.util.List;
 
 public class EventLocalDataSource extends BaseEventLocalDataSource {

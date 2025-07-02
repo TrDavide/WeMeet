@@ -49,30 +49,23 @@ public class LocationFragment extends Fragment {
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
 
+        //inizializzazione dei repository tramite ServiceLocator
         EventRepository eventRepository =
                 ServiceLocator.getInstance().getEventRepository(
                         requireActivity().getApplication(),
                         requireActivity().getApplication().getResources().getBoolean(R.bool.debug_mode)
                 );
 
+        //viewModel per gestire eventi
         eventViewModel = new ViewModelProvider(
                 requireActivity(),
                 new EventViewModelFactory(eventRepository)).get(EventViewModel.class);
 
+        //viewModel per gestire utente e preferenze
         IUserRepository userRepository = ServiceLocator.getInstance().getUserRepository(requireActivity().getApplication());
         userViewModel = new ViewModelProvider(requireActivity(), new UserViewModelFactory(userRepository)).get(UserViewModel.class);
 
         eventList = new ArrayList<>();
-    }
-
-    @Override
-    public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
-        super.onViewCreated(view, savedInstanceState);
-
-        BottomNavigationView bottomNav = requireActivity().findViewById(R.id.bottom_navigation);
-        if (bottomNav != null) {
-            bottomNav.setVisibility(View.VISIBLE);
-        }
     }
 
     @Override
@@ -85,9 +78,11 @@ public class LocationFragment extends Fragment {
         searchView = view.findViewById(R.id.search_bar);
         layoutEmptyState = view.findViewById(R.id.layoutEmptyState);
 
+        //adapter per mostrare gli eventi e gestire click e salvataggi
         adapter = new EventRecyclerAdapter(R.layout.event_card, new ArrayList<>(), new EventRecyclerAdapter.OnItemClickListener() {
             @Override
             public void onEventItemClick(Event event) {
+                //collegamento alla pagina evento
                 Bundle bundle = new Bundle();
                 bundle.putParcelable("event_data", event);
                 Navigation.findNavController(requireView()).navigate(R.id.action_locationFragment_to_eventPageFragment, bundle);
@@ -95,16 +90,17 @@ public class LocationFragment extends Fragment {
 
             @Override
             public void onFavoriteButtonPressed(int position) {
+                //aggiunge o rimuove l'evento dai preferiti sia in locale che remoto
                 Event event = eventList.get(position);
                 boolean newSavedState = !event.isSaved();
                 event.setSaved(newSavedState);
 
                 if (newSavedState) {
-                    eventViewModel.insertEvent(event);
+                    eventViewModel.insertEvent(event); //salva in locale
                     userViewModel.saveUserPreferedEvent(userViewModel.getLoggedUser().getIdToken(), event);
                 } else {
-                    eventViewModel.unsetFavorite(event.getId()); //ora aggiorna anche nel DB locale
-                    eventViewModel.removeFromFavorite(event);
+                    eventViewModel.unsetFavorite(event.getId()); //rimuove da DB locale
+                    eventViewModel.removeFromFavorite(event);    //rimuove anche dalla lista in memoria
                     userViewModel.removeUserPreferedEvent(userViewModel.getLoggedUser().getIdToken(), event.getId());
                 }
 
@@ -112,6 +108,7 @@ public class LocationFragment extends Fragment {
             }
         });
 
+        //osserva i preferiti per aggiornare lo stato saved degli eventi mostrati
         eventViewModel.getPreferedEventsLiveData().observe(getViewLifecycleOwner(), result -> {
             if (result instanceof Result.EventSuccess) {
                 List<Event> savedEvents = ((Result.EventSuccess) result).getData().getEmbedded().getEvents();
@@ -128,22 +125,23 @@ public class LocationFragment extends Fragment {
             }
         });
 
-
         recyclerView.setAdapter(adapter);
         recyclerView.setVisibility(View.GONE);
         layoutEmptyState.setVisibility(View.VISIBLE);
 
-        setupSearchView();
+        setupSearchView(); //configura la barra di ricerca
 
         return view;
     }
 
     private void setupSearchView() {
+        //mostra il recycler quando si attiva la ricerca
         searchView.setOnSearchClickListener(v -> {
             recyclerView.setVisibility(View.VISIBLE);
             layoutEmptyState.setVisibility(View.GONE);
         });
 
+        //ripristina lo stato iniziale alla chiusura
         searchView.setOnCloseListener(() -> {
             adapter.updateData(new ArrayList<>());
             recyclerView.setVisibility(View.GONE);
@@ -151,6 +149,7 @@ public class LocationFragment extends Fragment {
             return false;
         });
 
+        //gestione ricerca testo
         searchView.setOnQueryTextListener(new SearchView.OnQueryTextListener() {
             @Override
             public boolean onQueryTextSubmit(String query) {
@@ -173,6 +172,7 @@ public class LocationFragment extends Fragment {
     }
 
     private void searchEvents(String keyword) {
+        //esegue la ricerca degli eventi via API in base alla keyword
         eventViewModel.searchEvents(keyword)
                 .observe(getViewLifecycleOwner(), result -> {
                     if (result.isSuccess()) {
@@ -182,7 +182,7 @@ public class LocationFragment extends Fragment {
                             eventList.clear();
                             eventList.addAll(events);
 
-                            //Verifica quali eventi sono salvati confrontando gli ID
+                            //controlla se gli eventi sono già salvati
                             Result preferedResult = eventViewModel.getPreferedEventsLiveData().getValue();
                             if (preferedResult instanceof Result.EventSuccess) {
                                 List<Event> savedEvents = ((Result.EventSuccess) preferedResult).getData().getEmbedded().getEvents();
@@ -200,12 +200,14 @@ public class LocationFragment extends Fragment {
                             recyclerView.setVisibility(View.VISIBLE);
                             layoutEmptyState.setVisibility(View.GONE);
                         } else {
+                            //nessun risultato trovato
                             eventList.clear();
                             adapter.updateData(eventList);
                             recyclerView.setVisibility(View.GONE);
                             layoutEmptyState.setVisibility(View.VISIBLE);
                         }
                     } else {
+                        //errore nella chiamata API
                         eventList.clear();
                         adapter.updateData(eventList);
                         recyclerView.setVisibility(View.GONE);
@@ -213,5 +215,4 @@ public class LocationFragment extends Fragment {
                     }
                 });
     }
-
 }

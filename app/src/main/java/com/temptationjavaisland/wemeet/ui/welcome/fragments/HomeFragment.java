@@ -45,7 +45,6 @@ public class HomeFragment extends Fragment {
 
     private static final String TAG = HomeFragment.class.getName();
     private static final int LOCATION_PERMISSION_REQUEST_CODE = 1001;
-
     private CircularProgressIndicator circularProgressIndicator;
     private List<Event> eventList;
     private RecyclerView recyclerView;
@@ -53,22 +52,20 @@ public class HomeFragment extends Fragment {
     private EventViewModel eventViewModel;
     private UserViewModel userViewModel;
     private FrameLayout noInternetView;
-    private int radius = 20; // raggio di ricerca eventi in km
-    private String latlong; // latitudine e longitudine in formato "lat,lon"
+    private int radius = 20; //raggio eventi in km
+    private String latlong; //coordinate utente
     private Long lastUpdate;
     private FusedLocationProviderClient fusedLocationClient;
-
-    public HomeFragment() {}
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
 
+        //inizializzazione dei ViewModel tramite ServiceLocator
         EventRepository eventRepository = ServiceLocator.getInstance().getEventRepository(
                 requireActivity().getApplication(),
                 requireActivity().getApplication().getResources().getBoolean(R.bool.debug_mode)
         );
-
         eventViewModel = new ViewModelProvider(
                 requireActivity(),
                 new EventViewModelFactory(eventRepository)
@@ -85,26 +82,26 @@ public class HomeFragment extends Fragment {
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         View view = inflater.inflate(R.layout.fragment_home, container, false);
 
+        //inizializzazione componenti grafici
         noInternetView = view.findViewById(R.id.noInternetMessage);
         recyclerView = view.findViewById(R.id.recyclerViewHome);
         circularProgressIndicator = view.findViewById(R.id.progressIndicator);
-
         recyclerView.setLayoutManager(new LinearLayoutManager(view.getContext()));
 
+        //adapter con callback per click evento e pulsante preferito
         adapter = new EventRecyclerAdapter(R.layout.event_card, eventList, new EventRecyclerAdapter.OnItemClickListener() {
             @Override
             public void onEventItemClick(Event event) {
-                EventPageFragment eventPageFragment = new EventPageFragment();
+                //collegamento alla pagina evento
                 Bundle bundle = new Bundle();
                 bundle.putParcelable("event_data", event);
-                eventPageFragment.setArguments(bundle);
-
-                NavController navController = Navigation.findNavController(requireActivity(), R.id.fragmentContainerView);
-                navController.navigate(R.id.eventPageFragment, bundle);
+                Navigation.findNavController(requireActivity(), R.id.fragmentContainerView)
+                        .navigate(R.id.eventPageFragment, bundle);
             }
 
             @Override
             public void onFavoriteButtonPressed(int position) {
+                //salvataggio o rimozione evento preferito
                 Event event = eventList.get(position);
                 boolean isCurrentlySaved = event.isSaved();
                 event.setSaved(!isCurrentlySaved);
@@ -118,6 +115,7 @@ public class HomeFragment extends Fragment {
             }
         });
 
+        //vede gli eventi preferiti e aggiorna la UI
         eventViewModel.getPreferedEventsLiveData().observe(getViewLifecycleOwner(), result -> {
             if (result instanceof Result.EventSuccess) {
                 Set<String> savedIds = ((Result.EventSuccess) result)
@@ -140,18 +138,16 @@ public class HomeFragment extends Fragment {
         noInternetView.setVisibility(View.GONE);
         circularProgressIndicator.setVisibility(View.VISIBLE);
 
+        //se manca internet mostra eventi salvati localmente
         if (!NetworkUtil.isInternetAvailable(getContext())) {
-            Log.d(TAG, "Sono dentro NetworkUtil");
             List<Event> eventiLocali = eventViewModel.getAll();
             if (!eventiLocali.isEmpty()) {
-                Log.d(TAG, "Sono dentro l'IF NetworkUtil");
                 eventList.clear();
                 eventList.addAll(eventiLocali);
                 adapter.notifyDataSetChanged();
                 recyclerView.setVisibility(View.VISIBLE);
                 noInternetView.setVisibility(View.VISIBLE);
             } else {
-                Log.d(TAG, "Sono dentro l'ELSE NetworkUtil");
                 recyclerView.setVisibility(View.GONE);
                 noInternetView.setVisibility(View.VISIBLE);
             }
@@ -159,12 +155,15 @@ public class HomeFragment extends Fragment {
             return view;
         }
 
+        //controllo permessi e fetch posizione/eventi
         checkLocationPermissionAndFetch();
         return view;
     }
 
     private void checkLocationPermissionAndFetch() {
-        if (ContextCompat.checkSelfPermission(requireContext(), Manifest.permission.ACCESS_FINE_LOCATION) == PackageManager.PERMISSION_GRANTED) {
+        //richiesta permesso posizione se non già concesso
+        if (ContextCompat.checkSelfPermission(requireContext(), Manifest.permission.ACCESS_FINE_LOCATION)
+                == PackageManager.PERMISSION_GRANTED) {
             fetchLocationAndEvents();
         } else {
             requestPermissions(new String[]{Manifest.permission.ACCESS_FINE_LOCATION}, LOCATION_PERMISSION_REQUEST_CODE);
@@ -172,6 +171,7 @@ public class HomeFragment extends Fragment {
     }
 
     private void fetchLocationAndEvents() {
+        //ottiene la posizione e aggiorna eventi in base alla posizione
         GeoUtils.getLastKnownLocation(requireContext(), fusedLocationClient, (lat, lon) -> {
             latlong = lat + "," + lon;
             GeoUtils.getCityNameAsync(requireContext(), lat, lon, getView());
@@ -180,32 +180,30 @@ public class HomeFragment extends Fragment {
     }
 
     private void fetchEvents() {
+        //recupera eventi da remoto e aggiorna la UI
         lastUpdate = 0L;
-
         Gson gson = new Gson();
         eventViewModel.getEventsLocation(latlong, radius, "km", "it-it", lastUpdate)
                 .observe(getViewLifecycleOwner(), result -> {
                     if (result.isSuccess()) {
                         List<Event> events = ((Result.EventSuccess) result).getData().getEmbedded().getEvents();
                         for (Event event : events) {
-                            String eventJson = gson.toJson(event);
-                            Log.d(TAG, "Evento completo JSON: " + eventJson);
+                            Log.d(TAG, "Evento completo JSON: " + gson.toJson(event));
                         }
                         eventList.clear();
                         eventList.addAll(events);
                         adapter.notifyDataSetChanged();
                         recyclerView.setVisibility(View.VISIBLE);
-                        circularProgressIndicator.setVisibility(View.GONE);
                     } else {
                         Log.e(TAG, "Errore fetch eventi: " + ((Result.Error) result));
-                        circularProgressIndicator.setVisibility(View.GONE);
                     }
+                    circularProgressIndicator.setVisibility(View.GONE);
                 });
     }
 
     @Override
     public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
-        super.onViewCreated(view, savedInstanceState);
+        //assicura che la bottom navigation sia visibile
         BottomNavigationView bottomNav = requireActivity().findViewById(R.id.bottom_navigation);
         if (bottomNav != null) {
             bottomNav.setVisibility(View.VISIBLE);
@@ -214,12 +212,12 @@ public class HomeFragment extends Fragment {
 
     @Override
     public void onRequestPermissionsResult(int requestCode, @NonNull String[] permissions, @NonNull int[] grantResults) {
+        //gestione risultato richiesta permessi
         if (requestCode == LOCATION_PERMISSION_REQUEST_CODE) {
             if (grantResults.length > 0 && grantResults[0] == PackageManager.PERMISSION_GRANTED) {
                 fetchLocationAndEvents();
             } else {
-                Log.w(TAG, "Permesso posizione negato, uso coordinate fisse");
-                double lat = 45.464098;
+                double lat = 45.464098; //usa coordinate predefinite se il permesso è negato
                 double lon = 9.191926;
                 latlong = lat + "," + lon;
                 GeoUtils.getCityNameAsync(requireContext(), lat, lon, getView());

@@ -3,16 +3,12 @@ package com.temptationjavaisland.wemeet.source.Event;
 import static com.temptationjavaisland.wemeet.util.Constants.API_KEY_ERROR;
 import static com.temptationjavaisland.wemeet.util.Constants.RETROFIT_ERROR;
 import static com.temptationjavaisland.wemeet.util.Constants.TOP_HEADLINES_PAGE_SIZE_VALUE;
-
 import android.util.Log;
-
 import androidx.annotation.NonNull;
-
 import com.google.gson.Gson;
 import com.temptationjavaisland.wemeet.model.EventAPIResponse;
 import com.temptationjavaisland.wemeet.service.EventAPIService;
 import com.temptationjavaisland.wemeet.util.ServiceLocator;
-
 import retrofit2.Call;
 import retrofit2.Callback;
 import retrofit2.Response;

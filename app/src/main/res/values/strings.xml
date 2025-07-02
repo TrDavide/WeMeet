@@ -84,5 +84,8 @@
     <string name="sei_loggato_con">Sei loggato con:</string>
     <string name="posizione_default">Non disponibile</string>
     <string name="password_8_caratteri">La password deve contenere almeno 8 caratteri</string>
+    <string name="back_button_description">arrowback</string>
+    <string name="maps_description">mapsview</string>
+    <string name="input_email">textinputemail</string>
 
 </resources>

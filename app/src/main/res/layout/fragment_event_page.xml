@@ -166,7 +166,8 @@
                             <com.google.android.gms.maps.MapView
                                 android:id="@+id/mapsView"
                                 android:layout_width="match_parent"
-                                android:layout_height="match_parent" />
+                                android:layout_height="match_parent"
+                                android:contentDescription="@string/maps_description"/>
                         </FrameLayout>
                     </com.google.android.material.card.MaterialCardView>
                     <com.google.android.material.button.MaterialButton
@@ -189,8 +190,8 @@
 
     <com.google.android.material.button.MaterialButton
         android:id="@+id/arrowBack"
-        android:layout_width="42dp"
-        android:layout_height="42dp"
+        android:layout_width="48dp"
+        android:layout_height="48dp"
         android:layout_gravity="top|start"
         android:layout_margin="30dp"
         android:fontFamily="@font/open_sans_medium"
@@ -203,6 +204,8 @@
         app:icon="@drawable/arrow_left"
         app:iconGravity="textStart"
         app:iconSize="24dp"
-        app:iconTint="@color/black" />
+        app:iconTint="@color/black"
+        android:contentDescription="@string/back_button_description"
+        />
 
 </FrameLayout>
