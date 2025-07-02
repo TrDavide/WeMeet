@@ -70,5 +70,8 @@
     <string name="eventi_vicini_a_te">Eventi vicini a te</string>
     <string name="sei_loggato_con">Sei loggato con:</string>
     <string name="posizione_default">Non disponibile</string>
+    <string name="back_button_description">arrowback</string>
+    <string name="maps_description">mapsview</string>
+    <string name="input_email">textinputemail</string>
 
 </resources>
