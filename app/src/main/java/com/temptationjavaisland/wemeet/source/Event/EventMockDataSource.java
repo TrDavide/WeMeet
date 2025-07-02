@@ -3,7 +3,6 @@ package com.temptationjavaisland.wemeet.source.Event;
 import com.temptationjavaisland.wemeet.model.EventAPIResponse;
 import com.temptationjavaisland.wemeet.util.JSONParserUtils;
 import com.temptationjavaisland.wemeet.util.Constants;
-
 import java.io.IOException;
 
 public class EventMockDataSource extends BaseEventRemoteDataSource {

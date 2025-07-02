@@ -48,11 +48,12 @@ import com.temptationjavaisland.wemeet.util.ServiceLocator;
 
 public class ProfileFragment extends Fragment {
 
+    public static final String TAG = ProfileFragment.class.getSimpleName();
+
     BottomNavigationView bottomNavigationView;
     private UserViewModel userViewModel;
     private EventViewModel eventViewModel;
-    public static final String TAG = ProfileFragment.class.getSimpleName();
-    private static final int RC_GOOGLE_REAUTH = 123;
+    private static final int RC_GOOGLE_REAUTH = 123; //codice per Google reauth
     private String passwordForReauth = null;
 
     public ProfileFragment() {}
@@ -70,13 +71,18 @@ public class ProfileFragment extends Fragment {
         return inflater.inflate(R.layout.fragment_profile, container, false);
     }
 
+    //inizializzazione ViewModel
     @Override
     public void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
 
+        //recupera il repository utente tramite ServiceLocator
         IUserRepository userRepository = ServiceLocator.getInstance().getUserRepository(requireActivity().getApplication());
-        userViewModel = new ViewModelProvider(requireActivity(), new UserViewModelFactory(userRepository)).get(UserViewModel.class);
 
+        userViewModel = new ViewModelProvider(requireActivity(), new UserViewModelFactory(userRepository))
+                .get(UserViewModel.class);
+
+        //inizializzazione EventViewModel
         eventViewModel = new ViewModelProvider(
                 requireActivity(),
                 new com.temptationjavaisland.wemeet.ui.welcome.viewmodel.event.EventViewModelFactory(
@@ -86,7 +92,6 @@ public class ProfileFragment extends Fragment {
                         )
                 )
         ).get(EventViewModel.class);
-
     }
 
     @Override
@@ -99,37 +104,43 @@ public class ProfileFragment extends Fragment {
         TextView emailTextView = view.findViewById(R.id.emailTextView);
         FirebaseUser currentUser = FirebaseAuth.getInstance().getCurrentUser();
 
-
+        //mostra l’email dell’utente loggato
         if (currentUser != null && currentUser.getEmail() != null) {
             String userEmail = currentUser.getEmail();
             emailTextView.setText("Sei loggato con:\n " + userEmail);
         }
 
+        //rende visibile la barra di navigazione inferiore
         BottomNavigationView bottomNav = requireActivity().findViewById(R.id.bottom_navigation);
         if (bottomNav != null) {
             bottomNav.setVisibility(View.VISIBLE);
         }
 
+        //logout utente
         logoutButton.setOnClickListener(v -> {
             if (eventViewModel != null) eventViewModel.clearLocalEvents();
             FirebaseAuth.getInstance().signOut();
             startWelcomeActivity();
         });
 
+        //imposta il testo del pulsante in base al tema corrente
         boolean isNightMode = (AppCompatDelegate.getDefaultNightMode() == AppCompatDelegate.MODE_NIGHT_YES) ||
                 ((AppCompatDelegate.getDefaultNightMode() == AppCompatDelegate.MODE_NIGHT_FOLLOW_SYSTEM)
                         && (getResources().getConfiguration().uiMode & android.content.res.Configuration.UI_MODE_NIGHT_MASK) == android.content.res.Configuration.UI_MODE_NIGHT_YES);
 
         temaButton.setText(isNightMode ? "Tema: Notte" : "Tema: Giorno");
 
+        //toggle tra tema giorno e notte
         temaButton.setOnClickListener(v -> {
             AppCompatDelegate.setDefaultNightMode(isNightMode ? AppCompatDelegate.MODE_NIGHT_NO : AppCompatDelegate.MODE_NIGHT_YES);
             requireActivity().recreate();
         });
 
+        //azione di eliminazione profilo
         deleteProfileButton.setOnClickListener(v -> showDeleteConfirmationDialog());
     }
 
+    //mostra dialog di conferma per eliminare il profilo
     private void showDeleteConfirmationDialog() {
         FirebaseUser user = FirebaseAuth.getInstance().getCurrentUser();
         if (user == null) {
@@ -137,6 +148,7 @@ public class ProfileFragment extends Fragment {
             return;
         }
 
+        //determina il provider
         String providerId = user.getProviderData().get(1).getProviderId();
 
         new MaterialAlertDialogBuilder(requireContext())
@@ -145,9 +157,9 @@ public class ProfileFragment extends Fragment {
                 .setNegativeButton("Annulla", (dialog, which) -> dialog.dismiss())
                 .setPositiveButton("Elimina", (dialog, which) -> {
                     if ("google.com".equals(providerId)) {
-                        reauthenticateWithGoogle(); // Avvia la riautenticazione con Google
+                        reauthenticateWithGoogle(); //avvia la riautenticazione con Google
                     } else if ("password".equals(providerId)) {
-                        showPasswordPrompt(); // Chiede la password
+                        showPasswordPrompt(); //chiede la password
                     } else {
                         showError("Provider non supportato: " + providerId);
                     }
@@ -155,6 +167,7 @@ public class ProfileFragment extends Fragment {
                 .show();
     }
 
+    //eliminazione account con email e password
     private void deleteUserAccount(String password) {
         FirebaseUser user = FirebaseAuth.getInstance().getCurrentUser();
         if (user == null || user.getEmail() == null || password == null || password.isEmpty()) {
@@ -164,6 +177,7 @@ public class ProfileFragment extends Fragment {
 
         AuthCredential credential = EmailAuthProvider.getCredential(user.getEmail(), password);
 
+        //riautenticazione prima dell’eliminazione
         user.reauthenticate(credential).addOnCompleteListener(reauthTask -> {
             if (reauthTask.isSuccessful()) {
                 proceedToDeleteUserAccount(user);
@@ -173,12 +187,14 @@ public class ProfileFragment extends Fragment {
         });
     }
 
+    //avvia WelcomeActivity e chiude le precedenti
     private void startWelcomeActivity() {
         Intent intent = new Intent(requireContext(), WelcomeActivity.class);
         intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TASK);
         startActivity(intent);
     }
 
+    //mostra messaggio di errore
     private void showError(String message) {
         new MaterialAlertDialogBuilder(requireContext())
                 .setTitle("Errore")
@@ -187,9 +203,10 @@ public class ProfileFragment extends Fragment {
                 .show();
     }
 
+    //avvia flusso di accesso Google per riautenticazione
     private void reauthenticateWithGoogle() {
         GoogleSignInOptions gso = new GoogleSignInOptions.Builder(GoogleSignInOptions.DEFAULT_SIGN_IN)
-                .requestIdToken(getString(R.string.default_web_client_id)) // <-- assicurati sia corretto!
+                .requestIdToken(getString(R.string.default_web_client_id)) //ID token corretto da Firebase console
                 .requestEmail()
                 .build();
 
@@ -227,6 +244,7 @@ public class ProfileFragment extends Fragment {
         }
     }
 
+    //elimina l’account utente e i suoi dati dal database
     private void proceedToDeleteUserAccount(FirebaseUser user) {
         String userId = user.getUid();
         UserFirebaseDataSource userDataSource = new UserFirebaseDataSource();
@@ -245,6 +263,7 @@ public class ProfileFragment extends Fragment {
         );
     }
 
+    //mostra dialog per richiedere la password all’utente
     private void showPasswordPrompt() {
         final EditText input = new EditText(requireContext());
         input.setInputType(InputType.TYPE_CLASS_TEXT | InputType.TYPE_TEXT_VARIATION_PASSWORD);

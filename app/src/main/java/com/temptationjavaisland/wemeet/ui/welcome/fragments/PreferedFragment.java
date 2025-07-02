@@ -30,11 +30,11 @@ import com.temptationjavaisland.wemeet.ui.welcome.viewmodel.user.UserViewModelFa
 import com.temptationjavaisland.wemeet.util.ServiceLocator;
 
 import java.util.ArrayList;
-import java.util.HashSet;
 import java.util.List;
-import java.util.Set;
-import java.util.stream.Collectors;
 
+/**
+ * Fragment che mostra gli eventi preferiti dell'utente.
+ */
 public class PreferedFragment extends Fragment {
 
     private RecyclerView recyclerView;
@@ -43,77 +43,90 @@ public class PreferedFragment extends Fragment {
     private EventViewModel eventViewModel;
     private UserViewModel userViewModel;
 
+
     public PreferedFragment() {}
 
     public static PreferedFragment newInstance() {
         return new PreferedFragment();
     }
 
+
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
 
+        //ottiene il repository degli eventi tramite ServiceLocator
         EventRepository eventRepository = ServiceLocator.getInstance().getEventRepository(
                 requireActivity().getApplication(),
                 requireActivity().getApplication().getResources().getBoolean(R.bool.debug_mode)
         );
 
+        //inizializza l'EventViewModel con la factory appropriata
         eventViewModel = new ViewModelProvider(
                 requireActivity(),
                 new EventViewModelFactory(eventRepository)).get(EventViewModel.class);
 
+        //ottiene il repository dell'utente e inizializza il relativo ViewModel
         IUserRepository userRepository = ServiceLocator.getInstance().getUserRepository(requireActivity().getApplication());
         userViewModel = new ViewModelProvider(requireActivity(), new UserViewModelFactory(userRepository)).get(UserViewModel.class);
+
+        //inizializza la lista eventi vuota
         eventList = new ArrayList<>();
     }
+
 
     @Override
     public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
 
+        //rende visibile la bottom navigation se nascosta
         BottomNavigationView bottomNav = requireActivity().findViewById(R.id.bottom_navigation);
         if (bottomNav != null) bottomNav.setVisibility(View.VISIBLE);
 
-        // 1. Mostra subito i preferiti locali
+        //osserva gli eventi preferiti locali e aggiorna la UI
         eventViewModel.getPreferedEventsLiveData().observe(getViewLifecycleOwner(), result -> {
             if (result instanceof Result.EventSuccess) {
                 List<Event> localEvents = ((Result.EventSuccess) result).getData().getEmbedded().getEvents();
                 eventList.clear();
                 eventList.addAll(localEvents);
-                adapter.notifyDataSetChanged();
+                adapter.notifyDataSetChanged();  // Notifica l'adapter per aggiornare la RecyclerView
             }
         });
 
-        // 2. Quando arrivano i preferiti remoti → sincronizza e aggiorna
+        //osserva gli eventi preferiti da remoto, salva nel DB locale e aggiorna la UI
         userViewModel.getUserPreferedEventsMutableLiveData(userViewModel.getLoggedUser().getIdToken())
                 .observe(getViewLifecycleOwner(), result -> {
                     if (result instanceof Result.EventSuccess) {
                         List<Event> remoteEvents = ((Result.EventSuccess) result).getData().getEmbedded().getEvents();
-                        // salva nel locale
-                        eventViewModel.insertEvents(remoteEvents);
+                        eventViewModel.insertEvents(remoteEvents); // salva nel DB
 
-                        // aggiorna lista visualizzata (solo se vuoi aggiornare subito)
-                        eventList.clear();
+                        eventList.clear(); //aggiorna UI con lista remota
                         eventList.addAll(remoteEvents);
                         adapter.notifyDataSetChanged();
                     }
                 });
     }
 
+
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
-
         View view = inflater.inflate(R.layout.fragment_prefered, container, false);
+
+        //configura la RecyclerView
         recyclerView = view.findViewById(R.id.recyclerViewPrefered);
         recyclerView.setLayoutManager(new LinearLayoutManager(view.getContext()));
 
+        //accesso al database (opzionale, sembra non usato direttamente)
         EventRoomDatabase.getDatabase(recyclerView.getContext())
                 .eventsDao()
-                .getSaved();
+                .getSaved(); // chiamata non collegata a LiveData: potenzialmente da rimuovere o aggiornare
 
+        //inizializza l'adapter e il click listener
         adapter = new EventRecyclerAdapter(R.layout.event_card, eventList,
                 new EventRecyclerAdapter.OnItemClickListener() {
+
+                    //quando si clicca su un evento → naviga alla pagina evento
                     @Override
                     public void onEventItemClick(Event event) {
                         Bundle bundle = new Bundle();
@@ -123,15 +136,22 @@ public class PreferedFragment extends Fragment {
                         navController.navigate(R.id.eventPageFragment, bundle);
                     }
 
+                    //quando si preme il bottone preferiti → aggiorna stato e ViewModel
                     @Override
                     public void onFavoriteButtonPressed(int position) {
                         Event event = eventList.get(position);
-                        event.setSaved(!event.isSaved());
-                        eventViewModel.updateEvent(event);
-                        userViewModel.removeUserPreferedEvent(userViewModel.getLoggedUser().getIdToken(), eventList.get(position).getId());
+                        event.setSaved(!event.isSaved()); //inverte stato salvato
+                        eventViewModel.updateEvent(event); //aggiorna nel DB
+
+                        //rimuove dai preferiti remoti
+                        userViewModel.removeUserPreferedEvent(
+                                userViewModel.getLoggedUser().getIdToken(),
+                                eventList.get(position).getId()
+                        );
                     }
                 });
 
+        //imposta l'adapter nella RecyclerView
         recyclerView.setAdapter(adapter);
 
         return view;

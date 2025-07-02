@@ -3,36 +3,23 @@ package com.temptationjavaisland.wemeet.ui.welcome.fragments;
 import android.os.Bundle;
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
-import androidx.core.graphics.Insets;
-import androidx.core.view.ViewCompat;
-import androidx.core.view.WindowInsetsCompat;
 import androidx.fragment.app.Fragment;
 import androidx.navigation.Navigation;
 
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
 
-import com.google.android.gms.tasks.OnFailureListener;
-import com.google.android.gms.tasks.OnSuccessListener;
-import com.google.firebase.FirebaseApp;
-import com.google.firebase.database.DatabaseReference;
-import com.google.firebase.database.FirebaseDatabase;
 import com.temptationjavaisland.wemeet.R;
-import com.temptationjavaisland.wemeet.ui.welcome.viewmodel.user.UserViewModel;
-
 
 public class WelcomeFragment extends Fragment {
-
 
     public WelcomeFragment() {
     }
 
     public static WelcomeFragment newInstance() {
-        WelcomeFragment fragment = new WelcomeFragment();
-        return fragment;
+        return new WelcomeFragment();
     }
 
     @Override
@@ -50,17 +37,22 @@ public class WelcomeFragment extends Fragment {
     public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
 
+        //controlla se l'utente è già autenticato in Firebase
         if (com.google.firebase.auth.FirebaseAuth.getInstance().getCurrentUser() != null) {
+            //se sì, naviga direttamente alla home page e esci da questo metodo
             Navigation.findNavController(view).navigate(R.id.action_welcomeFragment_to_homePageActivity);
-            return; // Esci subito per evitare che vengano mostrati i pulsanti
+            return;
         }
 
         Button loginButton = view.findViewById(R.id.accediButton);
         Button signUpButton = view.findViewById(R.id.RegistratiButton);
 
+        //listener per il bottone "Accedi"
         loginButton.setOnClickListener(v -> {
             Navigation.findNavController(v).navigate(R.id.action_welcomeFragment_to_loginFragment);
         });
+
+        //listener per il bottone "Registrati"
         signUpButton.setOnClickListener(v -> {
             Navigation.findNavController(v).navigate(R.id.action_welcomeFragment_to_signUpFragment);
         });

@@ -1,7 +1,6 @@
 package com.temptationjavaisland.wemeet.util;
 
 import android.app.Application;
-
 import com.temptationjavaisland.wemeet.R;
 import com.temptationjavaisland.wemeet.database.EventRoomDatabase;
 import com.temptationjavaisland.wemeet.repository.Event.EventRepository;
@@ -17,7 +16,6 @@ import com.temptationjavaisland.wemeet.source.User.BaseUserAuthenticationRemoteD
 import com.temptationjavaisland.wemeet.source.User.BaseUserDataRemoteDataSource;
 import com.temptationjavaisland.wemeet.source.User.UserAuthenticationFirebaseDataSource;
 import com.temptationjavaisland.wemeet.source.User.UserFirebaseDataSource;
-
 import okhttp3.OkHttpClient;
 import okhttp3.Request;
 import retrofit2.Retrofit;
@@ -40,6 +38,7 @@ public class ServiceLocator {
         return INSTANCE;
     }
 
+    //OkHttpClient personalizzato con interceptor per aggiungere header User-Agent alle richieste
     OkHttpClient client = new OkHttpClient.Builder()
             .addInterceptor(chain -> {
                 Request request = chain.request().newBuilder()
@@ -51,9 +50,9 @@ public class ServiceLocator {
 
     public EventAPIService getEventAPIService() {
         Retrofit retrofit = new Retrofit.Builder()
-                .baseUrl(Constants.TICKETMASTER_API_BASE_URL)  // definisci la base url nel Constants
+                .baseUrl(Constants.TICKETMASTER_API_BASE_URL)  // base url da definire in Constants
                 .client(client)
-                .addConverterFactory(GsonConverterFactory.create())
+                .addConverterFactory(GsonConverterFactory.create()) // per conversione JSON
                 .build();
         return retrofit.create(EventAPIService.class);
     }
@@ -70,25 +69,33 @@ public class ServiceLocator {
             JSONParserUtils jsonParserUtils = new JSONParserUtils(application);
             eventRemoteDataSource = new EventMockDataSource(jsonParserUtils);
         } else {
+            //in produzione usa l'API remota con la API key da risorse
             String apiKey = application.getString(R.string.ticketmaster_key);
             eventRemoteDataSource = new EventRemoteDataSource(apiKey);
         }
 
+        //data source locale per la cache e persistenza dati
         eventLocalDataSource = new EventLocalDataSource(getEventDao(application));
 
+        //crea il repository combinando remote e local data source
         return new EventRepository(eventRemoteDataSource, eventLocalDataSource);
     }
 
     public IUserRepository getUserRepository(Application application) {
 
+        //remote data source per autenticazione via Firebase
         BaseUserAuthenticationRemoteDataSource userRemoteAuthenticationDataSource =
                 new UserAuthenticationFirebaseDataSource();
+
+        //remote data source per dati utente via Firebase
         BaseUserDataRemoteDataSource userDataRemoteDataSource =
                 new UserFirebaseDataSource();
 
+        //data source locale eventi per cache
         BaseEventLocalDataSource eventsLocalDataSource =
                 new EventLocalDataSource(getEventDao(application));
 
+        //combina le sorgenti dati e restituisce UserRepository
         return new UserRepository(userRemoteAuthenticationDataSource,
                 userDataRemoteDataSource, eventsLocalDataSource);
     }

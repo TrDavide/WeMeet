@@ -25,6 +25,7 @@ public class UserViewModel extends ViewModel {
         authenticationError = false;
     }
 
+    //restituisce userLiveData
     public MutableLiveData<Result> getUserMutableLiveData(
             String email, String password, boolean isUserRegistered) {
         if (userMutableLiveData == null) {
@@ -33,6 +34,7 @@ public class UserViewModel extends ViewModel {
         return userMutableLiveData;
     }
 
+    //restituisce userLiveData da login con token Google
     public MutableLiveData<Result> getGoogleUserMutableLiveData(String token) {
         if (userMutableLiveData == null) {
             getUserData(token);
@@ -40,6 +42,7 @@ public class UserViewModel extends ViewModel {
         return userMutableLiveData;
     }
 
+    //liveData degli eventi preferiti dell'utente
     public MutableLiveData<Result> getUserPreferedEventsMutableLiveData(String idToken) {
         if (userPreferedEventsMutableLiveData == null) {
             getUserPreferedEvents(idToken);
@@ -51,25 +54,28 @@ public class UserViewModel extends ViewModel {
         return userRepository.getLoggedUser();
     }
 
+    //logout aggiorna userMutableLiveData con esito logout
     public MutableLiveData<Result> logout() {
         if (userMutableLiveData == null) {
             userMutableLiveData = userRepository.logout();
         } else {
             userRepository.logout();
         }
-
         return userMutableLiveData;
     }
 
+    //recupera eventi preferiti dell'utente
     private void getUserPreferedEvents(String idToken) {
         userPreferedEventsMutableLiveData = userRepository.getUserPreferedEvents(idToken);
     }
 
+    //salva un evento preferito
     public void saveUserPreferedEvent(String idToken, Event event) {
         userRepository.saveUserPreferedEvent(idToken, event);
     }
 
-    public void removeUserPreferedEvent(String idToken, String eventId){
+    //rimuove un evento preferito e aggiorna la lista
+    public void removeUserPreferedEvent(String idToken, String eventId) {
         userRepository.removeUserPreferedEvent(idToken, eventId);
         getUserPreferedEvents(idToken);
     }
@@ -78,6 +84,7 @@ public class UserViewModel extends ViewModel {
         userRepository.getUser(email, password, isUserRegistered);
     }
 
+    //flag per errore autenticazione
     public boolean isAuthenticationError() {
         return authenticationError;
     }
@@ -86,6 +93,7 @@ public class UserViewModel extends ViewModel {
         this.authenticationError = authenticationError;
     }
 
+    //chiamate interne per inizializzare userMutableLiveData
     private void getUserData(String email, String password, boolean isUserRegistered) {
         userMutableLiveData = userRepository.getUser(email, password, isUserRegistered);
     }
