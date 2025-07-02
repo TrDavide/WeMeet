@@ -2,8 +2,6 @@ package com.temptationjavaisland.wemeet.ui.welcome.fragments;
 
 import android.Manifest;
 import android.content.pm.PackageManager;
-import android.location.Address;
-import android.location.Geocoder;
 import android.os.Bundle;
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
@@ -18,8 +16,6 @@ import com.google.android.gms.location.FusedLocationProviderClient;
 import com.google.android.gms.location.LocationServices;
 import com.google.android.material.bottomnavigation.BottomNavigationView;
 import com.google.gson.Gson;
-import android.os.Handler;
-import android.os.Looper;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -37,14 +33,12 @@ import com.temptationjavaisland.wemeet.ui.welcome.viewmodel.event.EventViewModel
 import com.temptationjavaisland.wemeet.ui.welcome.viewmodel.event.EventViewModelFactory;
 import com.temptationjavaisland.wemeet.ui.welcome.viewmodel.user.UserViewModel;
 import com.temptationjavaisland.wemeet.ui.welcome.viewmodel.user.UserViewModelFactory;
+import com.temptationjavaisland.wemeet.util.GeoUtils;
 import com.temptationjavaisland.wemeet.util.NetworkUtil;
 import com.temptationjavaisland.wemeet.util.ServiceLocator;
 import java.util.ArrayList;
 import java.util.List;
-import java.util.Locale;
 import java.util.Set;
-import java.util.concurrent.ExecutorService;
-import java.util.concurrent.Executors;
 import java.util.stream.Collectors;
 
 public class HomeFragment extends Fragment {
@@ -63,8 +57,6 @@ public class HomeFragment extends Fragment {
     private String latlong; // latitudine e longitudine in formato "lat,lon"
     private Long lastUpdate;
     private FusedLocationProviderClient fusedLocationClient;
-    private final ExecutorService executor = Executors.newSingleThreadExecutor();
-    private final Handler mainHandler = new Handler(Looper.getMainLooper());
 
     public HomeFragment() {}
 
@@ -82,23 +74,11 @@ public class HomeFragment extends Fragment {
                 new EventViewModelFactory(eventRepository)
         ).get(EventViewModel.class);
 
-        //repository e viewmodel per l'utente
         IUserRepository userRepository = ServiceLocator.getInstance().getUserRepository(requireActivity().getApplication());
         userViewModel = new ViewModelProvider(requireActivity(), new UserViewModelFactory(userRepository)).get(UserViewModel.class);
 
-        eventList = new ArrayList<>(); //inizializza lista eventi
-
-        fusedLocationClient = LocationServices.getFusedLocationProviderClient(requireActivity()); // inizializza client posizione
-    }
-
-    @Override
-    public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
-        super.onViewCreated(view, savedInstanceState);
-
-        BottomNavigationView bottomNav = requireActivity().findViewById(R.id.bottom_navigation);
-        if (bottomNav != null) {
-            bottomNav.setVisibility(View.VISIBLE);
-        }
+        eventList = new ArrayList<>();
+        fusedLocationClient = LocationServices.getFusedLocationProviderClient(requireActivity());
     }
 
     @Override
@@ -111,11 +91,9 @@ public class HomeFragment extends Fragment {
 
         recyclerView.setLayoutManager(new LinearLayoutManager(view.getContext()));
 
-        //setup adapter con listener per click su eventi e preferiti
         adapter = new EventRecyclerAdapter(R.layout.event_card, eventList, new EventRecyclerAdapter.OnItemClickListener() {
             @Override
             public void onEventItemClick(Event event) {
-                //naviga alla pagina dettaglio evento con i dati dell'evento
                 EventPageFragment eventPageFragment = new EventPageFragment();
                 Bundle bundle = new Bundle();
                 bundle.putParcelable("event_data", event);
@@ -127,24 +105,19 @@ public class HomeFragment extends Fragment {
 
             @Override
             public void onFavoriteButtonPressed(int position) {
-                //gestione salvataggio/rimozione evento preferito
                 Event event = eventList.get(position);
                 boolean isCurrentlySaved = event.isSaved();
-
                 event.setSaved(!isCurrentlySaved);
-                eventViewModel.updateEvent(event); //aggiorna stato localmente
+                eventViewModel.updateEvent(event);
 
                 if (!isCurrentlySaved) {
-                    //salva evento come preferito
                     userViewModel.saveUserPreferedEvent(userViewModel.getLoggedUser().getIdToken(), event);
                 } else {
-                    //rimuove evento dai preferiti
                     userViewModel.removeUserPreferedEvent(userViewModel.getLoggedUser().getIdToken(), event.getId());
                 }
             }
         });
 
-        //osserva la lista di eventi preferiti per aggiornarli nell'interfaccia
         eventViewModel.getPreferedEventsLiveData().observe(getViewLifecycleOwner(), result -> {
             if (result instanceof Result.EventSuccess) {
                 Set<String> savedIds = ((Result.EventSuccess) result)
@@ -155,7 +128,6 @@ public class HomeFragment extends Fragment {
                         .map(Event::getId)
                         .collect(Collectors.toSet());
 
-                //aggiorna campo "saved" sugli eventi caricati in lista
                 for (Event event : eventList) {
                     event.setSaved(savedIds.contains(event.getId()));
                 }
@@ -168,32 +140,29 @@ public class HomeFragment extends Fragment {
         noInternetView.setVisibility(View.GONE);
         circularProgressIndicator.setVisibility(View.VISIBLE);
 
-        //controlla se c'è internet, altrimenti usa dati locali
         if (!NetworkUtil.isInternetAvailable(getContext())) {
             Log.d(TAG, "Sono dentro NetworkUtil");
-            List<Event> eventiLocali = eventViewModel.getAll(); //carica eventi da DB locale
+            List<Event> eventiLocali = eventViewModel.getAll();
             if (!eventiLocali.isEmpty()) {
                 Log.d(TAG, "Sono dentro l'IF NetworkUtil");
                 eventList.clear();
                 eventList.addAll(eventiLocali);
                 adapter.notifyDataSetChanged();
                 recyclerView.setVisibility(View.VISIBLE);
-                noInternetView.setVisibility(View.VISIBLE); //mostra messaggio senza internet ma con dati
+                noInternetView.setVisibility(View.VISIBLE);
             } else {
                 Log.d(TAG, "Sono dentro l'ELSE NetworkUtil");
                 recyclerView.setVisibility(View.GONE);
-                noInternetView.setVisibility(View.VISIBLE); //mostra messaggio senza internet e senza dati
+                noInternetView.setVisibility(View.VISIBLE);
             }
             circularProgressIndicator.setVisibility(View.GONE);
             return view;
         }
-        //se internet disponibile, verifica permessi e ottiene posizione per caricare eventi
-        checkLocationPermissionAndFetch();
 
+        checkLocationPermissionAndFetch();
         return view;
     }
 
-    //verifica permessi posizione e, se concessi, avvia il caricamento degli eventi
     private void checkLocationPermissionAndFetch() {
         if (ContextCompat.checkSelfPermission(requireContext(), Manifest.permission.ACCESS_FINE_LOCATION) == PackageManager.PERMISSION_GRANTED) {
             fetchLocationAndEvents();
@@ -202,49 +171,14 @@ public class HomeFragment extends Fragment {
         }
     }
 
-    //ottiene l'ultima posizione conosciuta e carica eventi basandosi su di essa
     private void fetchLocationAndEvents() {
-        if (ContextCompat.checkSelfPermission(requireContext(), Manifest.permission.ACCESS_FINE_LOCATION) == PackageManager.PERMISSION_GRANTED) {
-            fusedLocationClient.getLastLocation()
-                    .addOnSuccessListener(requireActivity(), location -> {
-                        if (location != null) {
-                            double lat = location.getLatitude();
-                            double lon = location.getLongitude();
-                            Log.d(TAG, "Posizione GPS: " + lat + ", " + lon);
-                            latlong = lat + "," + lon;
-                            getCityNameAsync(lat, lon, getView());
-                            fetchEvents();
-                        } else {
-                            //se la posizione è null, usa Milano come fallback
-                            Log.w(TAG, "Posizione GPS nulla, uso Milano di default");
-                            double lat = 45.464098;
-                            double lon = 9.191926;
-                            latlong = lat + "," + lon;
-                            getCityNameAsync(lat, lon, getView());
-                            fetchEvents();
-                        }
-                    })
-                    .addOnFailureListener(e -> {
-                        //in caso di errore prende comunque Milano come fallback
-                        Log.e(TAG, "Errore nel prendere posizione GPS", e);
-                        double lat = 45.464098;
-                        double lon = 9.191926;
-                        latlong = lat + "," + lon;
-                        getCityNameAsync(lat, lon, getView());
-                        fetchEvents();
-                    });
-        } else {
-            //se non ha permesso posizione, usa coordinate fisse di Milano
-            Log.w(TAG, "Permesso posizione non concesso, uso coordinate fisse");
-            double lat = 45.464098;
-            double lon = 9.191926;
+        GeoUtils.getLastKnownLocation(requireContext(), fusedLocationClient, (lat, lon) -> {
             latlong = lat + "," + lon;
-            getCityNameAsync(lat, lon, getView());
+            GeoUtils.getCityNameAsync(requireContext(), lat, lon, getView());
             fetchEvents();
-        }
+        });
     }
 
-    //effettua la chiamata per ottenere gli eventi più vicini basandosi su latlong e radius
     private void fetchEvents() {
         lastUpdate = 0L;
 
@@ -253,7 +187,6 @@ public class HomeFragment extends Fragment {
                 .observe(getViewLifecycleOwner(), result -> {
                     if (result.isSuccess()) {
                         List<Event> events = ((Result.EventSuccess) result).getData().getEmbedded().getEvents();
-                        //logga in JSON ogni evento per debug
                         for (Event event : events) {
                             String eventJson = gson.toJson(event);
                             Log.d(TAG, "Evento completo JSON: " + eventJson);
@@ -271,49 +204,29 @@ public class HomeFragment extends Fragment {
     }
 
     @Override
+    public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
+        super.onViewCreated(view, savedInstanceState);
+        BottomNavigationView bottomNav = requireActivity().findViewById(R.id.bottom_navigation);
+        if (bottomNav != null) {
+            bottomNav.setVisibility(View.VISIBLE);
+        }
+    }
+
+    @Override
     public void onRequestPermissionsResult(int requestCode, @NonNull String[] permissions, @NonNull int[] grantResults) {
         if (requestCode == LOCATION_PERMISSION_REQUEST_CODE) {
-            if (grantResults.length > 0
-                    && grantResults[0] == PackageManager.PERMISSION_GRANTED) {
-                //se permesso concesso, carica eventi con posizione attuale
+            if (grantResults.length > 0 && grantResults[0] == PackageManager.PERMISSION_GRANTED) {
                 fetchLocationAndEvents();
             } else {
-                //se permesso negato, usa coordinate fisse
                 Log.w(TAG, "Permesso posizione negato, uso coordinate fisse");
                 double lat = 45.464098;
                 double lon = 9.191926;
                 latlong = lat + "," + lon;
-                getCityNameAsync(lat, lon, getView());
+                GeoUtils.getCityNameAsync(requireContext(), lat, lon, getView());
                 fetchEvents();
             }
         } else {
             super.onRequestPermissionsResult(requestCode, permissions, grantResults);
         }
-    }
-
-    //ottiene il nome della città dalla latitudine e longitudine in background e aggiorna la UI
-    private void getCityNameAsync(double lat, double lon, View rootView) {
-        if (rootView == null) return;
-        TextView cityTextView = rootView.findViewById(R.id.cityTextView);
-        executor.execute(() -> {
-            Geocoder geocoder = new Geocoder(getContext(), Locale.getDefault());
-            String city = "N/A";
-            try {
-                List<Address> addresses = geocoder.getFromLocation(lat, lon, 1);
-                if (addresses != null && !addresses.isEmpty()) {
-                    Address address = addresses.get(0);
-                    city = address.getLocality();
-                    if (city == null) {
-                        city = address.getSubAdminArea();
-                    }
-                }
-            } catch (Exception e) {
-                e.printStackTrace();
-            }
-            String finalCity = city;
-            Log.d(TAG, "Città: " + finalCity);
-            //aggiorna TextView nel thread principale
-            mainHandler.post(() -> cityTextView.setText(finalCity));
-        });
     }
 }
