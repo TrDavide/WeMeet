@@ -52,7 +52,7 @@
             android:layout_height="24dp"
             android:layout_marginTop="5dp"
             android:src="@drawable/place_active"
-            android:contentDescription="Icona Profilo"
+            android:contentDescription="@string/icona_profilo"
             app:tint="@color/white" />
 
         <TextView
@@ -104,7 +104,8 @@
             android:layout_height="24dp"
             android:layout_marginStart="8dp"
             android:src="@drawable/fire"
-            app:tint="@color/red_fire_home" />
+            app:tint="@color/red_fire_home"
+            android:contentDescription="@string/fuoco"/>
     </LinearLayout>
 
     <FrameLayout

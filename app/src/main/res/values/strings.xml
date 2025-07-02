@@ -87,5 +87,12 @@
     <string name="back_button_description">arrowback</string>
     <string name="maps_description">mapsview</string>
     <string name="input_email">textinputemail</string>
+    <string name="date_default">15 Dicembre 2024</string>
+    <string name="milano_default">Milano</string>
+    <string name="sei_loggato_con_email_example_com">Sei loggato con:\nemail@example.com</string>
+    <string name="fuoco">fuoco</string>
+    <string name="imagine_dragons_loom_world_tour">Imagine Dragons - LOOM World Tour</string>
+    <string name="date_default_event">2025-05-27</string>
+    <string name="location_default_event">Ippodromo SNAI La Maura</string>
 
 </resources>

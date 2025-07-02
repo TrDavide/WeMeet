@@ -56,7 +56,7 @@
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:fontFamily="@font/open_sans_bold"
-                        android:text="Gattopardo Milano"
+                        android:text="@string/gattopardo_milano"
                         android:textColor="@color/black"
                         android:textSize="18sp"
                         android:textStyle="bold" />
@@ -73,7 +73,7 @@
                             android:layout_marginTop="4dp"
                             android:layout_marginEnd="@dimen/margin_default2"
                             android:fontFamily="@font/open_sans"
-                            android:text="15 Dicembre 2024"
+                            android:text="@string/date_default"
                             android:textColor="@color/text_subtitle_event" />
 
                         <TextView
@@ -82,7 +82,7 @@
                             android:layout_height="wrap_content"
                             android:layout_marginTop="2dp"
                             android:fontFamily="@font/open_sans"
-                            android:text="Milano"
+                            android:text="@string/milano_default"
                             android:textColor="@color/text_subtitle_event" />
                     </LinearLayout>
 
