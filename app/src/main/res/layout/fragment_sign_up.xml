@@ -109,6 +109,14 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginStart="@dimen/margin_default2"
+            android:text="@string/password_8_caratteri"
+            android:fontFamily="@font/open_sans_regular"
+            />
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="@dimen/margin_default2"
             android:layout_marginTop="25dp"
             android:fontFamily="@font/open_sans_bold"
             android:text="@string/confermapassword"
